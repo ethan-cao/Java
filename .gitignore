@@ -1,6 +1,6 @@
-.gradle
-.ide
-.metadata
+Java_Exercise/.gradle
+Java_Exercise/.idea
+Java_Exercise/.metadata
 
-build
-bin
+Java_Exercise/build
+Java_Exercise/bin
