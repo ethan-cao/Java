@@ -1,0 +1,44 @@
+//External dependencies for the build script
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/java']
+        }
+        resources {
+            srcDirs = ['src/resources']
+        }
+    }
+}
+
+dependencies {
+    compile(
+            'com.google.guava:guava:24.1-jre',
+            files('lib/algs4.jar')
+    )
+
+    testCompile(
+            'junit:junit:4.12',
+            'org.mockito:mockito-core:2.+',
+    )
+}
+
+
