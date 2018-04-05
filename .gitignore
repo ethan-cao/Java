@@ -1,13 +1,18 @@
 *DS_Store*
+*.iml*
+*.ipr*
+*.iws*
 
 Java_Exercise/gradle
 Java_Exercise/.gradle
 Java_Exercise/.idea
 Java_Exercise/.metadata
 
-Java_Exercise/Java_Exercise.iml
-Java_Exercise/Java_Exercise.ipr
-Java_Exercise/Java_Exercise.iws
+topcoder/gradle
+topcoder/.gradle
+topcoder/.idea
+topcoder/.metadata
+
 
 Java_Exercise/build
 Java_Exercise/bin
