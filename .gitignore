@@ -1,3 +1,5 @@
+*DS_Store*
+
 Java_Exercise/gradle
 Java_Exercise/.gradle
 Java_Exercise/.idea
@@ -9,3 +11,5 @@ Java_Exercise/Java_Exercise.iws
 
 Java_Exercise/build
 Java_Exercise/bin
+
+
