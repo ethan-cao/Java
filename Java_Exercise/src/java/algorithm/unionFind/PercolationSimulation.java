@@ -123,6 +123,7 @@ class PercolationStats {
 
 class Percolation {
     public static void main(String[] args)  {
+
     }
 
     private int size;
