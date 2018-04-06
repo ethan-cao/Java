@@ -152,7 +152,7 @@ class Percolation {
     public    void open(int row, int col)   {
         validate(new int[]{row, col});
 
-        wquf.
+//        wquf.
         this.numberOfOpenSites++;
     }
 

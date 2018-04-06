@@ -17,9 +17,8 @@ public class RegularExpression {
 		 * the valid chars are b, t, n, f, r, ", ' and \
 		 */
 		String line = "There are 100 books.";
-		String pattern = "(.*)(\\d+)(.*)";
-		Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(line);
+		Pattern pattern = Pattern.compile("(.*)(\\d+)(.*)");
+		Matcher m = pattern.matcher(line);
 
 		// http://stackoverflow.com/questions/18675870/expected-outcome-in-group-capture
         // (.*) is greedy
@@ -37,9 +36,9 @@ public class RegularExpression {
 		System.out.println(System.lineSeparator());
 
 		line = "cat cat cat cattie cat";
-		pattern = "\\bcat\\b";  	// \bword\b : "whole words only"
-		p = Pattern.compile(pattern);
-		m = p.matcher(line);
+		// \bword\b : "whole words only"
+		pattern = Pattern.compile("\\bcat\\b");
+		m = pattern.matcher(line);
 		int count = 0;
 
 		/*
