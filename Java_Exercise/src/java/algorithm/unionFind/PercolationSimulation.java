@@ -96,17 +96,22 @@ class PercolationStats {
 
     }
     // sample mean of percolation threshold
+
     public double mean(){
         return 1;
     }
     // sample standard deviation of percolation threshold
+
     public double stddev() {
         return 1;
     }
+
     // low  endpoint of 95% confidence interval
     public double confidenceLo()               {
         return 1;
     }
+
+    // high endpoint of 95% confidence interval
     public double confidenceHi()              {
         return 1;
     }
@@ -125,20 +130,20 @@ class Percolation {
     private int numberOfOpenSites = 0;
 
     private boolean validate(int[] index){
-        boolean validility = true;
+        boolean validity = true;
 
         if (index.length == 1) {
-            validility = index[0] > 0 ;
+            validity = index[0] > 0 ;
         } else if (index.length == 2) {
             for (int i : index){
-               validility = (i >= 1 && i <= size);
-               if (!validility){
+               validity = (i >= 1 && i <= size);
+               if (!validity){
                    break;
                }
             }
         }
 
-        return validility;
+        return validity;
     }
 
     public Percolation(int n){
