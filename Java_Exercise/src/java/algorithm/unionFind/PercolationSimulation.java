@@ -123,7 +123,7 @@ class PercolationStats {
 
 class Percolation {
     public static void main(String[] args) {
-        Percolation p = new Percolation(2);
+        Percolation p = new Percolation(1);
         p.open(1,2);
         p.open(2,2);
 
@@ -158,6 +158,14 @@ class Percolation {
 
         size = n ;
         wquf = new WeightedQuickUnionUF(n * n + 2);
+
+        for (int i = 1; i <= n; ++i){
+            wquf.union(0, i);
+        }
+
+        for (int i = n * n; i >= n * n - n + 1; --i){
+            wquf.union(n * n + 1, i);
+        }
     }
 
     private int getIndex(int row, int col){
