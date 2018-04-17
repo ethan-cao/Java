@@ -21,12 +21,6 @@ import static java.util.Locale.*;
 
 public class Test {
     public static void main(String[] args) {
-        String json = "P\\u002eUsers";
-
-        String[] r =  json.split("\\002e");
-        System.out.println("@@@ "  + r);
-
-//        System.out.print(matcher.group(1));
     }
 
 }
