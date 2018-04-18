@@ -21,6 +21,10 @@ import static java.util.Locale.*;
 
 public class Test {
     public static void main(String[] args) {
+
+        String s = "asdad";
+
+        System.out.println(s.split("."));
     }
 
 }

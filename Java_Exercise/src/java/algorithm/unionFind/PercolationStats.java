@@ -2,7 +2,6 @@ package algorithm.unionFind;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +14,24 @@ class PercolationStats {
             throw new IllegalArgumentException();
         }
 
+        int lastIndex = n * n;
+
         for (int i = 0; i < trials; ++i) {
             Percolation p = new Percolation(n);
 
             while(!p.percolates()){
-                int row = StdRandom.uniform(n) + 1;
-                int column = StdRandom.uniform(n) + 1;
+                int row = StdRandom.uniform(1, lastIndex + 1);
+                int column = StdRandom.uniform(1, lastIndex + 1);
                 p.open(row, column);
             }
 
             double numberOfSite = p.numberOfOpenSites();
             double threshold = numberOfSite / (n * n);
             thresholdList.add(threshold);
+
+            if (p.numberOfOpenSites() > lastIndex){
+                System.out.println("open sites : " + p.numberOfOpenSites());
+            }
 
             System.out.println("open sites : " + p.numberOfOpenSites());
             System.out.println("threshold : " + threshold);
@@ -56,7 +61,7 @@ class PercolationStats {
     }
 
     public static void main(String[] args) {
-        args = new String[] {"20", "20"};
+        args = new String[] {"200", "100"};
 
         if (args.length < 2){
             throw new IllegalArgumentException();

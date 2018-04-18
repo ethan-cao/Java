@@ -1,39 +1,26 @@
 package algorithm.unionFind;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
 import java.util.ArrayList;
 import java.util.List;
 
-class Percolation {
+public class Percolation {
     public static void main(String[] args) {
-        Percolation p = new Percolation(1);
-        p.open(1,2);
+        Percolation p = new Percolation(4);
+        p.open(1,1);
+        p.open(2,1);
         p.open(2,2);
+        p.open(3,2);
+//        p.open(3,3);
+        p.open(4,3);
 
-//        System.out.println(p.percolates());
+        System.out.println(p.percolates());
+        System.out.println(p.numberOfOpenSites());
     }
 
     private int size;
     private List<Integer> openSites = new ArrayList<>();
     private WeightedQuickUnionUF wquf;
-
-    private boolean validate(int[] index) {
-        boolean validity = true;
-
-        if (index.length == 1) {
-            validity = index[0] >= 1;
-        } else if (index.length == 2) {
-            for (int i : index) {
-                validity = (i >= 1 && i <= size);
-                if (!validity) {
-                    break;
-                }
-            }
-        }
-
-        return validity;
-    }
 
     public Percolation(int n) {
         if( !validate(new int[]{n})) {
@@ -43,13 +30,33 @@ class Percolation {
         size = n ;
         wquf = new WeightedQuickUnionUF(n * n + 2);
 
+        int virtualTop = 0;
+        int vitualBottom = n * n + 1;
+
         for (int i = 1; i <= n; ++i){
-            wquf.union(0, i);
+            wquf.union(virtualTop, i);
         }
 
         for (int i = n * n; i >= n * n - n + 1; --i){
-            wquf.union(n * n + 1, i);
+            wquf.union(vitualBottom, i);
         }
+    }
+
+    private boolean validate(int[] index) {
+        boolean validity = true;
+
+        if (index.length == 1) {
+            validity = index[0] > 0;
+        } else if (index.length == 2) {
+            for (int i : index) {
+                validity = (i > 0 && i <= size);
+                if (!validity) {
+                    break;
+                }
+            }
+        }
+
+        return validity;
     }
 
     private int getIndex(int row, int col){
@@ -62,6 +69,10 @@ class Percolation {
 
     public void open(int row, int col) {
         if (!validate(new int[]{row, col})){
+            return;
+        }
+
+        if (this.isOpen(row, col)){
             return;
         }
 
@@ -105,5 +116,4 @@ class Percolation {
     public boolean percolates() {
         return wquf.connected(0, this.size * this.size +1);
     }
-
 }
