@@ -2,17 +2,16 @@ package algorithm.unionFind;
 
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
-import java.util.ArrayList;
-import java.util.List;
 
 class PercolationStats {
-    private List<Double> thresholdList = new ArrayList<>();
     private double[] thresholds;
 
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0) {
             throw new IllegalArgumentException();
         }
+
+        this.thresholds = new double[trials];
 
         int lastIndex = n * n;
 
@@ -27,17 +26,15 @@ class PercolationStats {
 
             double numberOfSite = p.numberOfOpenSites();
             double threshold = numberOfSite / (n * n);
-            thresholdList.add(threshold);
+            thresholds[i] = threshold;
 
             if (p.numberOfOpenSites() > lastIndex){
                 System.out.println("open sites : " + p.numberOfOpenSites());
             }
 
-            System.out.println("open sites : " + p.numberOfOpenSites());
-            System.out.println("threshold : " + threshold);
+//            System.out.println("open sites : " + p.numberOfOpenSites());
+//            System.out.println("threshold : " + threshold);
         }
-
-        thresholds = thresholdList.stream().mapToDouble(d -> d).toArray();
     }
 
     // sample mean of percolation threshold
@@ -52,16 +49,16 @@ class PercolationStats {
 
     // low  endpoint of 95% confidence interval
     public double confidenceLo() {
-        return 1;
+        return this.mean() -  1.96 * this.stddev() / Math.sqrt(this.thresholds.length);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return 1;
+        return this.mean() +  1.96 * this.stddev() / Math.sqrt(this.thresholds.length);
     }
 
     public static void main(String[] args) {
-        args = new String[] {"200", "100"};
+        args = new String[] {"15", "10000"};
 
         if (args.length < 2){
             throw new IllegalArgumentException();
@@ -71,7 +68,9 @@ class PercolationStats {
         int trials = Integer.valueOf(args[1]);
 
         PercolationStats ps = new PercolationStats(n, trials);
-        System.out.println("mean : " + ps.mean());
-        System.out.println("stddev: " + ps.stddev());
+
+        System.out.println("mean                     = " + ps.mean());
+        System.out.println("stddev                   = " + ps.stddev());
+        System.out.println("95% confidence interval  = [" + ps.confidenceLo() + ", " + ps.confidenceHi() + "]");
     }
 }

@@ -22,9 +22,10 @@ import static java.util.Locale.*;
 public class Test {
     public static void main(String[] args) {
 
-        String s = "asdad";
+	int[] a = new int[3];
 
-        System.out.println(s.split("."));
+        System.out.println(a[2]);
+        System.out.println(a.length);
     }
 
 }

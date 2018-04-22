@@ -1,7 +1,5 @@
 package algorithm.unionFind;
 
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
 import java.util.*;
 
 public class PercolationSimulation {
