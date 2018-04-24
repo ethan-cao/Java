@@ -8,12 +8,15 @@ public class Percolation {
 
         p.open(1,2);
         p.open(1,4);
+        p.open(2,1);
         p.open(2,2);
         p.open(2,3);
-        p.open(3,1);
-        p.open(3,2);
         p.open(3,3);
+        p.open(4,1);
         p.open(4,3);
+
+        p.isFull(4, 1);
+        p.isFull(4, 3);
 
         System.out.println(p.numberOfOpenSites());
         System.out.println(p.percolates());
@@ -22,6 +25,7 @@ public class Percolation {
     private int size;
     private int[] openSites;
     private WeightedQuickUnionUF wquf;
+    private boolean[] lastRow;
 
     public Percolation(int n) {
         if( !validate(new int[]{n})) {
@@ -31,7 +35,7 @@ public class Percolation {
         size = n ;
         openSites = new int[n*n];
         wquf = new WeightedQuickUnionUF(n * n + 2);
-
+        lastRow = new boolean[n*2];
 
         int virtualTop = 0;
         int vitualBottom = n * n + 1;
@@ -67,7 +71,15 @@ public class Percolation {
     }
 
     private boolean isInTheRow(int row, int index){
-       return index <= this.size * row;
+       return (index > this.size * (row-1)) && (index <= this.size * row);
+    }
+
+    private boolean isInSecondLastRow(int index){
+       return index >= this.openSites.length - this.size * 2 + 1 && index<= this.openSites.length - this.size;
+    }
+
+    private boolean isInFirstLastRow(int index){
+        return index >= this.openSites.length - this.size + 1 && index<= this.openSites.length;
     }
 
     public void open(int row, int col) {
@@ -102,6 +114,29 @@ public class Percolation {
             wquf.union(index, rightIndex);
         }
 
+        // fix backwash
+        if ( this.isInSecondLastRow(index) ) {
+            int idx = index % this.size;
+            idx = idx == 0 ? this.size - 1 : idx - 1;
+
+            if (this.isOpen(index + this.size)){
+                this.lastRow[idx] = true;
+
+                // check towards left
+                leftIndex = index + this.size - 1;
+                while (this.isInTheRow(this.size, leftIndex) && this.isOpen(leftIndex)){
+                    lastRow[idx-1] = true;
+                    leftIndex -= 1;
+                }
+
+                // check towards right
+                rightIndex = index + this.size + 1;
+                while (this.isInTheRow(this.size, rightIndex) && this.isOpen(rightIndex)){
+                    lastRow[idx+1] = true;
+                    rightIndex += 1;
+                }
+            }
+        }
     }
 
     private boolean isOpen(int idx){
@@ -118,7 +153,15 @@ public class Percolation {
     }
 
     public boolean isFull(int row, int col) {
-        return this.isOpen(row, col) && wquf.connected(0, this.getIndex(row, col));
+        int index = this.getIndex(row, col);
+
+        if (this.isInFirstLastRow(index)){
+            int idx = index % this.size;
+            idx = idx == 0 ? this.size - 1 : idx - 1;
+            return lastRow[idx];
+        } else {
+            return this.isOpen(row, col) && wquf.connected(0, index);
+        }
     }
 
     public int numberOfOpenSites() {
@@ -135,6 +178,6 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return wquf.connected(0, this.size * this.size +1);
+        return wquf.connected(0, this.openSites.length +1);
     }
 }

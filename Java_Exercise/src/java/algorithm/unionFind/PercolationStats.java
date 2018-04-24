@@ -18,7 +18,7 @@ class PercolationStats {
         for (int i = 0; i < trials; ++i) {
             Percolation p = new Percolation(n);
 
-            while(!p.percolates()){
+            while (!p.percolates()) {
                 int row = StdRandom.uniform(1, lastIndex + 1);
                 int column = StdRandom.uniform(1, lastIndex + 1);
                 p.open(row, column);
@@ -28,7 +28,7 @@ class PercolationStats {
             double threshold = numberOfSite / (n * n);
             thresholds[i] = threshold;
 
-            if (p.numberOfOpenSites() > lastIndex){
+            if (p.numberOfOpenSites() > lastIndex) {
                 System.out.println("open sites : " + p.numberOfOpenSites());
             }
 
@@ -64,8 +64,8 @@ class PercolationStats {
             throw new IllegalArgumentException();
         }
 
-        int n = Integer.valueOf(args[0]);
-        int trials = Integer.valueOf(args[1]);
+        int n = Integer.parseInt(args[0]);
+        int trials = Integer.parseInt(args[1]);
 
         PercolationStats ps = new PercolationStats(n, trials);
 
