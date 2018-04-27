@@ -24,9 +24,7 @@ public class Percolation {
     private boolean[] openSites;
 
     public Percolation(int n) {
-        if (!validate(new int[]{n})) {
-            throw new IllegalArgumentException();
-        }
+        validate(new int[]{n});
 
         this.size = n;
         this.wquf = new WeightedQuickUnionUF(n * n + 2);
@@ -43,7 +41,7 @@ public class Percolation {
 //        }
     }
 
-    private boolean validate(int[] index) {
+    private void validate(int[] index) {
         boolean validity = true;
 
         if (index.length == 1) {
@@ -57,7 +55,9 @@ public class Percolation {
             }
         }
 
-        return validity;
+        if (!validity){
+            throw new IllegalArgumentException();
+        }
     }
 
     private int getIndex(int row, int col) {
@@ -65,9 +65,7 @@ public class Percolation {
     }
 
     public void open(int row, int col) {
-        if (!validate(new int[]{row, col})) {
-            throw new IllegalArgumentException();
-        }
+        validate(new int[]{row, col});
 
         if (this.isOpen(row, col)) {
             return;
@@ -83,7 +81,6 @@ public class Percolation {
         if (row == this.size) {
             wquf.union(this.size * this.size + 1, index);
         }
-
 
         if (row > 1 && this.isOpen(row - 1, col)) {
             wquf.union(this.getIndex(row - 1, col), index);
@@ -103,17 +100,13 @@ public class Percolation {
     }
 
     public boolean isOpen(int row, int col) {
-        if (!validate(new int[]{row, col})) {
-            throw new IllegalArgumentException();
-        }
+        validate(new int[]{row, col});
 
         return this.openSites[this.getIndex(row, col)];
     }
 
     public boolean isFull(int row, int col) {
-        if (!validate(new int[]{row, col})) {
-            throw new IllegalArgumentException();
-        }
+        validate(new int[]{row, col});
 
         return wquf.connected(0, this.getIndex(row, col));
     }
