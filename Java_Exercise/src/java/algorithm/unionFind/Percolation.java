@@ -23,11 +23,15 @@ public class Percolation {
     private WeightedQuickUnionUF wquf;
     private boolean[] openSites;
 
+    // wquf2 only connects to virtual top for fixing backwash
+    private WeightedQuickUnionUF wquf2;
+
     public Percolation(int n) {
         validate(new int[]{n});
 
         this.size = n;
         this.wquf = new WeightedQuickUnionUF(n * n + 2);
+        this.wquf2 = new WeightedQuickUnionUF(n * n + 2);
         this.openSites = new boolean[n * n + 2];
     }
 
@@ -66,6 +70,7 @@ public class Percolation {
 
         if (row == 1) {
             wquf.union(0, index);
+            wquf2.union(0, index);
         }
 
         if (row == this.size) {
@@ -73,19 +78,27 @@ public class Percolation {
         }
 
         if (row > 1 && this.isOpen(row - 1, col)) {
-            wquf.union(this.getIndex(row - 1, col), index);
+            int topIndex = this.getIndex(row - 1, col);
+            wquf.union(topIndex, index);
+            wquf2.union(topIndex, index);
         }
 
         if (row < this.size && this.isOpen(row + 1, col)) {
-            wquf.union(this.getIndex(row + 1, col), index);
+            int bottomIndex = this.getIndex(row + 1, col);
+            wquf.union(bottomIndex, index);
+            wquf2.union(bottomIndex, index);
         }
 
         if (col > 1 && this.isOpen(row, col - 1)) {
-            wquf.union(this.getIndex(row, col - 1), index);
+            int leftIndex = this.getIndex(row, col - 1);
+            wquf.union(leftIndex, index);
+            wquf2.union(leftIndex, index);
         }
 
         if (col < this.size && this.isOpen(row, col + 1)) {
-            wquf.union(this.getIndex(row, col + 1), index);
+            int rightIndex = this.getIndex(row, col + 1);
+            wquf.union(rightIndex, index);
+            wquf2.union(rightIndex, index);
         }
     }
 
@@ -96,7 +109,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         validate(new int[]{row, col});
-        return wquf.connected(0, this.getIndex(row, col));
+        return wquf2.connected(0, this.getIndex(row, col));
     }
 
     public int numberOfOpenSites() {
