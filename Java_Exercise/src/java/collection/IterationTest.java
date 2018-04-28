@@ -13,6 +13,9 @@ public class IterationTest {
 		// test 1 and test 2 are, performance wise, pretty much the same
 	}
 
+	/**
+	 * shorthand for test 2, applicable for collection implementing Iterable
+	 */
 	void test1 (){
 		for (Integer integer : a) {
 		  integer.toString();
