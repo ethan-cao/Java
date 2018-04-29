@@ -1,6 +1,7 @@
 package algorithm.colllection;
 
 import java.lang.reflect.Array;
+import java.util.Stack;
 
 public class StackTest {
 
@@ -19,7 +20,8 @@ public class StackTest {
             }
         }
 
-        System.out.println(stack.size());
+        System.out.println("");
+        System.out.println("size : " +stack.size());  // expect 2
 
     }
 }
@@ -113,5 +115,28 @@ class StackByArray<T> implements StackAPI<T> {
     @Override
     public int size() {
         return n;
+    }
+}
+
+class StackByResizingArray<T> implements StackAPI<T>{
+
+    @Override
+    public void push(T t) {
+
+    }
+
+    @Override
+    public T pop() {
+        return null;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return 0;
     }
 }
