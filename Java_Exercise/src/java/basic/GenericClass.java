@@ -26,7 +26,7 @@ class RentalGeneric<T, T1 extends String>{
 		this.rentalPool = rentalPool;
 
 		//  type parameter can not instantiate directly
-		//new T().toString(); compiler complains
+//		new T(); compiler complains
 	}
 
 	//cannot use wildcards <? extends Type>  or <? super Type>

@@ -33,16 +33,24 @@ public class For {
 		
 		// check labeled loop with continue and break
 		// any kind of loop can be labeled 
-		// label cannnot be used with if  
+		// label cannot be used with if
 		
 		
-		// break and continue can only in loop, cannot in if
-		
+		// break and continue can only be used within loop
+
+        // foreach iterates array
 		int[] a1 = {12, 3, 54, 65};
-		
 		for(int i: a1){
 			System.out.println(i);
 		}
+
+		// foreach iterate string
+		String test = "test";
+		for (char s : test.toCharArray()) {
+			System.out.println(s);
+		}
+
+		// check collection.IterationTest for foreach usage in collection
 
 	}
 
