@@ -1,12 +1,14 @@
 package algorithm.colllection;
 
+import java.lang.reflect.Array;
+
 public class StackTest {
 
     public static void main(String[] args) {
         final String[] test = "to be or not to - be - - that - - - is".split(" ");
 
-        StackAPI<String> stack = new StackByLinkedList<>();
-//        StackAPI<String> stack = new StackByArray<>();
+//        StackAPI<String> stack = new StackByLinkedList<>();
+        StackAPI<String> stack = new StackByArray<>(100, String.class);
 
         for (String s : test){
             if ( s.equals("-") ){
@@ -82,24 +84,34 @@ class StackByLinkedList<T> implements StackAPI<T> {
 }
 
 class StackByArray<T> implements StackAPI<T> {
+    private T[] stack;
+    private int n = 0;
+
+    @SuppressWarnings("unchecked")
+    StackByArray(int n, final Class<T> tClass) {
+        //  create a generic array
+        this.stack = (T[]) Array.newInstance(tClass, n);
+    }
 
     @Override
     public void push(T o) {
-
+        this.stack[n++] = o;
     }
 
     @Override
     public T pop() {
-        return null;
+        T topElement = this.stack[--n];
+        this.stack[n] = null;
+        return topElement;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return n == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return n;
     }
 }
