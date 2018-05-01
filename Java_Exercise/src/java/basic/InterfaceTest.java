@@ -24,6 +24,20 @@ interface I3 {
 }
 
 interface I4 extends I2, I3 {
+
+    // Java 8, providing default implementation
+    default void log(){
+        System.out.println("log");
+    }
+
+    // not allowed to have Object class default methods.
+//    default String toString(){
+//    }
+
+    // Java 8
+    static void sayHelloToWorld() {
+        System.out.println("Hello, world!");
+    }
 }
 
 abstract class CLS implements I2, I3, I4 {
