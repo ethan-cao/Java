@@ -59,3 +59,9 @@ class CLS1  extends CLS implements I1 { // the order maters
 //  this causes compiler error, as method1() was public implicitly
 //	void method1(){}
 }
+
+// Java 8, An interface with exactly one abstract method becomes Functional Interface.
+@FunctionalInterface
+interface FunctionalI {
+    void sayHi();
+}
