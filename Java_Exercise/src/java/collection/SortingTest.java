@@ -56,7 +56,7 @@ public class SortingTest {
                 return book1.isbn - book2.isbn;
             }
         });
-        // if the element type does not implements Comparable, or if you want a different way of
+        // if the element type does not implements Comparable, or if you want list different way of
         // Comparator instance must be provided
 
         for (Book b : list){

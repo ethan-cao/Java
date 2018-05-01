@@ -11,14 +11,14 @@ public class HashMapTest {
             put("a2", "a1");
         }};
 
-        // get a set containing all keys
+        // get list set containing all keys
         Set<String> keys = hm1.keySet();
-        // get a set containing all values
+        // get list set containing all values
         Set<String> values = new HashSet<>(hm1.values());
 
 
         HashMap<String, Integer> hm2 = new HashMap<>();
-        hm2.put("a", 2);
+        hm2.put("list", 2);
         hm2.put("b", 1);
         hm2.put("c", 3);
 
