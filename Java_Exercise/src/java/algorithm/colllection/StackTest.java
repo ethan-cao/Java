@@ -1,6 +1,7 @@
 package algorithm.colllection;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Stack;
 
 public class StackTest {
@@ -9,7 +10,8 @@ public class StackTest {
         final String[] test = "to be or not to - be - - that - - - is".split(" ");
 
 //        StackAPI<String> stack = new StackByLinkedList<>();
-        StackAPI<String> stack = new StackByArray<>(100, String.class);
+//        StackAPI<String> stack = new StackByArray<>(100, String.class);
+        StackAPI<String> stack = new StackByResizingArray<>(String.class);
 
         for (String s : test){
             if ( s.equals("-") ){
@@ -119,24 +121,46 @@ class StackByArray<T> implements StackAPI<T> {
 }
 
 class StackByResizingArray<T> implements StackAPI<T>{
+    private T[] array;
+    private int N;  // track the real size
+
+    StackByResizingArray(final Class<T> tClass){
+        this.array = (T[]) Array.newInstance(tClass, 1);
+        this.N = 0;
+    }
+
+    private void resize(int capacity){
+        this.array = Arrays.copyOf(this.array, capacity);
+    }
 
     @Override
     public void push(T t) {
+        if ( this.N == this.array.length ){
+            this.resize(2 * N);
+        }
 
+        this.array[N++] = t;
     }
 
     @Override
     public T pop() {
-        return null;
+        T topElement = this.array[--this.N];
+        this.array[this.N] = null;
+
+        if (this.N == this.array.length/4) {
+            this.resize(this.array.length/2);
+        }
+
+        return topElement;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return N == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return N;
     }
 }
