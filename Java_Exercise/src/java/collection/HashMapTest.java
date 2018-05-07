@@ -16,11 +16,15 @@ public class HashMapTest {
         // get list set containing all values
         Set<String> values = new HashSet<>(hm1.values());
 
-
         HashMap<String, Integer> hm2 = new HashMap<>();
         hm2.put("list", 2);
         hm2.put("b", 1);
         hm2.put("c", 3);
+
+        // iteration
+        for (Map.Entry<String,Integer> entry :  hm2.entrySet()){
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
 
         System.out.println(sortOnValue1(hm2));
     }

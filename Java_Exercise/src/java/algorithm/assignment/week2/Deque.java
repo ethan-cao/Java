@@ -1,6 +1,6 @@
 package algorithm.assignment.week2;
 
-import javafx.scene.input.InputMethodTextRun;
+import edu.princeton.cs.algs4.In;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -8,7 +8,20 @@ import java.util.NoSuchElementException;
 //  a generalization of a stack and a queue
 public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
+        Deque<Integer> deque = new Deque<>();
 
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addLast(3);
+        deque.removeFirst();
+        deque.removeLast();
+        deque.removeLast();
+        deque.addLast(1);
+        deque.addFirst(2);
+
+        for (Integer i : deque){
+           System.out.print(i + " " );
+        }
     }
 
     private class Node{
@@ -23,10 +36,6 @@ public class Deque<Item> implements Iterable<Item> {
     private Node first;
     private Node last;
     private int size = 0;
-
-    public Deque() {
-
-    }
 
     public boolean isEmpty(){
         return this.size == 0;
