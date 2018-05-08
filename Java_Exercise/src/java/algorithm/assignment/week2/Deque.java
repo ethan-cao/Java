@@ -73,13 +73,13 @@ public class Deque<Item> implements Iterable<Item> {
 
         Node lastNode = new Node(item);
 
-        this.last.next = lastNode;
-        this.last = lastNode;
-
         if (this.isEmpty()) {
             this.first = lastNode;
+        } else{
+            this.last.next = lastNode;
         }
 
+        this.last = lastNode;
         this.size++;
     }
 
@@ -90,9 +90,10 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         Node firstNode = this.first;
-        firstNode.next = null;
 
         this.first = firstNode.next;
+        firstNode.next = null;
+
         this.size--;
 
         if (this.isEmpty()) {
@@ -113,14 +114,16 @@ public class Deque<Item> implements Iterable<Item> {
         this.size--;
 
         if (this.isEmpty()) {
-            this.first = null;
+            this.last = this.first = null;
         } else {
             Node node = this.first;
             while (node.next != lastNode) {
                 node = node.next;
             }
+            this.last = node;
             node.next = null;
         }
+
 
         return lastNode.item;
     }
