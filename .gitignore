@@ -10,6 +10,9 @@ Java_Exercise/gradle
 Java_Exercise/.gradle
 Java_Exercise/.idea
 Java_Exercise/.metadata
+Java_Exercise/build
+Java_Exercise/bin
+Java_Exercise/out
 
 topcoder/gradle
 topcoder/.gradle
@@ -17,7 +20,5 @@ topcoder/.idea
 topcoder/.metadata
 
 
-Java_Exercise/build
-Java_Exercise/bin
 
 

@@ -1,11 +1,9 @@
 package algorithm.assignment.week2;
 
-import edu.princeton.cs.algs4.In;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-//  a generalization of a stack and a queue
+//  a generalization of a stack(FILO) and a queue(FIFO)
 public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         Deque<Integer> deque = new Deque<>();
@@ -17,45 +15,50 @@ public class Deque<Item> implements Iterable<Item> {
         deque.removeLast();
         deque.removeLast();
         deque.addLast(1);
+        deque.removeFirst();
         deque.addFirst(2);
+        deque.addFirst(1);
 
-        for (Integer i : deque){
-           System.out.print(i + " " );
+        for (Integer i : deque) {
+            System.out.print(i + " ");
         }
+        System.out.print(" size : " + deque.size());
+
     }
 
-    private class Node{
-       private Item item;
-       private Node next;
+    private class Node {
+        private Item item;
+        private Node next;
 
-       Node(Item item){
-           this.item = item;
-       }
+        Node(Item item) {
+            this.item = item;
+        }
     }
 
     private Node first;
     private Node last;
     private int size = 0;
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.size == 0;
     }
 
-    public int size()   {
+    public int size() {
         return this.size;
     }
 
     // add the item to the front
     public void addFirst(Item item) {
-        if (item == null){
+        if (item == null) {
             throw new IllegalArgumentException();
         }
 
         Node firstNode = new Node(item);
         firstNode.next = this.first;
+
         this.first = firstNode;
 
-        if (this.isEmpty()){
+        if (this.isEmpty()) {
             this.last = firstNode;
         }
 
@@ -63,37 +66,36 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // add the item to the end
-    public void addLast(Item item)  {
-        if (item == null){
+    public void addLast(Item item) {
+        if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        Node oldLast = this.last;
-
         Node lastNode = new Node(item);
-        oldLast.next = lastNode;
+
+        this.last.next = lastNode;
         this.last = lastNode;
 
-        if (this.isEmpty()){
-           this.first = lastNode;
+        if (this.isEmpty()) {
+            this.first = lastNode;
         }
 
         this.size++;
     }
 
     // remove and return the item from the front
-    public Item removeFirst(){
-        if (this.isEmpty()){
+    public Item removeFirst() {
+        if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
         Node firstNode = this.first;
-        this.first = firstNode.next;
         firstNode.next = null;
 
+        this.first = firstNode.next;
         this.size--;
 
-        if (this.isEmpty()){
+        if (this.isEmpty()) {
             this.last = null;
         }
 
@@ -102,27 +104,28 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the end
     public Item removeLast() {
-        if (this.isEmpty()){
+        if (this.isEmpty()) {
             throw new NoSuchElementException();
         }
 
-        Node last = this.last;
+        Node lastNode = this.last;
+
         this.size--;
 
-        if (this.isEmpty()){
+        if (this.isEmpty()) {
             this.first = null;
-        } else{
+        } else {
             Node node = this.first;
-            while (node.next != last){
+            while (node.next != lastNode) {
                 node = node.next;
             }
             node.next = null;
         }
 
-        return last.item;
+        return lastNode.item;
     }
 
-    private class It implements Iterator<Item>{
+    private class It implements Iterator<Item> {
         private Node current = Deque.this.first;
 
         @Override
@@ -132,8 +135,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
-            if (hasNext()){
-                Item item  = this.current.item;
+            if (this.hasNext()) {
+                Item item = this.current.item;
                 this.current = this.current.next;
                 return item;
             } else {
@@ -141,7 +144,7 @@ public class Deque<Item> implements Iterable<Item> {
             }
         }
 
-        public void remove(){
+        public void remove() {
             throw new UnsupportedOperationException();
         }
     }

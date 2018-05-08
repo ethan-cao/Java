@@ -20,7 +20,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // add the item
     public void enqueue(Item item)           {
-
     }
 
     // remove and return a random item
@@ -42,6 +41,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         @Override
         public Item next() {
             return null;
+        }
+
+        public void remove(){
+            throw new UnsupportedOperationException();
         }
     }
 
