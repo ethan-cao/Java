@@ -6,29 +6,91 @@ import java.util.NoSuchElementException;
 //  a generalization of a stack(FILO) and a queue(FIFO)
 public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
+        // Unit test
         Deque<Integer> deque = new Deque<>();
 
-        deque.addFirst(1);
-        deque.addFirst(2);
-        deque.addLast(3);
-        deque.removeFirst();
-        deque.removeLast();
-        deque.removeLast();
-        deque.addLast(1);
-        deque.removeFirst();
-        deque.addFirst(2);
-        deque.addFirst(1);
+        deque.addFirst(1);   // 1
+        System.out.println(deque.first == deque.last);
+        System.out.println(deque.first.previous == deque.first.next && null == deque.first.next);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.size() == 1);
+
+        deque.addFirst(2);   // 2, 1
+        System.out.println(deque.first == deque.last.previous);
+        System.out.println(deque.first.next == deque.last);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.size() == 2);
+
+        deque.addLast(3);    // 2, 1, 3
+        System.out.println(deque.first.next == deque.last.previous);
+        System.out.println(deque.first.next.next == deque.last);
+        System.out.println(deque.first == deque.last.previous.previous);
+        System.out.println(deque.first.next == deque.last.previous);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.first.item == 2);
+        System.out.println(deque.first.next.item == 1);
+        System.out.println(deque.last.item == 3);
+        System.out.println(deque.size() == 3);
+
+        deque.removeFirst();       // 1, 3
+        System.out.println(deque.first == deque.last.previous);
+        System.out.println(deque.first.next == deque.last);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.first.item == 1);
+        System.out.println(deque.first.next.item == 3);
+        System.out.println(deque.size() == 2);
+
+        deque.removeLast();        // 1
+        System.out.println(deque.first == deque.last);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.first.next == deque.last.previous && null == deque.last.previous);
+        System.out.println(deque.first.item == 1);
+        System.out.println(deque.size() == 1);
+
+        deque.removeLast();       //
+        System.out.println(deque.first == deque.last && deque.first == null);
+        System.out.println(deque.size() == 0);
+
+        try {
+            deque.removeLast();
+        } catch (Exception e){
+            System.out.println(true);
+        }
+
+        deque.addLast(5);   // 5
+        System.out.println(deque.first == deque.last);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.first.item == 5);
+        System.out.println(deque.size() == 1);
+
+        deque.removeFirst();      //
+        System.out.println(deque.first == deque.last && deque.first == null);
+        System.out.println(deque.size() == 0);
+
+        deque.addFirst(2);  // 2
+        System.out.println(deque.first == deque.last);
+        System.out.println(deque.first.previous == deque.first.next && null == deque.first.next);
+        System.out.println(deque.first.item == 2);
+        System.out.println(deque.size() == 1);
+
+        deque.addFirst(6);  // 6, 2
+        System.out.println(deque.first == deque.last.previous);
+        System.out.println(deque.first.next == deque.last);
+        System.out.println(deque.first.previous == deque.last.next && null == deque.last.next);
+        System.out.println(deque.first.item == 6);
+        System.out.println(deque.first.next.item == 2);
+        System.out.println(deque.size() == 2);
 
         for (Integer i : deque) {
             System.out.print(i + " ");
         }
         System.out.print(" size : " + deque.size());
-
     }
 
     private class Node {
         private Item item;
         private Node next;
+        private Node previous;
 
         Node(Item item) {
             this.item = item;
@@ -54,12 +116,16 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         Node firstNode = new Node(item);
-        firstNode.next = this.first;
+        Node oldFirst = this.first;
+
+        firstNode.next = oldFirst;
 
         this.first = firstNode;
 
         if (this.isEmpty()) {
             this.last = firstNode;
+        } else {
+            oldFirst.previous = firstNode;
         }
 
         this.size++;
@@ -75,7 +141,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (this.isEmpty()) {
             this.first = lastNode;
-        } else{
+        } else {
+            lastNode.previous = this.last;
             this.last.next = lastNode;
         }
 
@@ -98,6 +165,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (this.isEmpty()) {
             this.last = null;
+        } else {
+            this.first.previous = null;
         }
 
         return firstNode.item;
@@ -116,14 +185,9 @@ public class Deque<Item> implements Iterable<Item> {
         if (this.isEmpty()) {
             this.last = this.first = null;
         } else {
-            Node node = this.first;
-            while (node.next != lastNode) {
-                node = node.next;
-            }
-            this.last = node;
-            node.next = null;
+            this.last = this.last.previous;
+            this.last.next = null;
         }
-
 
         return lastNode.item;
     }
