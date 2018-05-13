@@ -1,5 +1,8 @@
 package algorithm.assignment.week2;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+import edu.princeton.cs.algs4.StdRandom;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -33,7 +36,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             Object obj = this.array[i];
 
             if (obj != null) {
-
+                newArray[this.size] = obj;
                 this.size++;
             }
         }
@@ -72,8 +75,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         Item item = this.sample();
 
-        for (int i =0; i < this.array.length; ++i) {
-            if (this.array[i] == item){
+        for (int i = 0; i < this.array.length; ++i) {
+            if (this.array[i] == item) {
                 this.array[i] = null;
                 this.size--;
             }
@@ -88,24 +91,54 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
 
-        return null;
+        Item item = null;
+//        int index = (int) (StdRandom.uniform() * this.array.length);
+        int index = StdRandom.uniform(0, this.array.length);
+        while (this.array[index] == null) {
+//            index = (int) (StdRandom.uniform() * this.array.length);
+            index = StdRandom.uniform(0, this.array.length);
+        }
+
+        return item;
     }
 
     private class It implements Iterator<Item> {
+        private int size;
+        private Object[] snapshot = RandomizedQueue.this.array;
+
+        It () {
+            Object[] tempArray = new Object[snapshot.length];
+            this.size = 0;
+
+            for (int i = 0; i < this.snapshot.length; ++i){
+                Object obj = this.snapshot[i];
+
+                if (obj != null){
+                    tempArray[this.size] = obj;
+                    this.size++;
+                }
+            }
+
+            this.snapshot = tempArray;
+
+            StdRandom.shuffle(this.snapshot);
+        }
+
         @Override
         public boolean hasNext() {
-            return false;
+            return this.size == 0;
         }
 
         @Override
         public Item next() {
-            if (true) {
+            if (!this.hasNext()) {
                 throw new NoSuchElementException();
             }
 
-            return null;
+            return (Item) this.snapshot[this.size--];
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }

@@ -53,7 +53,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         try {
             deque.removeLast();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(true);
         }
 
@@ -211,6 +211,7 @@ public class Deque<Item> implements Iterable<Item> {
             }
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
