@@ -17,7 +17,7 @@ public class IterationTest {
 		list.add(3);
 		list.add(5);
 
-		test4();
+		test1();
 	}
 
 	/**
@@ -25,8 +25,14 @@ public class IterationTest {
 	 */
 	static void test1 (){
 		for (Integer integer : list) {
-		  integer.toString();
+			if (integer.intValue() == 1){
+				integer =  2;
+			}
 		}
+
+		// In the beginning of iteration, a snapshot is used to iterate.
+		// So change made during iteration has no impact on original collection
+        // this.list is still 1, 3, 4
 	}
 
 	// Order relies on iterator
