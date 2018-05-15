@@ -1,12 +1,10 @@
-package algorithm.assignment.week2;
-
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private static int INITIAL_SIZE = 32;
+    private static int INITIAL_SIZE = 16;
 
     private int size = 0;
     private Object[] array;

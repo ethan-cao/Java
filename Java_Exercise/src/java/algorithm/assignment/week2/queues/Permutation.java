@@ -1,5 +1,3 @@
-package algorithm.assignment.week2;
-
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
@@ -9,7 +7,7 @@ public class Permutation {
             throw new IllegalArgumentException();
         }
 
-        RandomizedQueue<String> rq = new RandomizedQueue<>();
+        RandomizedQueue<String> rq = new RandomizedQueue<String>();
 
         while (!StdIn.isEmpty()) {
             rq.enqueue(StdIn.readString());
