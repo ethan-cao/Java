@@ -17,8 +17,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         q.enqueue(3);
         q.enqueue(4);
         q.enqueue(5);
+        q.dequeue();
 
-        System.out.println(q.size());
+        System.out.println("size : " + q.size());
+        System.out.println("");
 
         Iterator<Integer> it = q.iterator();
         while(it.hasNext() ){
@@ -94,6 +96,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             this.queue[index] = this.queue[this.size - 1];
             this.queue[this.size - 1] = null;
         }
+
+        this.size--;
 
         return item;
     }
