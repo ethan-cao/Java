@@ -1,10 +1,10 @@
 ./src/java/Test.java
 
-
 *DS_Store*
 *.iml*
 *.ipr*
 *.iws*
+*.class
 
 Java_Exercise/gradle
 Java_Exercise/.gradle

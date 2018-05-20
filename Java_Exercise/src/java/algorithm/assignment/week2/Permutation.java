@@ -3,6 +3,7 @@ package algorithm.assignment.week2;
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+// http://coursera.cs.princeton.edu/algs4/assignments/queues.html
 public class Permutation {
     public static void main(String[] args) {
         if (args == null) {

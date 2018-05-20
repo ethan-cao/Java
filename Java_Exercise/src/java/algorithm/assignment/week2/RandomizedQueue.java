@@ -6,13 +6,30 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    private static int INITIAL_SIZE = 32;
-
+    private static final int INITIAL_SIZE = 32;
     private int size = 0;
-    private Object[] array;
+    private Object[] queue;
+
+    public static void main(String[] args) {
+        RandomizedQueue<Integer> q = new RandomizedQueue<>();
+        q.enqueue(1);
+        q.enqueue(2);
+        q.enqueue(3);
+        q.enqueue(4);
+        q.enqueue(5);
+
+        System.out.println(q.size());
+
+        Iterator<Integer> it = q.iterator();
+        while(it.hasNext() ){
+            Integer i =  it.next();
+            System.out.println(i);
+        }
+
+    }
 
     public RandomizedQueue() {
-        this.array = new Object[INITIAL_SIZE];
+        this.queue = new Object[INITIAL_SIZE];
     }
 
     public boolean isEmpty() {
@@ -24,11 +41,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void resize(int capacity) {
+        if (this.size >= capacity) {
+            return;
+        }
+
         Object[] newArray = new Object[capacity];
         this.size = 0;
 
-        for (int i = 0; i < this.array.length; ++i) {
-            Object obj = this.array[i];
+        for (int i = 0; i < this.queue.length; ++i) {
+            Object obj = this.queue[i];
 
             if (obj != null) {
                 newArray[this.size] = obj;
@@ -36,7 +57,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             }
         }
 
-        this.array = newArray;
+        this.queue = newArray;
     }
 
     // add the item
@@ -45,17 +66,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new IllegalArgumentException();
         }
 
-        if (this.array.length == this.size) {
-            this.resize(this.array.length * 2);
+        if (this.queue.length == this.size) {
+            this.resize(this.queue.length * 2);
         }
 
-        for (int i = 0; i < this.array.length; ++i) {
-            if (this.array[i] == null) {
-                this.array[i] = item;
-                this.size++;
-                break;
-            }
-        }
+        this.queue[this.size++] = item;
     }
 
     // remove and return a random item
@@ -64,17 +79,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
 
-        if (this.array.length / 4 == this.size) {
-            this.resize(this.array.length / 2);
+        int length = this.queue.length;
+
+        if (length > 32 && length / 4 == this.size) {
+            this.resize(length / 2);
         }
 
-        Item item = this.sample();
+        int index = StdRandom.uniform(this.size);
+        Item item = (Item) this.queue[index];
 
-        for (int i = 0; i < this.array.length; ++i) {
-            if (this.array[i] == item) {
-                this.array[i] = null;
-                this.size--;
-            }
+        if (index == this.size - 1) {
+            this.queue[index] = null;
+        } else {
+            this.queue[index] = this.queue[this.size - 1];
+            this.queue[this.size - 1] = null;
         }
 
         return item;
@@ -86,14 +104,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
 
-//        int index = (int) (StdRandom.uniform() * this.array.length);
-        int index = StdRandom.uniform(0, this.array.length);
-        while (this.array[index] == null) {
-//            index = (int) (StdRandom.uniform() * this.array.length);
-            index = StdRandom.uniform(0, this.array.length);
-        }
+        int index = StdRandom.uniform(this.size);
 
-        return (Item) this.array[index];
+        return (Item) this.queue[index];
     }
 
     private class It implements Iterator<Item> {
@@ -101,23 +114,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private final Object[] snapshot;
 
         It() {
-            Object[] array = RandomizedQueue.this.array.clone();
-            StdRandom.shuffle(array);
-
-            this.snapshot = new Object[array.length];
-
-            for (int i = 0; i < array.length; ++i) {
-                Object obj = array[i];
-
-                if (obj != null) {
-                    this.snapshot[this.size++] = obj;
-                }
-            }
+            this.size = RandomizedQueue.this.size();
+            this.snapshot = new Object[this.size];
+            System.arraycopy(RandomizedQueue.this.queue, 0, this.snapshot, 0, this.size);
+            StdRandom.shuffle(this.snapshot);
         }
 
         @Override
         public boolean hasNext() {
-            return this.size == 0;
+            return this.size != 0;
         }
 
         @Override
@@ -126,7 +131,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 throw new NoSuchElementException();
             }
 
-            return (Item) this.snapshot[this.size--];
+            return (Item) this.snapshot[--this.size];
         }
 
         @Override

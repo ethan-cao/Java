@@ -1,13 +1,14 @@
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 
+// http://coursera.cs.princeton.edu/algs4/assignments/queues.html
 public class Permutation {
     public static void main(String[] args) {
         if (args == null) {
             throw new IllegalArgumentException();
         }
 
-        RandomizedQueue<String> rq = new RandomizedQueue<String>();
+        RandomizedQueue<String> rq = new RandomizedQueue<>();
 
         while (!StdIn.isEmpty()) {
             rq.enqueue(StdIn.readString());
