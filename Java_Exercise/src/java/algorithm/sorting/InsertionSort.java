@@ -2,6 +2,10 @@ package algorithm.sorting;
 
 import java.util.Arrays;
 
+/**
+ * Depends on the initial order
+ * Best case: data in ascending order, Worst case : data in descending order
+ */
 public class InsertionSort {
     public static void main(String[] args) {
         int[] a = {2, 4, 5, 3, 1};
