@@ -9,10 +9,10 @@ import java.util.Arrays;
 public class InsertionSort {
     public static void main(String[] args) {
         int[] data = {2, 4, 5, 3, 1};
-        int l = data.length;
+        int L = data.length;
 
         // Assume left from i, everything is sorted, right part is un-sorted
-        for (int i = 0; i < l; ++i) {
+        for (int i = 0; i < L; ++i) {
 
             // put the smallest number to the beginning
             for (int j = i; j > 0; --j) {

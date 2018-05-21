@@ -1,12 +1,17 @@
 package basic;
 
+import java.util.Arrays;
+
 public class ArrayTest {
     public static void main(String[] args){
-        Integer[] a1 = {1,2,3, null, 5};
+        Integer[] array = {1,2,3, null, 5};
 
-        for(Object o : a1){
+        for(Object o : array){
             System.out.print(o + " ");
         }
+
+        System.out.println(Arrays.toString(array
+        ));
 
     }
 
