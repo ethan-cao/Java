@@ -3,37 +3,22 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 public class BubbleSort {
-	public  static void main(String[] args) {
-		int[] A = {2,4,5,3,1};
-		int l = A.length;
+    public static void main(String[] args) {
+        int[] data = {2, 4, 5, 3, 1};
+        int l = data.length;
 
-		for (int i = 1; i < l; ++i){
-			for (int j = 0; j < l - i; ++j){
-				if (A[j] > A[j+1]){
-					A[j+1] += A[j];
-					A[j] = A[j+1] - A[j];
-					A[j+1] = A[j+1] - A[j];
-				}
-			}
-		}
+        for (int i = 0; i < l; ++i) {
 
-		// for (int i = 1; i < A.length-2; ++i){
-		// 	if (A[i] > A[i+1]){
-		// 		A[i+1] += A[i];
-		// 		A[i] = A[i+1] - A[i];
-		// 		A[i+1] = A[i+1] - A[i];
-		// 	}
-		// }
-		//
-		// for (int i = 1; i < A.length-3; ++i){
-		// 	if (A[i] > A[i+1]){
-		// 		A[i+1] += A[i];
-		// 		A[i] = A[i+1] - A[i];
-		// 		A[i+1] = A[i+1] - A[i];
-		// 	}
-		// }
-		//
-		
-		System.out.println( Arrays.toString(A) );
-	}
+            // find the largest element and move it to data[l-i]
+            for (int j = 1; j < l - i; ++j) {
+                if (data[j - 1] > data[j]) {
+                    int temp = data[j - 1];
+                    data[j - 1] = data[j];
+                    data[j] = temp;
+                }
+            }
+        }
+
+        System.out.println(Arrays.toString(data));
+    }
 }

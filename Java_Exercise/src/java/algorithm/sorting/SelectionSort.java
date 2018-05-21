@@ -11,20 +11,21 @@ public class SelectionSort {
         int[] data = {2, 4, 5, 3, 1};
         int l = data.length;
 
-        for (int i = 0; i < l - 1; ++i) {
-            int minPos = i;
+        for (int i = 0; i < l; ++i) {
+            int minIndex = i;  // assume index i has the smallest element
 
-            // Find the location of the minimal element
-            for (int j = i + 1; j < l -1; ++j) {
-                if (data[j] < data[minPos]) {
-                    minPos = j;
+            // search for index of smallest element starting from i + 1
+            for (int j = i + 1; j < l; ++j) {
+                if (data[j] < data[minIndex]) {
+                    minIndex = j;
                 }
             }
 
-            if (minPos != i) {
-                int temp = data[i];
-                data[i] = data[minPos];
-                data[minPos] = temp;
+            // put smallest element in the position of i
+            if (minIndex != i) {
+                int temp = data[minIndex];
+                data[minIndex] = data[i];
+                data[i] = temp;
             }
         }
 

@@ -6,6 +6,9 @@
 *.iws*
 *.class
 
+/Users/guane/Work/study/Java/Java_Exercise/src/java/algorithm/slides/Algorithms4th.pdf
+
+
 Java_Exercise/gradle
 Java_Exercise/.gradle
 Java_Exercise/.idea
