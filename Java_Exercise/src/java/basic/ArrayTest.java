@@ -11,6 +11,7 @@ public class ArrayTest {
             System.out.print(o + " ");
         }
 
+        System.out.println();
         System.out.println(Arrays.toString(array));
 
     }
