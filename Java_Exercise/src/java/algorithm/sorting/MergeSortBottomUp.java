@@ -3,16 +3,13 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
- * too complicated for tiny array, use insertion sort instead
+ * About 10% slower than mergesort
  */
-public class MergeSort {
-
-    public static void main(String[] args) {
+public class MergeSortBottomUp {
+    public static void main(String args[]) {
         int[] data = {2, 4, 5, 3, 6, 1};
-        int L = data.length;
 
-        int[] aux = new int[L];  // auxiliary array
-        sort(data, aux, 0, L - 1);
+        sort(data);
 
         System.out.println(Arrays.toString(data));
     }
@@ -40,22 +37,14 @@ public class MergeSort {
         // data[low] to data[high] should be sorted
     }
 
-    public static void sort(int[] data, int[] aux, int low, int high) {
-        // Recursively invoked
-        if (low >= high) {
-            return;  // put a break point here
+    public static void sort(int[] data) {
+        final int L = data.length;
+        int[] aux = new int[L];  // auxiliary array
+
+        for (int size = 1; size < L; size *= 2) {
+            for (int low = 0; low < L - size; low += size + size) {
+                merge(data, aux, low, low + size - 1, Math.min(low + size + size - 1, L - 1));
+            }
         }
-
-        int middle = low + (high - low) / 2; // constant time
-
-        sort(data, aux, low, middle);
-        sort(data, aux, middle + 1, high);
-
-        // optimization
-        if (data[middle] < data[middle + 1]) {
-            return;
-        }
-
-        merge(data, aux, low, middle, high);
     }
 }
