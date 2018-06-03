@@ -41,8 +41,12 @@ public class MergeSortBottomUp {
         final int L = data.length;
         int[] aux = new int[L];  // auxiliary array
 
-        for (int size = 1; size < L; size *= 2) {
+        // The first one to be sorted is size 1 array, then size 2, 4, 8
+        for (int size = 1; size < L; size *= 2 ) {
+            // size + size : low index each time jumps 2 arrays
             for (int low = 0; low < L - size; low += size + size) {
+                // low + size - 1 : the end of the first array
+                // low + size + size - 1 : the end of the second array
                 merge(data, aux, low, low + size - 1, Math.min(low + size + size - 1, L - 1));
             }
         }
