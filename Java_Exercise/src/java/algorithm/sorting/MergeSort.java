@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /**
  * too complicated for tiny array, use insertion sort instead
+ * Optimal per compare (upper bound and lower bound are the same), not optimal per space usage
  */
 public class MergeSort {
 
