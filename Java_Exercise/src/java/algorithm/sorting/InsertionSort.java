@@ -14,7 +14,7 @@ public class InsertionSort {
         // Assume left from i, everything is sorted, right part is un-sorted
         for (int i = 0; i < L; ++i) {
 
-            // put the smallest number to the beginning
+            // put the smallest number to the left most
             for (int j = i; j > 0; --j) {
 
                 if (data[j - 1] > data[j]) {
