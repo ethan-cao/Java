@@ -45,16 +45,7 @@ public class Point implements Comparable<Point> {
 
     public Comparator<Point> slopeOrder(Point p) {
         return (Point p1, Point p2) -> {
-            double slope1 = this.slopeTo(p1);
-            double slope2 = this.slopeTo(p2);
-
-            if ( slope1 > slope2 ){
-                return 1;
-            } else if (slope1 < slope2){
-                return -1;
-            } else {
-                return  0;
-            }
+            return Double.compare(this.slopeTo(p1), this.slopeTo(p2));
         };
     }
 
