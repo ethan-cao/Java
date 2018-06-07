@@ -12,7 +12,7 @@ public class Point implements Comparable<Point> {
 
     }
 
-    Point(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -44,9 +44,18 @@ public class Point implements Comparable<Point> {
     }
 
     public Comparator<Point> slopeOrder(Point p) {
-        return Comparator<Point> c = (Point p1, Point p2) ->{
-            return 1;
-        }
+        return (Point p1, Point p2) -> {
+            double slope1 = this.slopeTo(p1);
+            double slope2 = this.slopeTo(p2);
+
+            if ( slope1 > slope2 ){
+                return 1;
+            } else if (slope1 < slope2){
+                return -1;
+            } else {
+                return  0;
+            }
+        };
     }
 
     @Override
