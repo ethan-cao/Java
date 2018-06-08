@@ -4,6 +4,8 @@ import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Comparator;
 
+// http://coursera.cs.princeton.edu/algs4/assignments/collinear.html
+
 public class Point implements Comparable<Point> {
     final private int x;
     final private int y;

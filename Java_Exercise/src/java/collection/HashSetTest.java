@@ -1,8 +1,6 @@
 package collection;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class HashSetTest {
 
@@ -19,7 +17,15 @@ public class HashSetTest {
         System.out.println(s.size());
     }
 
-    static void test1() {
+    static void sort() {
+        Set<Integer> set= new HashSet<>();
+
+        // Solution 1
+        List sortedList = new ArrayList(set);
+        Collections.sort(sortedList);
+
+        // Solution 2
+        TreeSet<Integer> sortedSort = new TreeSet<>(set);
     }
 
     static class Obj {
