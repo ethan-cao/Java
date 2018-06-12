@@ -17,22 +17,6 @@ public class IterationTest {
 		list.add(3);
 		list.add(5);
 
-		test1();
-	}
-
-	/**
-	 * shorthand for test 2, applicable for collection implementing Iterable
-	 */
-	static void test1 (){
-		for (Integer integer : list) {
-			if (integer.intValue() == 1){
-				integer =  2;
-			}
-		}
-
-		// In the beginning of iteration, a snapshot is used to iterate.
-		// So change made during iteration has no impact on original collection
-        // this.list is still 1, 3, 4
 	}
 
 	// Order relies on iterator
@@ -45,6 +29,16 @@ public class IterationTest {
 		Iterator<Integer> it = list.iterator();
 		while (it.hasNext()){
 			Integer i = it.next();
+		}
+
+		// Alternative, applicable for collection implementing Iterable
+		// In the beginning of iteration, a snapshot is used to iterate.
+		// So change made during iteration has no impact on original collection
+		// this.list is still 1, 3, 4
+		for (Integer integer : list) {
+			if (integer.intValue() == 1){
+				integer =  2;
+			}
 		}
 	}
 	

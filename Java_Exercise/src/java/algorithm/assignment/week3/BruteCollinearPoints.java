@@ -98,41 +98,38 @@ public class BruteCollinearPoints {
             return null;
         }
 
-        HashMap<HashSet<Point>, Double> slope = new HashMap<>();
+        HashMap<Double, HashSet<HashSet<Point>>> slopes = new HashMap<>();
         HashSet<Point> segment = new HashSet<>();
         for (int i = 0; i < L; ++i) {
             Point p1 = this.points[i];
             segment.clear();
             segment.add(p1);
+
             for (int j = 0; j < L; ++j) {
                 if (i != j) {
                     Point p2 = this.points[j];
                     segment.add(p2);
 
-                    slope.put(segment, p1.slopeTo(p2));
+                    double slope = p1.slopeTo(p2);
+                    if (!slopes.containsKey(slope)){
+                       slopes.put(slope, new HashSet<>());
+                    }
+                    slopes.get(slope).add(segment);
                 }
             }
         }
 
-        HashMap<Double, HashSet<Point>> reversedSlop = new HashMap<>();
-        for (Map.Entry<HashSet<Point>, Double> entry : slope.entrySet()) {
-            Double key = entry.getValue();
-
-            if (reversedSlop.containsKey(key)) {
-                HashSet<Point> points = reversedSlop.get(key);
-                points.addAll(entry.getKey());
-            } else {
-                reversedSlop.put(key, (HashSet<Point>) entry.getKey().clone());
-            }
-        }
-
-
         ArrayList<LineSegment> lineSegments = new ArrayList<>();
-        for (Map.Entry<Double, HashSet<Point>> entry : reversedSlop.entrySet()) {
-            HashSet<Point> value = entry.getValue();
+        for (Map.Entry<Double, HashSet<HashSet<Point>>> entry : slopes.entrySet()) {
+            HashSet<HashSet<Point>> value = entry.getValue();
 
-            if (value.size() == 4) {
-                TreeSet<Point> points = new TreeSet<>(value);
+            if (value.size() > 1) {
+                TreeSet<Point> points = new TreeSet<>();
+
+                for (HashSet<Point> segmentSet : value){
+                    points.addAll(segmentSet);
+                }
+
                 lineSegments.add(new LineSegment(points.first(), points.last()));
             }
         }
