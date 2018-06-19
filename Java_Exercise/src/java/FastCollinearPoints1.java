@@ -2,12 +2,12 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class FastCollinearPoints {
+public class FastCollinearPoints1 {
     final private Point[] points;
     private LineSegment[] result;
 
@@ -53,7 +53,7 @@ public class FastCollinearPoints {
         }
         StdDraw.show();
 
-        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        FastCollinearPoints1 collinear = new FastCollinearPoints1(points);
 
         System.out.println("@@@ find : " + collinear.segments().length);
 
@@ -67,7 +67,7 @@ public class FastCollinearPoints {
     }
 
     // finds all line segments containing 4 or more points
-    public FastCollinearPoints(Point[] points) {
+    public FastCollinearPoints1(Point[] points) {
         if (points == null) {
             throw new IllegalArgumentException();
         }
@@ -114,7 +114,6 @@ public class FastCollinearPoints {
 
         final List<LineSegment> lineSegments = new ArrayList<>();
 
-
         for (int i = 0; i < L; ++i) {
             Point origin = this.points[i];
 
@@ -156,8 +155,6 @@ public class FastCollinearPoints {
             }
         }
 
-        this.result = lineSegments.toArray(new LineSegment[lineSegments.size()]);
-
-        return this.result.clone();
+        return this.result = lineSegments.toArray(new LineSegment[lineSegments.size()]);
     }
 }

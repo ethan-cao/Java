@@ -12,6 +12,8 @@ public class ArrayListTest {
 	
 	static void test1(){
 		List<Integer> al = new ArrayList<> (3);
+
+		al.get(0); // this causes runtime exception IndexOutOfBoundsException
 		
 		System.out.println(al.size()); // 0
 		

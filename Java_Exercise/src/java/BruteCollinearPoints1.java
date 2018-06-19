@@ -2,11 +2,11 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class BruteCollinearPoints {
+public class BruteCollinearPoints1 {
     private Point[] points;
     private LineSegment[] segments;
 
@@ -55,7 +55,7 @@ public class BruteCollinearPoints {
         }
         StdDraw.show();
 
-        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        BruteCollinearPoints1 collinear = new BruteCollinearPoints1(points);
 
         System.out.println("@@@ find : " + collinear.segments().length);
 
@@ -67,7 +67,7 @@ public class BruteCollinearPoints {
         StdDraw.show();
     }
 
-    public BruteCollinearPoints(Point[] points) {
+    public BruteCollinearPoints1(Point[] points) {
         if (points == null) {
             throw new IllegalArgumentException();
         }
@@ -112,8 +112,8 @@ public class BruteCollinearPoints {
             return new LineSegment[]{};
         }
 
-
         List<LineSegment> lineSegments = new ArrayList<>();
+        List<Object[]> segmentPoints = new ArrayList<>();
 
         for (int i = 0; i < L; ++i) {
             Point p1 = this.points[i];
@@ -124,7 +124,7 @@ public class BruteCollinearPoints {
                 for (int k = j + 1; k < L; ++k) {
                     Point p3 = this.points[k];
 
-                    if (p1.slopeTo(p2) != p2.slopeTo(p3)) {
+                    if (p1.slopeTo(p2) != p2.slopeTo(p3)){
                         continue;
                     }
 
@@ -132,18 +132,75 @@ public class BruteCollinearPoints {
                         Point p4 = this.points[l];
 
                         if (p1.slopeTo(p2) == p2.slopeTo(p3) && p2.slopeTo(p3) == p3.slopeTo(p4)) {
-                            Point[] points = new Point[]{p1, p2, p3, p4};
-                            Arrays.sort(points);
-                            lineSegments.add(new LineSegment(points[0], points[points.length - 1]));
+                            Object[] list = new Object[5];
+                            list[0] = p1.slopeTo(p2);
+                            list[1] = p1;
+                            list[2] = p2;
+                            list[3] = p3;
+                            list[4] = p4;
+
+                            segmentPoints.add(list);
                         }
                     }
                 }
             }
         }
 
-        this.segments = lineSegments.toArray(new LineSegment[lineSegments.size()]);
 
-        // do not return reference to internal state
-        return this.segments.clone();
+        int size = segmentPoints.size();
+        List[] subSegmentFreePoints = new List[size];
+
+        for (int i = 0; i < size; ++i) {
+            Object[] list1 = segmentPoints.get(i);
+
+            for (int j = i + 1; j < size; ++j) {
+                Object[] list2 = segmentPoints.get(j);
+
+                if (list1 != null && list2 != null && list1[0].equals(list2[0])) {
+                    if (subSegmentFreePoints[i] == null) {
+                        subSegmentFreePoints[i] = new ArrayList();
+                    }
+
+                    List<Point> points = new ArrayList<>();
+                    points.add((Point) list2[1]);
+                    points.add((Point) list2[2]);
+                    points.add((Point) list2[3]);
+                    points.add((Point) list2[4]);
+                    subSegmentFreePoints[i].addAll(points);
+
+                    segmentPoints.set(j, null);
+                }
+            }
+
+            if (list1 == null) {
+                continue;
+            }
+
+            List<Point> points = new ArrayList<>();
+            points.add((Point) list1[1]);
+            points.add((Point) list1[2]);
+            points.add((Point) list1[3]);
+            points.add((Point) list1[4]);
+
+            if (subSegmentFreePoints[i] != null) {
+                subSegmentFreePoints[i].addAll(points);
+            } else {
+                subSegmentFreePoints[i] = points;
+            }
+        }
+
+
+        for (List<Point> points : subSegmentFreePoints) {
+            if (points == null) {
+                continue;
+            }
+
+            Collections.sort(points);
+
+            LineSegment segment = new LineSegment(points.get(0), points.get(points.size() - 1));
+            lineSegments.add(segment);
+        }
+
+        return this.segments = lineSegments.toArray(new LineSegment[lineSegments.size()]);
     }
 }
