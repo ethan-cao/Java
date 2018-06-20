@@ -7,64 +7,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// http://coursera.cs.princeton.edu/algs4/assignments/collinear.html
 public class FastCollinearPoints {
-    final private Point[] points;
-    private LineSegment[] result;
+    private Point[] points;
+    private LineSegment[] segments;
+    private List<Point[]> auxSegments = new ArrayList<>();
 
-    public static void main(String[] args) {
-//        Point[] points = {
-//                new Point(19000, 10000),
-//                new Point(18000, 10000),
-//                new Point(32000, 10000),
-//                new Point(21000, 10000),
-//                new Point(1234, 5678),
-//                new Point(14000, 10000),
-//        };
-//
-//        Point[] points = {
-//                new Point(10000, 0),
-//                new Point(0, 10000),
-//                new Point(3000, 7000),
-//                new Point(7000, 3000),
-//                new Point(20000, 21000),
-//                new Point(3000, 4000),
-//                new Point(14000, 15000),
-//                new Point(6000, 7000),
-//        };
-
-        // read the n points from a file
-        In in = new In(args[0]);
-        int n = in.readInt();
-        Point[] points = new Point[n];
-        for (int i = 0; i < n; i++) {
-            int x = in.readInt();
-            int y = in.readInt();
-            points[i] = new Point(x, y);
-        }
-
-        System.out.println("@@@ number of points :" + points.length);
-
-        // draw the points
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
-        for (Point p : points) {
-            p.draw();
-        }
-        StdDraw.show();
-
-        FastCollinearPoints collinear = new FastCollinearPoints(points);
-
-        System.out.println("@@@ find : " + collinear.segments().length);
-
-        // print and draw the line segments
-        for (LineSegment segment : collinear.segments()) {
-            StdOut.println(segment);
-            segment.draw();
-        }
-
-        StdDraw.show();
-    }
 
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
@@ -94,16 +42,16 @@ public class FastCollinearPoints {
 
     // the number of line segments
     public int numberOfSegments() {
-        if (this.result != null) {
-            return this.result.length;
+        if (this.segments != null) {
+            return this.segments.length;
         } else {
             return this.segments().length;
         }
     }
 
     public LineSegment[] segments() {
-        if (this.result != null){
-            return this.result;
+        if (this.segments != null) {
+            return this.segments.clone();
         }
 
         final int L = this.points.length;
@@ -112,7 +60,7 @@ public class FastCollinearPoints {
             return new LineSegment[]{};
         }
 
-        final List<LineSegment> lineSegments = new ArrayList<>();
+//        Arrays.sort(this.points);
 
 
         for (int i = 0; i < L; ++i) {
@@ -140,7 +88,7 @@ public class FastCollinearPoints {
                 if (points.size() > 2) {
                     points.add(origin);
                     Collections.sort(points);
-                    lineSegments.add(new LineSegment(points.get(0), points.get(points.size() - 1)));
+                    this.addSegment(points.get(0), points.get(points.size() - 1));
                 }
 
                 slope = currentSlope;
@@ -152,12 +100,120 @@ public class FastCollinearPoints {
             if (points.size() > 2) {
                 points.add(origin);
                 Collections.sort(points);
-                lineSegments.add(new LineSegment(points.get(0), points.get(points.size() - 1)));
+                this.addSegment(points.get(0), points.get(points.size() - 1));
             }
         }
 
-        this.result = lineSegments.toArray(new LineSegment[lineSegments.size()]);
 
-        return this.result.clone();
+        this.segments = this.getSegments();
+
+        return this.segments.clone();
+    }
+
+    private void addSegment(Point first, Point last) {
+        if (this.auxSegments.isEmpty()) {
+            this.auxSegments.add(new Point[]{first, last});
+        } else {
+            double slope1 = first.slopeTo(last);
+            boolean isDuplicate = false;
+
+            for (Point[] points : this.auxSegments) {
+                double slope2 = points[0].slopeTo(points[1]);
+
+                if (slope1 == slope2) {
+                    if (points[0].slopeTo(first) == slope1 ||
+                            points[1].slopeTo(first) == slope1 ||
+                            points[0].slopeTo(last) == slope1 ||
+                            points[1].slopeTo(last) == slope1) {
+
+                        isDuplicate = true;
+
+                        Point[] newPoints = new Point[]{first, last, points[0], points[1]};
+                        Arrays.sort(newPoints);
+                        points[0] = newPoints[0];
+                        points[1] = newPoints[3];
+
+                        break;
+                    }
+                }
+            }
+
+            if (!isDuplicate) {
+                this.auxSegments.add(new Point[]{first, last});
+            }
+        }
+
+    }
+
+    private LineSegment[] getSegments() {
+        final List<LineSegment> lineSegments = new ArrayList<>();
+
+        for (Point[] points : this.auxSegments) {
+            lineSegments.add(new LineSegment(points[0], points[1]));
+        }
+
+        return lineSegments.toArray(new LineSegment[lineSegments.size()]);
+    }
+
+
+    public static void main(String[] args) {
+//        Point[] points = {
+//                new Point(19000, 10000),
+//                new Point(18000, 10000),
+//                new Point(32000, 10000),
+//                new Point(21000, 10000),
+//                new Point(1234, 5678),
+//                new Point(14000, 10000),
+//        };
+
+
+//        Point[] points = {
+//                new Point(1, 1),
+//                new Point(2, 2),
+//                new Point(3, 3),
+//                new Point(4, 4),
+//                new Point(5, 5),
+//                new Point(0, 5),
+//                new Point(1, 5),
+//                new Point(2, 5),
+//                new Point(3, 5),
+//                new Point(4, 5),
+//                new Point(5, 0),
+//                new Point(5, 1),
+//                new Point(5, 2),
+//                new Point(5, 3),
+//                new Point(5, 4)
+//        };
+
+        // read the n points from a file
+        In in = new In(args[0]);
+        int n = in.readInt();
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            points[i] = new Point(x, y);
+        }
+
+        System.out.println("@@@ number of points :" + points.length);
+
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+
+        // print and draw the line segments
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+
+        StdDraw.show();
     }
 }
