@@ -1,3 +1,5 @@
+package algorithm.assignment.week3;
+
 public class LineSegment {
     private final Point p;
     private final Point q;

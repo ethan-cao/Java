@@ -1,3 +1,5 @@
+package algorithm.assignment.week3;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
@@ -9,9 +11,9 @@ import java.util.Arrays;
 
 // http://coursera.cs.princeton.edu/algs4/assignments/collinear.html
 public class FastCollinearPoints {
+    private List<Point[]> segmentPoints = new ArrayList<>();
     private Point[] points;
     private LineSegment[] segments;
-    private List<Point[]> auxSegments = new ArrayList<>();
 
 
     // finds all line segments containing 4 or more points
@@ -60,9 +62,6 @@ public class FastCollinearPoints {
             return new LineSegment[]{};
         }
 
-//        Arrays.sort(this.points);
-
-
         for (int i = 0; i < L; ++i) {
             Point origin = this.points[i];
 
@@ -104,57 +103,45 @@ public class FastCollinearPoints {
             }
         }
 
+        this.segments = new LineSegment[this.segmentPoints.size()];
 
-        this.segments = this.getSegments();
+        for (int i = 0; i < this.segments.length; ++i) {
+            Point[] segmentPoint = this.segmentPoints.get(i);
+            this.segments[i] = new LineSegment(segmentPoint[0], segmentPoint[1]);
+        }
 
         return this.segments.clone();
     }
 
     private void addSegment(Point first, Point last) {
-        if (this.auxSegments.isEmpty()) {
-            this.auxSegments.add(new Point[]{first, last});
-        } else {
-            double slope1 = first.slopeTo(last);
-            boolean isDuplicate = false;
+        double slope1 = first.slopeTo(last);
+        boolean isDuplicate = false;
 
-            for (Point[] points : this.auxSegments) {
-                double slope2 = points[0].slopeTo(points[1]);
+        for (Point[] points : this.segmentPoints) {
+            double slope2 = points[0].slopeTo(points[1]);
 
-                if (slope1 == slope2) {
-                    if (points[0].slopeTo(first) == slope1 ||
-                            points[1].slopeTo(first) == slope1 ||
-                            points[0].slopeTo(last) == slope1 ||
-                            points[1].slopeTo(last) == slope1) {
+            if (slope1 == slope2) {
+                if (points[0].slopeTo(first) == slope1 ||
+                        points[1].slopeTo(first) == slope1 ||
+                        points[0].slopeTo(last) == slope1 ||
+                        points[1].slopeTo(last) == slope1) {
 
-                        isDuplicate = true;
+                    isDuplicate = true;
 
-                        Point[] newPoints = new Point[]{first, last, points[0], points[1]};
-                        Arrays.sort(newPoints);
-                        points[0] = newPoints[0];
-                        points[1] = newPoints[3];
+                    Point[] newPoints = new Point[]{first, last, points[0], points[1]};
+                    Arrays.sort(newPoints);
+                    points[0] = newPoints[0];
+                    points[1] = newPoints[3];
 
-                        break;
-                    }
+                    break;
                 }
             }
-
-            if (!isDuplicate) {
-                this.auxSegments.add(new Point[]{first, last});
-            }
         }
 
-    }
-
-    private LineSegment[] getSegments() {
-        final List<LineSegment> lineSegments = new ArrayList<>();
-
-        for (Point[] points : this.auxSegments) {
-            lineSegments.add(new LineSegment(points[0], points[1]));
+        if (!isDuplicate) {
+            this.segmentPoints.add(new Point[]{first, last});
         }
-
-        return lineSegments.toArray(new LineSegment[lineSegments.size()]);
     }
-
 
     public static void main(String[] args) {
 //        Point[] points = {
