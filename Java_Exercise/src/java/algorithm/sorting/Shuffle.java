@@ -1,11 +1,13 @@
 package algorithm.sorting;
 
+import edu.princeton.cs.algs4.In;
+
 import java.util.Arrays;
 import java.util.Random;
 
 public class Shuffle {
     public static void main(String[] args) {
-        int[] data = {1, 3, 8, 10, 17};
+        Integer[] data = {1, 3, 8, 10, 17};
 
         knuthShuffle(data);
 
@@ -13,7 +15,7 @@ public class Shuffle {
     }
 
     // linear time shuffling algorithm m
-    static void knuthShuffle(int[] array) {
+    public static void knuthShuffle(Object[] array) {
         int L = array.length;
 
         final int seed = 110;
@@ -22,7 +24,7 @@ public class Shuffle {
         for (int i = 1; i < L; ++i) {
             int j = random.nextInt(i);
 
-            int temp = array[i];
+            Object temp = array[i];
             array[i] = array[j];
             array[j] = temp;
         }
