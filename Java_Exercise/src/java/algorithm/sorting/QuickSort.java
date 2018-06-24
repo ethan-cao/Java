@@ -3,7 +3,7 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 public class QuickSort {
-    private static final int CUTOFF = 10;
+    private static final int CUTOFF = 5;
 
     public static void main(String[] args) {
         Integer[] data = {2, 4, 5, 3, 1};
@@ -22,9 +22,8 @@ public class QuickSort {
 
     private static void sort(Comparable[] array, int low, int high) {
         // optimization:  since there is more costs on small array, using insertion for small array sorting
-//        if (low + CUTOFF - 1 >= high) {
-//            InsertionSort.sort(array);
-        if (low >= high) {
+        if (low + CUTOFF - 1 >= high) {
+            InsertionSort.sort(array);
             return;
         }
 
