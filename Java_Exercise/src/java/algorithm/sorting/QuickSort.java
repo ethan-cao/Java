@@ -14,7 +14,7 @@ public class QuickSort {
 
 
         data = new Integer[]{2, 2, 3, 3, 1, 2, 3, 1, 2, 1, 2, 3, 2, 1, 3};
-        sortWith3Partition(data, 0, data.length);
+        sortWith3Partition(data, 0, data.length-1);
 
         System.out.println(Arrays.toString(data));
     }
@@ -83,24 +83,22 @@ public class QuickSort {
             return;
         }
 
-        int partitionKeyIndex = low;
+        Comparable partitionKey = array[low];
         int i = low; // Scan i from left to right.
         int lessThan = low;
         int greaterThan = high;
 
         while (i <= greaterThan) {
-            i++;
-
-            if (array[i].compareTo(array[partitionKeyIndex]) < 0) {
-                exchange(array, i, partitionKeyIndex);
+            if (array[i].compareTo(partitionKey) < 0) {
+                exchange(array, i, lessThan);
+                i++;
                 lessThan++;
-            } else if (array[i].compareTo(array[partitionKeyIndex]) > 0) {
+            } else if (array[i].compareTo(partitionKey) > 0) {
                 exchange(array, i, greaterThan);
                 greaterThan--;
             } else {
-                lessThan++;
+                i++;
             }
-
         }
 
         sortWith3Partition(array, low, lessThan - 1);
@@ -117,4 +115,3 @@ public class QuickSort {
         array[index2] = temp;
     }
 }
-
