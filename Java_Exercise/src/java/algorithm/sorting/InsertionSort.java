@@ -8,17 +8,23 @@ import java.util.Arrays;
  */
 public class InsertionSort {
     public static void main(String[] args) {
-        int[] data = {2, 4, 5, 3, 1};
-        int L = data.length;
+        Integer[] data = {2, 4, 5, 3, 1};
 
+        sort(data);
+
+        System.out.println(Arrays.toString(data));
+    }
+
+    public static void sort(Comparable[] data){
         // Assume left from i, everything is sorted, right part is un-sorted
+        int L = data.length;
         for (int i = 0; i < L; ++i) {
 
             // put the smallest number to the left most
             for (int j = i; j > 0; --j) {
 
-                if (data[j - 1] > data[j]) {
-                    int temp = data[j - 1];
+                if (data[j - 1].compareTo(data[j]) > 0 ) {
+                    Comparable temp = data[j - 1];
                     data[j - 1] = data[j];
                     data[j] = temp;
                 } else {
@@ -27,6 +33,5 @@ public class InsertionSort {
             }
         }
 
-        System.out.println(Arrays.toString(data));
     }
 }
