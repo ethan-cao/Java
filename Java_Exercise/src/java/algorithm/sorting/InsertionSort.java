@@ -15,7 +15,7 @@ public class InsertionSort {
         System.out.println(Arrays.toString(data));
     }
 
-    public static void sort(Comparable[] data){
+    public static void sort(Comparable[] data) {
         // Assume left from i, everything is sorted, right part is un-sorted
         int L = data.length;
         for (int i = 0; i < L; ++i) {
@@ -23,7 +23,7 @@ public class InsertionSort {
             // put the smallest number to the left most
             for (int j = i; j > 0; --j) {
 
-                if (data[j - 1].compareTo(data[j]) > 0 ) {
+                if (data[j - 1].compareTo(data[j]) > 0) {
                     Comparable temp = data[j - 1];
                     data[j - 1] = data[j];
                     data[j] = temp;

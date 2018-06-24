@@ -24,6 +24,10 @@ public class Shuffle {
         for (int i = 1; i < L; ++i) {
             int j = random.nextInt(i);
 
+            if (i == j){
+                continue;
+            }
+
             Object temp = array[i];
             array[i] = array[j];
             array[j] = temp;
