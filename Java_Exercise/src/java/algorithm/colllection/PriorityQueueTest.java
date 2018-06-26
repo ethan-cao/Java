@@ -14,44 +14,76 @@ package algorithm.colllection;
  */
 public class PriorityQueueTest<Key extends Comparable<Key>> {
     private Key[] tree;
-    private int L;
+    private int size;
 
     public static void main(String[] args) {
-        PriorityQueueTest queue = new PriorityQueueTest();
+        PriorityQueueTest queue = new PriorityQueueTest(16);
     }
 
-    public PriorityQueueTest() {
-
-    }
-
-    public void insert(Key key) {
-
-    }
-
-    public Key deleteMax() {
-        return this.tree[1];
+    public PriorityQueueTest(int initialCapacity) {
+        this.tree = (Key[]) new Comparable[initialCapacity];
     }
 
     public boolean isEmpty() {
-        return this.L == 0;
+        return this.size() == 0;
     }
 
     public int size() {
-        return this.L;
+        return this.size;
     }
 
     public Key max() {
         return this.tree[1];
     }
 
+    public void insert(Key key) {
+        if (this.size() >= this.tree.length) {
+            return;
+        }
+
+        int newPosition = this.size() + 1;
+        this.tree[newPosition] = key;
+        this.swim(newPosition);
+    }
+
+    public Key deleteMax() {
+        Key max = max();
+
+        this.exchange(1, this.size());
+
+        this.tree[this.size()] = null;
+        this.size--;
+
+        this.sink(1);
+
+        return max;
+    }
+
     // move node that is larger than its parent to appropriate position
     private void swim(int k) {
-
+        int parentKey = k / 2;
+        while (k > 1 && this.tree[parentKey].compareTo(this.tree[k]) < 0) {
+            this.exchange(parentKey, k);
+            k = parentKey;
+            parentKey = k / 2;
+        }
     }
 
     // move node that is smaller than its children to appropriate position
     private void sink(int k) {
+        int leftChildKey = 2 * k;
+        int rightChildKey = leftChildKey++;
 
+        while (rightChildKey <= this.size()) {
+            int largerOne = this.tree[leftChildKey].compareTo(this.tree[rightChildKey]) > 0 ? leftChildKey : rightChildKey;
+
+            if (this.tree[largerOne].compareTo(this.tree[rightChildKey]) > 0) {
+                this.exchange(largerOne, k);
+                k = largerOne;
+                leftChildKey = 2 * k;
+                rightChildKey = leftChildKey++;
+            }
+        }
     }
 
     private void exchange(int i, int j) {
