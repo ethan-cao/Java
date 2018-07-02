@@ -1,19 +1,19 @@
 package algorithm.colllection;
 
 /**
- * Remove the largest or smallest item
- * <p>
- * Heap-ordered binary tree:
- * Parent's key no smaller than children's keys (heap-ordered)
- * <p>
+ * collection, whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
+ *
+ * this priorityQueue is using Binary heap for implementation
+ *
  * Binary heap: Array representation of heap-ordered complete binary tree.
  * 1) leave a[0] empty, since it will be easy to calculate
  * 2) Largest key is a[1], the root
  * 3) Parent of node at k is at k/2.
  * 4) Children of node at k are at 2k and 2k+1.
+ * 5) Heap-ordered : Parent's key no smaller than children's keys
  */
 public class PriorityQueueTest<Key extends Comparable<Key>> {
-    private Key[] tree;
+    private final Key[] tree;  // TODO use resizing array,  Key should immutable
     private int size;
 
     public static void main(String[] args) {
@@ -33,6 +33,10 @@ public class PriorityQueueTest<Key extends Comparable<Key>> {
     }
 
     public Key max() {
+        if (this.isEmpty()) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
         return this.tree[1];
     }
 
