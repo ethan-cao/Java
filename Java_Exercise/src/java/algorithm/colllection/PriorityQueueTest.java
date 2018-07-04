@@ -2,9 +2,9 @@ package algorithm.colllection;
 
 /**
  * collection, whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
- *
+ * <p>
  * this priorityQueue is using Binary heap for implementation
- *
+ * <p>
  * Binary heap: Array representation of heap-ordered complete binary tree.
  * 1) leave a[0] empty, since it will be easy to calculate
  * 2) Largest key is a[1], the root
@@ -76,16 +76,19 @@ public class PriorityQueueTest<Key extends Comparable<Key>> {
     // move node that is smaller than its children to appropriate position
     private void sink(int k) {
         int leftChildKey = 2 * k;
-        int rightChildKey = leftChildKey++;
+        int rightChildKey = leftChildKey + 1;
 
         while (rightChildKey <= this.size()) {
             int largerOne = this.tree[leftChildKey].compareTo(this.tree[rightChildKey]) > 0 ? leftChildKey : rightChildKey;
 
-            if (this.tree[largerOne].compareTo(this.tree[rightChildKey]) > 0) {
+            if (this.tree[largerOne].compareTo(this.tree[k]) > 0) {
                 this.exchange(largerOne, k);
                 k = largerOne;
+
                 leftChildKey = 2 * k;
-                rightChildKey = leftChildKey++;
+                rightChildKey = leftChildKey + 1;
+            } else {
+                break;
             }
         }
     }
