@@ -11,6 +11,7 @@ public class ArrayListTest {
 	}
 	
 	static void test1(){
+		//index starts from 0
 		List<Integer> al = new ArrayList<> (3);
 
 		al.get(0); // this causes runtime exception IndexOutOfBoundsException
@@ -49,7 +50,6 @@ public class ArrayListTest {
 	    y++;                             // unwrap it, increment it,
 	                                     // rewrap it
 	    System.out.println("y = " + y);  // print it
-		
 	}
 
 	static void stackTest(){
