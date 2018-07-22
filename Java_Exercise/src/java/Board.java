@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Board {
     private int emptyBlockI;
@@ -10,8 +7,6 @@ public class Board {
 
     private final int[][] blocks;    // blocks[i][j] = block in row i, column j
     private int move = 0;
-    private int hammingPriority;
-    private int manhattanPriority;
 
     public static void main(String[] args) {
         int n = 3;
@@ -37,8 +32,8 @@ public class Board {
                 this.blocks[i][j] = blocks[i][j];
 
                 if (this.blocks[i][j] == 0) {
-                    emptyBlockI = i;
-                    emptyBlockJ = j;
+                    this.emptyBlockI = i;
+                    this.emptyBlockJ = j;
                 }
             }
         }
@@ -46,7 +41,7 @@ public class Board {
         this.goalBlocks = new int[N][N];
         for (int i = 0; i < N; ++i) {
             for (int j = 0; j < N; ++j) {
-                this.goalBlocks[i][j] = 1 + i + j;
+                this.goalBlocks[i][j] = 1 + i * N + j;
             }
         }
         this.goalBlocks[N - 1][N - 1] = 0;
@@ -58,7 +53,7 @@ public class Board {
     }
 
     /**
-     * Hamming priority function
+     * Hamming function
      *
      * @return The number of blocks in the wrong position, plus the number of moves made so far to
      * get to the search node
@@ -78,7 +73,7 @@ public class Board {
     }
 
     /**
-     * Manhattan priority function
+     * Manhattan distance function
      *
      * @return The sum of the Manhattan distances (sum of the vertical and horizontal distance)
      * from the blocks to their goal positions, plus the number of moves made so far to
@@ -92,7 +87,7 @@ public class Board {
             for (int j = 0; j < N; ++j) {
 
                 int value = this.blocks[i][j];
-                if (value != this.goalBlocks[i][j]) {
+                if (value != 0 && value != this.goalBlocks[i][j]) {
                     int goalI = value / N;
                     int goalJ = value % N - 1;
 
@@ -106,17 +101,36 @@ public class Board {
 
     // is this board the goal board (sorted)
     public boolean isGoal() {
-        return this.equals(this.goalBlocks);
+        boolean isGoal = true;
+        int N = this.dimension();
+
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < N; ++j) {
+                if (this.blocks[i][j] != this.goalBlocks[i][j]){
+                    isGoal = false;
+                    break;
+                }
+            }
+        }
+
+        return isGoal;
     }
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
         int N = this.dimension();
         Board twin = null;
+        Random random = new Random();
 
-        for (int i = 1; i < N; ++i) {
-            if (this.blocks[0][0] * this.blocks[0][i] != 0) {
-                twin = this.swap(0, 0, 0, i);
+        while (true) {
+            int i1 = random.nextInt(N);
+            int j1 = random.nextInt(N);
+            int i2 = random.nextInt(N);
+            int j2 = random.nextInt(N);
+
+            if (this.blocks[i1][j1] * this.blocks[i1][j2] != 0) {
+                twin = this.swap(i1, j1, i2, j2);
+                break;
             }
         }
 
@@ -160,6 +174,15 @@ public class Board {
         newBoard.blocks[I1][J1] = newBoard.blocks[I2][J2];
         newBoard.blocks[I2][J2] = temp;
 
+        if (newBoard.blocks[I1][J1] == 0) {
+            newBoard.emptyBlockI = I1;
+            newBoard.emptyBlockJ = J1;
+        }
+        if (newBoard.blocks[I2][J2] == 0) {
+            newBoard.emptyBlockI = I2;
+            newBoard.emptyBlockJ = J2;
+        }
+
         return newBoard;
     }
 
@@ -173,29 +196,30 @@ public class Board {
         private List<Board> neighbors = new ArrayList<>();
 
         private Neighbors(Board board) {
-            if (board.dimension() <= 0) {
+            int N = board.dimension();
+            if (N <= 1) {
                 return;
             }
 
             int neighborI = board.emptyBlockI - 1;
             int neighborJ = board.emptyBlockJ;
-            if (neighborI >= 0 && neighborI < board.dimension()) {
+            if (neighborI >= 0 && neighborI < N) {
                 this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborI = board.emptyBlockI + 1;
-            if (neighborI >= 0 && neighborI < board.dimension()) {
+            if (neighborI >= 0 && neighborI < N) {
                 this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborI = board.emptyBlockI;
             neighborJ = board.emptyBlockJ - 1;
-            if (neighborJ >= 0 && neighborJ < board.dimension()) {
+            if (neighborJ >= 0 && neighborJ < N) {
                 this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborJ = board.emptyBlockJ + 1;
-            if (neighborJ >= 0 && neighborJ < board.dimension()) {
+            if (neighborJ >= 0 && neighborJ < N) {
                 this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
         }
@@ -235,7 +259,7 @@ public class Board {
 
         for (int i = 0; i < N; ++i) {
             for (int j = 0; j < N; ++j) {
-                   sb.append(" " + this.blocks[i][j]);
+                sb.append(" " + this.blocks[i][j]);
             }
             sb.append("\n");
         }

@@ -3,7 +3,6 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Solver {
@@ -11,7 +10,7 @@ public class Solver {
     private int moves;
     final private List<Board> solutions = new ArrayList<>();
 
-    private class SearchNode {
+    private class SearchNode implements Comparable<SearchNode> {
         final private Board board;
         final private int move;
         final private SearchNode predecessor;
@@ -23,26 +22,40 @@ public class Solver {
             this.move = move;
             this.priority = board.manhattan() + move;
         }
+
+        @Override
+        public int compareTo(SearchNode searchNode) {
+            if (this.priority == searchNode.priority) {
+                return 0;
+            } else if (this.priority > searchNode.priority) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 
     public static void main(String[] args) {
-        In in = new In(args[0]);
+//        In in = new In(args[0]);
 
 //        int n = in.readInt();
         int n = 3;
         int[][] blocks = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                blocks[i][j] = in.readInt();
-            }
-        }
+//
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                blocks[i][j] = in.readInt();
+//            }
+//        }
 
         /*
             0  1  3
             4  2  5
             7  8  6
         */
+
+//        blocks[0] = new int[]{0, 1};
+//        blocks[1] = new int[]{3, 2};
 
         blocks[0] = new int[]{0, 1, 3};
         blocks[1] = new int[]{4, 2, 5};
@@ -80,13 +93,14 @@ public class Solver {
 
                 if (minNode.board.isGoal()) {
                     this.isSolvable = true;
+                    this.moves = minNode.move;
                     break;
                 }
 
                 for (Board board : minNode.board.neighbors()) {
                     SearchNode neighbor = new SearchNode(board, minNode, minNode.move + 1);
                     // don't enqueue a neighbor if its board is the same as the board of the predecessor search node.
-                    if (!neighbor.equals(minNode.board)) {
+                    if (!neighbor.board.equals(minNode.board)) {
                         searchNodes.insert(neighbor);
                     }
                 }
@@ -106,6 +120,10 @@ public class Solver {
 
     // min number of moves to solve initial board; -1 if unsolvable
     public int moves() {
+        if (!this.isSolvable) {
+            return -1;
+        }
+
         return this.moves;
     }
 
