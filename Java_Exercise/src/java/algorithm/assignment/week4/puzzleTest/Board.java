@@ -1,24 +1,12 @@
+package algorithm.assignment.week4.puzzleTest;
+
 import java.util.*;
 
 public class Board {
     private int emptyBlockI;
     private int emptyBlockJ;
     private final int[][] goalBlocks;
-
     private final int[][] blocks;    // blocks[i][j] = block in row i, column j
-    private int move = 0;
-
-    public static void main(String[] args) {
-        int n = 3;
-        int[][] blocks = new int[n][n];
-        blocks[0] = new int[]{0, 1, 3};
-        blocks[1] = new int[]{4, 2, 5};
-        blocks[2] = new int[]{7, 8, 6};
-
-        Board initial = new Board(blocks);
-
-        System.out.print(initial);
-    }
 
     // constructor receives an n-by-n (2 ≤ n < 128) array containing the n^2 integers between 0 and n^2 − 1,
     // where 0 represents the blank square
@@ -54,33 +42,36 @@ public class Board {
 
     /**
      * Hamming function
+     * heuristics
      *
      * @return The number of blocks in the wrong position, plus the number of moves made so far to
      * get to the search node
      */
     public int hamming() {
-        int numberOfWrongDistance = 0;
+        int numberOfWrongPosition = 0;
 
         for (int i = 0; i < this.dimension(); ++i) {
             for (int j = 0; j < this.dimension(); ++j) {
-                if (this.blocks[i][j] != this.goalBlocks[i][j]) {
-                    numberOfWrongDistance++;
+                int value = this.blocks[i][j];
+                if (value != 0 && value != this.goalBlocks[i][j]) {
+                    numberOfWrongPosition++;
                 }
             }
         }
 
-        return numberOfWrongDistance;
+        return numberOfWrongPosition;
     }
 
     /**
      * Manhattan distance function
+     * heuristics
      *
      * @return The sum of the Manhattan distances (sum of the vertical and horizontal distance)
      * from the blocks to their goal positions, plus the number of moves made so far to
      * get to the search node.
      */
     public int manhattan() {
-        int distance = this.move;
+        int distance = 0;
         final int N = this.dimension();
 
         for (int i = 0; i < N; ++i) {
@@ -99,21 +90,9 @@ public class Board {
         return distance;
     }
 
-    // is this board the goal board (sorted)
+    // is this board the goal board
     public boolean isGoal() {
-        boolean isGoal = true;
-        int N = this.dimension();
-
-        for (int i = 0; i < N; ++i) {
-            for (int j = 0; j < N; ++j) {
-                if (this.blocks[i][j] != this.goalBlocks[i][j]){
-                    isGoal = false;
-                    break;
-                }
-            }
-        }
-
-        return isGoal;
+        return this.manhattan() == 0;
     }
 
     // a board that is obtained by exchanging any pair of blocks
@@ -128,11 +107,17 @@ public class Board {
             int i2 = random.nextInt(N);
             int j2 = random.nextInt(N);
 
-            if (this.blocks[i1][j1] * this.blocks[i1][j2] != 0) {
+            if (this.blocks[i1][j1] * this.blocks[i2][j2] != 0) {
+                System.out.println(" " + i1 + j2 + i2 + j2);
+                System.out.println(" 1 : " + this.blocks[i1][j1] + " 2: " + this.blocks[i2][j2]);
+                System.out.println(" * " + this.blocks[i1][j1] * this.blocks[i2][j2]);
                 twin = this.swap(i1, j1, i2, j2);
                 break;
             }
         }
+
+        System.out.println("@@@ twin : " );
+        System.out.println(twin);
 
         return twin;
     }
@@ -192,8 +177,8 @@ public class Board {
     }
 
     private class Neighbors implements Iterable<Board> {
-        private int current = -1;
-        private List<Board> neighbors = new ArrayList<>();
+//        private int current = -1;
+        final private Queue<Board> neighbors = new ArrayDeque<>();
 
         private Neighbors(Board board) {
             int N = board.dimension();
@@ -204,23 +189,23 @@ public class Board {
             int neighborI = board.emptyBlockI - 1;
             int neighborJ = board.emptyBlockJ;
             if (neighborI >= 0 && neighborI < N) {
-                this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
+                this.neighbors.offer(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborI = board.emptyBlockI + 1;
             if (neighborI >= 0 && neighborI < N) {
-                this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
+                this.neighbors.offer(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborI = board.emptyBlockI;
             neighborJ = board.emptyBlockJ - 1;
             if (neighborJ >= 0 && neighborJ < N) {
-                this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
+                this.neighbors.offer(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
 
             neighborJ = board.emptyBlockJ + 1;
             if (neighborJ >= 0 && neighborJ < N) {
-                this.neighbors.add(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
+                this.neighbors.offer(board.swap(board.emptyBlockI, board.emptyBlockJ, neighborI, neighborJ));
             }
         }
 
@@ -229,14 +214,16 @@ public class Board {
             return new Iterator<Board>() {
                 @Override
                 public boolean hasNext() {
-                    return !Neighbors.this.neighbors.isEmpty() &&
-                            Neighbors.this.current < Neighbors.this.neighbors.size() - 1;
+                    return !Neighbors.this.neighbors.isEmpty();
+//                    return !Neighbors.this.neighbors.isEmpty() &&
+//                            Neighbors.this.current < Neighbors.this.neighbors.size() - 1;
                 }
 
                 @Override
                 public Board next() {
                     if (this.hasNext()) {
-                        return Neighbors.this.neighbors.get(++Neighbors.this.current);
+//                        return Neighbors.this.neighbors.get(++Neighbors.this.current);
+                        return Neighbors.this.neighbors.remove();
                     } else {
                         throw new NoSuchElementException();
                     }

@@ -1,3 +1,5 @@
+package algorithm.assignment.week4.puzzleTest;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
@@ -37,11 +39,11 @@ public class Solver {
 
     public static void main(String[] args) {
 //        In in = new In(args[0]);
-
 //        int n = in.readInt();
-        int n = 3;
+
+        int n = 2;
         int[][] blocks = new int[n][n];
-//
+
 //        for (int i = 0; i < n; i++) {
 //            for (int j = 0; j < n; j++) {
 //                blocks[i][j] = in.readInt();
@@ -54,12 +56,12 @@ public class Solver {
             7  8  6
         */
 
-//        blocks[0] = new int[]{0, 1};
-//        blocks[1] = new int[]{3, 2};
+        blocks[0] = new int[]{1, 0};
+        blocks[1] = new int[]{3, 2};
 
-        blocks[0] = new int[]{0, 1, 3};
-        blocks[1] = new int[]{4, 2, 5};
-        blocks[2] = new int[]{7, 8, 6};
+//        blocks[0] = new int[]{0, 1, 3};
+//        blocks[1] = new int[]{4, 2, 5};
+//        blocks[2] = new int[]{7, 8, 6};
 
         Board initial = new Board(blocks);
         Solver solver = new Solver(initial);
@@ -94,6 +96,11 @@ public class Solver {
                 if (minNode.board.isGoal()) {
                     this.isSolvable = true;
                     this.moves = minNode.move;
+                    break;
+                }
+
+                if ( minNode.board.twin().isGoal()) {
+                    this.isSolvable = false;
                     break;
                 }
 
