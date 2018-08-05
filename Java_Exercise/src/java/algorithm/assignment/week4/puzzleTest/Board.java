@@ -8,6 +8,15 @@ public class Board {
     private final int[][] goalBlocks;
     private final int[][] blocks;    // blocks[i][j] = block in row i, column j
 
+    public static void main(String[] args){
+        int n = 2;
+        int[][] blocks = new int[n][n];
+        blocks[0] = new int[]{0, 2};
+        blocks[1] = new int[]{1, 3};
+
+        System.out.println(new Board(blocks).manhattan());
+    }
+
     // constructor receives an n-by-n (2 ≤ n < 128) array containing the n^2 integers between 0 and n^2 − 1,
     // where 0 represents the blank square
     public Board(int[][] blocks) {
@@ -79,10 +88,12 @@ public class Board {
 
                 int value = this.blocks[i][j];
                 if (value != 0 && value != this.goalBlocks[i][j]) {
-                    int goalI = value / N;
-                    int goalJ = value % N - 1;
 
-                    distance += Math.abs((goalI + goalJ) - (i + j));
+                    // a[i, j] = N * i + j + 1
+                    int goalI = (value -1) / N;
+                    int goalJ = (value -1) % N;
+
+                    distance += Math.abs(goalI - i ) + Math.abs(goalJ - j);
                 }
             }
         }
@@ -108,16 +119,10 @@ public class Board {
             int j2 = random.nextInt(N);
 
             if (this.blocks[i1][j1] * this.blocks[i2][j2] != 0) {
-                System.out.println(" " + i1 + j2 + i2 + j2);
-                System.out.println(" 1 : " + this.blocks[i1][j1] + " 2: " + this.blocks[i2][j2]);
-                System.out.println(" * " + this.blocks[i1][j1] * this.blocks[i2][j2]);
                 twin = this.swap(i1, j1, i2, j2);
                 break;
             }
         }
-
-        System.out.println("@@@ twin : " );
-        System.out.println(twin);
 
         return twin;
     }

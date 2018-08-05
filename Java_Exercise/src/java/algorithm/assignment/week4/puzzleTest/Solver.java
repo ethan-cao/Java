@@ -38,17 +38,18 @@ public class Solver {
     }
 
     public static void main(String[] args) {
-//        In in = new In(args[0]);
-//        int n = in.readInt();
+        In in = new In(args[0]);
+        int n = in.readInt();
 
-        int n = 2;
+//        int n = 2;
+
         int[][] blocks = new int[n][n];
 
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                blocks[i][j] = in.readInt();
-//            }
-//        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                blocks[i][j] = in.readInt();
+            }
+        }
 
         /*
             0  1  3
@@ -56,8 +57,8 @@ public class Solver {
             7  8  6
         */
 
-        blocks[0] = new int[]{1, 0};
-        blocks[1] = new int[]{3, 2};
+//        blocks[0] = new int[]{2, 0};
+//        blocks[1] = new int[]{1, 3};
 
 //        blocks[0] = new int[]{0, 1, 3};
 //        blocks[1] = new int[]{4, 2, 5};
@@ -68,10 +69,10 @@ public class Solver {
 
         if (solver.isSolvable()) {
             StdOut.println("Minimum number of moves = " + solver.moves());
-
             for (Board board : solver.solution()) {
                 StdOut.println(board);
             }
+            StdOut.println("Minimum number of moves = " + solver.moves());
         } else {
             StdOut.println("No solution possible");
         }
