@@ -44,7 +44,7 @@ final public class Board {
         for (int i = 0; i < this.dimension(); ++i) {
             for (int j = 0; j < this.dimension(); ++j) {
                 int value = this.blocks[i][j];
-                if (value != 0 && value != this.getGoalValue(i, j) ){
+                if (value != 0 && value != this.getGoalValue(i, j)) {
                     numberOfWrongPosition++;
                 }
             }
@@ -58,8 +58,7 @@ final public class Board {
      * heuristics
      *
      * @return The sum of the Manhattan distances (sum of the vertical and horizontal distance)
-     * from the blocks to their goal positions, plus the number of moves made so far to
-     * get to the search node.
+     * from the blocks to their goal positions
      */
     public int manhattan() {
         int distance = 0;
@@ -69,8 +68,7 @@ final public class Board {
             for (int j = 0; j < N; ++j) {
 
                 int value = this.blocks[i][j];
-                if (value != 0 && value != this.getGoalValue(i, j)) {
-
+                if (value != 0) {
                     // a[i, j] = N * i + j + 1
                     int goalI = (value - 1) / N;
                     int goalJ = (value - 1) % N;

@@ -20,6 +20,7 @@ final public class Solver {
             this.board = board;
             this.predecessor = predecessor;
             this.move = move;
+            // priority is manhattan distance plus the number of moves made so far to get to the search node.
             this.priority = board.manhattan() + move;
         }
 
@@ -46,6 +47,7 @@ final public class Solver {
             SearchNode initialNode = new SearchNode(initial, null, 0);
             MinPQ<SearchNode> searchNodes = new MinPQ<>();
             searchNodes.insert(initialNode);
+
 
             while (true) {
                 SearchNode minNode = searchNodes.delMin();
@@ -127,15 +129,17 @@ final public class Solver {
         Board initial = new Board(blocks);
         Solver solver = new Solver(initial);
 
-        if (solver.isSolvable()) {
-            StdOut.println("Minimum number of moves = " + solver.moves());
-            StdOut.println("");
 
-            for (Board board : solver.solution()) {
+        // print solution to standard output
+        if (!solver.isSolvable())
+            StdOut.println("No solution possible");
+        else {
+            StdOut.println("Minimum number of moves = " + solver.moves());
+            for (Board board : solver.solution()){
                 StdOut.println(board);
             }
-        } else {
-            StdOut.println("No solution possible");
         }
+
+        System.out.println(solver.moves());
     }
 }
