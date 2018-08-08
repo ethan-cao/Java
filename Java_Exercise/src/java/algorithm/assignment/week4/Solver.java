@@ -1,14 +1,16 @@
+package algorithm.assignment.week4;
+
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.MinPQ;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 final public class Solver {
     private final boolean isSolvable;
     private int moves;
-    private final List<Board> solutions = new LinkedList<>();
+    private SearchNode goal;
 
     private static class SearchNode implements Comparable<SearchNode> {
         private final Board board;
@@ -20,19 +22,20 @@ final public class Solver {
             this.board = board;
             this.predecessor = predecessor;
             this.move = move;
-            // priority is manhattan distance plus the number of moves made so far to get to the search node.
-            this.priority = board.manhattan() + move;
+            this.priority = board.manhattan() + move; //manhattan distance plus the number of moves made so far to get to the search node.
         }
 
         @Override
         public int compareTo(SearchNode searchNode) {
-            if (this.priority == searchNode.priority) {
-                return 0;
-            } else if (this.priority > searchNode.priority) {
+            if (this.priority > searchNode.priority) {
                 return 1;
-            } else {
+            }
+
+            if (this.priority < searchNode.priority) {
                 return -1;
             }
+
+            return 0;
         }
     }
 
@@ -44,24 +47,24 @@ final public class Solver {
         if (initial.twin().isGoal()) {
             this.isSolvable = false;
         } else {
-            SearchNode initialNode = new SearchNode(initial, null, 0);
             MinPQ<SearchNode> searchNodes = new MinPQ<>();
+            SearchNode initialNode = new SearchNode(initial, null, 0);
             searchNodes.insert(initialNode);
-
 
             while (true) {
                 SearchNode minNode = searchNodes.delMin();
-                searchNodes = new MinPQ<>();
-                this.solutions.add(minNode.board);
+                // no need to clean searchNodes
 
                 if (minNode.board.isGoal()) {
                     this.isSolvable = true;
                     this.moves = minNode.move;
+                    this.goal = minNode;
                     break;
                 }
 
                 if (minNode.board.twin().isGoal()) {
                     this.isSolvable = false;
+                    this.moves = -1;
                     break;
                 }
 
@@ -69,12 +72,12 @@ final public class Solver {
                     SearchNode neighbor = new SearchNode(board, minNode, minNode.move + 1);
 
                     // don't enqueue a neighbor if its board is the same as the board of the predecessor search node.
+                    if (minNode.predecessor != null && !board.equals(minNode.predecessor.board)) {
+                        searchNodes.insert(neighbor);
+                    }
+
                     if (minNode.predecessor == null) {
                         searchNodes.insert(neighbor);
-                    } else {
-                        if (!neighbor.board.equals(minNode.predecessor.board)) {
-                            searchNodes.insert(neighbor);
-                        }
                     }
                 }
             }
@@ -92,10 +95,6 @@ final public class Solver {
 
     // min number of moves to solve initial board; -1 if unsolvable
     public int moves() {
-        if (!this.isSolvable) {
-            return -1;
-        }
-
         return this.moves;
     }
 
@@ -105,41 +104,52 @@ final public class Solver {
             return null;
         }
 
-        return this.solutions;
-    }
+        Deque<Board> solution = new ArrayDeque<>();
+        SearchNode node = this.goal;
 
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        int n = in.readInt();
+        while (true){
+            solution.push(node.board);
+            node = node.predecessor;
 
-//        int n = 3;
-
-        int[][] blocks = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                blocks[i][j] = in.readInt();
+            if (node == null){
+                break;
             }
         }
 
-//        blocks[0] = new int[]{1, 2, 3};
-//        blocks[1] = new int[]{0, 7, 6};
-//        blocks[2] = new int[]{5, 4, 8};
+        return solution;
+    }
+
+    public static void main(String[] args) {
+//        In in = new In(args[0]);
+//        int n = in.readInt();
+
+        int n = 3;
+
+        int[][] blocks = new int[n][n];
+
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                blocks[i][j] = in.readInt();
+//            }
+//        }
+
+        blocks[0] = new int[]{1, 0, 2};
+        blocks[1] = new int[]{7, 5, 4};
+        blocks[2] = new int[]{8, 6, 3};
 
         Board initial = new Board(blocks);
         Solver solver = new Solver(initial);
 
+//        System.out.println("--------------------");
 
-        // print solution to standard output
-        if (!solver.isSolvable())
+        if (!solver.isSolvable()) {
             StdOut.println("No solution possible");
-        else {
+        } else {
             StdOut.println("Minimum number of moves = " + solver.moves());
-            for (Board board : solver.solution()){
+            for (Board board : solver.solution()) {
                 StdOut.println(board);
             }
         }
 
-        System.out.println(solver.moves());
     }
 }
