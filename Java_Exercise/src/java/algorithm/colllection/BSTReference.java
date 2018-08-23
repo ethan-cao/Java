@@ -1,6 +1,8 @@
-package algorithm.colllection; /******************************************************************************
- *  Compilation:  javac BSTTest.java
- *  Execution:    java BSTTest
+package algorithm.colllection;
+
+/******************************************************************************
+ *  Compilation:  javac BSTReference.java
+ *  Execution:    java BSTReference
  *  Dependencies: StdIn.java StdOut.java Queue.java
  *  Data files:   https://algs4.cs.princeton.edu/32bst/tinyST.txt  
  *
@@ -9,7 +11,7 @@ package algorithm.colllection; /************************************************
  *  % more tinyST.txt
  *  S E A R C H E X A M P L E
  *
- *  % java BSTTest < tinyST.txt
+ *  % java BSTReference < tinyST.txt
  *  A 8
  *  C 4
  *  E 12
@@ -20,14 +22,12 @@ package algorithm.colllection; /************************************************
  *  R 3
  *  S 0
  *  X 7
- *
  ******************************************************************************/
-
 
 import java.util.NoSuchElementException;
 
-public class BSTTest<Key extends Comparable<Key>, Value> {
-    private Node root;             // root of BSTTest
+public class BSTReference<Key extends Comparable<Key>, Value> {
+    private Node root;             // root of BSTReference
 
     private class Node {
         private Key key;           // sorted by key
@@ -45,7 +45,7 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
     /**
      * Initializes an empty symbol table.
      */
-    public BSTTest() {
+    public BSTReference() {
     }
 
     /**
@@ -66,7 +66,7 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
         return size(root);
     }
 
-    // return number of key-value pairs in BSTTest rooted at x
+    // return number of key-value pairs in BSTReference rooted at x
     private int size(Node x) {
         if (x == null) return 0;
         else return x.size;
@@ -414,9 +414,9 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * Returns the height of the BSTTest (for debugging).
+     * Returns the height of the BSTReference (for debugging).
      *
-     * @return the height of the BSTTest (a 1-node tree has height 0)
+     * @return the height of the BSTReference (a 1-node tree has height 0)
      */
     public int height() {
         return height(root);
@@ -428,9 +428,9 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * Returns the keys in the BSTTest in level order (for debugging).
+     * Returns the keys in the BSTReference in level order (for debugging).
      *
-     * @return the keys in the BSTTest in level order traversal
+     * @return the keys in the BSTReference in level order traversal
      */
 //    public Iterable<Key> levelOrder() {
 //        Queue<Key> keys = new Queue<Key>();
@@ -447,7 +447,7 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
 //    }
 
     /*************************************************************************
-     *  Check integrity of BSTTest data structure.
+     *  Check integrity of BSTReference data structure.
      ***************************************************************************/
     private boolean check() {
         return true;
@@ -463,7 +463,7 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
         return isBST(root, null, null);
     }
 
-    // is the tree rooted at x a BSTTest with all keys strictly between min and max
+    // is the tree rooted at x a BSTReference with all keys strictly between min and max
     // (if min or max is null, treat as empty constraint)
     // Credit: Bob Dondero's elegant solution
     private boolean isBST(Node x, Key min, Key max) {
@@ -495,12 +495,12 @@ public class BSTTest<Key extends Comparable<Key>, Value> {
 
 
     /**
-     * Unit tests the {@code BSTTest} data type.
+     * Unit tests the {@code BSTReference} data type.
      *
      * @param args the command-line arguments
      */
     public static void main(String[] args) {
-        BSTTest<Integer, String> st = new BSTTest<>();
+        BSTReference<Integer, String> st = new BSTReference<>();
         st.put(3, "C");
         st.put(1, "A");
         st.put(2, "B");

@@ -16,7 +16,8 @@ public class BST<Key extends Comparable, Value> {
     private class Node {
         private Key key;
         private Value value;
-        private Node left, right;
+        private Node left;
+        private Node right;
         private int size = 1; // number of nodes in this subtree
 
         Node(Key key, Value value) {
@@ -103,38 +104,50 @@ public class BST<Key extends Comparable, Value> {
     }
 
     /**
+     * Returns the smallest key in the symbol table.
+     */
+    public Key getMinKey() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return getMinNode(root).key;
+    }
+
+    /**
+     * Returns the smallest key in the subtree
+     */
+    private Node getMinNode(Node x) {
+        if (x.left == null) {
+            return x;
+        }
+
+        return getMinNode(x.left);
+    }
+
+    /**
      * Removes the smallest key and associated value from the symbol table.
      */
-    public void deleteMin() {
+    public void deleteMinNode() {
         if (this.isEmpty()) {
             return;
         }
 
-        this.deleteMin(this.root);
+        this.deleteMinNode(this.root);
     }
 
-    private Node deleteMin(Node node) {
+    /**
+     * Removes the smallest Node from the subtree
+     */
+    private Node deleteMinNode(Node node) {
         if (node.left == null) {
             return node.right;
         }
-        node.left = deleteMin(node.left);
+
+        node.left = deleteMinNode(node.left);
         node.size = size(node.left) + size(node.right) + 1;
 
         return node;
-    }
-
-    // Returns the smallest key in the symbol table.
-    public Key minKey() {
-        if (isEmpty()) {
-            return  null;
-        }
-
-        return getMin(root).key;
-    }
-
-    private Node getMin(Node x) {
-        if (x.left == null) return x;
-        else return getMin(x.left);
     }
 
     public void delete(Key key) {
@@ -145,29 +158,36 @@ public class BST<Key extends Comparable, Value> {
         this.delete(this.root, key);
     }
 
+    // return the updated subtree with the node removed
     private Node delete(Node node, Key key) {
+        if (node == null) {
+            return null;
+        }
+
         int cmp = node.key.compareTo(key);
 
-        if ( cmp > 0) {
-            this.delete(node.left, key);
-        } else if (cmp < 0 ){
-            this.delete(node.right, key);
+        if (cmp > 0) {
+            node.left = this.delete(node.left, key);
+        } else if (cmp < 0) {
+            node.right = this.delete(node.right, key);
         } else {
-            if (node.right == null){
+            if (node.right == null) {
                 return node.left;
             }
 
-            if (node.left == null){
+            if (node.left == null) {
                 return node.right;
             }
 
-            Node current = node;
-            node = this.getMin(current.right);
+            // use the smallest node in the right subtree to replace the removed node
+            Node current = node;  // need to reuse node variable outside else, so declare another one
+            node = this.getMinNode(current.right);
             node.left = current.left;
-            node.right = this.deleteMin(current.right);
+            node.right = this.deleteMinNode(current.right);
         }
 
         node.size = size(node.left) + size(node.right) + 1;
+
         return node;
     }
 
