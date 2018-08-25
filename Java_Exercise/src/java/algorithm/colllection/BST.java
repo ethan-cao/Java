@@ -44,7 +44,7 @@ public class BST<Key extends Comparable, Value> {
     }
 
     public boolean isEmpty() {
-        return this.root.size == 0;
+        return this.size() == 0;
     }
 
     public void put(Key key, Value value) {
@@ -90,13 +90,13 @@ public class BST<Key extends Comparable, Value> {
         while (current != null) {
             int cmp = current.key.compareTo(key);
 
-            if (cmp == 0) {
+            if (cmp  > 0) {
+                current = current.left;
+            } else if (cmp < 0) {
+                current = current.right;
+            } else {
                 value = current.value;
                 break;
-            } else if (cmp > 0) {
-                current = current.left;
-            } else {
-                current = current.right;
             }
         }
 

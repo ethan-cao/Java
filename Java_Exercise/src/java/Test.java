@@ -22,7 +22,7 @@ import static java.util.Locale.*;
 public class Test {
     public static void main(String[] args) {
 
-        System.out.println("CI-9".compareTo("CI-1"));
+        System.out.println(String.format("%20s %20s", "a", "b"));
 
     }
 }
