@@ -2,6 +2,11 @@ package algorithm.colllection;
 
 /**
  * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary search tree
+ * 2-3 tree: tree contains 2-3 node
+ * 2-3 nodes :  B-D
+ * / | \
+ * A  C  E
+ *
  * <p>
  * No node has two red links connected to it
  * Every path from root to null link has the same number of black links (perfect black balance, 2-3 tree are perfect balanced)
@@ -85,7 +90,22 @@ public class RedBlackBST<Key extends Comparable, Value> {
             node.value = value;
         }
 
-//        if (node.right)
+        // @see 10_Balanced_Search_Trees.pdf P32 for the following cases
+
+        // if lean right, rotate to lean left
+        if (this.isRed(node.right) && !this.isRed(node.left)) {
+            node = rotateLeft(node);
+        }
+
+        // if it is 3-4 node, rotate the right most one
+        if (this.isRed(node.left) && this.isRed(node.left.left)) {
+            node = rotateRight(node);
+        }
+
+        // if both left and right node are red, flip the color
+        if (this.isRed(node.left) && this.isRed(node.right)) {
+            this.flipColors(node);
+        }
 
         return node;
     }
@@ -108,7 +128,7 @@ public class RedBlackBST<Key extends Comparable, Value> {
         return right;
     }
 
-    // node.child.color is RED, rotateRight() makes node.color RED
+    // node.left.color is RED, rotateRight() makes node.color RED
     private Node rotateRight(Node node) {
         Node left = node.left;
 
@@ -128,5 +148,4 @@ public class RedBlackBST<Key extends Comparable, Value> {
         node.left.color = BLACK;
         node.right.color = BLACK;
     }
-
 }
