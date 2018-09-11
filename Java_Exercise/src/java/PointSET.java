@@ -58,12 +58,13 @@ public class PointSET {
 
         Set<Point2D> pointsInRange = new HashSet<>();
 
-        Point2D leftBottom = new Point2D(rect.xmin(), rect.ymin());
-        Point2D rightTop = new Point2D(rect.xmax(), rect.ymax());
+        double leftBottomX = rect.xmin();
+        double leftBottomY = rect.ymin();
+        double rightTopX = rect.xmax();
+        double rightTopY = rect.ymax();
 
         for (Point2D point : this.points) {
-
-            if (leftBottom.compareTo(point) <= 0 && rightTop.compareTo(point) >= 0) {
+            if (leftBottomX <= point.x() && leftBottomY <= point.y() && rightTopX >= point.x() && rightTopY >= point.y()) {
                 pointsInRange.add(point);
             }
         }

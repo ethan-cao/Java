@@ -13,7 +13,7 @@ import java.util.Deque;
  * Perfect example for recursion
  */
 
-public class BST<Key extends Comparable, Value> {
+public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
 
     private class Node {
@@ -217,6 +217,10 @@ public class BST<Key extends Comparable, Value> {
         return keys;
     }
 
+    /**
+     * All four traversals require O(n) time as they visit every node exactly once.
+     */
+
     private void inorder(Node node, Deque<Key> keys) {
         if (node == null) {
             return;
@@ -248,6 +252,5 @@ public class BST<Key extends Comparable, Value> {
     }
 
     private void BFS(Node node, Deque<Key> keys) {
-
     }
 }
