@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.*;
 
@@ -20,9 +19,8 @@ public class KdTree {
         private int size = 1;
         private int depth = 0;
 
-        private Node(T value, RectHV rect) {
+        private Node(T value) {
             this.value = value;
-            this.rect = rect;
         }
 
         private boolean isVerticalSplit() {
@@ -51,44 +49,57 @@ public class KdTree {
         this.root = this.insert(p, this.root, null);
     }
 
+    /**
+     * Insert point to subtree which has node as root, node's parent node is parentNode
+     *
+     * @return the updated subtree
+     */
     private Node<Point2D> insert(Point2D point, Node<Point2D> node, Node<Point2D> parentNode) {
-        RectHV rect;
-
-        if (parentNode == null) {
-            rect = new RectHV(0, 0, 1, 1);
-        } else {
-            RectHV parentRect = parentNode.rect;
-
-            if (node == parentNode.left) {
-                if (parentNode.isVerticalSplit()) {
-                    rect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentNode.value.x(), parentRect.ymax());
-                } else {
-                    rect = new RectHV(parentRect.xmin(), parentRect.ymin(),parentRect.xmax(), parentNode.value.y());
-                }
-            } else {
-                if (parentNode.isVerticalSplit()) {
-                    rect = new RectHV(parentNode.value.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
-                } else {
-                    rect = new RectHV(parentRect.xmin(), parentNode.value.y(), parentRect.xmax(), parentRect.ymax());
-                }
-            }
-        }
-
-        System.out.println("rect " + rect);
-
-
         if (node == null) {
-            Node<Point2D> newNode = new Node<>(point, rect);
-            newNode.depth = (parentNode == null) ? 0 : parentNode.depth + 1;
+            Node<Point2D> newNode = new Node<>(point);
+
+            if (parentNode == null) {
+                newNode.depth = 0;
+                newNode.rect = new RectHV(0, 0, 1, 1);
+            } else {
+                newNode.depth = parentNode.depth + 1;
+
+                RectHV rect;
+                RectHV parentRect = parentNode.rect;
+                int cmp = newNode.isVerticalSplit() ? Point2D.Y_ORDER.compare(point, parentNode.value) : Point2D.X_ORDER.compare(point, parentNode.value);
+
+                if (cmp < 0) {
+                    if (parentNode.isVerticalSplit()) {
+                        System.out.println("@@@ 1");
+                        rect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentNode.value.x(), parentRect.ymax());
+                    } else {
+                        System.out.println("@@@ 2");
+                        rect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentNode.value.y());
+                    }
+                } else {
+                    if (parentNode.isVerticalSplit()) {
+                        System.out.println("@@@ 3");
+                        rect = new RectHV(parentNode.value.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
+                    } else {
+                        System.out.println("@@@ 4");
+                        rect = new RectHV(parentRect.xmin(), parentNode.value.y(), parentRect.xmax(), parentRect.ymax());
+                    }
+                }
+
+                System.out.println("rect " + rect);
+
+                newNode.rect = rect;
+            }
+
+            System.out.println("Add point : " + point + " depth : " + newNode.depth);
             return newNode;
         }
 
         int cmp = node.isVerticalSplit() ? Point2D.X_ORDER.compare(point, node.value) : Point2D.Y_ORDER.compare(point, node.value);
-
-        if (cmp >= 0) {
-            node.right = this.insert(point, node.right, node);
-        } else {
+        if (cmp < 0) {
             node.left = this.insert(point, node.left, node);
+        } else {
+            node.right = this.insert(point, node.right, node);
         }
 
         node.size = this.size(node);
@@ -143,8 +154,8 @@ public class KdTree {
             double y2 = node.rect.ymax();
             StdDraw.line(x, y1, x, y2);
 
-            System.out.println("vertical");
-            System.out.println("x : " + x + "  y1 : " + y1 + "  y2 : " + y2 + System.lineSeparator());
+//            System.out.println("vertical");
+//            System.out.println("x : " + x + "  y1 : " + y1 + "  y2 : " + y2 + System.lineSeparator());
         } else {
             StdDraw.setPenColor(StdDraw.BLUE);
 
@@ -154,9 +165,8 @@ public class KdTree {
 
             StdDraw.line(x1, y, x2, y);
 
-            System.out.println("horizontal");
-            System.out.println("x1 : " + x1 + "  x2 : " + x2 + System.lineSeparator());
-            System.out.println(x1 == x2);
+//            System.out.println("horizontal");
+//            System.out.println("x1 : " + x1 + "  x2 : " + x2 + System.lineSeparator());
         }
 
         this.draw(node.left, node);
