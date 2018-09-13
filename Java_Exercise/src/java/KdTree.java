@@ -70,28 +70,22 @@ public class KdTree {
 
                 if (cmp < 0) {
                     if (parentNode.isVerticalSplit()) {
-                        System.out.println("@@@ 1");
                         rect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentNode.value.x(), parentRect.ymax());
                     } else {
-                        System.out.println("@@@ 2");
                         rect = new RectHV(parentRect.xmin(), parentRect.ymin(), parentRect.xmax(), parentNode.value.y());
                     }
                 } else {
                     if (parentNode.isVerticalSplit()) {
-                        System.out.println("@@@ 3");
                         rect = new RectHV(parentNode.value.x(), parentRect.ymin(), parentRect.xmax(), parentRect.ymax());
                     } else {
-                        System.out.println("@@@ 4");
                         rect = new RectHV(parentRect.xmin(), parentNode.value.y(), parentRect.xmax(), parentRect.ymax());
                     }
                 }
 
-                System.out.println("rect " + rect);
-
                 newNode.rect = rect;
             }
 
-            System.out.println("Add point : " + point + " depth : " + newNode.depth);
+            System.out.println("Add point : " + point + " rect : " + newNode.rect + " depth : " + newNode.depth);
             return newNode;
         }
 
@@ -129,7 +123,6 @@ public class KdTree {
 
     public void draw() {
         this.draw(this.root, null);
-        System.out.println("=========" + System.lineSeparator() + System.lineSeparator());
     }
 
     private void draw(Node<Point2D> node, Node<Point2D> parentNode) {
@@ -153,20 +146,13 @@ public class KdTree {
             double y1 = node.rect.ymin();
             double y2 = node.rect.ymax();
             StdDraw.line(x, y1, x, y2);
-
-//            System.out.println("vertical");
-//            System.out.println("x : " + x + "  y1 : " + y1 + "  y2 : " + y2 + System.lineSeparator());
         } else {
             StdDraw.setPenColor(StdDraw.BLUE);
 
             double x1 = node.rect.xmin();
             double x2 = node.rect.xmax();
             double y = node.value.y();
-
             StdDraw.line(x1, y, x2, y);
-
-//            System.out.println("horizontal");
-//            System.out.println("x1 : " + x1 + "  x2 : " + x2 + System.lineSeparator());
         }
 
         this.draw(node.left, node);
@@ -179,15 +165,15 @@ public class KdTree {
         return nodes;
     }
 
-    private void BFS(Node<Point2D> node, Deque<Node<Point2D>> points) {
+    private void BFS(Node<Point2D> node, Deque<Node<Point2D>> nodes) {
         if (node == null) {
             return;
         }
 
-        points.push(node);
+        nodes.push(node);
 
-        this.BFS(node.left, points);
-        this.BFS(node.right, points);
+        this.BFS(node.left, nodes);
+        this.BFS(node.right, nodes);
     }
 
     // all points that are inside the rectangle (or on the boundary)
@@ -208,9 +194,11 @@ public class KdTree {
     }
 
     private void range(Node<Point2D> node, RectHV rect, Set<Point2D> results) {
-        if (rect.contains(node.value))
+        if (rect.contains(node.value)){
 
-            this.range(node.left, rect, results);
+        }
+
+        this.range(node.left, rect, results);
         this.range(node.right, rect, results);
     }
 
@@ -220,18 +208,22 @@ public class KdTree {
     }
 
     public static void main(String[] args) {
-        KdTree kdtree = new KdTree();
-
         List<Point2D> points = new ArrayList<>();
-        points.add(new Point2D(1, 2));
-        points.add(new Point2D(2, 2));
-        points.add(new Point2D(0, 2));
-        points.add(new Point2D(3, 2));
+        points.add(new Point2D(0.206107, 0.095492));
+        points.add(new Point2D(0.975528, 0.654508));
+        points.add(new Point2D(0.024472, 0.345492));
+        points.add(new Point2D(0.793893, 0.095492));
+        points.add(new Point2D(0.793893, 0.904508));
+        points.add(new Point2D(0.975528, 0.345492));
+        points.add(new Point2D(0.206107, 0.904508));
+        points.add(new Point2D(0.500000, 0.000000));
+        points.add(new Point2D(0.024472, 0.654508));
+        points.add(new Point2D(0.500000, 1.000000));
 
+        KdTree kdtree = new KdTree();
         StdDraw.enableDoubleBuffering();
 
         for (Point2D point : points) {
-
             kdtree.insert(point);
             StdDraw.clear();
             kdtree.draw();
