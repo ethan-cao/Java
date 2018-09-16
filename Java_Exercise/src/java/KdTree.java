@@ -2,7 +2,14 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.TreeSet;
+
 
 // a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
 // 2d-tree implementation
@@ -160,7 +167,7 @@ public class KdTree {
     }
 
     private Iterable<Node<Point2D>> getNodes() {
-        Deque<Node<Point2D>> nodes = new LinkedList<Node<Point2D>>();
+        Deque<Node<Point2D>> nodes = new LinkedList<>();
         this.BFS(this.root, nodes);
         return nodes;
     }
@@ -177,7 +184,7 @@ public class KdTree {
     }
 
     // all points that are inside the rectangle (or on the boundary)
-    public Point2D[] range(RectHV rect) {
+    public Iterable<Point2D> range(RectHV rect) {
         if (rect == null) {
             throw new IllegalArgumentException();
         }
@@ -190,21 +197,80 @@ public class KdTree {
 
         this.range(this.root, rect, results);
 
-        return (Point2D[]) results.toArray();
+        return results;
     }
 
     private void range(Node<Point2D> node, RectHV rect, Set<Point2D> results) {
-        if (rect.contains(node.value)){
-
+        if (node == null) {
+            return;
+        } else if (rect.intersects(node.rect) && rect.contains(node.value)) {
+            results.add(node.value);
         }
 
         this.range(node.left, rect, results);
         this.range(node.right, rect, results);
     }
 
-
     public Point2D nearest(Point2D query) {
-        return null;
+        if (query == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (this.isEmpty()) {
+            return null;
+        }
+
+        TreeSet<Point2D> nearestPoints = new TreeSet<>(
+                (p1, p2) -> p1.distanceSquaredTo(query) > p2.distanceSquaredTo(query) ? 1 : -1
+        );
+        nearestPoints.add(this.root.value);
+
+        this.nearest(this.root, query, nearestPoints);
+
+        return nearestPoints.first();
+    }
+
+    private void nearest(Node<Point2D> node, Point2D query, TreeSet<Point2D> nearestPoints) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.println("@@@ : " + node.value);
+
+        double currentMinDistance = nearestPoints.first().distanceSquaredTo(query);
+        double distanceToNode = node.value.distanceSquaredTo(query);
+
+        if (distanceToNode < currentMinDistance) {
+            nearestPoints.add(node.value);
+            currentMinDistance = distanceToNode;
+        }
+
+        double distanceToLeft = node.left == null ? 100 : node.left.rect.distanceSquaredTo(query);
+        double distanceToRight = node.right == null ? 100 : node.right.rect.distanceSquaredTo(query);
+
+        if (currentMinDistance > distanceToLeft && currentMinDistance > distanceToRight) {
+            if (node.isVerticalSplit()) {
+                if (node.value.x() - query.x() > 0) {
+                    this.nearest(node.left, query, nearestPoints);
+                    this.nearest(node.right, query, nearestPoints);
+                } else {
+                    this.nearest(node.right, query, nearestPoints);
+                    this.nearest(node.left, query, nearestPoints);
+                }
+            } else {
+                if (node.value.y() - query.y() > 0) {
+                    this.nearest(node.left, query, nearestPoints);
+                    this.nearest(node.right, query, nearestPoints);
+                } else {
+                    this.nearest(node.right, query, nearestPoints);
+                    this.nearest(node.left, query, nearestPoints);
+                }
+            }
+        } else if (currentMinDistance > distanceToLeft) {
+            this.nearest(node.left, query, nearestPoints);
+        } else if (currentMinDistance > distanceToRight) {
+            this.nearest(node.right, query, nearestPoints);
+        }
     }
 
     public static void main(String[] args) {
@@ -231,5 +297,7 @@ public class KdTree {
         }
 
         System.out.println(kdtree.size());
+
+        System.out.println(kdtree.nearest(new Point2D(0.81, 0.30)));
     }
 }

@@ -3,7 +3,6 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.awt.image.renderable.RenderableImage;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -98,6 +97,5 @@ public class PointSET {
     }
 
     public static void main(String[] args) {
-
     }
 }
