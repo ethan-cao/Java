@@ -1,14 +1,14 @@
-
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
 // a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
-// Brute-force implementation, using a red–black BST
+// Brute-force implementation, using a red–black BST (TreeSet)
 public class PointSET {
     private final Set<Point2D> points = new TreeSet<>();
 
@@ -16,11 +16,11 @@ public class PointSET {
     }
 
     public boolean isEmpty() {
-        return points.isEmpty();
+        return this.points.isEmpty();
     }
 
     public int size() {
-        return points.size();
+        return this.points.size();
     }
 
     public void insert(Point2D p) {
@@ -51,11 +51,11 @@ public class PointSET {
             throw new IllegalArgumentException();
         }
 
-        if (this.isEmpty()) {
-            return null;
-        }
+        List<Point2D> pointsInRange = new ArrayList<>();
 
-        Set<Point2D> pointsInRange = new HashSet<>();
+        if (this.isEmpty()) {
+            return pointsInRange;
+        }
 
         double leftBottomX = rect.xmin();
         double leftBottomY = rect.ymin();
@@ -81,7 +81,7 @@ public class PointSET {
             return null;
         }
 
-        double minDistance = 1;
+        double minDistance = Double.POSITIVE_INFINITY;
         Point2D nearestPoint = null;
 
         for (Point2D point : this.points) {
@@ -94,8 +94,5 @@ public class PointSET {
         }
 
         return nearestPoint;
-    }
-
-    public static void main(String[] args) {
     }
 }

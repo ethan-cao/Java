@@ -4,11 +4,8 @@ import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.ArrayDeque;
 
 
 // a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
@@ -92,7 +89,7 @@ public class KdTree {
                 newNode.rect = rect;
             }
 
-            System.out.println("Add point : " + point + " rect : " + newNode.rect + " depth : " + newNode.depth);
+//            System.out.println("Add point : " + point + " rect : " + newNode.rect + " depth : " + newNode.depth);
             return newNode;
         }
 
@@ -166,49 +163,40 @@ public class KdTree {
         this.draw(node.right, node);
     }
 
-    private Iterable<Node<Point2D>> getNodes() {
-        Deque<Node<Point2D>> nodes = new LinkedList<>();
-        this.BFS(this.root, nodes);
-        return nodes;
-    }
-
-    private void BFS(Node<Point2D> node, Deque<Node<Point2D>> nodes) {
-        if (node == null) {
-            return;
-        }
-
-        nodes.push(node);
-
-        this.BFS(node.left, nodes);
-        this.BFS(node.right, nodes);
-    }
-
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
         if (rect == null) {
             throw new IllegalArgumentException();
         }
 
-        if (this.isEmpty()) {
-            return null;
-        }
+        List<Point2D> results = new ArrayList<>();
 
-        Set<Point2D> results = new HashSet<>();
+        if (this.isEmpty()) {
+            return results;
+        }
 
         this.range(this.root, rect, results);
 
         return results;
     }
 
-    private void range(Node<Point2D> node, RectHV rect, Set<Point2D> results) {
+    private void range(Node<Point2D> node, RectHV rect, List<Point2D> results) {
         if (node == null) {
             return;
-        } else if (rect.intersects(node.rect) && rect.contains(node.value)) {
+        }
+
+        if (rect.contains(node.value)) {
             results.add(node.value);
         }
 
-        this.range(node.left, rect, results);
-        this.range(node.right, rect, results);
+        // search the node iff its corresponding rect has intersection with query rect
+        if (node.left != null && node.left.rect.intersects(rect)) {
+            this.range(node.left, rect, results);
+        }
+
+        if (node.right != null && node.right.rect.intersects(rect)) {
+            this.range(node.right, rect, results);
+        }
     }
 
     public Point2D nearest(Point2D query) {
@@ -220,33 +208,31 @@ public class KdTree {
             return null;
         }
 
-        TreeSet<Point2D> nearestPoints = new TreeSet<>(
-                (p1, p2) -> p1.distanceSquaredTo(query) > p2.distanceSquaredTo(query) ? 1 : -1
-        );
+        Deque<Point2D> nearestPoints = new ArrayDeque<>();
         nearestPoints.add(this.root.value);
 
         this.nearest(this.root, query, nearestPoints);
 
-        return nearestPoints.first();
+        return nearestPoints.peekLast();
     }
 
-    private void nearest(Node<Point2D> node, Point2D query, TreeSet<Point2D> nearestPoints) {
+    private void nearest(Node<Point2D> node, Point2D query, Deque<Point2D> nearestPoints) {
         if (node == null) {
             return;
         }
 
-        System.out.println("@@@ : " + node.value);
+//        System.out.println("@@@ : " + node.value);
 
-        double currentMinDistance = nearestPoints.first().distanceSquaredTo(query);
+        double currentMinDistance = nearestPoints.peekLast().distanceSquaredTo(query);
         double distanceToNode = node.value.distanceSquaredTo(query);
 
         if (distanceToNode < currentMinDistance) {
-            nearestPoints.add(node.value);
+            nearestPoints.push(node.value);
             currentMinDistance = distanceToNode;
         }
 
-        double distanceToLeft = node.left == null ? 100 : node.left.rect.distanceSquaredTo(query);
-        double distanceToRight = node.right == null ? 100 : node.right.rect.distanceSquaredTo(query);
+        double distanceToLeft = node.left == null ? Double.POSITIVE_INFINITY : node.left.rect.distanceSquaredTo(query);
+        double distanceToRight = node.right == null ? Double.POSITIVE_INFINITY : node.right.rect.distanceSquaredTo(query);
 
         if (currentMinDistance > distanceToLeft && currentMinDistance > distanceToRight) {
             if (node.isVerticalSplit()) {
@@ -275,16 +261,16 @@ public class KdTree {
 
     public static void main(String[] args) {
         List<Point2D> points = new ArrayList<>();
-        points.add(new Point2D(0.206107, 0.095492));
-        points.add(new Point2D(0.975528, 0.654508));
-        points.add(new Point2D(0.024472, 0.345492));
-        points.add(new Point2D(0.793893, 0.095492));
-        points.add(new Point2D(0.793893, 0.904508));
-        points.add(new Point2D(0.975528, 0.345492));
-        points.add(new Point2D(0.206107, 0.904508));
-        points.add(new Point2D(0.500000, 0.000000));
-        points.add(new Point2D(0.024472, 0.654508));
-        points.add(new Point2D(0.500000, 1.000000));
+        points.add(new Point2D(0.206107, 0.095492)); // A
+        points.add(new Point2D(0.975528, 0.654508)); // B
+        points.add(new Point2D(0.024472, 0.345492)); // C
+        points.add(new Point2D(0.793893, 0.095492)); // D
+        points.add(new Point2D(0.793893, 0.904508)); // E
+        points.add(new Point2D(0.975528, 0.345492)); // F
+        points.add(new Point2D(0.206107, 0.904508)); // G
+        points.add(new Point2D(0.500000, 0.000000)); // H
+        points.add(new Point2D(0.024472, 0.654508)); // I
+        points.add(new Point2D(0.500000, 1.000000)); // J
 
         KdTree kdtree = new KdTree();
         StdDraw.enableDoubleBuffering();
@@ -297,7 +283,6 @@ public class KdTree {
         }
 
         System.out.println(kdtree.size());
-
         System.out.println(kdtree.nearest(new Point2D(0.81, 0.30)));
     }
 }

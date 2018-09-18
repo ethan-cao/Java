@@ -8,6 +8,8 @@ public class Test {
         m(p);
 
         System.out.println(p);
+
+        System.out.println( 0 < Double.POSITIVE_INFINITY);
     }
 
     static void m(String s){
