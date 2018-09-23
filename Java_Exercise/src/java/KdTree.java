@@ -46,7 +46,6 @@ public class KdTree {
     }
 
     private int size(Node<Point2D> node) {
-//        return node == null ? 0 : this.size(node.left) + this.size(node.right) + 1;
         return node == null ? 0 : node.size;
     }
 
