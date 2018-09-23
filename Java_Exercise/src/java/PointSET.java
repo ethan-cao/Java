@@ -40,9 +40,9 @@ public class PointSET {
     }
 
     public void draw() {
-        for (Point2D p : points) {
-            StdDraw.point(p.x(), p.y());
-        }
+//        for (Point2D p : points) {
+//            StdDraw.point(p.x(), p.y());
+//        }
     }
 
     // all points that are inside the rectangle (or on the boundary)

@@ -17,11 +17,11 @@ public class KdTree {
         private Node<T> left;
         private Node<T> right;
 
-        // Each node corresponds to an axis-aligned rectangle in the unit square, which encloses all of the points in its subtree
-        private RectHV rect;
-
         private int size = 1;
         private int depth = 0;
+
+        // Each node corresponds to an axis-aligned rectangle in the unit square, which encloses all of the points in its subtree
+        private RectHV rect;
 
         private Node(T value) {
             this.value = value;
@@ -46,10 +46,15 @@ public class KdTree {
     }
 
     private int size(Node<Point2D> node) {
-        return node == null ? 0 : this.size(node.left) + this.size(node.right) + 1;
+//        return node == null ? 0 : this.size(node.left) + this.size(node.right) + 1;
+        return node == null ? 0 : node.size;
     }
 
     public void insert(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
         this.root = this.insert(p, this.root, null);
     }
 
@@ -63,6 +68,7 @@ public class KdTree {
             Node<Point2D> newNode = new Node<>(point);
 
             if (parentNode == null) {
+                // Add root
                 newNode.depth = 0;
                 newNode.rect = new RectHV(0, 0, 1, 1);
             } else {
@@ -93,6 +99,10 @@ public class KdTree {
             return newNode;
         }
 
+        if (point.equals(node.value)) {
+            return node;
+        }
+
         int cmp = node.isVerticalSplit() ? Point2D.X_ORDER.compare(point, node.value) : Point2D.Y_ORDER.compare(point, node.value);
         if (cmp < 0) {
             node.left = this.insert(point, node.left, node);
@@ -100,12 +110,16 @@ public class KdTree {
             node.right = this.insert(point, node.right, node);
         }
 
-        node.size = this.size(node);
+        node.size = this.size(node.left) + this.size(node.right) + 1;
 
         return node;
     }
 
     public boolean contains(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
         return this.contains(p, this.root);
     }
 
@@ -114,14 +128,15 @@ public class KdTree {
             return false;
         }
 
-        int cmp = p.compareTo(node.value);
+        if (node.value.equals(p)) {
+            return true;
+        }
 
-        if (cmp > 0) {
-            return this.contains(p, node.right);
-        } else if (cmp < 0) {
+        int cmp = node.isVerticalSplit() ? Point2D.X_ORDER.compare(p, node.value) : Point2D.Y_ORDER.compare(p, node.value);
+        if (cmp < 0) {
             return this.contains(p, node.left);
         } else {
-            return true;
+            return this.contains(p, node.right);
         }
     }
 
@@ -261,19 +276,30 @@ public class KdTree {
 
     public static void main(String[] args) {
         List<Point2D> points = new ArrayList<>();
-        points.add(new Point2D(0.206107, 0.095492)); // A
-        points.add(new Point2D(0.975528, 0.654508)); // B
-        points.add(new Point2D(0.024472, 0.345492)); // C
-        points.add(new Point2D(0.793893, 0.095492)); // D
-        points.add(new Point2D(0.793893, 0.904508)); // E
-        points.add(new Point2D(0.975528, 0.345492)); // F
-        points.add(new Point2D(0.206107, 0.904508)); // G
-        points.add(new Point2D(0.500000, 0.000000)); // H
-        points.add(new Point2D(0.024472, 0.654508)); // I
-        points.add(new Point2D(0.500000, 1.000000)); // J
-
         KdTree kdtree = new KdTree();
         StdDraw.enableDoubleBuffering();
+
+//        points.add(new Point2D(0.206107, 0.095492)); // A
+//        points.add(new Point2D(0.975528, 0.654508)); // B
+//        points.add(new Point2D(0.024472, 0.345492)); // C
+//        points.add(new Point2D(0.793893, 0.095492)); // D
+//        points.add(new Point2D(0.793893, 0.904508)); // E
+//        points.add(new Point2D(0.975528, 0.345492)); // F
+//        points.add(new Point2D(0.206107, 0.904508)); // G
+//        points.add(new Point2D(0.500000, 0.000000)); // H
+//        points.add(new Point2D(0.024472, 0.654508)); // I
+//        points.add(new Point2D(0.500000, 1.000000)); // J
+//
+        points.add(new Point2D(0.75, 0.25));
+        points.add(new Point2D(0.5, 1.0));
+        points.add(new Point2D(0.25, 1.0));
+        points.add(new Point2D(0.75, 0.75));
+        points.add(new Point2D(1.0, 0.0));
+        points.add(new Point2D(0.0, 0.0));
+        points.add(new Point2D(0.0, 0.5));
+        points.add(new Point2D(0.0, 0.75));
+        points.add(new Point2D(0.25, 0.5));
+        points.add(new Point2D(0.0, 1.0));
 
         for (Point2D point : points) {
             kdtree.insert(point);
@@ -282,7 +308,6 @@ public class KdTree {
             StdDraw.show();
         }
 
-        System.out.println(kdtree.size());
-        System.out.println(kdtree.nearest(new Point2D(0.81, 0.30)));
+        System.out.println("@@@ " + kdtree.contains(new Point2D(0.0, 1.0)));
     }
 }
