@@ -8,8 +8,12 @@ import java.util.Deque;
 import java.util.ArrayDeque;
 
 
-// a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
-// 2d-tree implementation
+/**
+ * a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
+ * 2d-tree implementation
+ * <p>
+ * x increase toward right, y increase towards up
+ */
 public class KdTree {
 
     private class Node<T extends Comparable<T>> {
@@ -227,7 +231,7 @@ public class KdTree {
 
         this.nearest(this.root, query, nearestPoints);
 
-        return nearestPoints.peekLast();
+        return nearestPoints.peekFirst();
     }
 
     private void nearest(Node<Point2D> node, Point2D query, Deque<Point2D> nearestPoints) {
@@ -235,40 +239,36 @@ public class KdTree {
             return;
         }
 
-//        System.out.println("@@@ : " + node.value);
+        double currentMinDistance = nearestPoints.peekFirst().distanceSquaredTo(query);
 
-        double currentMinDistance = nearestPoints.peekLast().distanceSquaredTo(query);
-        double distanceToNode = node.value.distanceSquaredTo(query);
-
-        if (distanceToNode < currentMinDistance) {
+        if (node.rect.distanceSquaredTo(query) < currentMinDistance && node.value.distanceSquaredTo(query) < currentMinDistance) {
             nearestPoints.push(node.value);
-            currentMinDistance = distanceToNode;
         }
 
-        double distanceToLeft = node.left == null ? Double.POSITIVE_INFINITY : node.left.rect.distanceSquaredTo(query);
-        double distanceToRight = node.right == null ? Double.POSITIVE_INFINITY : node.right.rect.distanceSquaredTo(query);
+        double distanceToLeft = (node.left != null && node.left.rect.distanceSquaredTo(query) < currentMinDistance) ? node.left.rect.distanceSquaredTo(query) : Double.POSITIVE_INFINITY;
+        double distanceToRight = (node.right != null && node.right.rect.distanceSquaredTo(query) < currentMinDistance) ? node.right.rect.distanceSquaredTo(query) : Double.POSITIVE_INFINITY;
 
-        if (currentMinDistance > distanceToLeft && currentMinDistance > distanceToRight) {
+        if (distanceToLeft < currentMinDistance && distanceToRight < currentMinDistance) {
             if (node.isVerticalSplit()) {
-                if (node.value.x() - query.x() > 0) {
-                    this.nearest(node.left, query, nearestPoints);
+                if (node.value.x() - query.x() < 0) {
                     this.nearest(node.right, query, nearestPoints);
+                    this.nearest(node.left, query, nearestPoints);
                 } else {
-                    this.nearest(node.right, query, nearestPoints);
                     this.nearest(node.left, query, nearestPoints);
+                    this.nearest(node.right, query, nearestPoints);
                 }
             } else {
-                if (node.value.y() - query.y() > 0) {
-                    this.nearest(node.left, query, nearestPoints);
+                if (node.value.y() - query.y() < 0) {
                     this.nearest(node.right, query, nearestPoints);
+                    this.nearest(node.left, query, nearestPoints);
                 } else {
-                    this.nearest(node.right, query, nearestPoints);
                     this.nearest(node.left, query, nearestPoints);
+                    this.nearest(node.right, query, nearestPoints);
                 }
             }
-        } else if (currentMinDistance > distanceToLeft) {
+        } else if (distanceToLeft < currentMinDistance) {
             this.nearest(node.left, query, nearestPoints);
-        } else if (currentMinDistance > distanceToRight) {
+        } else if (distanceToRight < currentMinDistance) {
             this.nearest(node.right, query, nearestPoints);
         }
     }
@@ -289,16 +289,11 @@ public class KdTree {
 //        points.add(new Point2D(0.024472, 0.654508)); // I
 //        points.add(new Point2D(0.500000, 1.000000)); // J
 //
-        points.add(new Point2D(0.75, 0.25));
-        points.add(new Point2D(0.5, 1.0));
-        points.add(new Point2D(0.25, 1.0));
-        points.add(new Point2D(0.75, 0.75));
-        points.add(new Point2D(1.0, 0.0));
-        points.add(new Point2D(0.0, 0.0));
-        points.add(new Point2D(0.0, 0.5));
-        points.add(new Point2D(0.0, 0.75));
-        points.add(new Point2D(0.25, 0.5));
-        points.add(new Point2D(0.0, 1.0));
+//        points.add(new Point2D(0.375, 0.125));
+//        points.add(new Point2D(0.5, 0.5));
+//        points.add(new Point2D(1.0, 0.625));
+//        points.add(new Point2D(0.25, 0.875));
+//        points.add(new Point2D(0.625, 0.0));
 
         for (Point2D point : points) {
             kdtree.insert(point);
@@ -306,7 +301,5 @@ public class KdTree {
             kdtree.draw();
             StdDraw.show();
         }
-
-        System.out.println("@@@ " + kdtree.contains(new Point2D(0.0, 1.0)));
     }
 }
