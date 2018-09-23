@@ -1,16 +1,14 @@
-package algorithm.assignment.week5;
-
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.awt.image.renderable.RenderableImage;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
 // a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
-// Brute-force implementation, using a red–black BST
+// Brute-force implementation, using a red–black BST (TreeSet)
 public class PointSET {
     private final Set<Point2D> points = new TreeSet<>();
 
@@ -18,11 +16,11 @@ public class PointSET {
     }
 
     public boolean isEmpty() {
-        return points.isEmpty();
+        return this.points.isEmpty();
     }
 
     public int size() {
-        return points.size();
+        return this.points.size();
     }
 
     public void insert(Point2D p) {
@@ -42,9 +40,9 @@ public class PointSET {
     }
 
     public void draw() {
-        for (Point2D p : points) {
-            StdDraw.point(p.x(), p.y());
-        }
+//        for (Point2D p : points) {
+//            StdDraw.point(p.x(), p.y());
+//        }
     }
 
     // all points that are inside the rectangle (or on the boundary)
@@ -53,18 +51,19 @@ public class PointSET {
             throw new IllegalArgumentException();
         }
 
+        List<Point2D> pointsInRange = new ArrayList<>();
+
         if (this.isEmpty()) {
-            return null;
+            return pointsInRange;
         }
 
-        Set<Point2D> pointsInRange = new HashSet<>();
-
-        Point2D leftBottom = new Point2D(rect.xmin(), rect.ymin());
-        Point2D rightTop = new Point2D(rect.xmax(), rect.ymax());
+        double leftBottomX = rect.xmin();
+        double leftBottomY = rect.ymin();
+        double rightTopX = rect.xmax();
+        double rightTopY = rect.ymax();
 
         for (Point2D point : this.points) {
-
-            if (leftBottom.compareTo(point) <= 0 && rightTop.compareTo(point) >= 0) {
+            if (leftBottomX <= point.x() && leftBottomY <= point.y() && rightTopX >= point.x() && rightTopY >= point.y()) {
                 pointsInRange.add(point);
             }
         }
@@ -82,7 +81,7 @@ public class PointSET {
             return null;
         }
 
-        double minDistance = 1;
+        double minDistance = Double.POSITIVE_INFINITY;
         Point2D nearestPoint = null;
 
         for (Point2D point : this.points) {
@@ -95,9 +94,5 @@ public class PointSET {
         }
 
         return nearestPoint;
-    }
-
-    public static void main(String[] args) {
-
     }
 }
