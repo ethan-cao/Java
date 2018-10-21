@@ -1,3 +1,8 @@
+package LeetCode;
+
+import java.util.Map;
+import java.util.TreeMap;
+
 /*
  * [1] Two Sum
  *
@@ -29,7 +34,8 @@
  */
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> numberToIndex = new TreeMap<>();
+        Map<Integer, Integer> numberToIndex;
+        numberToIndex = new TreeMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
             int value = nums[i];
