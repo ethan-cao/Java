@@ -32,14 +32,14 @@ import java.util.TreeMap;
  * return [0, 1].
  */
 
-class Solution {
+class Solution1 {
    public static void main(String[] args) {
-       Solution solution = new Solution();
+       Solution1 solution = new Solution1();
 
        int[] nums = {-1, -2, -3, -4, -5};
-       int answer[] = solution.twoSum1(nums, -8);
+//       int answer[] = solution.twoSum(nums, -8);
 
-       System.out.println(Arrays.toString(answer));
+//       System.out.println(Arrays.toString(answer));
    }
 
     public int[] twoSum(int[] nums, int target) {

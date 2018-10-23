@@ -22,11 +22,35 @@ public class HashMapTest {
         hm2.put("c", 3);
 
         // iteration
-        for (Map.Entry<String,Integer> entry :  hm2.entrySet()){
+        for (Map.Entry<String, Integer> entry : hm2.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
 
         System.out.println(sortOnValue1(hm2));
+
+        // lambda
+        hm2.forEach((k, v) -> System.out.println("key: " + k + " value:" + v));
+
+
+
+
+
+
+        Map map = new HashMap();
+        // This cause compiler error, since generic type is not used, map.entrySet will return Object, rather than Map.Entry<K, V>
+//        for(Map.Entry entry : map.entrySet()){
+//
+//        }
+        for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
+            Object entry = it.next();
+        }
+
+        // It we use generics
+        Map<Object, Object> mapNew = new HashMap<>();
+        for (Map.Entry entry : mapNew.entrySet()) {
+
+        }
+
     }
 
     static <K, V extends Comparable> List<Map.Entry<K, V>> sortOnValue1(Map<K, V> map) {
@@ -41,6 +65,7 @@ public class HashMapTest {
 
         return entries;
     }
+
 
 /*
     // Using Guava
@@ -59,4 +84,5 @@ public class HashMapTest {
 		return entries;
 	}
 */
+
 }

@@ -12,6 +12,7 @@ public class FrequentUse {
     void array(){
         String[] array = new String[] {"1", "2", "3"};
 
+		int l = array.length;
         System.out.println(Arrays.toString(array));  // the easiest way to print content
     }
 
