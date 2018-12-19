@@ -1,5 +1,7 @@
 package question;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.RecursiveTask;
 
 public class Fibonacci extends RecursiveTask<Integer> {
@@ -26,5 +28,10 @@ public class Fibonacci extends RecursiveTask<Integer> {
 
 //        return f2.compute() + f1.join(); // Line X
         return f1.join() + f2.compute() ; // Line X
+    }
+
+    public static long fibonacci(int x) {
+        Map<Integer,Long> memo = new HashMap<>();
+        return memo.computeIfAbsent(x, n -> fibonacci(n-2) + fibonacci(n-1));
     }
 }

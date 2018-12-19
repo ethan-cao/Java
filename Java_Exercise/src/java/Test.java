@@ -1,10 +1,18 @@
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Test {
     public static void main(String[] args) {
-        System.out.println("@@@");
 
-        System.out.println(null == null);
+        List<String> list =  new ArrayList<>();
+        list.add(null);
+        list.add("a");
+
+        System.out.println(list.stream().findFirst());
+
 
 
     }
