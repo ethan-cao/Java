@@ -1,6 +1,5 @@
 package leetCode;
 
-
 public class No27RemoveElement {
     public static void main(String[] args) {
         No27RemoveElement s = new No27RemoveElement();

@@ -14,6 +14,8 @@ public class FrequentUse {
 
 		int l = array.length;
         System.out.println(Arrays.toString(array));  // the easiest way to print content
+
+//        Arrays.copyOf()
     }
 
     void set(){
