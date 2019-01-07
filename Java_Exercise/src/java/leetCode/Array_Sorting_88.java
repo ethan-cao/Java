@@ -2,7 +2,7 @@ package leetCode;
 
 import java.util.Arrays;
 
-public class No88MergeSortedArray {
+public class Array_Sorting_88 {
 
     public static void main(String[] args) {
         int[] nums1 = {1, 2, 3, 0, 0, 0};

@@ -13,7 +13,11 @@ public class Test {
 
         System.out.println(list.stream().findFirst());
 
+        int x = 1;
 
+        x += 2 - 1;
+
+        System.out.println();
 
     }
 }
