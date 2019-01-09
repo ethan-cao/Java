@@ -27,7 +27,7 @@ idx2 > idx1
 #Corner case
 
 */
-public class Array_DP_121 {
+public class DP_Array_121 {
 
     public static void main(String[] args) {
 //        int[] prices = {7, 1, 5, 3, 6, 4};  //5
@@ -84,6 +84,7 @@ public class Array_DP_121 {
 
         int maxProfitSoFar = 0;
         for (int i = 1; i < prices.length; ++i) {
+            // do + first, then do +=
             maxProfitSoFar = Math.max(0, maxProfitSoFar += prices[i] - prices[i - 1]); // make sure it is at least 0
             maxProfit = Math.max(maxProfit, maxProfitSoFar);
         }
