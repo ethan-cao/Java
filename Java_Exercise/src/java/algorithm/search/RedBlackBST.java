@@ -3,11 +3,11 @@ package algorithm.search;
 /**
  * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary search tree
  * 2-3 tree: tree contains 2-3 node
- * 2-3 nodes :  B-D
+ * 2-3 nodes :
+ *  B-D
  * / | \
  * A  C  E
  *
- * <p>
  * No node has two red links connected to it
  * Every path from root to null link has the same number of black links (perfect black balance, 2-3 tree are perfect balanced)
  * Red links lean left
@@ -71,7 +71,7 @@ public class RedBlackBST<Key extends Comparable, Value> {
     }
 
     private int rank(Key key, Node node) {
-        if (node == null){
+        if (node == null) {
             return 0;
         }
 

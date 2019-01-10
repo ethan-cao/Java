@@ -14,7 +14,7 @@ public class Shuffle {
         System.out.println(Arrays.toString(data));
     }
 
-    // linear time shuffling algorithm m
+    // linear time shuffling algorithm
     public static void knuthShuffle(Object[] array) {
         int L = array.length;
 

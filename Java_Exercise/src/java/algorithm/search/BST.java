@@ -4,17 +4,17 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Binary search tree implementation for symbol table
+ * Binary search tree implementation for symbol table (Map)
+ *
  * binary tree, each node has a key and
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
- * <p>
- * <p>
+ *
+ *
  * Perfect example for recursion
  */
 
 public class BST<Key extends Comparable<Key>, Value> {
-    private Node root;
 
     private class Node {
         private Key key;
@@ -29,14 +29,7 @@ public class BST<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public static void main(String[] args) {
-        BST<Integer, String> symbolTable = new BST<>();
-
-        symbolTable.put(3, "C");
-        symbolTable.put(1, "A");
-        symbolTable.put(2, "B");
-        symbolTable.put(4, "B");
-    }
+    private Node root;
 
     public int size() {
         return this.size(this.root);
@@ -87,19 +80,19 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public Value get(Key key) {
-        Node current = this.root;
         Value value = null;
 
+        Node current = this.root;
         while (current != null) {
             int cmp = current.key.compareTo(key);
 
-            if (cmp > 0) {
-                current = current.left;
-            } else if (cmp < 0) {
-                current = current.right;
-            } else {
+            if (cmp == 0) {
                 value = current.value;
                 break;
+            } else if (cmp > 0) {
+                current = current.left;
+            } else {
+                current = current.right;
             }
         }
 
@@ -252,5 +245,14 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     private void BFS(Node node, Deque<Key> keys) {
+    }
+
+    public static void main(String[] args) {
+        BST<Integer, String> symbolTable = new BST<>();
+
+        symbolTable.put(3, "C");
+        symbolTable.put(1, "A");
+        symbolTable.put(2, "B");
+        symbolTable.put(4, "B");
     }
 }
