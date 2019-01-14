@@ -1,8 +1,8 @@
 package leetCode;
 
-public class No27RemoveElement {
+public class Array_27 {
     public static void main(String[] args) {
-        No27RemoveElement s = new No27RemoveElement();
+        Array_27 s = new Array_27();
         int[] nums = new int[]{0, 1, 2, 2, 3, 0, 4, 2};
         int newLength = s.removeElement(nums, 2);
         System.out.println("new length : " + newLength);

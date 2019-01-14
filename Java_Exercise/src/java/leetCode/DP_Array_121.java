@@ -84,7 +84,7 @@ public class DP_Array_121 {
 
         int maxProfitSoFar = 0;
         for (int i = 1; i < prices.length; ++i) {
-            // do + first, then do +=
+            // do - first, then do +=
             maxProfitSoFar = Math.max(0, maxProfitSoFar += prices[i] - prices[i - 1]); // make sure it is at least 0
             maxProfit = Math.max(maxProfit, maxProfitSoFar);
         }
