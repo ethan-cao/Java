@@ -82,6 +82,7 @@ public class DP_Array_121 {
             return maxProfit;
         }
 
+        // https://leetcode.com/problems/best-time-to-buy-and-sell-stock/discuss/39038/Kadane's-Algorithm-Since-no-one-has-mentioned-about-this-so-far-:)-(In-case-if-interviewer-twists-the-input)/36818
         int maxProfitSoFar = 0;
         for (int i = 1; i < prices.length; ++i) {
             // do - first, then do +=
