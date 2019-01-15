@@ -66,7 +66,7 @@ public class DP_Array_121 {
         }
 
         int minPrice = prices[0];
-        for (int i = 1; i < prices.length; ++i) {
+        for (int i = 0; i < prices.length; ++i) {
             minPrice = Math.min(minPrice, prices[i]);  // minimal price between 0 to i
             maxProfit = Math.max(maxProfit, prices[i] - minPrice);
         }
@@ -85,8 +85,9 @@ public class DP_Array_121 {
         // https://leetcode.com/problems/best-time-to-buy-and-sell-stock/discuss/39038/Kadane's-Algorithm-Since-no-one-has-mentioned-about-this-so-far-:)-(In-case-if-interviewer-twists-the-input)/36818
         int maxProfitSoFar = 0;
         for (int i = 1; i < prices.length; ++i) {
-            // do - first, then do +=
-            maxProfitSoFar = Math.max(0, maxProfitSoFar += prices[i] - prices[i - 1]); // make sure it is at least 0
+
+            maxProfitSoFar += prices[i] - prices[i - 1];
+            maxProfitSoFar = Math.max(0, maxProfitSoFar); // make sure it is at least 0
             maxProfit = Math.max(maxProfit, maxProfitSoFar);
         }
 
