@@ -53,11 +53,6 @@ L = costs.length
 reach the top floor : min(cost[L-1], cost[L-2])
 
 
-======== minCostClimbingStairs2
-cost[i] : the minimal cost to reach i-th floor
-cost[i] = costs[i] + min(cost[i-1])
-
-
 ### Corner case
 
 */
