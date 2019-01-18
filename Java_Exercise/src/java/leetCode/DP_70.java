@@ -2,10 +2,9 @@ package leetCode;
 
 /*
 You are climbing a stair case. It takes n steps to reach to the top.
-
 Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
-
 Note: Given n will be a positive integer.
+reach the top : go beyond n steps
 
 ### Input
 int step
@@ -31,7 +30,20 @@ n is positive integer
 ### Essential problem  / Sub problem
 DP
 
-======== climbStairs1
+f(n) : how many ways to reach the top
+ f(n) = f(n-1) + f(n-2)
+ (number of ways for reaching n-1) + (number of ways for reaching n-2)
+ there are 2 ways reaching from n-2 to n, 1 is already included in f(n-1)
+
+ this formula reminds one Fibonacci
+
+ f(1) = 1
+ f(2) = 2
+ f(3) = 3
+ f(4) = 5
+
+ ======== climbStairs1
+
 
 
 
@@ -42,14 +54,18 @@ DP
 public class DP_70 {
 
     public static void main(String[] args) {
+        int solution = climbStairs1(5);
 
-//        System.out.println(minCost);
+        System.out.println(solution);
     }
 
+    // Fibonacci
     private static int climbStairs1(int n) {
-        int solotion = 0;
+        if (1 == n || 2 == n){
+            return n;
+        }
 
-        return solotion;
+        return climbStairs1(n-1) + climbStairs1(n-2);
     }
 }
 
