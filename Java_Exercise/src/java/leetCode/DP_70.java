@@ -45,8 +45,6 @@ f(n) : how many ways to reach the top
  ======== climbStairs1
 
 
-
-
 ### Corner case
 
 */
@@ -54,18 +52,38 @@ f(n) : how many ways to reach the top
 public class DP_70 {
 
     public static void main(String[] args) {
-        int solution = climbStairs1(5);
+        int solution = climbStairs2(5);
+        solution = climbStairs2(10);
 
         System.out.println(solution);
     }
 
     // Fibonacci
     private static int climbStairs1(int n) {
-        if (1 == n || 2 == n){
+        if (1 == n || 2 == n) {
             return n;
         }
 
-        return climbStairs1(n-1) + climbStairs1(n-2);
+        return climbStairs1(n - 1) + climbStairs1(n - 2);
+    }
+
+    // Fibonacci, faster than recursion
+    private static int climbStairs2(int n) {
+        if (1 == n || 2 == n) {
+            return n;
+        }
+
+        int waysToStep1 = 1;
+        int waysToStep2 = 2;
+        int waysToStepN = 0;
+
+        for (int i = 2; i < n; ++i) {
+            waysToStepN = waysToStep1 + waysToStep2;
+            waysToStep1 = waysToStep2;
+            waysToStep2 = waysToStepN;
+        }
+
+        return waysToStepN;
     }
 }
 
