@@ -27,9 +27,7 @@ Explanation: There are three ways to climb to the top.
 ### Condition
 n is positive integer
 
-### Essential problem  / Sub problem
-DP
-
+### Essential problem
 f(n) : how many ways to reach the top
  f(n) = f(n-1) + f(n-2)
  (number of ways for reaching n-1) + (number of ways for reaching n-2)
@@ -42,7 +40,6 @@ f(n) : how many ways to reach the top
  f(3) = 3
  f(4) = 5
 
- ======== climbStairs1
 
 
 ### Corner case

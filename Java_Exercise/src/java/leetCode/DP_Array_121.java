@@ -16,9 +16,7 @@ buy on the first picked day and sell on the second picked day
 transaction : first but then sell, it can happen on the same day
 at most one transaction
 
-#Essential problem  / Sub problem
-DP
-subProblem
+#Essential problem
 maxProfit = max(prices[idx2] - prices[idx1])
 idx2 > idx1
 

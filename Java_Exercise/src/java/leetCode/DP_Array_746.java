@@ -38,8 +38,7 @@ Explanation: Cheapest is start on cost[1], pay that cost and go to the top.
 2 < cost[].length < 1000
 0 < cost[i] < 999
 
-### Essential problem  / Sub problem
-DP
+### Essential problem
 
 ======== minCostClimbingStairs1
 (reach n-th floor : go beyond n-th element) !!!
