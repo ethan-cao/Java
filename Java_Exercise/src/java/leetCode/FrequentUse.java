@@ -3,6 +3,7 @@ package leetCode;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FrequentUse {
     public static void main(String[] arg){
@@ -10,12 +11,25 @@ public class FrequentUse {
     }
 
     void array(){
-        String[] array = new String[] {"1", "2", "3"};
+        String[] strings = new String[] {"1", "2", "3"};
+        int[] ints = {1,2,3,4,4};
 
-		int l = array.length;
-        System.out.println(Arrays.toString(array));  // the easiest way to print content
+		int l = strings.length;
 
-//        Arrays.copyOf()
+		// the easiest way to print content
+        System.out.println(Arrays.toString(strings));
+
+        // ints to Set<Integer>
+        HashSet<Integer> set1 = Arrays.stream(ints)
+                .boxed()
+                .collect(Collectors.toCollection(HashSet::new));
+
+
+
+        // list to strings
+
+//        System.arraycopy();
+
     }
 
     void set(){
