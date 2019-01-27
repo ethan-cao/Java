@@ -7,15 +7,12 @@ import java.util.Map;
 public class Test {
     public static void main(String[] args) {
 
-        List<String> list =  new ArrayList<>();
-        list.add(null);
-        list.add("a");
+        HashMap<String, Integer> m = new HashMap<>();
 
-        System.out.println(list.stream().findFirst());
+        double d = 1.0;
+        int i = (int) d;
 
-        int x = 1;
-
-        x += 2 - 1;
+        m.put("s", 1.1);
 
         System.out.println();
 

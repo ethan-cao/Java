@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
@@ -59,5 +60,10 @@ public class Sort_Array_349 {
 //        if ()
 
         return new int[2];
+    }
+
+    public static int[] intersection1(int[] nums1, int[] nums2) {
+        Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
+        return Arrays.stream(nums1).distinct().filter(e-> set.contains(e)).toArray();
     }
 }
