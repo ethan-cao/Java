@@ -12,7 +12,7 @@ public class Test {
         double d = 1.0;
         int i = (int) d;
 
-        m.put("s", 1.1);
+//        m.put("s", 1.1);
 
         System.out.println();
 

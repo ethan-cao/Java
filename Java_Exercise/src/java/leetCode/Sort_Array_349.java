@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 
 /*
@@ -40,10 +41,13 @@ The result can be in any order.
 */
 public class Sort_Array_349 {
     public static void main(String[] args) {
-        int[] nums1 = {1, 2, 2, 1};
-        int[] nums2 = {2, 2};
+//        int[] nums1 = {1, 2, 2, 1};
+//        int[] nums2 = {2, 2};
 
-        System.out.println(intersection(nums1, nums2));
+        int[] nums1 = {4,9,5}; int[] nums2 = {9, 4, 9, 8,4};
+
+
+        System.out.println(Arrays.toString(intersection(nums1, nums2)));
     }
 
     public static int[] intersection(int[] nums1, int[] nums2) {
@@ -53,17 +57,24 @@ public class Sort_Array_349 {
             return new int[0];
         }
 
-        HashSet<Integer> set1 = Arrays.stream(nums1)
-                                        .boxed()
-                                        .collect(Collectors.toCollection(HashSet::new));
+        HashSet<Integer> set1 = new HashSet<>();
+        for (int i = 0; i < nums1.length; ++i) {
+            set1.add(nums1[i]);
+        }
 
-//        if ()
+        for (int j = 0; j < nums2.length; ++j) {
+            int number = nums2[j];
 
-        return new int[2];
+            if (set1.contains(number)) {
+                result.add(number);
+            }
+        }
+
+        return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public static int[] intersection1(int[] nums1, int[] nums2) {
         Set<Integer> set = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
-        return Arrays.stream(nums1).distinct().filter(e-> set.contains(e)).toArray();
+        return Arrays.stream(nums1).distinct().filter(set::contains).toArray();
     }
 }

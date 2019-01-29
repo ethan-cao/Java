@@ -37,10 +37,14 @@ public class FrequentUse {
     }
 
     static void list(){
-        // element to List
-        List l  = Arrays.asList("a", "b");
+//        int[] a = {1,2,3};
+//        List<Integer> l1  = Arrays.asList(a); // this does not work
 
-        l.size();
+        // element to List
+        Integer[] b = new Integer[]{1, 2, 3};
+        List<Integer> l2  = Arrays.asList(b);
+
+//        l.size();
     }
 
     void set(){
