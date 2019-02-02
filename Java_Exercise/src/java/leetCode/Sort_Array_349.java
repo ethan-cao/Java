@@ -43,11 +43,11 @@ public class Sort_Array_349 {
     }
 
     public static int[] intersection(int[] nums1, int[] nums2) {
-        HashSet<Integer> result = new HashSet<>();
-
         if (null == nums1 || null == nums2 || 0 == nums1.length || 0 == nums2.length) {
             return new int[0];
         }
+
+        HashSet<Integer> result = new HashSet<>();
 
         HashSet<Integer> set1 = new HashSet<>();
         for (int i = 0; i < nums1.length; ++i) {

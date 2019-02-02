@@ -1,12 +1,6 @@
 package leetCode;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FrequentUse {
@@ -37,14 +31,25 @@ public class FrequentUse {
     }
 
     static void list(){
-//        int[] a = {1,2,3};
+        /**
+         array to List
+         */
+        int[] a = {1,2,3};
 //        List<Integer> l1  = Arrays.asList(a); // this does not work
+        Integer[] integerArray = Arrays.stream(a).boxed().toArray(Integer[]::new);  // int[] --> Integer[]
+        List<Integer> l1  = new ArrayList<>();
+        Collections.addAll(l1, integerArray);
 
-        // element to List
+
         Integer[] b = new Integer[]{1, 2, 3};
         List<Integer> l2  = Arrays.asList(b);
 
-//        l.size();
+        /**
+         * List<Integer> -> int[]
+         */
+
+        l2.stream().mapToInt(Integer::intValue).toArray();
+
     }
 
     void set(){
