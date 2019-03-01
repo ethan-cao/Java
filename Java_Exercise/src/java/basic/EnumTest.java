@@ -5,8 +5,15 @@ import java.util.EnumSet;
 
 public class EnumTest {
 
-    static class A{}
-    class B{}
+    private enum FIXED_VALUE{
+        VALUE1, VALUE2, VALUE3;
+    }
+
+    static class A {
+    }
+
+    class B {
+    }
 
     interface I {
         public void m();
@@ -16,7 +23,7 @@ public class EnumTest {
      * enum implicitly extend java.lang.Enum, thus they can't extend another class/Enum
      * public abstract class Enum<E extends Enum<E>> implements Comparable<E>, Serializable
      * <p>
-     *
+     * <p>
      * it can only implement additional interfaces
      */
     public enum Light implements I {
@@ -27,9 +34,9 @@ public class EnumTest {
         RED(2),  // ordinal starts from 0
         GREEN(3),
         YELLOW(2),
-        Blue(4){
+        Blue(4) {
             @Override
-            public String toString(){
+            public String toString() {
                 return "The blue one";
             }
         };
@@ -47,14 +54,16 @@ public class EnumTest {
         }
 
         // Overload
-        Light(){ }
+        Light() {
+        }
 
         @Override
         public void m() {
             System.out.println("m() implementation ");
         }
 
-        static void staticMethod(){}
+        static void staticMethod() {
+        }
 
         @Override
         public String toString() {
@@ -110,13 +119,14 @@ public class EnumTest {
         testEnumSet();
     }
 
-    void testSwitch(){
-       Light l = Light.GREEN;
+    void testSwitch() {
+        Light l = Light.GREEN;
 
-       switch (l){
-           case RED: break;
+        switch (l) {
+            case RED:
+                break;
 //           case Light.RED: break;  // compiler error
-       }
+        }
     }
 }
 
@@ -132,3 +142,4 @@ class E2 {
 //        enum D { D }  // cannot have method local inner enum
     }
 }
+
