@@ -33,7 +33,7 @@ The result can be in any order.
 ### Corner case
 
 */
-public class Sort_Array_350 {
+public class TwoPointer_Array_350 {
 
     public static void main(String[] args) {
         int[] nums1 = {1, 2, 2, 1};
