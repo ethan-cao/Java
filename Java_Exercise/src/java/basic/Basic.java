@@ -11,7 +11,14 @@ public class Basic extends ArrayListTest {
 	String ￥23 = "true";   // currency character can be used
 	int instantVariable1, instantVariable2 = 0; // this is is legal
 
-	public static void main(String[] args) {
+	public static void main(String... args) {
+	    // Arbitrary Number of Arguments, zero or more String objects (or an array of them)
+		// even if args is 0 or 1 param, it works
+		for (String s : args){
+			System.out.println(s);
+		}
+
+
 		// this, super cannot be used in static method
 		
 		int a, b1=3, c=0; // this is is legal

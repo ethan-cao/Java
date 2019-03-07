@@ -43,6 +43,9 @@ public class ArrayListTest {
 		for(Integer i: al) {
 			System.out.print(i);
 		}
+
+		// print entire ArrayList
+		System.out.println(Arrays.toString(al.toArray()));
 	}
 
 	static void autoboxingTest(){

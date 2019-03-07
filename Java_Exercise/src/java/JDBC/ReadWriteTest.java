@@ -103,9 +103,6 @@ public class ReadWriteTest {
 			       
 		        se = se.getNextException();
 			}
-			
 		}
-
-		
 	}
 }
