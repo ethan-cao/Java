@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TwoPointer_Array_118 {
+public class E_TwoPointer_Array_118 {
 
     public static void main(String... args) {
         List<List<Integer>> result = generate(5);

@@ -28,7 +28,7 @@ input = {0}
 
 import java.util.Arrays;
 
-class TwoPointer_Array_283 {
+class E_TwoPointer_Array_283 {
     public static void main(String[] args) {
         int[] input = {0, 1, 0, 3, 12, 0, 0};
 //        int[] input = {0};
