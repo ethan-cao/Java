@@ -37,11 +37,11 @@ public class E_Array_581 {
 //        int[] input = {1, 3, 6, 4, 2, 8, 15}; // --> 4
 //        int[] input = {1, 2, 3, 4};  // --> 0
 //        int[] input = {5, 4, 3, 2};  // --> 4
-        int[] input = {1, 3, 2};  // --> 2
-//        int[] input = {};
+//        int[] input = {1, 3, 2};  // --> 2
+        int[] input = {};
 //        int[] input = null;
 
-        int result = findUnsortedSubarray(input);
+        int result = findUnsortedSubarray1(input);
 
         System.out.println(result);
     }
@@ -75,32 +75,59 @@ public class E_Array_581 {
         return endIndex == startIndex ? 0 : endIndex - startIndex + 1;
     }
 
+    // improved version for findUnsortedSubarray
     public static int findUnsortedSubarray1(int[] nums) {
         if (nums == null || nums.length <= 1) {
             return 0;
         }
 
-        int startIndex = 0;
-        int endIndex = 0;
+        int startIndex = -1;
+        int endIndex = -2;
+        int[] numsCopy = new int[nums.length];
+        System.arraycopy(nums, 0, numsCopy, 0, nums.length);
+        Arrays.sort(numsCopy);
 
-        for (int i = 0; i <= nums.length - 2; ++i) {
-            int localMin = Arrays.stream(nums, i, nums.length).min().getAsInt();
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] != numsCopy[i]){
 
-            if (nums[i] != localMin) {
-                startIndex = i;
-                break;
+                if (startIndex == -1){
+                    startIndex = i;  // update start index only once
+                }
+
+                endIndex = i;
             }
         }
 
-        for (int i = nums.length; i > 0; --i) {
-            int localMax = Arrays.stream(nums, 0, i).max().getAsInt();
+        return endIndex - startIndex + 1;
+    }
 
-            if (nums[i - 1] != localMax) {
-                endIndex = i - 1;
-                break;
+    // O(n) runtime, O(1) space
+    public static int findUnsortedSubarray2(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return 0;
+        }
+
+        // make difference between startIndex and endIndex 1 by default
+        int startIndex = -1;
+        int endIndex = -2;
+        int localMax = nums[0];
+        int localMin = nums[nums.length - 1];
+
+        // make 2 iteration within 1 iteration
+        for (int i = 1; i < nums.length; ++i) {
+            // forward iteration
+            localMax = Math.max(nums[i], localMax);
+            if (nums[i] < localMax) {
+                endIndex = i;
+            }
+
+            // backward iteration
+            localMin = Math.min(nums[nums.length - 1 - i], localMin);
+            if (nums[nums.length - 1 - i] > localMin) {
+                startIndex = nums.length - 1 - i;
             }
         }
 
-        return endIndex == startIndex ? 0 : endIndex - startIndex + 1;
+        return endIndex - startIndex + 1;
     }
 }
