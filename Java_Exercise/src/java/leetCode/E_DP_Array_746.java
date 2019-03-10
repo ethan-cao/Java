@@ -56,7 +56,7 @@ reach the top floor : min(cost[L-1], cost[L-2])
 
 */
 
-public class DP_Array_746 {
+public class E_DP_Array_746 {
     public static void main(String[] args) {
         int[] costs = {10, 15, 20};
 //        int[] costs = {1, 100, 1, 1, 1, 100, 1, 1, 100, 1};

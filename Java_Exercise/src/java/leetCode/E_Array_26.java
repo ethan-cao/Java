@@ -3,7 +3,7 @@ package leetCode;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Array_26{
+public class E_Array_26 {
     public static void main(String[] args){
 
     	int[] nums = {0,0,1,1,1,2,2,3,3,4};

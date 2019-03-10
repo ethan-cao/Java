@@ -26,7 +26,7 @@ There are many calls to sumRange function.
 ### Corner case
 
  */
-public class Array_303 {
+public class E_Array_303 {
     public static void main(String[] args) {
         int[] nums = {-2, 0, 3, -5, 2, -1};
 

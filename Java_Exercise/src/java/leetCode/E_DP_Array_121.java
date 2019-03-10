@@ -25,7 +25,7 @@ idx2 > idx1
 #Corner case
 
 */
-public class DP_Array_121 {
+public class E_DP_Array_121 {
 
     public static void main(String[] args) {
 //        int[] prices = {7, 1, 5, 3, 6, 4};  //5

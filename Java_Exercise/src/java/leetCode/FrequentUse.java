@@ -22,6 +22,10 @@ public class FrequentUse {
                 .boxed()
                 .collect(Collectors.toCollection(HashSet::new));
 
+        // get max value in array
+        int startIndex = 0;
+        int endIndex = ints.length;
+        Arrays.stream(ints, startIndex, endIndex).max().getAsInt();
 
 
         // list to strings
@@ -50,6 +54,8 @@ public class FrequentUse {
 
         l2.stream().mapToInt(Integer::intValue).toArray();
 
+        // print steam
+        l2.stream().forEach(System.out::println);
     }
 
     void set(){

@@ -46,7 +46,7 @@ values.length == 0
 
  */
 
-public class DP_Array_198 {
+public class E_DP_Array_198 {
 
     public static void main(String[] args) {
 //        int[] values = {1, 2, 3, 1}; // 4
