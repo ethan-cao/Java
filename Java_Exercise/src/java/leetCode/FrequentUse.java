@@ -14,7 +14,7 @@ public class FrequentUse {
 
 		int l = strings.length;
 
-		// the easiest way to print content
+		// PRINT
         System.out.println(Arrays.toString(strings));
 
         // int[] to Set<Integer>
@@ -48,6 +48,9 @@ public class FrequentUse {
         Integer[] b = new Integer[]{1, 2, 3};
         List<Integer> l2  = Arrays.asList(b);
 
+        // PRINT
+        System.out.println(Arrays.toString(l2.toArray()));
+
         /**
          * List<Integer> -> int[]
          */
@@ -71,7 +74,8 @@ public class FrequentUse {
         int a = 1;
         m.put("s", a);
 
-        System.out.println(Arrays.asList(m)); // print map
+        // print
+        System.out.println(Arrays.asList(m));
     }
 }
 

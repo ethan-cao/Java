@@ -46,7 +46,7 @@ f(n) : how many ways to reach the top
 
 */
 
-public class DP_70 {
+public class E_DP_70 {
 
     public static void main(String[] args) {
         int solution = climbStairs2(5);
