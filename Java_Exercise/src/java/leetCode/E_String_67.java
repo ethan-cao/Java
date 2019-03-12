@@ -70,6 +70,35 @@ public class E_String_67 {
         return sb.reverse().toString();
     }
 
+    // bitwise operation
+    public static String addBinary1(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int l1 = a.length() - 1;
+        int l2 = b.length() - 1;
+        int carry = 0;
+
+        while (l1 >= 0 || l2 >= 0) {
+            int sum = carry;
+
+            if (l1 >= 0) {
+                sum += a.charAt(l1--) - '0';
+            }
+
+            if (l2 >= 0) {
+                sum += b.charAt(l2--) - '0';
+            }
+
+            sb.append(sum & 1);  // similar effect as sum % 2
+            carry = sum >> 1 ; // sum >> 1 has similar effect as sum / 2
+        }
+
+        if (carry != 0) {
+            sb.append(carry);
+        }
+
+        return sb.reverse().toString();
+    }
+
     // This does not work since the long/int cannot hold large value
     public static String addBinary0(String a, String b) {
         String result = "";
