@@ -5,12 +5,6 @@ Given two binary strings, return their sum (also a binary string).
 
 The input strings are both non-empty and contains only characters 1 or 0.
 
-### Input
-int[] array, int k
-
-### Output
-int[]
-
 ### Example
 "11",  "1"      --> "100"
 "1010","1011"   --> "10101"
@@ -33,9 +27,10 @@ public class E_String_67 {
 
         a = "1010";
         b = "1011";
-        a = "0";
-        b = "0";
 
+//        a = "0";
+//        b = "0";
+//
         a = "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101";
         b = "110101001011101110001111100110001010100001101011101010000011011011001011101111001100000011011110011";
 
@@ -89,7 +84,7 @@ public class E_String_67 {
             }
 
             sb.append(sum & 1);  // similar effect as sum % 2
-            carry = sum >> 1 ; // sum >> 1 has similar effect as sum / 2
+            carry = sum >> 1; // sum >> 1 has similar effect as sum / 2
         }
 
         if (carry != 0) {
@@ -98,6 +93,7 @@ public class E_String_67 {
 
         return sb.reverse().toString();
     }
+
 
     // This does not work since the long/int cannot hold large value
     public static String addBinary0(String a, String b) {

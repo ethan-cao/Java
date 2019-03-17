@@ -31,7 +31,7 @@ sourceSets {
 
 dependencies {
     compile(
-            'com.google.guava:guava:25.0-jre',
+            'com.google.guava:guava:27.1-jre',
 //            'org.apache.commons:commons-lang3:8.1',
             files('lib/algs4.jar')
     )

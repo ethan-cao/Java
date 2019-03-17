@@ -10,12 +10,6 @@ Return True if it is possible that it was your friends name, with some character
 name.length <= 1000 & typed.length <= 1000
 The characters of name and typed are lowercase letters.
 
-### Input
-String name, String types
-
-### Output
-boolean
-
 ### Example
 name = "alex", typed = "aaleex" --->  true
 Explanation: 'a' and 'e' in 'alex' were long pressed.
@@ -54,51 +48,6 @@ public class E_TwoPointer_String_925 {
         typed = "aaab"; // true
 
         System.out.println(isLongPressedName1(name, typed));
-    }
-
-    public static boolean isLongPressedName(String name, String typed) {
-        if (null == typed || null == name || typed.length() < name.length()) {
-            return false;
-        }
-
-        if (typed.equals(name)) {
-            return true;
-        }
-
-        boolean result = true;
-
-        int j = 0;
-
-        for (int i = 0; i < name.length() && j < typed.length() - 1; ) {
-            int repeat = 1;
-            while (i + 1 < name.length() && name.charAt(i) == name.charAt(i + 1)) {
-                repeat++;
-                i++;
-            }
-
-            while (repeat == 0) {
-                if (typed.charAt(j) != name.charAt(i)) {
-                    return false;
-                }
-
-                repeat--;
-                j++;
-            }
-
-            j++;
-
-            if (name.charAt(i) == typed.charAt(j)) {
-                j++;
-            } else {
-                if (i + 1 < name.length() && name.charAt(i + 1) == typed.charAt(j)) {
-
-                } else {
-
-                }
-            }
-        }
-
-        return result;
     }
 
     public static boolean isLongPressedName1(String name, String typed) {

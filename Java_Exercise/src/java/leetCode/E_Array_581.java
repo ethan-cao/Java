@@ -35,13 +35,13 @@ public class E_Array_581 {
 //        int[] input = {2, 6, 4, 8, 10, 9, 15}; // --> 5
 //        int[] input = {-1, -100, 3, 99}; // --> 2
 //        int[] input = {1, 3, 6, 4, 2, 8, 15}; // --> 4
-//        int[] input = {1, 2, 3, 4};  // --> 0
+        int[] input = {1, 2, 3, 4};  // --> 0
 //        int[] input = {5, 4, 3, 2};  // --> 4
 //        int[] input = {1, 3, 2};  // --> 2
-        int[] input = {};
+//        int[] input = {};
 //        int[] input = null;
 
-        int result = findUnsortedSubarray1(input);
+        int result = findUnsortedSubarray(input);
 
         System.out.println(result);
     }
@@ -54,7 +54,7 @@ public class E_Array_581 {
         int startIndex = 0;
         int endIndex = 0;
 
-        for (int i = 0; i <= nums.length - 2; ++i) {
+        for (int i = 0; i < nums.length - 1; ++i) {
             int localMin = Arrays.stream(nums, i, nums.length).min().getAsInt();
 
             if (nums[i] != localMin) {
@@ -75,34 +75,8 @@ public class E_Array_581 {
         return endIndex == startIndex ? 0 : endIndex - startIndex + 1;
     }
 
-    // improved version for findUnsortedSubarray
-    public static int findUnsortedSubarray1(int[] nums) {
-        if (nums == null || nums.length <= 1) {
-            return 0;
-        }
-
-        int startIndex = -1;
-        int endIndex = -2;
-        int[] numsCopy = new int[nums.length];
-        System.arraycopy(nums, 0, numsCopy, 0, nums.length);
-        Arrays.sort(numsCopy);
-
-        for (int i = 0; i < nums.length; ++i) {
-            if (nums[i] != numsCopy[i]){
-
-                if (startIndex == -1){
-                    startIndex = i;  // update start index only once
-                }
-
-                endIndex = i;
-            }
-        }
-
-        return endIndex - startIndex + 1;
-    }
-
     // O(n) runtime, O(1) space
-    public static int findUnsortedSubarray2(int[] nums) {
+    public static int findUnsortedSubarray1(int[] nums) {
         if (nums == null || nums.length <= 1) {
             return 0;
         }
@@ -130,4 +104,32 @@ public class E_Array_581 {
 
         return endIndex - startIndex + 1;
     }
+
+    public static int findUnsortedSubarray2(int[] nums) {
+        if (nums == null || nums.length <= 1) {
+            return 0;
+        }
+
+        // make difference between startIndex and endIndex 1 by default
+        int startIndex = -1;
+        int endIndex = -2;
+
+        int[] numsCopy = new int[nums.length];
+        System.arraycopy(nums, 0, numsCopy, 0, nums.length);
+        Arrays.sort(numsCopy);
+
+        for (int i = 0; i < nums.length; ++i) {
+            if (nums[i] != numsCopy[i]) {
+
+                if (startIndex == -1) {
+                    startIndex = i;  // update start index only once
+                }
+
+                endIndex = i;
+            }
+        }
+
+        return endIndex - startIndex + 1;
+    }
+
 }

@@ -77,6 +77,17 @@ public class FrequentUse {
         // print
         System.out.println(Arrays.asList(m));
     }
+
+    static void string(){
+        String a = "aaabbb";
+
+        // String -> char[]
+        a.toCharArray();
+
+        // iteration
+        for (char c : a.toCharArray()){
+        }
+    }
 }
 
 
