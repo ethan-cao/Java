@@ -7,12 +7,6 @@ anagram :  use exact the same char once
 
 extra: What if the inputs contain unicode characters? How would you adapt your solution to such case?
 
-### Input
-String s, String t
-
-### Output
-boolean
-
 ### Example
 Input: s = "anagram", t = "nagaram"
 Output: true
