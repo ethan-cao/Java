@@ -18,51 +18,101 @@ Given a singly linked list, determine if it is a palindrome.
 
 // Also 252 anagram
 
+import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.List;
 
 public class E_TwoPointer_LinkedList_234 {
 
     public static void main(String[] args) {
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(2);
+//        ListNode node4 = new ListNode(1);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+
         ListNode node1 = new ListNode(1);
         ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(2);
-        ListNode node4 = new ListNode(1);
-
+        ListNode node3 = new ListNode(3);
+        ListNode node4 = new ListNode(2);
+        ListNode node5 = new ListNode(1);
         node1.next = node2;
         node2.next = node3;
         node3.next = node4;
+        node4.next = node5;
 
         System.out.println(isPalindrome(node1));
-
     }
 
     public static class ListNode {
-        int value;
+        int val;
         ListNode next;
 
         ListNode(int x) {
-            value = x;
+            this.val = x;
         }
     }
 
+    // reversing the 2nd half and compare the two halves
+    // this modifies input data structure, not recommended in practice
     public static boolean isPalindrome(ListNode head) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(head.value);
-
-        ListNode node = head.next;
-
-        while (node.next != null) {
-
-            if (node.value == stack.pop()) {
-                stack.pop();
-            } else {
-                stack.push(node.value);
-            }
-
-            node = node.next;
+        if (head == null || head.next == null) {
+            return true;
         }
 
-        return stack.isEmpty();
+
+        ListNode pointer1 = head;
+        ListNode pointer2 = head;
+        // 1      -> 1 -> 2 -> 1 -> null
+        // p1 p2
+
+        while (pointer2 != null && pointer2.next != null) {
+            pointer1 = pointer1.next;
+            pointer2 = pointer2.next.next;
+            // pointer2 moves 2 slots each time, so it reaches the end, while pointer1 reaches the middle
+        }
+        // 1 -> 1 -> 2 -> 1 -> null
+        //           p1        p2
+
+
+        // since it is not possible to reverse and move pointer2 to the beginning of 2nd half list, use pointer1
+        // because pointer2 is already in the end, cannot travel backwards
+
+        // move pointer2 to the beginning of left list
+        pointer2 = head;
+
+        // reverse the 2nd half list and move pointer1 to the beginning to the right list
+        // pointer1 now points to the 1st element in the right half list
+        ListNode previous = null;
+        while (pointer1 != null) {
+            ListNode next = pointer1.next; // preserve the next one
+
+            pointer1.next = previous;
+            previous = pointer1;
+
+            pointer1 = next;
+        }
+        pointer1 = previous;
+
+        // 1 -> 1    2 <- 1
+        // p2             p1
+
+        // compare 2 list
+        while (pointer1 != null && pointer2 != null) {
+            if (pointer1.val != pointer2.val){
+                return false;
+            }
+
+            pointer1 = pointer1.next;
+            pointer2 = pointer2.next;
+        }
+
+        return true;
     }
 }
