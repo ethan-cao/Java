@@ -57,6 +57,7 @@ public class E_Recursion_LinkedList_234 {
     }
 
     // Recursive approach, need the instance member root
+    // recursive algorithm always takes O(n) space
     static ListNode root;
 
     public static boolean isPalindrome(ListNode head) {
