@@ -17,16 +17,7 @@ Given a singly linked list, determine if it is a palindrome.
 */
 
 // Also 252 anagram
-
-import com.sun.prism.shader.Solid_TextureYV12_AlphaTest_Loader;
-import org.w3c.dom.NodeList;
-
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
-
-public class E_TwoPointer_LinkedList_234 {
+public class E_Recursion_LinkedList_234 {
 
     public static void main(String[] args) {
 //        ListNode node1 = new ListNode(1);
@@ -37,15 +28,21 @@ public class E_TwoPointer_LinkedList_234 {
 //        node2.next = node3;
 //        node3.next = node4;
 
+//        ListNode node1 = new ListNode(1);
+//        ListNode node2 = new ListNode(2);
+//        ListNode node3 = new ListNode(3);
+//        ListNode node4 = new ListNode(2);
+//        ListNode node5 = new ListNode(1);
+//        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+
         ListNode node1 = new ListNode(1);
-        ListNode node2 = new ListNode(2);
-        ListNode node3 = new ListNode(3);
-        ListNode node4 = new ListNode(2);
-        ListNode node5 = new ListNode(1);
+        ListNode node2 = new ListNode(1);
+        ListNode node3 = new ListNode(1);
         node1.next = node2;
         node2.next = node3;
-        node3.next = node4;
-        node4.next = node5;
 
         System.out.println(isPalindrome(node1));
     }
@@ -59,9 +56,34 @@ public class E_TwoPointer_LinkedList_234 {
         }
     }
 
+    // Recursive approach, need the instance member root
+    static ListNode root;
+
+    public static boolean isPalindrome(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+
+        // let root point to the very beginning
+        if (root == null) {
+            root = head;
+        }
+
+        boolean flag = true; // assign default value
+        if (head.next != null) {
+            flag = isPalindrome(head.next);
+        }
+
+        flag &= (root.val == head.val);
+
+        root = root.next;
+
+        return flag;
+    }
+
     // reversing the 2nd half and compare the two halves
     // this modifies input data structure, not recommended in practice
-    public static boolean isPalindrome(ListNode head) {
+    public static boolean isPalindrome1(ListNode head) {
         if (head == null || head.next == null) {
             return true;
         }
@@ -105,7 +127,7 @@ public class E_TwoPointer_LinkedList_234 {
 
         // compare 2 list
         while (pointer1 != null && pointer2 != null) {
-            if (pointer1.val != pointer2.val){
+            if (pointer1.val != pointer2.val) {
                 return false;
             }
 
