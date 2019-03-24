@@ -65,21 +65,16 @@ public class E_Recursion_LinkedList_234 {
             return true;
         }
 
-        // let root point to the very beginning
         if (root == null) {
             root = head;
         }
 
-        boolean flag = true; // assign default value
-        if (head.next != null) {
-            flag = isPalindrome(head.next);
-        }
-
-        flag &= (root.val == head.val);
+        boolean result = isPalindrome(head.next);
+        result &= (root.val == head.val);
 
         root = root.next;
 
-        return flag;
+        return result;
     }
 
     // reversing the 2nd half and compare the two halves
@@ -88,7 +83,6 @@ public class E_Recursion_LinkedList_234 {
         if (head == null || head.next == null) {
             return true;
         }
-
 
         ListNode pointer1 = head;
         ListNode pointer2 = head;
