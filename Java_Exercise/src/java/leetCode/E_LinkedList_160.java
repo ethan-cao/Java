@@ -60,11 +60,12 @@ public class E_LinkedList_160 {
         node8.next = node3;
 
 
-        ListNode node = getIntersectionNode(node1, node6);
-        while (node != null) {
-            System.out.println(node.val);
-            node = node.next;
-        }
+        ListNode node = getIntersectionNode0(node1, node6);
+
+//        while (node != null) {
+//            System.out.println(node.val);
+//            node = node.next;
+//        }
     }
 
     public static class ListNode {
@@ -76,9 +77,97 @@ public class E_LinkedList_160 {
         }
     }
 
-    public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    // works but very slow
+    public static ListNode getIntersectionNode0(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
 
+        ListNode nodeA = headA;
+        while (nodeA != null) {
+
+            ListNode nodeB = headB;
+            while (nodeB != null) {
+
+                if (nodeA == nodeB) {
+                    return nodeA;
+                }
+
+                nodeB = nodeB.next;
+            }
+            nodeA = nodeA.next;
+        }
 
         return null;
     }
+
+    public static ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        ListNode nodeA = headA;
+        ListNode nodeB = headB;
+
+        /*
+            this results in 2 iterations
+            Suppose lenght list A is a + c, lenght list B is a + c
+            c is the length of intersection
+
+            in 1st iteration, pinterA moves a + c, pointerB moves b + c,
+            after switching pointer, pointerA moves b + c , pointerB moves a + c
+
+            eventually, pointerA moves a + c + b + c, pointerB moves b + c + a + c
+            since a + c + b = b + c + a, 2 pinters meets in the beginning of intersection
+         */
+        while (nodeA != nodeB) {
+            nodeA = nodeA == null ? headB : nodeA.next;
+            nodeB = nodeB == null ? headA : nodeB.next;
+        }
+
+        return nodeA;
+    }
+
+    public static ListNode getIntersectionNode2(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        // Get the length of the two lists.
+        int lengthA = getLength(headA);
+        int lengthB = getLength(headB);
+
+        // make 2 pointers have the same length to iterate
+        if (lengthA > lengthB) {
+            while (lengthA == lengthB) {
+                headA = headA.next;
+                lengthA--;
+            }
+        } else {
+            while (lengthA == lengthB) {
+                headB = headB.next;
+                lengthB--;
+            }
+        }
+
+        // iterate until find the identical node
+        while (headA == headB) {
+            headA = headA.next;
+            headB = headB.next;
+        }
+
+        return headA;
+    }
+
+    public static int getLength(ListNode node) {
+        int length = 0;
+
+        while (node != null) {
+            length++;
+            node = node.next;
+        }
+
+        return length;
+    }
+
 }
