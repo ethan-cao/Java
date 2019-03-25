@@ -29,11 +29,13 @@ Explanation: Possible partition [1,1]
 Explanation: Possible partition [1,1],[2,2],[2,2]
 
 ### Condition
-
-### Essential problem
 groupCount * elementCount = deck.length
  deck.length >= elementCount >= 2
  deck.length > groupCount >= 1
+
+### Essential problem
+GCD (Greatest Common Divisor)
+
 
 ### Corner case
 
@@ -54,6 +56,42 @@ public class E_Math_Array_914 {
     }
 
     public static boolean hasGroupsSizeX(int[] deck) {
+        int length = deck.length;
+        if (length <= 1) {
+            return false;
+        }
+
+        Map<Integer, Integer> counter = new HashMap<>();
+        for (int card : deck) {
+            counter.put(card, counter.getOrDefault(card, 0) + 1);
+        }
+
+        for (int elementCount = 2; elementCount <= length; ++elementCount) {
+            if (length % elementCount != 0) {
+                continue;
+            }
+
+            int groupCount = length / elementCount;
+            if (groupCount < counter.size()) {
+                continue;
+            }
+
+            boolean result = true;
+            for (Map.Entry entry : counter.entrySet()) {
+                int number = (int) entry.getValue();
+
+                result &= number % elementCount == 0;
+            }
+
+            if (result){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean hasGroupsSizeX1(int[] deck) {
         int length = deck.length;
         if (length <= 1) {
             return false;
