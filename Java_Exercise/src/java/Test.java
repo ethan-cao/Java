@@ -6,9 +6,12 @@ import java.util.Map;
 
 public class Test {
     public static void main(String... args) {
-        for (String s : args){
-            System.out.println(s);
-        }
+        int[] a = {1,2,3};
+        int l = a.length;
+
+        System.out.println(2%0);
+
+
     }
 }
 

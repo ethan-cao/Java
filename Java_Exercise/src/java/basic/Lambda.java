@@ -1,6 +1,6 @@
 package basic;
 
-public class LambdaTest {
+public class Lambda {
     public static void main(String[] args){
 
     }

@@ -52,7 +52,7 @@ public class E_Math_Array_914 {
 //        int[] deck = {1, 1};  // T
         int[] deck = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1};  // T
 
-        System.out.println(hasGroupsSizeX(deck));
+        System.out.println(hasGroupsSizeX1(deck));
     }
 
     public static boolean hasGroupsSizeX(int[] deck) {
@@ -83,7 +83,7 @@ public class E_Math_Array_914 {
                 result &= number % elementCount == 0;
             }
 
-            if (result){
+            if (result) {
                 return true;
             }
         }
@@ -92,38 +92,19 @@ public class E_Math_Array_914 {
     }
 
     public static boolean hasGroupsSizeX1(int[] deck) {
-        int length = deck.length;
-        if (length <= 1) {
-            return false;
-        }
-
         Map<Integer, Integer> counter = new HashMap<>();
         for (int card : deck) {
             counter.put(card, counter.getOrDefault(card, 0) + 1);
         }
 
-        for (int elementCount = 2; elementCount <= length; ++elementCount) {
-            if (length % elementCount != 0) {
-                continue;
-            }
-
-            int groupCount = length / elementCount;
-            if (groupCount < counter.size()) {
-                continue;
-            }
-
-            boolean result = true;
-            for (Map.Entry entry : counter.entrySet()) {
-                int number = (int) entry.getValue();
-
-                result &= number % elementCount == 0;
-            }
-
-            if (result){
-                return true;
-            }
+        int greatestCommonDivisor = 0;
+        for (int count : counter.values()) {
+            greatestCommonDivisor = getGreatestCommonDivisor(count, greatestCommonDivisor);
         }
+        return greatestCommonDivisor > 1;
+    }
 
-        return false;
+    static int getGreatestCommonDivisor(int a, int b) {
+        return b > 0 ? getGreatestCommonDivisor(b, a % b) : a;
     }
 }
