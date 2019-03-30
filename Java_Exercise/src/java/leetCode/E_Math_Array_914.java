@@ -36,8 +36,8 @@ groupCount * elementCount = deck.length
 ### Essential problem
 GCD (Greatest Common Divisor)
 
-
 ### Corner case
+
 
 */
 

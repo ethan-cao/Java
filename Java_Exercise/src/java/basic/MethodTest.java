@@ -5,6 +5,12 @@ import java.util.List;
 
 public class MethodTest {
 
+    static void staticMethod(){
+    }
+
+    void instanceMethod(){
+    }
+
     public static void main(String[] args){
         int[] i = {1};
 
@@ -32,9 +38,11 @@ public class MethodTest {
         l.forEach(s -> System.out.println(s)); // lambda
         l.forEach(System.out::println);  // method reference
 
-        // a method reference cannot be used for any method. They can only be used to replace a single-method lambda expression.
-    }
+        // a method reference can only be used to replace a single-method lambda expression.
 
+
+        // a functional interface, an interface with just one abstract method.
+    }
 
     public Thread m3(){
         return null;   // regardless the return type, return null is always ok
