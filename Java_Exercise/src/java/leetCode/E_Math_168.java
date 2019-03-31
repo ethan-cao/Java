@@ -46,7 +46,7 @@ Convert decimal number to base 26 number
 
 */
 
-public class E_Recursion_Math_168 {
+public class E_Math_168 {
 
     public static void main(String... args) {
         System.out.println(convertToTitle(1));  // A
