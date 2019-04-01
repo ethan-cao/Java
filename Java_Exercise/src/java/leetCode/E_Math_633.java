@@ -19,4 +19,31 @@ Explanation: 1 * 1 + 2 * 2 = 5
 */
 
 public class E_Math_633 {
+
+    public static void main(String... args) {
+
+        System.out.println(judgeSquareSum(0));  //T
+        System.out.println(judgeSquareSum(1));  //T
+        System.out.println(judgeSquareSum(4));  //T
+        System.out.println(judgeSquareSum(5));  //T
+
+        System.out.println(judgeSquareSum(3));  //F
+        System.out.println(judgeSquareSum(7));  //F
+        System.out.println(judgeSquareSum(27));  //F
+
+    }
+
+    public static boolean judgeSquareSum(int c) {
+        int upperLimit = (int) Math.sqrt(c / 2);
+
+        for (int i = 0; i <= upperLimit; ++i) {
+            double sqrt = Math.sqrt(c - i * i);
+
+            if (sqrt == (int) sqrt) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

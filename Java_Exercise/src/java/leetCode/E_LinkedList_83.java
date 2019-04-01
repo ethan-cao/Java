@@ -15,12 +15,6 @@ Given a sorted linked list, delete all duplicates such that each element appear 
 
 */
 
-import edu.princeton.cs.algs4.In;
-
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class E_LinkedList_83 {
     public static void main(String[] args) {
