@@ -18,6 +18,8 @@ Explanation: 1 * 1 + 2 * 2 = 5
 
 */
 
+import java.util.HashSet;
+
 public class E_Math_633 {
 
     public static void main(String... args) {
@@ -40,6 +42,40 @@ public class E_Math_633 {
             double sqrt = Math.sqrt(c - i * i);
 
             if (sqrt == (int) sqrt) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean judgeSquareSum1(int c) {
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int i = 0; i <= Math.sqrt(c / 2); i++) {
+            // store all possible a*a
+            set.add(i * i);
+
+            // if ever b*b's corresponding a*a is already checked, then return true
+            if (set.contains(c - i * i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean judgeSquareSum2(int c) {
+        int left = 0;
+        int right = (int) Math.sqrt(c);
+
+        while (left <= right) {
+            int value = left * left + right * right;
+
+            if (c > value) {
+                left++;
+            } else if (c < value) {
+                right--;
+            } else {
                 return true;
             }
         }
