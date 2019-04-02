@@ -2,13 +2,28 @@ package basic;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
-public class MethodTest {
+class ParentMethodTest{
+    static void staticMethod(String s){
+        System.out.println(s);
+    }
+}
 
-    static void staticMethod(){
+public class MethodTest extends ParentMethodTest {
+    MethodTest() {
     }
 
-    void instanceMethod(){
+    MethodTest(String s) {
+        System.out.println(s);
+    }
+
+    static void staticMethod(String s){
+        System.out.println(s);
+    }
+
+    void instanceMethod(String s){
+        System.out.println(s);
     }
 
     public static void main(String[] args){
@@ -19,6 +34,7 @@ public class MethodTest {
 
 //        m2(1); // compilation fail
         m2(i);
+
     }
 
     // accepts array or an arbitrary number of values
@@ -32,19 +48,24 @@ public class MethodTest {
     }
 
     public static void methodReference(){
-        List l = Arrays.asList("A", "B", "C");
+        List<String> list = Arrays.asList("A", "B", "C");
 
         // equivalent
-        l.forEach(s -> System.out.println(s)); // lambda
-        l.forEach(System.out::println);  // method reference
-
         // a method reference can only be used to replace a single-method lambda expression.
+        list.forEach(s -> System.out.println(s)); // lambda
+        list.forEach(System.out::println);  // method reference
+
+        list.forEach(MethodTest::staticMethod);  // reference static method
+        list.forEach(ParentMethodTest::staticMethod);  // reference parent static method or super::staticMethod in instance method
+        list.forEach(new MethodTest()::instanceMethod);  // reference instance method
+        list.forEach(MethodTest::new);  // reference to constructor
+
+        /* Method references are expressions which have the same treatment as lambda expressions (...),
+           but instead of providing a method body, they refer an existing method by name.
+         */
 
 
-        // a functional interface, an interface with just one abstract method.
+
     }
 
-    public Thread m3(){
-        return null;   // regardless the return type, return null is always ok
-    }
 }

@@ -6,12 +6,21 @@ import java.util.Map;
 
 public class Test {
     public static void main(String... args) {
-        int[] a = {1,2,3};
+        int[] a = {1, 2, 3};
         int l = a.length;
 
-        System.out.println(2%0);
+        System.out.println("asd" + E.A.name());
 
 
     }
+
 }
 
+
+enum E{
+    A(a);
+
+    E(String s){
+       this.
+    }
+}
