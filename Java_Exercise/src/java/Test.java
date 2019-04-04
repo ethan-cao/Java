@@ -9,18 +9,11 @@ public class Test {
         int[] a = {1, 2, 3};
         int l = a.length;
 
-        System.out.println("asd" + E.A.name());
 
+        System.out.println(Long.valueOf("2"));
 
     }
 
 }
 
 
-enum E{
-    A(a);
-
-    E(String s){
-       this.
-    }
-}
