@@ -21,23 +21,23 @@ On the third move we step from -1 to 2.
 
 ### Condition
 
-
 ### Essential problem
 
 ### Corner case
+int overflow
 
 */
 
 public class E_Math_754 {
     public static void main(String... args) {
-//        System.out.println(reachNumber(1));  // 1
-//        System.out.println(reachNumber(2));  // 3
-//        System.out.println(reachNumber(3));  // 2
-//        System.out.println(reachNumber(4));  // 3
-//        System.out.println(reachNumber(5));  // 5
-//        System.out.println(reachNumber(6));  // 3
+        System.out.println(reachNumber1(1));  // 1
+        System.out.println(reachNumber1(2));  // 3
+        System.out.println(reachNumber1(3));  // 2
+        System.out.println(reachNumber1(4));  // 3
+        System.out.println(reachNumber1(5));  // 5
+        System.out.println(reachNumber1(6));  // 3
 
-        System.out.println(reachNumber(-1000000000));  // 44723
+        System.out.println(reachNumber1(-1000000000));  // 44723
 
     }
 
@@ -47,7 +47,7 @@ public class E_Math_754 {
         target = Math.abs(target); // due to symmetry
 
         // if use 8, 8 * target is int, it could overflow
-        // use 8.0, so 8 * target is float, larger range
+        // use 8.0, so 8 * target is float, enlarge range
         long lowerLimit = (long) Math.ceil((Math.sqrt(1 + 8.0 * target) - 1) / 2); // quadratic equation
         long sum = (1 + lowerLimit) * lowerLimit / 2;
         long delta = sum - target;  // sum>=target
@@ -55,17 +55,48 @@ public class E_Math_754 {
         if (delta == 0) {
             step = lowerLimit;
         } else if (delta % 2 == 0) {
-            // if delta is even, flip one number x in [1,n] to be -x.
-            // since i-th move, if we switch right move to left move, summation will be 2*i less
+            /*
+            let's say 1 <= step <= n, sum - target = delta
+            if delta = 2x (delta is even) and for sure delta < n , so 2x < n
+            sum - target = 2x, so sum - 2x = target
+
+            since i-th move, if we switch right move to left move, summation will be 2*i less
+            since i <=n and x <= n
+
+            thus, it is possible to reach the target
+             */
             step = lowerLimit;
         } else if ((delta + lowerLimit + 1) % 2 == 0) {
-            // if delta is odd, and n+1 is odd, we can first add n+1, then delta is even. Next flip an x to be -x
+            // if delta is odd, and n+1 is odd, add n+1, then delta is even. then flip an x
             step = lowerLimit + 1;
         } else {
-            // If delta is odd and n+1 is even, we add n+1 then subtract n+2, delta becomes even, then flip an x
+            // if delta is odd, and n+1 is even, and n+2 is odd
+            // add n+1, then subtract n+2, delta becomes even, then flip an x
             step = lowerLimit + 2;
         }
 
         return (int) step;
     }
+
+    public static int reachNumber1(int target) {
+        int step = 0;
+
+        target = Math.abs(target); // due to symmetry
+        int sum = 0;
+
+        //  Find the smallest step that the summation from 1 to step just exceeds or equals target.
+        while (sum < target) {
+            step++;
+            sum += step;
+        }
+
+        // If the difference value is odd, increase the step until the difference is even (at most 2 more steps needed).
+        while ((sum - target) % 2 != 0) {
+            step++;
+            sum += step;
+        }
+
+        return step;
+    }
 }
+
