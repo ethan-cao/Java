@@ -5,12 +5,12 @@ import java.util.Deque;
 
 /**
  * Binary search tree implementation for symbol table (Map)
- *
+ * <p>
  * binary tree, each node has a key and
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
- *
- *
+ * <p>
+ * <p>
  * Perfect example for recursion
  */
 
@@ -206,41 +206,41 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     public Iterable<Key> keys() {
         Deque<Key> keys = new ArrayDeque<>();
-        this.inorder(this.root, keys);
+        this.inOrder(this.root, keys);
         return keys;
     }
 
     /**
      * All four traversals require O(n) time as they visit every node exactly once.
+     * BFS : inOrder, preOrder, postOrder
      */
-
-    private void inorder(Node node, Deque<Key> keys) {
+    private void inOrder(Node node, Deque<Key> keys) {
         if (node == null) {
             return;
         }
 
-        this.inorder(node.left, keys);
+        this.inOrder(node.left, keys);
         keys.push(node.key);
-        this.inorder(node.right, keys);
+        this.inOrder(node.right, keys);
     }
 
-    private void preorder(Node node, Deque<Key> keys) {
+    private void preOrder(Node node, Deque<Key> keys) {
         if (node == null) {
             return;
         }
 
         keys.push(node.key);
-        this.inorder(node.left, keys);
-        this.inorder(node.right, keys);
+        this.inOrder(node.left, keys);
+        this.inOrder(node.right, keys);
     }
 
-    private void postorder(Node node, Deque<Key> keys) {
+    private void postOrder(Node node, Deque<Key> keys) {
         if (node == null) {
             return;
         }
 
-        this.inorder(node.left, keys);
-        this.inorder(node.right, keys);
+        this.inOrder(node.left, keys);
+        this.inOrder(node.right, keys);
         keys.push(node.key);
     }
 
