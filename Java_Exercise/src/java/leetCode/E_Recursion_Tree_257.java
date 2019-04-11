@@ -49,6 +49,21 @@ public class E_Recursion_Tree_257 {
         return paths;
     }
 
+    private static void reachLeaf0(TreeNode node, List<String> path, StringBuilder sb) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.left == null && node.right == null) {
+            path.add(node.val + "");
+            return;
+        }
+
+//        if (node) {
+//
+//        }
+    }
+
     // Recursive, DFS
     private static void reachLeaf(TreeNode node, List<String> path, StringBuilder sb) {
         if (node == null) {
