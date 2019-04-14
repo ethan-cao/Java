@@ -30,22 +30,22 @@ public class E_Math_204 {
     public static int countPrimes(int n) {
         int count = 0;
 
-        boolean[] isCompositeNumbers = new boolean[n];
+        boolean[] isCompositeNumber = new boolean[n];
         // assume all is prime number, by default every element is false
         // T -> composite number,   F -> prime number
 
         // optimization, check until sqrt(n)
-        // since i * j < n, when i = j, i = sqrt(n)
+        // since i * j < n, when i = j, i = sqrt(n), the other half is already marked
         for (int i = 2; i < Math.sqrt(n); ++i) {
-            if (!isCompositeNumbers[i]) {
+            if (!isCompositeNumber[i]) {
                 for (int j = 2; i * j < n; ++j) {
-                    isCompositeNumbers[i * j] = true;
+                    isCompositeNumber[i * j] = true;
                 }
             }
         }
 
         for (int i = 2; i < n; ++i) {
-            if (!isCompositeNumbers[i]) {
+            if (!isCompositeNumber[i]) {
                 count++;
             }
         }
@@ -62,14 +62,14 @@ public class E_Math_204 {
         // only odd number could be prime number
         int count = n / 2;
 
-        boolean[] isCompositeNumbers = new boolean[n];
+        boolean[] isCompositeNumber = new boolean[n];
         // assume all is prime number, by default every element is false
         // T -> composite number,   F -> prime number
 
         // only check odd number
         for (int i = 3; i < Math.sqrt(n); i += 2) {
             // For each composite, do nothing
-            if (isCompositeNumbers[i]) {
+            if (isCompositeNumber[i]) {
                 continue;
             }
 
@@ -77,13 +77,13 @@ public class E_Math_204 {
             // (odd: since we only check odd number, formed by i :Sieve of Eratosthenes)
             // i * i is odd composite since i is odd
             // j = i * i is odd, and we need to iterate odd composite number
-            // i * i + odd * i is composite since it is i * (i + odd), but it is even
+            // i * i + odd  * i is composite since it is i * (i + odd), but it is even
             // i * i + even * i composite and odd since b (odd) + even * i (even) is odd
             // pick smallest even 2
 
             for (int j = i * i; j < n; j += 2 * i) { // // j += 2 * i  is  j = j + (2 * i)
-                if (!isCompositeNumbers[j]) {
-                    isCompositeNumbers[j] = true;
+                if (!isCompositeNumber[j]) {
+                    isCompositeNumber[j] = true;
                     count--;
                 }
             }
