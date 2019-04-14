@@ -18,20 +18,24 @@ Explanation: 1 * 1 + 2 * 2 = 5
 
 */
 
+import math.PrimeFactorization;
+
 import java.util.HashSet;
+import java.util.Map;
 
 public class E_Math_633 {
 
     public static void main(String... args) {
 
-        System.out.println(judgeSquareSum(0));  //T
-        System.out.println(judgeSquareSum(1));  //T
-        System.out.println(judgeSquareSum(4));  //T
-        System.out.println(judgeSquareSum(5));  //T
-
-        System.out.println(judgeSquareSum(3));  //F
-        System.out.println(judgeSquareSum(7));  //F
-        System.out.println(judgeSquareSum(27));  //F
+//        System.out.println(judgeSquareSum3(0));  //T
+//        System.out.println(judgeSquareSum3(1));  //T
+//        System.out.println(judgeSquareSum3(4));  //T
+//        System.out.println(judgeSquareSum3(5));  //T
+//
+//        System.out.println(judgeSquareSum3(3));  //F
+//        System.out.println(judgeSquareSum3(7));  //F
+        System.out.println(judgeSquareSum3(27));  //F
+//        System.out.println(judgeSquareSum3(315));  //F
 
     }
 
@@ -52,7 +56,7 @@ public class E_Math_633 {
     public static boolean judgeSquareSum1(int c) {
         HashSet<Integer> set = new HashSet<>();
 
-        for (int i = 0; i <= Math.sqrt(c / 2); i++) {
+        for (int i = 0; i <= Math.sqrt(c / 2); ++i) {
             // store all possible a*a
             set.add(i * i);
 
@@ -82,4 +86,25 @@ public class E_Math_633 {
 
         return false;
     }
+
+    // NOT working
+    // https://en.wikipedia.org/wiki/Sum_of_two_squares_theorem
+    // a number is a sum of two squares
+    // iff   each prime factor that’s 3 modulo 4   occurs to an even power    in the number's prime factorization.
+    public static boolean judgeSquareSum3(int n) {
+        Map<Integer, Integer> primes = PrimeFactorization.primeFactorize(n);
+
+        for (Map.Entry<Integer, Integer> entry : primes.entrySet()){
+            int prime = entry.getKey();
+            int power = entry.getValue();
+
+            if( ( (prime - 4) % 3 == 0) ){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
 }
