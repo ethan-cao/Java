@@ -1,6 +1,8 @@
 package leetCode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /*
@@ -49,22 +51,7 @@ public class E_Recursion_Tree_257 {
         return paths;
     }
 
-    private static void reachLeaf0(TreeNode node, List<String> path, StringBuilder sb) {
-        if (node == null) {
-            return;
-        }
-
-        if (node.left == null && node.right == null) {
-            path.add(node.val + "");
-            return;
-        }
-
-//        if (node) {
-//
-//        }
-    }
-
-    // Recursive, DFS
+    // Recursive, DFS, fastest
     private static void reachLeaf(TreeNode node, List<String> path, StringBuilder sb) {
         if (node == null) {
             return;
@@ -78,13 +65,49 @@ public class E_Recursion_Tree_257 {
 
         if (node.left != null) {
             StringBuilder current = new StringBuilder(sb);
-            reachLeaf(node.left, path, sb.append(node.val + "->"));
+            reachLeaf(node.left, path, sb.append(node.val).append("->"));
             sb = current;  // restore the sb for right node
         }
 
         if (node.right != null) {
-            reachLeaf(node.right, path, sb.append(node.val + "->"));
+            reachLeaf(node.right, path, sb.append(node.val).append("->"));
         }
+    }
+
+    // BFS
+    private static List<String> binaryTreePaths1(TreeNode root) {
+        List<String> paths = new ArrayList<>();
+
+        if (root == null) {
+            return paths;
+        }
+
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        Deque<String> strings = new ArrayDeque<>();
+        strings.offer("");
+
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            String string = strings.poll();
+
+            if (node.left == null && node.right == null) {
+                paths.add(string + node.val);
+            }
+
+            if (node.left != null) {
+                queue.offer(node.left);
+                strings.offer(string + node.val + "->");
+            }
+
+            if (node.right != null) {
+                queue.offer(node.right);
+                strings.offer(string + node.val + "->");
+            }
+        }
+
+        return paths;
     }
 }
 

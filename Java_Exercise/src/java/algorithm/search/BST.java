@@ -9,9 +9,6 @@ import java.util.Deque;
  * binary tree, each node has a key and
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
- * <p>
- * <p>
- * Perfect example for recursion
  */
 
 public class BST<Key extends Comparable<Key>, Value> {
@@ -212,39 +209,70 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     /**
      * All four traversals require O(n) time as they visit every node exactly once.
-     * BFS : inOrder, preOrder, postOrder
+     * DFS : inOrder, preOrder, postOrder
+     * <p>
+     * traversal result is in stack
+     * <p>
+     * Deque<Key> stack = new ArrayDeque<>();  // LIFO
      */
-    private void inOrder(Node node, Deque<Key> keys) {
+    private void inOrder(Node node, Deque<Key> stack) {
         if (node == null) {
             return;
         }
 
-        this.inOrder(node.left, keys);
-        keys.push(node.key);
-        this.inOrder(node.right, keys);
+        this.inOrder(node.left, stack);
+        stack.push(node.key);
+        this.inOrder(node.right, stack);
     }
 
-    private void preOrder(Node node, Deque<Key> keys) {
+    private void preOrder(Node node, Deque<Key> stack) {
         if (node == null) {
             return;
         }
 
-        keys.push(node.key);
-        this.inOrder(node.left, keys);
-        this.inOrder(node.right, keys);
+        stack.push(node.key);
+        this.inOrder(node.left, stack);
+        this.inOrder(node.right, stack);
     }
 
-    private void postOrder(Node node, Deque<Key> keys) {
+    private void postOrder(Node node, Deque<Key> stack) {
         if (node == null) {
             return;
         }
 
-        this.inOrder(node.left, keys);
-        this.inOrder(node.right, keys);
-        keys.push(node.key);
+        this.inOrder(node.left, stack);
+        this.inOrder(node.right, stack);
+        stack.push(node.key);
     }
 
-    private void BFS(Node node, Deque<Key> keys) {
+    /**
+     * Deque<Key> queue = new ArrayDeque<>();   // FIFO
+     * <p>
+     * traversal result is in queue
+     * <p>
+     * https://www.geeksforgeeks.org/level-order-tree-traversal/
+     */
+    private void BFS(Node root, Deque<Node> queue) {
+        if (root == null) {
+            return;
+        }
+
+        Deque<Node> internalQueue = new ArrayDeque<>();
+        internalQueue.offer(root);
+
+        while (!queue.isEmpty()) {
+            Node node = internalQueue.poll();
+            queue.offer(node);
+
+            if (node.left != null) {
+                internalQueue.offer(node.left);
+            }
+
+            if (node.right != null) {
+                internalQueue.offer(node.right);
+            }
+        }
+
     }
 
     public static void main(String[] args) {
