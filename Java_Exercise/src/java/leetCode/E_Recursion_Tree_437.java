@@ -80,7 +80,7 @@ public class E_Recursion_Tree_437 {
         return count(root, 0, sum, prefixSum);
     }
 
-    // prefix is counted from the top(root) to the bottom(leaves), the result of total count is calculated from the bottom to the top
+    // prefix is counted from the top(root) to the bottom(leaves), the count for path is calculated from the bottom to the top
     private static int count(TreeNode node, int currentSum, int target, HashMap<Integer, Integer> prefixSum) {
         if (node == null) {
             return 0;
@@ -91,8 +91,11 @@ public class E_Recursion_Tree_437 {
         // The sum from any node in the path to the current node
         // equals to
         // the difference between (the sum from the root to the current node) and (the prefix sum of the node in the path)
-        // assume there is a node in the path, if key currentSum - target exists, then this node does exist
-        // and from that node til current node, the sum equals to target
+
+        // assume there is a node in the path and target equals to the sum from the node to the current node
+        // so currentSum - target is the prefix sum of the node in the path
+        // if key currentSum - target exists, then this node does exist and the frequency is the count of path
+
         int pathSum = prefixSum.getOrDefault(currentSum - target, 0);
 
         prefixSum.put(currentSum, prefixSum.getOrDefault(currentSum, 0) + 1);

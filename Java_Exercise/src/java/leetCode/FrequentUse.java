@@ -64,7 +64,7 @@ public class FrequentUse {
     void set(){
         Set<String> set = new HashSet<>();
 
-        String[] strings = set.toArray(new String[]{}); //
+        String[] strings = set.toArray(new String[]{}); // set to array
     }
 
     static void map(){
