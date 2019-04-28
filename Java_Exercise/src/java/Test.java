@@ -1,7 +1,4 @@
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Test {
@@ -10,7 +7,8 @@ public class Test {
         int l = a.length;
 
 
-        System.out.println(Long.valueOf("2"));
+        System.out.println(26 & 15);
+
 
     }
 
