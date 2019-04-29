@@ -1,11 +1,13 @@
 package leetCode;
 
 /*
-Given an integer, write an algorithm to convert it to hexadecimal. For negative integer, two’s complement method is used.
+Given an integer, write an algorithm to convert it to hexadecimal.
+For negative integer, two’s complement method is used.
 
 Note:
     1. All letters in hexadecimal (a-f) must be in lowercase.
-    2. The hexadecimal string must not contain extra leading 0s. If the number is zero, it is represented by a single zero character '0';
+    2. The hexadecimal string must not contain extra leading 0s.
+        If the number is zero, it is represented by a single zero character '0';
         otherwise, the first character in the hexadecimal string will not be the zero character.
     3. The given number is guaranteed to fit within the range of a 32-bit signed integer.
     4. You must not use any method provided by the library which converts/formats the number to hex directly.
@@ -17,8 +19,10 @@ Note:
 ### Condition
 
 ### Essential problem
+Decimal to hexadecimal
 
 ### Corner case
+
 */
 
 public class E_Math_BitManipulation_405 {
@@ -28,6 +32,17 @@ public class E_Math_BitManipulation_405 {
         System.out.println(toHex(30)); // 1e
         System.out.println(toHex(50)); // 32
         System.out.println(toHex(-1)); // ffffffff
+    }
+
+    public static String toHex0(int num) {
+        if (num == 0) {
+            return "0";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+
+        return sb.reverse().toString();
     }
 
     // each time, check the last four digits of binary version of the input
@@ -43,10 +58,14 @@ public class E_Math_BitManipulation_405 {
         char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
         while (num != 0) {
-            sb.append(chars[num & 0xf]);
-            // 0xf : hexadecimal f, which is decimal 15, binary 1111
-            // bitwise and the largest hex number f, num & 0xf is the last digit hex number
+            sb.append(chars[num & 0b1111]);
+            // 0b1111 : binary 1111, which is 0xf : hexadecimal f
+            // num & 0b1111 : get the right-most hexadecimal digit
+            // chars[num & 0b1111] : get corresponding hexadecimal char for the right-most hexadecimal digit
+
             num = num >>> 4;
+            // logical shift right >>> is used to right-shifted 4 bit positions with zero-extension.
+            // the zero-extension will naturally deal with negative number in  two’s complement
         }
 
         return sb.reverse().toString();

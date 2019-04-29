@@ -7,7 +7,7 @@ public class Test {
         int l = a.length;
 
 
-        System.out.println(26 & 15);
+        System.out.println(10 >>1);
 
 
     }
