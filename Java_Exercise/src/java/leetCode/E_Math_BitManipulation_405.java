@@ -32,6 +32,7 @@ public class E_Math_BitManipulation_405 {
         System.out.println(toHex(30)); // 1e
         System.out.println(toHex(50)); // 32
         System.out.println(toHex(-1)); // ffffffff
+        // -1 = 0x ffffffff = 0b 11111111 11111111 11111111 11111111,  32 bit signed integer in two’s complement
     }
 
     public static String toHex0(int num) {
@@ -59,13 +60,15 @@ public class E_Math_BitManipulation_405 {
 
         while (num != 0) {
             sb.append(chars[num & 0b1111]);
-            // 0b1111 : binary 1111, which is 0xf : hexadecimal f
+            // 0b1111 : binary 1111, which is 0xf : hexadecimal f, largest hex digit
             // num & 0b1111 : get the right-most hexadecimal digit
             // chars[num & 0b1111] : get corresponding hexadecimal char for the right-most hexadecimal digit
 
             num = num >>> 4;
             // logical shift right >>> is used to right-shifted 4 bit positions with zero-extension.
-            // the zero-extension will naturally deal with negative number in  two’s complement
+            // since negative number is represented as two’s complement, use >>> to shift the sign digit
+            // so we can get correct negative hex number as two’s complement
+            // why 4 : 4 binary digits can represent the largest single hex digit
         }
 
         return sb.reverse().toString();
