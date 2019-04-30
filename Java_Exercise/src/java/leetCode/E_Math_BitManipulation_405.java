@@ -28,10 +28,11 @@ Decimal to hexadecimal
 public class E_Math_BitManipulation_405 {
 
     public static void main(String... args) {
-        System.out.println(toHex(26)); // 1a
-        System.out.println(toHex(30)); // 1e
-        System.out.println(toHex(50)); // 32
-        System.out.println(toHex(-1)); // ffffffff
+        System.out.println(toHex0(26)); // 1a
+        System.out.println(toHex0(30)); // 1e
+        System.out.println(toHex0(50)); // 32
+        System.out.println(toHex0(500)); // 1f4
+        System.out.println(toHex0(-1)); // ffffffff
         // -1 = 0x ffffffff = 0b 11111111 11111111 11111111 11111111,  32 bit signed integer in two’s complement
     }
 
@@ -42,10 +43,22 @@ public class E_Math_BitManipulation_405 {
 
         StringBuilder sb = new StringBuilder();
 
-        while (num != 0) {
+        char[] map = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
+        // The signed int is converted to signed long.
+        // By doing so, the signed integer is presented as unsigned int, which is in two’s complement.
+        // 0xffffffffL : hexadecimal long, largest unsigned 2^32 bit int.
+        long n = num < 0 ? num & 0xffffffffL : num;
+
+        while (n > 16) {
+            int remainder = (int) (n % 16);
+
+            sb.append(map[remainder]);
+
+            n = n / 16;
         }
 
+        sb.append(map[(int)n]);
 
         return sb.reverse().toString();
     }
@@ -60,10 +73,10 @@ public class E_Math_BitManipulation_405 {
 
         StringBuilder sb = new StringBuilder();
 
-        char[] chars = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        char[] map = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
         while (num != 0) {
-            sb.append(chars[num & 0b1111]);
+            sb.append(map[num & 0b1111]);
             // 0b1111 : binary 1111, which is 0xf : hexadecimal f, largest hex digit
             // num & 0b1111 : get the right-most hexadecimal digit
             // chars[num & 0b1111] : get corresponding hexadecimal char for the right-most hexadecimal digit
