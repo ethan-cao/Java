@@ -42,6 +42,10 @@ public class E_Math_BitManipulation_405 {
 
         StringBuilder sb = new StringBuilder();
 
+        while (num != 0) {
+
+        }
+
 
         return sb.reverse().toString();
     }
@@ -68,7 +72,7 @@ public class E_Math_BitManipulation_405 {
             // logical shift right >>> is used to right-shifted 4 bit positions with zero-extension.
             // since negative number is represented as two’s complement, use >>> to shift the sign digit
             // so we can get correct negative hex number as two’s complement
-            // check 补码 和 原码 及 互相转换
+            // check 补码 和 原码 及 互相转换 in Evernote
             // why 4 : 4 binary digits can represent the largest single hex digit
         }
 
