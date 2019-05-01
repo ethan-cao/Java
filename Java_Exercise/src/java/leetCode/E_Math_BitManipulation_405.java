@@ -33,6 +33,7 @@ public class E_Math_BitManipulation_405 {
         System.out.println(toHex0(50)); // 32
         System.out.println(toHex0(500)); // 1f4
         System.out.println(toHex0(-1)); // ffffffff
+        System.out.println(toHex0(-2)); // fffffffe
         // -1 = 0x ffffffff = 0b 11111111 11111111 11111111 11111111,  32 bit signed integer in two’s complement
     }
 
@@ -45,10 +46,19 @@ public class E_Math_BitManipulation_405 {
 
         char[] map = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-        // The signed int is converted to signed long.
-        // By doing so, the signed integer is presented as unsigned int, which is in two’s complement.
-        // 0xffffffffL : hexadecimal long, largest unsigned 2^32 bit int.
-        long n = num < 0 ? num & 0xffffffffL : num;
+        /**
+         * the signed int is conversed to a unsigned long
+         * high-order 32 bits of the long are 0 and low-order 32 bits are equal to the bits of the integer
+         *
+         * 0xffffffffL: hexadecimal long, largest unsigned 2^32 bit int : 11111111 11111111 11111111 11111111
+         *
+         * zero and positive int values are mapped to a numerically equal long value
+         * negative values are mapped to a long value equal to the input plus 2^32, (since 1st 2 is 2^32)
+         * which is in two’s complement
+         *
+         * check java.lang.Integer.toUnsignedLong(int)
+         */
+        long n = num & 0xffffffffL;   // num & 0b11111111111111111111111111111111
 
         while (n > 16) {
             int remainder = (int) (n % 16);
@@ -58,7 +68,7 @@ public class E_Math_BitManipulation_405 {
             n = n / 16;
         }
 
-        sb.append(map[(int)n]);
+        sb.append(map[(int) n]);
 
         return sb.reverse().toString();
     }

@@ -6,8 +6,9 @@ public class Test {
         int[] a = {1, 2, 3};
         int l = a.length;
 
+        int i = (int) Math.pow(2, 33);
 
-        System.out.println(10 >>1);
+        System.out.println(i );
 
 
     }
