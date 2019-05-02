@@ -62,9 +62,7 @@ public class E_Math_BitManipulation_405 {
 
         while (n > 16) {
             int remainder = (int) (n % 16);
-
             sb.append(map[remainder]);
-
             n = n / 16;
         }
 
