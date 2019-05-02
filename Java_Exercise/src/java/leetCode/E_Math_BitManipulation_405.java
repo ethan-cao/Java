@@ -47,7 +47,7 @@ public class E_Math_BitManipulation_405 {
         char[] map = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
         /**
-         * the signed int is conversed to a unsigned long
+         * the signed int is conversed to a unsigned long, so negative number is presented in two’s complement
          * high-order 32 bits of the long are 0 and low-order 32 bits are equal to the bits of the integer
          *
          * 0xffffffffL: hexadecimal long, largest unsigned 2^32 bit int : 11111111 11111111 11111111 11111111
