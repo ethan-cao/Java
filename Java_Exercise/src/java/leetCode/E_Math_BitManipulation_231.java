@@ -52,16 +52,17 @@ public class E_Math_BitManipulation_231 {
     }
 
     public static boolean isPowerOfTwo1(int n) {
-        if (n <= 0) {
-            return false;
-        }
+        while (n > 0){
+           n /= n/2;
 
-        // convert decimal to binary, if there is only one 2, then return true
+           if (n == 1){
+               return true;
+           }
+        }
 
 
         return false;
     }
-
 
     // There are only 31 numbers in total for an 32-bit integer.
     public static boolean isPowerOfTwo2(int n) {
