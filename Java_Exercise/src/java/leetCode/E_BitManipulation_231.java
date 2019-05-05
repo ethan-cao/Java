@@ -20,7 +20,7 @@ Decimal to hexadecimal
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class E_Math_BitManipulation_231 {
+public class E_BitManipulation_231 {
 
     public static void main(String... args) {
 //        System.out.println(isPowerOfTwo(1));   // t

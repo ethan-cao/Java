@@ -25,7 +25,7 @@ Decimal to hexadecimal
 
 */
 
-public class E_Math_BitManipulation_405 {
+public class E_BitManipulation_405 {
 
     public static void main(String... args) {
         System.out.println(toHex0(26)); // 1a

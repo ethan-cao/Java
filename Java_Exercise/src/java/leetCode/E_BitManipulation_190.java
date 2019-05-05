@@ -29,7 +29,7 @@ so return 3221225471 which its binary representation is 101011111100101100100111
 
 */
 
-public class E_Math_BitManipulation_190 {
+public class E_BitManipulation_190 {
 
     public static void main(String... args) {
         System.out.println(reverseBits(0b00000010100101000001111010011100));
