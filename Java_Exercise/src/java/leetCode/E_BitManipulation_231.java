@@ -23,10 +23,10 @@ import java.util.HashSet;
 public class E_BitManipulation_231 {
 
     public static void main(String... args) {
-//        System.out.println(isPowerOfTwo(1));   // t
-//        System.out.println(isPowerOfTwo(16));  // t
-//        System.out.println(isPowerOfTwo(218));  // f
-        System.out.println(isPowerOfTwo(2147483647));  // f, 2147483647 = 2^31 - 1, max signed int
+        System.out.println(isPowerOfTwo1(1));   // t
+        System.out.println(isPowerOfTwo1(16));  // t
+        System.out.println(isPowerOfTwo1(218));  // f
+        System.out.println(isPowerOfTwo1(2147483647));  // f, 2147483647 = 2^31 - 1, max signed int
     }
 
     public static boolean isPowerOfTwo(int n) {
@@ -52,20 +52,29 @@ public class E_BitManipulation_231 {
     }
 
     public static boolean isPowerOfTwo1(int n) {
-        while (n > 0){
-           n /= n/2;
-
-           if (n == 1){
-               return true;
-           }
+        if (n == 0) {
+            return false;
         }
 
+        while (n % 2 == 0) {
+            n /= 2;
+        }
 
-        return false;
+        return n == 1;
+    }
+
+
+    // count how many bit in binary form, if there is only 1 digit , then return true
+    public static boolean isPowerOfTwo3(int n) {
+        int shifts = (n == 1) ? 0 : 1;
+        for (int temp = n; (temp >>= 1) > 1; shifts++) ;
+        return n == (1 << shifts);
+
+        //  return n>0 && Integer.bitCount(n) == 1;
     }
 
     // There are only 31 numbers in total for an 32-bit integer.
-    public static boolean isPowerOfTwo2(int n) {
+    public static boolean isPowerOfTwo4(int n) {
         return new HashSet<>(Arrays.asList(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824)).contains(n);
     }
 }
