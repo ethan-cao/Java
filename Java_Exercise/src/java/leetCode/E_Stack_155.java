@@ -32,7 +32,8 @@ import java.util.Deque;
 
 public class E_Stack_155 {
     public static void main(String... args) {
-        MinStack minStack = new MinStack();
+//        MinStack minStack = new MinStack();
+        MinStackLinkedList minStack = new MinStackLinkedList();
 
         minStack.push(-2);
         minStack.push(0);
@@ -42,6 +43,58 @@ public class E_Stack_155 {
         minStack.top();
         minStack.getMin();
 
+    }
+}
+
+class MinStackLinkedList {
+
+    class Node {
+        private int value;
+        private Node previous;
+        // private int minUtilThisNode // even better
+
+        Node(int x) {
+            this.value = x;
+        }
+    }
+
+    private Node head;
+
+    private int min = Integer.MAX_VALUE;
+
+    public void push(int x) {
+        Node node = new Node(x);
+
+        node.previous = this.head;
+
+        this.head = node;
+
+        if (x < this.min) {
+            this.min = x;
+        }
+    }
+
+    public void pop() {
+        this.head = this.head.previous;
+        this.min = Integer.MAX_VALUE;
+
+        Node node = this.head;
+
+        while (node != null) {
+            if (node.value < this.min) {
+                this.min = node.value;
+            }
+
+            node = node.previous;
+        }
+    }
+
+    public int top() {
+        return this.head.value;
+    }
+
+    public int getMin() {
+        return this.min;
     }
 }
 
