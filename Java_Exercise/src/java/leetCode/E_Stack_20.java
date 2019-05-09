@@ -27,14 +27,16 @@ Note that an empty string is also considered valid.
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class E_Stack_20 {
     public static void main(String... args) {
-        System.out.println(isValid("()"));
-        System.out.println(isValid("()[]{}"));
-        System.out.println(isValid("(]"));
-        System.out.println(isValid("([)]"));
-        System.out.println(isValid("{[]}"));
+        System.out.println(isValid1("()"));
+        System.out.println(isValid1("()[]{}"));
+        System.out.println(isValid1("(]"));
+        System.out.println(isValid1("([)]"));
+        System.out.println(isValid1("{[]}"));
     }
 
     public static boolean isValid(String s) {
@@ -42,7 +44,7 @@ public class E_Stack_20 {
             return false;
         }
 
-        if ("".equals(s)){
+        if ("".equals(s)) {
             return true;
         }
 
@@ -53,9 +55,9 @@ public class E_Stack_20 {
             char c1 = s.charAt(i);
             char c2 = stack.isEmpty() ? '-' : stack.peekFirst();
 
-            if (isMatch(c1, c2) ){
+            if (isMatch(c1, c2)) {
                 stack.pop();
-            } else{
+            } else {
                 stack.push(c1);
             }
         }
@@ -64,6 +66,8 @@ public class E_Stack_20 {
     }
 
     private static boolean isMatch(char c1, char c2) {
+        // it is better to use HashMap
+
         if (c1 == '(') {
             return c2 == ')';
         } else if (c1 == ')') {
@@ -79,6 +83,29 @@ public class E_Stack_20 {
         }
 
         return false;
+    }
+
+    public static boolean isValid1(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+
+        Map<Character, Character> match = new HashMap<>();
+        match.put('(', ')');
+        match.put('[', ']');
+        match.put('{', '}');
+
+        for (char c : s.toCharArray()) {
+
+
+            Character counterpart = match.get(c);
+
+            if (match.keySet().contains(c)) {
+                    stack.push(counterpart);
+            } else if (stack.isEmpty() || stack.pop() != c) {
+                return false;
+            }
+        }
+
+        return stack.isEmpty();
     }
 }
 
