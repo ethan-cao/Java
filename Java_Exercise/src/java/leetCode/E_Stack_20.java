@@ -32,11 +32,11 @@ import java.util.Map;
 
 public class E_Stack_20 {
     public static void main(String... args) {
-        System.out.println(isValid1("()"));
-        System.out.println(isValid1("()[]{}"));
-        System.out.println(isValid1("(]"));
-        System.out.println(isValid1("([)]"));
-        System.out.println(isValid1("{[]}"));
+        System.out.println(isValid1("()"));   // T
+        System.out.println(isValid1("()[]{}"));  // T
+        System.out.println(isValid1("(]"));  //F
+        System.out.println(isValid1("([)]")); //F
+        System.out.println(isValid1("{[]}")); // R
     }
 
     public static boolean isValid(String s) {
@@ -88,18 +88,21 @@ public class E_Stack_20 {
     public static boolean isValid1(String s) {
         Deque<Character> stack = new ArrayDeque<>();
 
+        // better maintainbility and extensibility
         Map<Character, Character> match = new HashMap<>();
         match.put('(', ')');
         match.put('[', ']');
         match.put('{', '}');
 
         for (char c : s.toCharArray()) {
-
+            if (!match.keySet().contains(c) && !match.values().contains(c)) {
+                return false;
+            }
 
             Character counterpart = match.get(c);
 
             if (match.keySet().contains(c)) {
-                    stack.push(counterpart);
+                stack.push(counterpart);
             } else if (stack.isEmpty() || stack.pop() != c) {
                 return false;
             }
