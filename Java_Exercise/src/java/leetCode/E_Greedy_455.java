@@ -1,15 +1,18 @@
 package leetCode;
 
+import java.util.Arrays;
+
 /*
 Assume you are an awesome parent and want to give your children some cookies.
-But, you should give each child at most one cookie. Each child i has a greed factor gi,
-which is the minimum size of a cookie that the child will be content with;
-and each cookie j has a size sj. If sj >= gi, we can assign the cookie j to the child i,
- and the child i will be content. Your goal is to maximize the number of your content children
- and output the maximum number.
+But, you should give each child at most 1 cookie.
 
-You may assume the greed factor is always positive.
-You cannot assign more than one cookie to one child.
+Each child i has a greed factor gi(gi>0), which is the minimum size of a cookie that the child will be content with;
+Each cookie j has a size sj. If sj >= gi, we can assign the cookie j to the child i, then child i will be content.
+
+Your goal is to maximize the number of your content children and output the maximum number.
+
+You cannot assign more than 1 cookie to 1 child.
+
 
 ### Example
 [1,2,3], [1,1] -> 1
@@ -37,12 +40,38 @@ public class E_Greedy_455 {
         int[] g2 = {1, 2};
         int[] s2 = {1, 2, 3};
 
-        System.out.println(findContentChildren(g1, s1));
-        System.out.println(findContentChildren(g2, s2));
+        System.out.println(findContentChildren(g1, s1));  // 1
+        System.out.println(findContentChildren(g2, s2));  // 2
     }
 
     public static int findContentChildren(int[] g, int[] s) {
+        int result = 0;
 
-        return 1;
+        // This is to ensure maximize the number of your content children
+        Arrays.sort(g);
+        Arrays.sort(s);
+
+        for (int contentNumber : g) {
+            for (int i = 0; i < s.length; i++) {
+                int cookie = s[i];
+
+                if (cookie >= contentNumber) {
+                    result++;
+                    s[i] = 0;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static int findContentChildren1(int[] g, int[] s) {
+        int result = 0;
+
+
+
+
+        return result;
     }
 }
