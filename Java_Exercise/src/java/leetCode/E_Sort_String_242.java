@@ -26,7 +26,7 @@ You may assume the string contains only lowercase alphabets.
 
 import java.util.Arrays;
 
-public class Sort_String_242 {
+public class E_Sort_String_242 {
     public static void main(String[] args) {
         String s = "anagram";
         String t = "nagaram";

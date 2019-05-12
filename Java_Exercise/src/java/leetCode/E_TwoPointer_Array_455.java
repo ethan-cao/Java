@@ -32,7 +32,8 @@ You need to output 2
 ### Corner case
 
 */
-public class E_Greedy_455 {
+public class E_TwoPointer_Array_455 {
+
     public static void main(String[] args) {
         int[] g1 = {1, 2, 3};
         int[] s1 = {1, 1};
@@ -40,8 +41,8 @@ public class E_Greedy_455 {
         int[] g2 = {1, 2};
         int[] s2 = {1, 2, 3};
 
-        System.out.println(findContentChildren(g1, s1));  // 1
-        System.out.println(findContentChildren(g2, s2));  // 2
+        System.out.println(findContentChildren1(g1, s1));  // 1
+        System.out.println(findContentChildren1(g2, s2));  // 2
     }
 
     public static int findContentChildren(int[] g, int[] s) {
@@ -67,11 +68,16 @@ public class E_Greedy_455 {
     }
 
     public static int findContentChildren1(int[] g, int[] s) {
-        int result = 0;
+        Arrays.sort(g);
+        Arrays.sort(s);
 
+        int i = 0;
+        for (int j = 0; i < g.length && j < s.length; j++) {
+            if (s[j] >= g[i]) {
+                i++;
+            }
+        }
 
-
-
-        return result;
+        return i;
     }
 }

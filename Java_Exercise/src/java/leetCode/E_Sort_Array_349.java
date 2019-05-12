@@ -24,7 +24,7 @@ The result can be in any order.
 ### Corner case
 
 */
-public class Sort_Array_349 {
+public class E_Sort_Array_349 {
     public static void main(String[] args) {
 //        int[] nums1 = {1, 2, 2, 1};
 //        int[] nums2 = {2, 2};
