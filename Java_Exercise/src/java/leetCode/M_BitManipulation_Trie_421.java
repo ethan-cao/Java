@@ -19,6 +19,9 @@ Explanation: The maximum result is 5 ^ 25 = 28.
 */
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class M_BitManipulation_Trie_421 {
 
     public static void main(String[] args) {
@@ -34,8 +37,21 @@ public class M_BitManipulation_Trie_421 {
     // Bit manipulation
     public static int findMaximumXOR1(int[] nums) {
         int maxXOR = 0;
+        int mask = 1;
 
+        for (int i = 0; i < 32; ++i) {
+            mask = mask | (mask << i);
 
+            Set<Integer> set = new HashSet<>();
+
+            for (int num : nums) {
+                int inspectingDigits = num & mask;
+                set.add(inspectingDigits);
+
+            }
+
+            int greedyTry;
+        }
 
         return maxXOR;
     }
