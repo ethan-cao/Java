@@ -89,6 +89,8 @@ public class M_BitManipulation_Trie_421 {
                 int bit = num & (1 << i);
 
                 // if the bit is 0, best is to go to rightChild(1)
+                // leftChild and rightChild will not be null at the same time
+                // since trie consists of same-hight branch in this case
                 if (bit == 0) {
                     if (current.rightChild != null) {
                         xor = xor | (1 << i);
@@ -106,7 +108,6 @@ public class M_BitManipulation_Trie_421 {
                         current = current.rightChild;
                     }
                 }
-
             }
 
             maxXOR = maxXOR > xor ? maxXOR : xor;
