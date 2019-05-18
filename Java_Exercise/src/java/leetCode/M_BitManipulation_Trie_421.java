@@ -61,6 +61,7 @@ public class M_BitManipulation_Trie_421 {
                 // we could lost number that differ on higher digits, so we won't find the max XOR
                 int bit = num & (1 << i);
 
+                // the node has child, either left or right
                 if (bit == 0) {
                     if (current.leftChild == null) {
                         current.leftChild = new TrieNode(0);
