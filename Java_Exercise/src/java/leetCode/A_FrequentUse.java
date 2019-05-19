@@ -3,7 +3,7 @@ package leetCode;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FrequentUse {
+public class A_FrequentUse {
     public static void main(String[] arg){
         list();
     }
