@@ -60,12 +60,19 @@ class WordDictionary {
         return this.match(word.toCharArray(), 0, this.root);
     }
 
+    /**
+     *
+     * @param chars target to search for
+     * @param k index, which char is inspecting now
+     * @param node node to start searching from
+     */
     private boolean match(char[] chars, int k, TrieNode node) {
         if (k == chars.length) {
             return node.isWord();
         }
 
         if (chars[k] == '.') {
+            // if it is .  just pick the 1st not null value
             for (int i = 0; i < TrieNode.SIZE; ++i) {
                 char idx = (char) (i + 'a');
                 if (node.containsKey(idx) && this.match(chars, k + 1, node.get(idx))) {
