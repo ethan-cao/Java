@@ -61,10 +61,9 @@ class WordDictionary {
     }
 
     /**
-     *
      * @param chars target to search for
-     * @param k index, which char is inspecting now
-     * @param node node to start searching from
+     * @param k     index, which char is inspecting now
+     * @param node  node to start searching from
      */
     private boolean match(char[] chars, int k, TrieNode node) {
         if (k == chars.length) {

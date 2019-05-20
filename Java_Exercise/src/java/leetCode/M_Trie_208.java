@@ -104,6 +104,7 @@ class TrieNode {
 
     public static final int SIZE = 26;
     private TrieNode[] children = new TrieNode[SIZE]; // each slot store each character a...z
+    // the position this node occupies implies what value it has
 
     public boolean containsKey(char ch) {
         return this.children[ch - 'a'] != null;
