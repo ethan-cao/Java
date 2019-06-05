@@ -69,18 +69,20 @@ public class M_Trie_648 {
     }
 
     public static String replaceWords1(List<String> dict, String sentence) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         // build Trie
         Trie trie = new Trie();
         for (String item : dict) {
-            // Optimization :  if a shorter root is already found, we can stop adding it to the trie.
-            trie.insert(item);
+            // Optimization: if a shorter root is already found, no need to add the long one
+            if (!trie.contains(trie.getRoot(item))) {
+                trie.insert(item);
+            }
         }
 
         String[] words = sentence.split(" ");
         for (String word : words) {
-            result += trie.getRoot(word) + " ";  // StringBuilder is faster
+            result.append(trie.getRoot(word)).append(" ");  // StringBuilder is faster
         }
 
         return result.substring(0, result.length() - 1);
@@ -89,16 +91,16 @@ public class M_Trie_648 {
 
 class Trie extends algorithm.search.Trie {
     String getRoot(String word) {
-        String root = "";
+        StringBuilder root = new StringBuilder();
 
         for (char character : word.toCharArray()) {
-            root += character;
+            root.append(character);
 
-            if (this.startsWith(root) && this.contains(root)) {
+            if (this.startsWith(root.toString()) && this.contains(root.toString())) {
                 break;
             }
         }
 
-        return root;
+        return root.toString();
     }
 }
