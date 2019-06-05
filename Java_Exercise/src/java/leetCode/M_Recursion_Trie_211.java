@@ -1,5 +1,7 @@
 package leetCode;
 
+import algorithm.search.Trie.TrieNode;
+
 /*
 Design a data structure that supports the following two operations:
 

@@ -1,11 +1,8 @@
 package leetCode;
 
-import jdk.nashorn.internal.objects.annotations.Function;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 /*
@@ -37,15 +34,17 @@ The input will only have lower-case letters.
 ### Corner case
 
 */
+
 public class M_Trie_648 {
     public static void main(String[] args) {
         List<String> dict = new ArrayList<>();
         dict.add("cat");
         dict.add("bat");
+        dict.add("ba");
         dict.add("rat");
 
-        System.out.println(replaceWords(dict, "the cattle was rattled by the battery"));
-        //  "the cat was rat by the bat"
+        System.out.println(replaceWords1(dict, "the cattle was rattled by the battery"));
+        //  "the cat was rat by the ba"
     }
 
     public static String replaceWords(List<String> dict, String sentence) {
@@ -63,19 +62,43 @@ public class M_Trie_648 {
             }
 
             word = rootCandidates.isEmpty() ? word : rootCandidates.first();
-            result += word + " ";
+            result += word + " "; // use StringBuilder is faster
         }
 
         return result.substring(0, result.length() - 1);
     }
 
     public static String replaceWords1(List<String> dict, String sentence) {
-        String[] words = sentence.split(" ");
         String result = "";
 
-        for (int i = 0; i < words.length; i++) {
-
+        // build Trie
+        Trie trie = new Trie();
+        for (String item : dict) {
+            // Optimization :  if a shorter root is already found, we can stop adding it to the trie.
+            trie.insert(item);
         }
+
+        String[] words = sentence.split(" ");
+        for (String word : words) {
+            result += trie.getRoot(word) + " ";  // StringBuilder is faster
+        }
+
+        return result.substring(0, result.length() - 1);
     }
 }
 
+class Trie extends algorithm.search.Trie {
+    String getRoot(String word) {
+        String root = "";
+
+        for (char character : word.toCharArray()) {
+            root += character;
+
+            if (this.startsWith(root) && this.contains(root)) {
+                break;
+            }
+        }
+
+        return root;
+    }
+}

@@ -5,7 +5,8 @@ import collection.CollectionTest;
 
 public class AccessModifierTest extends ArrayListTest {
     private int nnn = 1;
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         /*
         private member is accessible within the body of a class
         which encloses the declaration of the private member or the constructor
@@ -31,15 +32,24 @@ public class AccessModifierTest extends ArrayListTest {
 
         AccessModifierTest amt = new AccessModifierTest();
         System.out.println(amt.i);
+
+
+        Person1 p1 = new Person1();
+//        p1.m();  // not accessible
     }
 
     class Person {
         private String account;
         // if Person is outer class, even if in this same java file , account is not accessible
 
-        void m(){
+        void m() {
             new AccessModifierTest().nnn++;
         }
     }
 
+}
+
+class Person1 {
+    private void m(){
+    }
 }
