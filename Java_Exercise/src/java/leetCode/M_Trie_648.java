@@ -87,20 +87,21 @@ public class M_Trie_648 {
 
         return result.substring(0, result.length() - 1);
     }
-}
 
-class Trie extends algorithm.search.Trie {
-    String getRoot(String word) {
-        StringBuilder root = new StringBuilder();
+    static class Trie extends algorithm.search.Trie {
+        String getRoot(String word) {
+            StringBuilder root = new StringBuilder();
 
-        for (char character : word.toCharArray()) {
-            root.append(character);
+            for (char character : word.toCharArray()) {
+                root.append(character);
 
-            if (this.startsWith(root.toString()) && this.contains(root.toString())) {
-                break;
+                if (this.startsWith(root.toString()) && this.contains(root.toString())) {
+                    break;
+                }
             }
-        }
 
-        return root.toString();
+            return root.toString();
+        }
     }
 }
+

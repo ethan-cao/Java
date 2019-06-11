@@ -58,7 +58,7 @@ public class A_FrequentUse {
         l2.stream().mapToInt(Integer::intValue).toArray();
 
         // print steam
-        l2.stream().forEach(System.out::println);
+        l2.forEach(System.out::println);
     }
 
     void set(){

@@ -9,6 +9,10 @@ public class Trie {
         this.root = new TrieNode();
     }
 
+    public TrieNode getRoot(){
+        return this.root;
+    }
+
     // Time complexity : O(n), where n is the key length.
     public void insert(String word) {
         TrieNode current = this.root;
@@ -88,7 +92,4 @@ public class Trie {
             return this.isWord;
         }
     }
-
 }
-
-
