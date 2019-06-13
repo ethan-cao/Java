@@ -17,10 +17,10 @@ public class CountingSort {
         System.out.println(Arrays.toString(data));
     }
 
-    public static void sort(int[] array, int smallest, int largest) {
+    public static void sort(int[] data, int smallest, int largest) {
         // count occurrence
         int[] tally = new int[largest - smallest + 1];
-        for (int a : array) {
+        for (int a : data) {
             tally[a - smallest] += 1;
         }
 
@@ -30,13 +30,13 @@ public class CountingSort {
         }
 
         // position element in order
-        int[] result = new int[array.length];
-        for (int a : array) {
+        int[] result = new int[data.length];
+        for (int a : data) {
             int numberOfSmallerElements = tally[a - smallest]; // number of elements that are <=  (the element represented by tally[i])
             result[numberOfSmallerElements - 1] = a;  // -1 : since index starts from 0
             tally[a - smallest]--;
         }
 
-        System.arraycopy(result, 0, array, 0, array.length);
+        System.arraycopy(result, 0, data, 0, data.length);
     }
 }
