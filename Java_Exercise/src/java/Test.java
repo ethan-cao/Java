@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Test {
     public static void main(String... args) {
@@ -8,11 +7,8 @@ public class Test {
 
         int i = (int) Math.pow(2, 33);
 
-        System.out.println(i );
-
-
+        System.out.println(i);
     }
 
 }
-
 
