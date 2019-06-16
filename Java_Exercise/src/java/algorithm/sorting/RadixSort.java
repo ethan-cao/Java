@@ -74,12 +74,10 @@ public class RadixSort {
         // tally counts actual number of elements in each bucket
         int[] tally = new int[RADIX];
 
-        int divisor = (int) Math.pow(10, maxLength - 1);
-
         // count occurrence of the examiningDigit
-        int examiningDigit = 0;
+        int divisor = (int) Math.pow(10, maxLength - 1);
         for (int i = 0; i < length; ++i) {
-            examiningDigit = (data[i] / divisor) % RADIX;
+            int examiningDigit = (data[i] / divisor) % RADIX;
             bucket[examiningDigit][tally[examiningDigit]] = data[i];
             tally[examiningDigit]++;
         }
@@ -101,5 +99,4 @@ public class RadixSort {
             }
         }
     }
-
 }
