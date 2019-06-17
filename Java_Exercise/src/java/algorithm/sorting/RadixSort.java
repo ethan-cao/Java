@@ -31,6 +31,7 @@ public class RadixSort {
         System.out.println(Arrays.toString(data));
     }
 
+
     public static void LSDSort(int[] data) {
         int max = Arrays.stream(data).max().getAsInt();
 
@@ -61,6 +62,7 @@ public class RadixSort {
         System.arraycopy(result, 0, data, 0, data.length);
     }
 
+
     public static void MSDSort(int[] data) {
         int max = Arrays.stream(data).max().getAsInt();
         int maxLength = (max + "").length();
@@ -68,15 +70,15 @@ public class RadixSort {
         sortOnDigit(data, data.length, maxLength);
     }
 
-    private static void sortOnDigit(int[] data, int length, int maxLength) {
+    private static void sortOnDigit(int[] data, int elementNumber, int digitLength) {
         // there are RADIX buckets, each bucket can contain length elements
-        int[][] bucket = new int[RADIX][length];
+        int[][] bucket = new int[RADIX][elementNumber];
         // tally counts actual number of elements in each bucket
         int[] tally = new int[RADIX];
 
         // count occurrence of the examiningDigit
-        int divisor = (int) Math.pow(10, maxLength - 1);
-        for (int i = 0; i < length; ++i) {
+        int divisor = (int) Math.pow(10, digitLength - 1);
+        for (int i = 0; i < elementNumber; ++i) {
             int examiningDigit = (data[i] / divisor) % RADIX;
             bucket[examiningDigit][tally[examiningDigit]] = data[i];
             tally[examiningDigit]++;
@@ -85,8 +87,8 @@ public class RadixSort {
         for (int i = 0; i < RADIX; ++i) {
             // when there are more than 1 element in bucket, and it's not right-most digit
             // sort on the next right digit
-            if (tally[i] > 1 && maxLength > 1) {
-                sortOnDigit(bucket[i], tally[i], maxLength - 1);
+            if (tally[i] > 1 && digitLength > 1) {
+                sortOnDigit(bucket[i], tally[i], digitLength - 1);
             }
         }
 
