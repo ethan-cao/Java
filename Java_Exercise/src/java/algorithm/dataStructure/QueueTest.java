@@ -1,4 +1,4 @@
-package algorithm.colllection;
+package algorithm.dataStructure;
 
 public class QueueTest {
     public static void main(String[] args) {

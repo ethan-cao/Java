@@ -1,4 +1,4 @@
-package algorithm.colllection;
+package algorithm.dataStructure;
 
 /**
  * collection, whose remove operation delete the largest(max-originated) or smallest(min-originated) item.

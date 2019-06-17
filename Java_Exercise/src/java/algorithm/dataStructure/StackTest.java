@@ -1,4 +1,4 @@
-package algorithm.colllection;
+package algorithm.dataStructure;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package algorithm.unionFind;
+package algorithm.dataStructure;
 
 import java.util.Arrays;
 
