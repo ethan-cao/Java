@@ -5,17 +5,15 @@ import java.util.Arrays;
 /**
  * Radix sort handles sorting by implementing counting sort (or bucket sort) on one digit at a time.
  * It generally works best for a range of smallish numbers,
- * It is the very first sorting algorithm to be created (1887)
- * <p>
+ * It is the very first sorting algorithm in 1887
+ *
  * There has 2 flavors:
- * 1.most significant digit (MSD) radix sort :  from the greatest digit, and moving towards the least significant digit
+ * 1.most significant digit (MSD) radix sort : from the greatest digit, and moving towards the least significant digit
  * 2.least significant digit (LSD) radix sort : the smallest digit first, moving towards the greater
  * Both based on counting sort
- * <p>
- * <p>
- * Rarely use since time complexity, LSD is more often than MSD
- * Used to sort String
- * <p>
+ *
+ * Can also be used to sort String, since each char has int value
+ *
  * Time complexity : O(wn), n number of elements, w number of digit of the largest element
  */
 
@@ -23,79 +21,83 @@ public class RadixSort {
     private static final int RADIX = 10;
 
     public static void main(String[] args) {
-        int[] data = {2, 4, 5, 3, 1, 2, 3, 2, 3, 5, 3, 1, 2, 2, 2};
+        int[] data = {2, 4, 111, 2222, 23, 543 , 3, 11, 5, 13, 1};
 
-//        LSDSort(data);
+        LSDSort(data);
+        System.out.println(Arrays.toString(data));
+
         MSDSort(data);
-
         System.out.println(Arrays.toString(data));
     }
 
 
     public static void LSDSort(int[] data) {
         int max = Arrays.stream(data).max().getAsInt();
+        int maxDigitLength = (max + "").length();
 
-        for (int radix = 1; max / radix > 0; radix *= RADIX) {
-            sortBasedOnRadix(data, radix);
+        for (int i = 0; i < maxDigitLength; ++i) {
+            int digitIndicator = (int) Math.pow(10, i);
+            sortOnDigit(data, digitIndicator);
         }
     }
 
-    private static void sortBasedOnRadix(int[] data, int radix) {
-        int[] result = new int[data.length];
-        int[] tally = new int[RADIX]; // since we check each digit, the range is 0-9
-
-        for (int datum : data) {
-            int examiningDigit = (datum / radix) % (radix * RADIX);
-            tally[examiningDigit] += 1;
-        }
-
-        for (int i = 1; i < tally.length; i++) {
-            tally[i] += tally[i - 1];
-        }
+    private static void sortOnDigit(int[] data, int digitIndicator) {
+        // there are RADIX buckets, each bucket can contain at most length elements
+        int[][] bucket = new int[RADIX][data.length];
+        // tally counts actual number of elements in each bucket
+        // tally[x] is number of elements in bucket[x]
+        int[] tally = new int[RADIX];
 
         for (int i = 0; i < data.length; ++i) {
-            int numberOfSmallerElements = tally[data[i]];
-            result[numberOfSmallerElements - 1] = data[i];
-            tally[data[i]]--;
+            int examiningDigit = (data[i] / digitIndicator) % RADIX;
+            bucket[examiningDigit][tally[examiningDigit]] = data[i];
+            tally[examiningDigit]++;
         }
 
-        System.arraycopy(result, 0, data, 0, data.length);
+        int idx = 0;
+        for (int i = 0; i < RADIX; ++i) {
+            for (int j = 0; j < tally[i]; ++j) {
+                data[idx] = bucket[i][j];
+                idx++;
+            }
+        }
     }
 
 
     public static void MSDSort(int[] data) {
         int max = Arrays.stream(data).max().getAsInt();
-        int maxLength = (max + "").length();
+        int maxDigitLength = (max + "").length();
+        int digitIndicator = (int) Math.pow(10, maxDigitLength - 1);
 
-        sortOnDigit(data, data.length, maxLength);
+        sortOnDigit(data, data.length, digitIndicator);
     }
 
-    private static void sortOnDigit(int[] data, int elementNumber, int digitLength) {
-        // there are RADIX buckets, each bucket can contain length elements
+    private static void sortOnDigit(int[] data, int elementNumber, int digitIndicator) {
+        // there are RADIX buckets, each bucket can contain at most length elements
         int[][] bucket = new int[RADIX][elementNumber];
         // tally counts actual number of elements in each bucket
+        // tally[x] is number of elements in bucket[x]
         int[] tally = new int[RADIX];
 
         // count occurrence of the examiningDigit
-        int divisor = (int) Math.pow(10, digitLength - 1);
         for (int i = 0; i < elementNumber; ++i) {
-            int examiningDigit = (data[i] / divisor) % RADIX;
+            int examiningDigit = (data[i] / digitIndicator) % RADIX;
             bucket[examiningDigit][tally[examiningDigit]] = data[i];
             tally[examiningDigit]++;
         }
 
         for (int i = 0; i < RADIX; ++i) {
-            // when there are more than 1 element in bucket, and it's not right-most digit
+            // when it's not the right-most digit and there are more than 1 element in bucket
             // sort on the next right digit
-            if (tally[i] > 1 && digitLength > 1) {
-                sortOnDigit(bucket[i], tally[i], digitLength - 1);
+            if (digitIndicator > 1 && bucket[i].length > 1) {
+                sortOnDigit(bucket[i], tally[i], digitIndicator / 10);
             }
         }
 
-        // position element in order when each digit is sorted
+        // position element in order when each digit is sorted, counting sort
         int idx = 0;
-        for (int i = 0; i < RADIX; i++) {
-            for (int j = 0; j < tally[i]; j++) {
+        for (int i = 0; i < RADIX; ++i) {
+            for (int j = 0; j < tally[i]; ++j) {
                 data[idx] = bucket[i][j];
                 idx++;
             }
