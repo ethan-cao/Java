@@ -3,22 +3,24 @@ import java.util.*;
 public class Test {
 
     public static void main(String... args) {
-        int[] data = {2, 4, 5, 3, 11, 2, 10, 2, 3, 5, 13, 1};
+        int[] data = {2, 2, 3, 5, 13};
 
-        sort1(data);
+        int max = Arrays.stream(data).max().getAsInt();
+        int min = Arrays.stream(data).min().getAsInt();
+        sort(data, 13);
 
         System.out.println(Arrays.toString(data));
     }
 
-    private static void sort1(int[] data) {
-        for (int i = 0; i < data.length; ++i) {
-            for (int j = 1; j < data.length - i; ++j) {
-                if (data[j-1] > data[j]) {
-                    int temp = data[j-1];
-                    data[j-1] = data[j];
-                    data[j] = temp;
-                }
-            }
+    private static void sort(int[] data, int range) {
+        int[] tally = new int[range + 1];
+
+        for (int datum : data) {
+            tally[datum]++;
+        }
+
+        for (int i = 1; i < range + 1; ++i) {
+
         }
     }
 

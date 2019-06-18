@@ -1,11 +1,11 @@
-package algorithm.sorting;
+package algorithm.math;
 
-import edu.princeton.cs.algs4.In;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class Shuffle {
+
     public static void main(String[] args) {
         Integer[] data = {1, 3, 8, 10, 17};
 
@@ -14,11 +14,11 @@ public class Shuffle {
         System.out.println(Arrays.toString(data));
     }
 
-    // linear time shuffling algorithm
+    // linear time shuffling algorithm, used to randomize the sequence
     public static void knuthShuffle(Object[] array) {
         int L = array.length;
 
-        final int seed = 110;
+        final int seed = 1110;
         Random random = new Random(seed);
 
         for (int i = 1; i < L; ++i) {

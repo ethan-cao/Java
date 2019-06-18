@@ -1,5 +1,7 @@
 package algorithm.sorting;
 
+import algorithm.math.Shuffle;
+
 /**
  * Given an array of N items, find a k-th smallest item
  */
@@ -8,13 +10,13 @@ public class Selection {
         Integer[] data = {2, 4, 5, 3, 1};
 
         int k = 2;
-        Comparable k_th_smallest = select(data, k);
+        Comparable k_th_smallest = selectNthItem(data, k);
 
         System.out.println(k_th_smallest);
     }
 
     // based on quickSort, linear time selection
-    public static Comparable select(Comparable[] array, int k) {
+    public static Comparable selectNthItem(Comparable[] array, int k) {
         Shuffle.knuthShuffle(array);
         final int L = array.length;
 

@@ -5,11 +5,11 @@ import java.util.Arrays;
 public class BubbleSort {
 
     public static void main(String[] args) {
-        int[] data = {2, 24, 112, 2, 5, 22, 13, 1};
+        int[] data = {2, 24, 112, 2, 5, 2222, 13, 1};
 
 //        sort(data);
-        sort1(data);
-//        sort2(data, data.length);
+//        sort1(data);
+        sort2(data, data.length);
 
         System.out.println(Arrays.toString(data));
     }
@@ -27,16 +27,18 @@ public class BubbleSort {
     }
 
     // Optimized
-    private static void sort1(int[] data){
+    private static void sort1(int[] data) {
         boolean exchanged = false;
 
         for (int i = 0; i < data.length - 1; ++i) {
-            for (int j = 0; j < data.length - 1 -i; ++j) {
+            for (int j = 0; j < data.length - 1 - i; ++j) {
                 if (data[j] > data[j + 1]) {
                     int temp = data[j];
                     data[j] = data[j + 1];
                     data[j + 1] = temp;
 
+                    // if exchange does not happen, that means it is already sorted
+                    // all element previous one is less or equal to the latter one
                     exchanged = true;
                 }
             }

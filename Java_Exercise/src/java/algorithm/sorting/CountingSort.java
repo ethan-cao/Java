@@ -3,26 +3,30 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
- * Valid for integer only and need to know the range of our input integers.
+ * works for integer (or char/String)
+ * <p>
+ * need to know the range of our input integers.
  * works better with same rang integers (max-mix)
- * Also called bucket counting
+ * only suitable for direct use in situations where the variation in keys is not significantly greater than the number of items. However, it is often used as a subroutine in another sorting algorithm,
+ * <p>
+ * the input to counting sort consists of a collection of n items, each of which has a non-negative integer key whose maximum value is at most k.
  */
 
 public class CountingSort {
 
     public static void main(String[] args) {
-        int[] data = {2, 4, 5, 4, 2, 3, 1};
+        int[] data = {10, 10, 5, 11, 13, 1};
 
-        sort(data, 1, 5);
+        sort(data, 13); // 13 is range, the max value
 
         System.out.println(Arrays.toString(data));
     }
 
-    public static void sort(int[] data, int smallest, int largest) {
+    public static void sort(int[] data, int range) {
         // count occurrence
-        int[] tally = new int[largest - smallest + 1];
+        int[] tally = new int[range + 1]; // need to allocate range + 1 position, if the range is large, and element is not distributed evenly, it is not efficient
         for (int a : data) {
-            tally[a - smallest] += 1;
+            tally[a] += 1;
         }
 
         // after iteration, tally[i] embodies number of elements that are <=  (the element represented by tally[i])
@@ -33,9 +37,9 @@ public class CountingSort {
         // position element in order
         int[] result = new int[data.length];
         for (int a : data) {
-            int numberOfSmallerElements = tally[a - smallest]; // number of elements that are <=  (the element represented by tally[i])
+            int numberOfSmallerElements = tally[a]; // number of elements that are <=  (the element represented by tally[i])
             result[numberOfSmallerElements - 1] = a;  // -1 : since index starts from 0
-            tally[a - smallest]--;
+            tally[a]--;
         }
 
         System.arraycopy(result, 0, data, 0, data.length);

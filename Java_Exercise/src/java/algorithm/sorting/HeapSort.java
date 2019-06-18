@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class HeapSort {
     public static void main(String[] args) {
         // !!! keep the 1st empty, because we are using heap-sorting
-        Integer[] data = {null, 2, 6, 5, 9, 11, 10, 8, 4, 7, 1, 3};
+        Integer[] data = {null, 16, 522, 9, 11, 0, 14, 7, 3};
 
         HeapSort.sort(data);
 

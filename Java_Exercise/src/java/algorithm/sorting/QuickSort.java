@@ -1,5 +1,7 @@
 package algorithm.sorting;
 
+import algorithm.math.Shuffle;
+
 import java.util.Arrays;
 
 public class QuickSort {
