@@ -5,6 +5,7 @@ import java.util.Arrays;
 /**
  * Valid for integer only and need to know the range of our input integers.
  * works better with same rang integers (max-mix)
+ * Also called bucket counting
  */
 
 public class CountingSort {
