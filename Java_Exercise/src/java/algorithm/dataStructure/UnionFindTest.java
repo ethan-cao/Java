@@ -102,9 +102,8 @@ class QuickUnion extends UnionFind {
 
         // when data[i] == i, data[i] is a root
         while (root != data[root]) {
-            root = data[root];
+            root = data[i];
         }
-
         return root;
     }
 }
@@ -157,11 +156,14 @@ class PathCompressionWeightedQuickUnion extends WeightedQuickUnion {
 
     @Override
     protected int getRoot(int i) {
-        while (i != data[i]) {
-            data[i] = data[data[i]]; // make each one pointing to its grandparent, make the path length half
-            i = data[i];
+        int root = data[i];
+
+        // when data[i] == i, data[i] is a root
+        while (root != data[root]) {
+            data[i] = data[root]; // make each one pointing to its grandparent, make the path length half
+            root = data[i];
         }
 
-        return i;
+        return root;
     }
 }

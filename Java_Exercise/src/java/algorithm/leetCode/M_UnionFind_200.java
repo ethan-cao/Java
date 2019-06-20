@@ -152,12 +152,14 @@ public class M_UnionFind_200 {
         }
 
         private int getRoot(int i) {
-            while(i != data[i]) {
-                data[i] = data[data[i]];
-                i = data[i];
+            int root = data[i];
+
+            while (root != data[root]) {
+                data[i] = data[root];
+                root = data[i];
             }
 
-            return i;
+            return root;
         }
     }
 
