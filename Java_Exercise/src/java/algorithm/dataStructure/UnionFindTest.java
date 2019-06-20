@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 /**
  * UnionFind is a data structure that tracks a set of elements partitioned into a number of disjoint (non-overlapping) subsets.
+ * <p>
+ * 4 implementation: QuickFInd, QuickUnion, WeightedQuickUnion and PathCompressionWeightedQuickUnion
  */
 
 public class UnionFindTest {
@@ -95,9 +97,10 @@ class QuickUnion extends UnionFind {
         return getRoot(p) == getRoot(q);
     }
 
-    protected int getRoot(int idx) {
-        int root = data[idx];
+    protected int getRoot(int i) {
+        int root = data[i];
 
+        // when data[i] == i, data[i] is a root
         while (root != data[root]) {
             root = data[root];
         }
@@ -108,16 +111,16 @@ class QuickUnion extends UnionFind {
 
 /**
  * optimization for QuickUnion
- *
- * Link the root of smaller tree to the root of larger tree
- * TODO : use height of tree to improve
+ * <p>
+ * Link the root of smaller tree to the root of larger tree to circumvent creating tree with large height
  */
 class WeightedQuickUnion extends QuickUnion {
-    // number of elements in the tree rooted at i
+    // number of elements in tree with root data[i]
     private int[] size;
 
     WeightedQuickUnion(int n) {
         super(n);
+
         size = new int[n];
         Arrays.fill(size, 1);
     }
@@ -128,34 +131,37 @@ class WeightedQuickUnion extends QuickUnion {
         int rootQ = getRoot(q);
 
         if (rootP == rootQ) {
-            // do nothing
-        } else if (size[rootP] >= size[rootQ]) {
-            data[rootQ] = rootP;
-            size[rootP] += size[rootQ];
-        } else {
+            return; // when rootP == rootQ, do nothing since they are already connected
+        }
+
+        if (size[rootP] < size[rootQ]) {
             data[rootP] = rootQ;
             size[rootQ] += size[rootP];
+        } else {
+            data[rootQ] = rootP;
+            size[rootP] += size[rootQ];
         }
     }
 }
 
 /**
  * optimization for WeightedQuickUnion
+ * <p>
+ * Link each node to the root directly, to keeps tree almost completely flat
  */
 class PathCompressionWeightedQuickUnion extends WeightedQuickUnion {
+
     PathCompressionWeightedQuickUnion(int n) {
         super(n);
     }
 
     @Override
-    protected int getRoot(int idx) {
-        int root = data[idx];
-
-        while (root != data[root]) {
-            root = data[root];
-            data[idx] = root; // make each one pointing to its grandparent, having the path length
+    protected int getRoot(int i) {
+        while (i != data[i]) {
+            data[i] = data[data[i]]; // make each one pointing to its grandparent, make the path length half
+            i = data[i];
         }
 
-        return root;
+        return i;
     }
 }
