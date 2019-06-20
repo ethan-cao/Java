@@ -1,4 +1,4 @@
-package algorithm.search;
+package algorithm.dataStructure;
 
 /******************************************************************************
  *  Compilation:  javac RedBlackBSTReference.java
@@ -6,7 +6,7 @@ package algorithm.search;
  *  Dependencies: StdIn.java StdOut.java
  *  Data files:   https://algs4.cs.princeton.edu/33balanced/tinyST.txt
  *
- *  A symbol table implemented using a left-leaning red-black BST.
+ *  A symbol table implemented using a left-leaning red-black BinarySearchTree.
  *  This is the 2-3 version.
  *
  *  Note: commented out assertions because DrJava now enables assertions
@@ -36,7 +36,7 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.NoSuchElementException;
 
 /**
- * The {@code BST} class represents an ordered symbol table of generic
+ * The {@code BinarySearchTree} class represents an ordered symbol table of generic
  * key-value pairs.
  * It supports the usual <em>put</em>, <em>get</em>, <em>contains</em>,
  * <em>delete</em>, <em>size</em>, and <em>is-empty</em> methods.
@@ -51,7 +51,7 @@ import java.util.NoSuchElementException;
  * value associated with a key to {@code null} is equivalent to deleting the key
  * from the symbol table.
  * <p>
- * This implementation uses a left-leaning red-black BST. It requires that
+ * This implementation uses a left-leaning red-black BinarySearchTree. It requires that
  * the key type implements the {@code Comparable} interface and calls the
  * {@code compareTo()} and method to compare two keys. It does not call either
  * {@code equals()} or {@code hashCode()}.
@@ -71,9 +71,9 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
     private static final boolean RED = true;
     private static final boolean BLACK = false;
 
-    private Node root;     // root of the BST
+    private Node root;     // root of the BinarySearchTree
 
-    // BST helper node data type
+    // BinarySearchTree helper node data type
     private class Node {
         private Key key;           // key
         private Value val;         // associated data
@@ -131,7 +131,7 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
 
 
     /***************************************************************************
-     *  Standard BST search.
+     *  Standard BinarySearchTree search.
      ***************************************************************************/
 
     /**
@@ -224,7 +224,7 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
      * @throws NoSuchElementException if the symbol table is empty
      */
     public void deleteMin() {
-        if (isEmpty()) throw new NoSuchElementException("BST underflow");
+        if (isEmpty()) throw new NoSuchElementException("BinarySearchTree underflow");
 
         // if both children of root are black, set root to red
         if (!isRed(root.left) && !isRed(root.right))
@@ -254,7 +254,7 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
      * @throws NoSuchElementException if the symbol table is empty
      */
     public void deleteMax() {
-        if (isEmpty()) throw new NoSuchElementException("BST underflow");
+        if (isEmpty()) throw new NoSuchElementException("BinarySearchTree underflow");
 
         // if both children of root are black, set root to red
         if (!isRed(root.left) && !isRed(root.right))
@@ -415,9 +415,9 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
      ***************************************************************************/
 
     /**
-     * Returns the height of the BST (for debugging).
+     * Returns the height of the BinarySearchTree (for debugging).
      *
-     * @return the height of the BST (a 1-node tree has height 0)
+     * @return the height of the BinarySearchTree (a 1-node tree has height 0)
      */
     public int height() {
         return height(root);
@@ -655,7 +655,7 @@ public class RedBlackBSTReference<Key extends Comparable<Key>, Value> {
         return isBST(root, null, null);
     }
 
-    // is the tree rooted at x a BST with all keys strictly between min and max
+    // is the tree rooted at x a BinarySearchTree with all keys strictly between min and max
     // (if min or max is null, treat as empty constraint)
     // Credit: Bob Dondero's elegant solution
     private boolean isBST(Node x, Key min, Key max) {

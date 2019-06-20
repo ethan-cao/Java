@@ -1,4 +1,4 @@
-package algorithm.search;
+package algorithm.dataStructure;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -11,7 +11,7 @@ import java.util.Deque;
  * the key is smaller than all keys in its right subtree
  */
 
-public class BST<Key extends Comparable<Key>, Value> {
+public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     private class Node {
         private Key key;
@@ -276,7 +276,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     public static void main(String[] args) {
-        BST<Integer, String> symbolTable = new BST<>();
+        BinarySearchTree<Integer, String> symbolTable = new BinarySearchTree<>();
 
         symbolTable.put(3, "C");
         symbolTable.put(1, "A");

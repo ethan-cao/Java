@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 // a set of points in the unit square (all points have x- and y-coordinates between 0 and 1)
-// Brute-force implementation, using a red–black BST (TreeSet)
+// Brute-force implementation, using a red–black BinarySearchTree (TreeSet)
 public class PointSET {
     private final Set<Point2D> points = new TreeSet<>();
 

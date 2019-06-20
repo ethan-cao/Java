@@ -1,6 +1,7 @@
-package algorithm.sorting;
+package algorithm.dataStructure;
 
 import algorithm.math.Shuffle;
+import algorithm.sorting.QuickSort;
 
 /**
  * Given an array of N items, find a k-th smallest item

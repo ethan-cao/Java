@@ -1,26 +1,31 @@
 package algorithm.dataStructure;
 
 /**
- * collection, whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
- * <p>
- * this priorityQueue is using Binary heap for implementation
- * <p>
- * Binary heap: Array representation of heap-ordered complete binary tree.
- * 1) leave a[0] empty, since it will be easy to calculate
+ * Heap : complete tree
+ *
+ * (max) Binary heap: heap-ordered complete binary tree, implemented by array
+ * 1) make a[0] empty, since it will be easy to calculate
  * 2) Largest key is a[1], the root
  * 3) Parent of node at k is at k/2.
  * 4) Children of node at k are at 2k and 2k+1.
  * 5) Heap-ordered : Parent's key no smaller than children's keys
+ *
+ * for min binary heap, the smallest one is the root a [1]
  */
-public class PriorityQueueTest<Key extends Comparable<Key>> {
+
+class BinaryHeapTest{
+    public static void main(String[] args){
+        // Use Binary heap to implement priorityQueue,
+        // whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
+        BinaryHeap bh = new BinaryHeap(32);
+    }
+}
+
+public class BinaryHeap<Key extends Comparable<Key>> {
     private final Key[] tree;  // TODO use resizing array,  Key should immutable
     private int size;
 
-    public static void main(String[] args) {
-        PriorityQueueTest queue = new PriorityQueueTest(16);
-    }
-
-    public PriorityQueueTest(int initialCapacity) {
+    public BinaryHeap(int initialCapacity) {
         this.tree = (Key[]) new Comparable[initialCapacity];
     }
 

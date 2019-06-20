@@ -1,4 +1,4 @@
-package algorithm.search;
+package algorithm.dataStructure;
 
 /**
  * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary search tree
@@ -86,7 +86,7 @@ public class RedBlackBST<Key extends Comparable, Value> {
         }
     }
 
-    // identical with BST, but faster than BST, because it is balanced
+    // identical with BinarySearchTree, but faster than BinarySearchTree, because it is balanced
     public Value get(Key key) {
         Node current = this.root;
         Value value = null;

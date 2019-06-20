@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 /**
  * UnionFind is a data structure that tracks a set of elements partitioned into a number of disjoint (non-overlapping) subsets.
- * <p>
+ * could be used in graph data structure
+ *
  * 4 implementation: QuickFInd, QuickUnion, WeightedQuickUnion and PathCompressionWeightedQuickUnion
  */
 
-public class UnionFindTest {
-
+class UnionFindTest {
     public static void main(String[] args) {
         UnionFind uf = new QuickUnion(10);
 //        UnionFind uf = new WeightedQuickUnion(10);
@@ -29,7 +29,7 @@ public class UnionFindTest {
     }
 }
 
-abstract class UnionFind {
+public abstract class UnionFind {
     protected int[] data;
 
     UnionFind(int n) {

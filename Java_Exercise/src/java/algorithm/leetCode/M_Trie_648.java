@@ -88,7 +88,7 @@ public class M_Trie_648 {
         return result.substring(0, result.length() - 1);
     }
 
-    static class Trie extends algorithm.search.Trie {
+    static class Trie extends algorithm.dataStructure.Trie {
         String getRoot(String word) {
             StringBuilder root = new StringBuilder();
 

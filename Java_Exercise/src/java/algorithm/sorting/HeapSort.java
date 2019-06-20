@@ -3,14 +3,19 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
- * Using Binary tree (heap sorted) to sort @see PriorityQueueTest
+ * like selection sort
+ *
+ * use a heap data structure rather than a linear-time search to find the maximum
+ *
+ * Using Binary tree (heap sorted) to sort @see BinaryHeap
  */
 public class HeapSort {
+
     public static void main(String[] args) {
         // !!! keep the 1st empty, because we are using heap-sorting
-        Integer[] data = {null, 16, 522, 9, 11, 0, 14, 7, 3};
+        Integer[] data = {null, 16, 522, 9, 11, 0, 3, 14, 7, 3};
 
-        HeapSort.sort(data);
+        sort(data);
 
         System.out.println(Arrays.toString(data));
     }
@@ -31,15 +36,15 @@ public class HeapSort {
         }
     }
 
-    private static void sink(Comparable[] array, int k, int N) {
+    private static void sink(Comparable[] data, int k, int N) {
         int leftChildKey = 2 * k;
         int rightChildKey = leftChildKey + 1;
 
         while (rightChildKey <= N) {
-            int largerKey = array[leftChildKey].compareTo(array[rightChildKey]) > 0 ? leftChildKey : rightChildKey;
+            int largerKey = data[leftChildKey].compareTo(data[rightChildKey]) > 0 ? leftChildKey : rightChildKey;
 
-            if (array[largerKey].compareTo(array[k]) > 0) {
-                exchange(array, largerKey, k);
+            if (data[largerKey].compareTo(data[k]) > 0) {
+                exchange(data, largerKey, k);
                 k = largerKey;
 
                 leftChildKey = 2 * k;
@@ -48,6 +53,8 @@ public class HeapSort {
                 break;
             }
         }
+
+//        data = Arrays.copyOfRange(data, 1, data.length);
     }
 
     private static void exchange(Comparable[] a, int i, int j) {

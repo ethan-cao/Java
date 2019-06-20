@@ -1,4 +1,4 @@
-package algorithm.search;
+package algorithm.dataStructure;
 
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
@@ -10,9 +10,9 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * Extension of BST, it allows to do efficient processing of sets points in space
+ * Extension of BinarySearchTree, it allows to do efficient processing of sets points in space
  *
- * it is a generalization of a BST with k-dimensional keys.
+ * it is a generalization of a BinarySearchTree with k-dimensional keys.
  *
  * this is a 2d-tree implementation
  *

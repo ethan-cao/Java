@@ -1,4 +1,4 @@
-package algorithm.search;
+package algorithm.dataStructure;
 
 
 // https://leetcode.com/articles/implement-trie-prefix-tree/?orderBy=most_votes

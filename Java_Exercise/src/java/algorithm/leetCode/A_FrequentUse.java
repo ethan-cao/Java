@@ -28,10 +28,10 @@ public class A_FrequentUse {
         Arrays.stream(ints, startIndex, endIndex).max().getAsInt();
 
 
-        // list to strings
 
+        // slice array
 //        System.arraycopy();
-
+        int[] newInts = Arrays.copyOfRange(ints, 2, 3);
     }
 
     static void list(){

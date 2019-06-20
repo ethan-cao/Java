@@ -23,7 +23,7 @@ trie.contains("app");     // returns true
 
 */
 
-import algorithm.search.Trie;
+import algorithm.dataStructure.Trie;
 
 public class M_Trie_208 {
     public static void main(String[] args) {

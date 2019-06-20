@@ -1,6 +1,6 @@
 package algorithm.leetCode;
 
-import algorithm.search.Trie.TrieNode;
+import algorithm.dataStructure.Trie.TrieNode;
 
 /*
 Design a data structure that supports the following two operations:
