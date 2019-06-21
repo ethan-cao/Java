@@ -83,7 +83,6 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         int leftChildIndex = 2 * index;
         int rightChildIndex = leftChildIndex + 1;
 
-//        while (rightChildIndex <= this.size()) {
         while (leftChildIndex <= this.size()  ) {  // make sure at least 1 node is there, then we can check further
             int largerIndex = compare(leftChildIndex, rightChildIndex) > 0 ? leftChildIndex : rightChildIndex;
 
