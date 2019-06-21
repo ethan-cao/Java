@@ -5,13 +5,22 @@ import java.util.Deque;
 
 /**
  * Binary search tree implementation for symbol table (Map)
- * <p>
+ *
  * binary tree, each node has a key and
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
  */
 
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
+
+    public static void main(String[] args) {
+        BinarySearchTree<Integer, String> symbolTable = new BinarySearchTree<>();
+
+        symbolTable.put(3, "C");
+        symbolTable.put(1, "A");
+        symbolTable.put(2, "B");
+        symbolTable.put(4, "B");
+    }
 
     private class Node {
         private Key key;
@@ -275,12 +284,4 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     }
 
-    public static void main(String[] args) {
-        BinarySearchTree<Integer, String> symbolTable = new BinarySearchTree<>();
-
-        symbolTable.put(3, "C");
-        symbolTable.put(1, "A");
-        symbolTable.put(2, "B");
-        symbolTable.put(4, "B");
-    }
 }
