@@ -13,7 +13,8 @@ package algorithm.dataStructure;
  * for min binary heap, the smallest one is the root a [1]
  */
 
-class BinaryHeapTest{
+
+class Test{
     public static void main(String[] args){
         // Use Binary heap to implement priorityQueue,
         // whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
@@ -22,11 +23,12 @@ class BinaryHeapTest{
 }
 
 public class BinaryHeap<Key extends Comparable<Key>> {
+
     private final Key[] tree;  // TODO use resizing array,  Key should immutable
     private int size;
 
     public BinaryHeap(int initialCapacity) {
-        this.tree = (Key[]) new Comparable[initialCapacity];
+        this.tree = (Key[]) new Comparable[initialCapacity];  // fixed capacity for simplicity
     }
 
     public boolean isEmpty() {
@@ -38,10 +40,6 @@ public class BinaryHeap<Key extends Comparable<Key>> {
     }
 
     public Key max() {
-        if (this.isEmpty()) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-
         return this.tree[1];
     }
 

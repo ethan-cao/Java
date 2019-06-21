@@ -1,8 +1,8 @@
 package algorithm.dataStructure;
 
-public class QueueTest {
+class QueueTest {
     public static void main(String[] args) {
-        QueueAPI<Integer>  queue = new QueueByLinkedList<>();
+        Queue<Integer> queue = new QueueByLinkedList<>();
 
         queue.enqueue(1);     // 1
         queue.enqueue(2);     // 2, 1
@@ -15,7 +15,7 @@ public class QueueTest {
     }
 }
 
-interface QueueAPI<T> {
+public interface Queue<T> {
     void enqueue(T t);
     T dequeue();
     boolean isEmpty();
@@ -23,7 +23,7 @@ interface QueueAPI<T> {
     void print();
 }
 
-class QueueByLinkedList<T> implements QueueAPI<T> {
+class QueueByLinkedList<T> implements Queue<T> {
     private Node first;
     private Node last;
     private int size;

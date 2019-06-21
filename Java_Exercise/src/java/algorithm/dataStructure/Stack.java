@@ -3,14 +3,13 @@ package algorithm.dataStructure;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class StackTest {
-
+class StackTest {
     public static void main(String[] args) {
         final String[] test = "to be or not to - be - - that - - - is".split(" ");
 
-//        StackAPI<String> stack = new StackByLinkedList<>();
-//        StackAPI<String> stack = new StackByArray<>(100, String.class);
-        StackAPI<String> stack = new StackByResizingArray<>(String.class);
+//        Stack<String> stack = new StackByLinkedList<>();
+//        Stack<String> stack = new StackByArray<>(100, String.class);
+        Stack<String> stack = new StackByResizingArray<>(String.class);
 
         for (String s : test){
             if ( s.equals("-") ){
@@ -23,20 +22,19 @@ public class StackTest {
 
         System.out.println("");
         System.out.println("size : " +stack.size());  // expect 2
-
     }
 }
 
 // Generic interface
-interface StackAPI<T> {
+public interface Stack<T> {
     void push(T t);
     T pop();
     boolean isEmpty();
     int size();
 }
 
-// without <T> following StackAPI, you get Object instead of T in your interface's methods.
-class StackByLinkedList<T> implements StackAPI<T> {
+// without <T> following Stack, you get Object instead of T in your interface's methods.
+class StackByLinkedList<T> implements Stack<T> {
     private Node first; // pointer to the first node
 
     private class Node {
@@ -86,7 +84,7 @@ class StackByLinkedList<T> implements StackAPI<T> {
     }
 }
 
-class StackByArray<T> implements StackAPI<T> {
+class StackByArray<T> implements Stack<T> {
     private T[] stack;
     private int n = 0;
 
@@ -119,7 +117,7 @@ class StackByArray<T> implements StackAPI<T> {
     }
 }
 
-class StackByResizingArray<T> implements StackAPI<T>{
+class StackByResizingArray<T> implements Stack<T> {
     private T[] array;
     private int N;  // track the real size
 

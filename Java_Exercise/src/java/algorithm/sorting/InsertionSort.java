@@ -3,7 +3,6 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
- * Depends on the initial order
  * Best case: data in ascending order, Worst case : data in descending order
  */
 public class InsertionSort {

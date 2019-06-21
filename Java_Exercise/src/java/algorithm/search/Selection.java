@@ -1,4 +1,4 @@
-package algorithm.dataStructure;
+package algorithm.search;
 
 import algorithm.math.Shuffle;
 import algorithm.sorting.QuickSort;

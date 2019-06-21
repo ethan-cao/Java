@@ -69,3 +69,52 @@ public class MergeSort {
     }
 
 }
+
+// About 10% slower than mergesort
+class MergeSortBottomUp {
+    public static void main(String args[]) {
+        int[] data = {2, 4, 5, 3, 6, 1};
+
+        sort(data);
+
+        System.out.println(Arrays.toString(data));
+    }
+
+    // runs in linear time
+    public static void merge(int[] data, int[] aux, int low, int middle, int high) {
+        // data[low] to data[middle], data[middle+1] to data[high] should be sorted already
+        System.arraycopy(data, low, aux, low, high - low + 1);
+
+        int m = low, n = middle + 1;
+
+        for (int i = low; i <= high; ++i) {
+
+            if (m > middle) { // if m reaches the middle
+                data[i] = aux[n++];
+            } else if (n > high) { // if n reaches the end
+                data[i] = aux[m++];
+            } else if (aux[m] < aux[n]) {
+                data[i] = aux[m++];
+            } else {
+                data[i] = aux[n++];
+            }
+        }
+
+        // data[low] to data[high] should be sorted
+    }
+
+    public static void sort(int[] data) {
+        final int L = data.length;
+        int[] aux = new int[L];  // auxiliary array
+
+        // The first one to be sorted is size 1 array, then size 2, 4, 8
+        for (int size = 1; size < L; size *= 2 ) {
+            // size + size : low index each time jumps 2 arrays
+            for (int low = 0; low < L - size; low += size + size) {
+                // low + size - 1 : the end of the first array
+                // low + size + size - 1 : the end of the second array
+                merge(data, aux, low, low + size - 1, Math.min(low + size + size - 1, L - 1));
+            }
+        }
+    }
+}
