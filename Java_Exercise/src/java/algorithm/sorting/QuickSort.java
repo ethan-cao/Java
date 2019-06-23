@@ -18,8 +18,8 @@ import java.util.Arrays;
  *
  *
  * Choice of partitionKey:
- *  when 1st element as partitionKey, the more sorted elements, the poorer the performance it is
- *  solution : randomized the array or pick a random partition key
+ * when 1st element as partitionKey, the more sorted elements, the poorer the performance it is
+ * solution : randomized the array or pick a random partition key
  */
 
 public class QuickSort {
@@ -28,8 +28,8 @@ public class QuickSort {
     public static void main(String[] args) {
         Integer[] data = new Integer[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
 
-        sort(data);
-//        sortWith3Partition(data, 0, data.length-1);
+//        sort(data);
+        sortWith3Partition(data, 0, data.length - 1);
 
         System.out.println(Arrays.toString(data));
     }
@@ -51,6 +51,7 @@ public class QuickSort {
         }
 
         int partitionKeyIndex = partition(array, low, high);
+
         sort(array, low, partitionKeyIndex - 1);
         sort(array, partitionKeyIndex + 1, high);
     }
@@ -89,7 +90,6 @@ public class QuickSort {
         // after this iteration, data[partition+1]...data[j] are all <= partitionKey
         //                       data[j+1]...data[high] are all > partitionKey
 
-
         // put partitionKey to its sorted position
         exchange(data, low, j);
 
@@ -104,10 +104,11 @@ public class QuickSort {
         }
 
         Comparable partitionKey = array[low];
-        int i = low; // Scan i from left to right.
-        int lessThan = low;
+
+        int lessThan = low ;
         int greaterThan = high;
 
+        int i = low + 1; // scan i from left to right.
         while (i <= greaterThan) {
             if (array[i].compareTo(partitionKey) < 0) {
                 exchange(array, i, lessThan);
