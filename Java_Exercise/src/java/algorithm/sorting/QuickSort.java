@@ -59,32 +59,32 @@ public class QuickSort {
     public static int partition(Comparable[] data, int low, int high) {
         Comparable partitionKey = data[low];
 
-        int i = low + 1;
-        int j = high;
+        int idx1 = low + 1; // since we don't care equal element, start from the next one
+        int idx2 = high;
 
         // if j <= i, then getPartitionKey finishes
-        while (i < j) {
+        while (idx1 < idx2) {
             // look for one that is not smaller than partitionKey
-            while (data[i].compareTo(partitionKey) <= 0) {
-                i++;
+            while (data[idx1].compareTo(partitionKey) <= 0) {
+                idx1++;
             }
 
             // look for one that is not larger than partitionKey
-            while (data[j].compareTo(partitionKey) > 0) {
-                j--;
+            while (data[idx2].compareTo(partitionKey) > 0) {
+                idx2--;
             }
 
             // swap (the 1st element that is larger than partitionKey before partitionKey) with
             //      (the 1st element that is smaller than partitionKey after partitionKey)
-            exchange(data, i, j);
+            exchange(data, idx1, idx2);
         }
         // after this iteration, data[partition+1]...data[j] are all <= partitionKey
         //                       data[j+1]...data[high] are all > partitionKey
 
         // put partitionKey to its sorted position j
-        exchange(data, low, j);
+        exchange(data, low, idx2);
 
-        return j;
+        return idx2;
     }
 
     // 3-way partitioning QuickSort is most effective when there are lots duplicate elements
@@ -96,25 +96,25 @@ public class QuickSort {
 
         Comparable partitionKey = data[low];
 
-        int lessThan = low; // since we check element that equals to partitionKey, start from 0
-        int greaterThan = high;
+        int lessThanIdx = low; // since we check element that equals to partitionKey, start from 0
+        int greaterThanIdx = high;
 
         int i = low; // scan i from left to right.
-        while (i <= greaterThan) {
+        while (i <= greaterThanIdx) {
             if (data[i].compareTo(partitionKey) < 0) {
-                exchange(data, i, lessThan);
+                exchange(data, i, lessThanIdx);
                 i++;
-                lessThan++;
+                lessThanIdx++;
             } else if (data[i].compareTo(partitionKey) > 0) {
-                exchange(data, i, greaterThan);
-                greaterThan--;
+                exchange(data, i, greaterThanIdx);
+                greaterThanIdx--;
             } else {
                 i++;
             }
         }
 
-        sortWith3Partition(data, low, lessThan - 1);
-        sortWith3Partition(data, greaterThan + 1, high);
+        sortWith3Partition(data, low, lessThanIdx - 1);
+        sortWith3Partition(data, greaterThanIdx + 1, high);
     }
 
     private static void exchange(Comparable[] array, int index1, int index2) {

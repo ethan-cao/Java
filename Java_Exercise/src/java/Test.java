@@ -17,7 +17,7 @@ public class Test {
 
         int partitionKey = data[low];
 
-        int lessThan = data[low + 1];
+        int lessThan = 1;
         int greatThan = data[high];
 
         int i = low + 1;
