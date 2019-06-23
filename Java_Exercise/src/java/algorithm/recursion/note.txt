@@ -1,3 +1,4 @@
 RadixSort
 BubbleSort
 MergeSort
+QuickSort

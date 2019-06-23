@@ -28,8 +28,8 @@ public class QuickSort {
     public static void main(String[] args) {
         Integer[] data = new Integer[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
 
-//        sort(data);
-        sortWith3Partition(data, 0, data.length - 1);
+        sort(data);
+//        sortWith3Partition(data, 0, data.length - 1);
 
         System.out.println(Arrays.toString(data));
     }
@@ -58,29 +58,20 @@ public class QuickSort {
 
     public static int partition(Comparable[] data, int low, int high) {
         Comparable partitionKey = data[low];
+
         int i = low + 1;
         int j = high;
 
-        while (true) {
+        // if j <= i, then getPartitionKey finishes
+        while (i < j) {
             // look for one that is not smaller than partitionKey
             while (data[i].compareTo(partitionKey) <= 0) {
                 i++;
-                if (i > high) {
-                    break;
-                }
             }
 
             // look for one that is not larger than partitionKey
             while (data[j].compareTo(partitionKey) > 0) {
                 j--;
-                if (j < low) {
-                    break;
-                }
-            }
-
-            // if j <= i, then getPartitionKey finishes
-            if (j <= i) {
-                break;
             }
 
             // swap (the 1st element that is larger than partitionKey before partitionKey) with
@@ -90,7 +81,7 @@ public class QuickSort {
         // after this iteration, data[partition+1]...data[j] are all <= partitionKey
         //                       data[j+1]...data[high] are all > partitionKey
 
-        // put partitionKey to its sorted position
+        // put partitionKey to its sorted position j
         exchange(data, low, j);
 
         return j;
@@ -98,41 +89,37 @@ public class QuickSort {
 
     // 3-way partitioning QuickSort is most effective when there are lots duplicate elements
     // application : Dutch national flag problem
-    private static void sortWith3Partition(Comparable[] array, int low, int high) {
+    private static void sortWith3Partition(Comparable[] data, int low, int high) {
         if (low >= high) {
             return;
         }
 
-        Comparable partitionKey = array[low];
+        Comparable partitionKey = data[low];
 
-        int lessThan = low ;
+        int lessThan = low;
         int greaterThan = high;
 
         int i = low + 1; // scan i from left to right.
         while (i <= greaterThan) {
-            if (array[i].compareTo(partitionKey) < 0) {
-                exchange(array, i, lessThan);
+            if (data[i].compareTo(partitionKey) < 0) {
+                exchange(data, i, lessThan);
                 i++;
                 lessThan++;
-            } else if (array[i].compareTo(partitionKey) > 0) {
-                exchange(array, i, greaterThan);
+            } else if (data[i].compareTo(partitionKey) > 0) {
+                exchange(data, i, greaterThan);
                 greaterThan--;
             } else {
                 i++;
             }
         }
 
-        sortWith3Partition(array, low, lessThan - 1);
-        sortWith3Partition(array, greaterThan + 1, high);
+        sortWith3Partition(data, low, lessThan - 1);
+        sortWith3Partition(data, greaterThan + 1, high);
     }
 
     private static void exchange(Comparable[] array, int index1, int index2) {
-        if (index1 == index2 || index1 >= array.length || index2 >= array.length) {
-            return;
-        }
-
-        Comparable temp = array[index1];
+        Comparable swap = array[index1];
         array[index1] = array[index2];
-        array[index2] = temp;
+        array[index2] = swap;
     }
 }

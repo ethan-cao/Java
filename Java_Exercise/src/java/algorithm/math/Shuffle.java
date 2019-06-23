@@ -6,31 +6,28 @@ import java.util.Random;
 public class Shuffle {
 
     public static void main(String[] args) {
-        Integer[] data = {1, 3, 8, 10, 17};
+        Integer[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
         knuthShuffle(data);
 
         System.out.println(Arrays.toString(data));
     }
 
-    private static final int seed = 1110;
+    private static final int SEED = 1110;
+    private static final Random random = new Random(SEED);
 
     // linear time shuffling algorithm, used to randomize the sequence
-    public static void knuthShuffle(Object[] array) {
-        int L = array.length;
-
-        Random random = new Random(seed);
-
-        for (int i = 1; i < L; ++i) {
+    public static void knuthShuffle(Object[] data) {
+        for (int i = 1; i < data.length; ++i) {
             int j = random.nextInt(i);
 
             if (i == j){
                 continue;
             }
 
-            Object temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
+            Object temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
         }
 
     }
