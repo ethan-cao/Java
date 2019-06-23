@@ -16,8 +16,8 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] data = {16, 522, 3, 9, 11, 0, 3, 14, 7, 3};
 
-        TopDown.sort(data);
-//        BottomUp.sort(data);
+//        TopDown.sort(data);
+        BottomUp.sort(data);
 
         System.out.println(Arrays.toString(data));
     }
@@ -51,6 +51,7 @@ public class MergeSort {
             // data[low] ... data[middle]  and   data[middle+1] ... data[high] are sorted, need to merge them
             int[] aux = new int[data.length]; // use aux[] to avoid overwriting value while copying
             System.arraycopy(data, low, aux, low, high - low + 1);
+            // aux[] could be static member to reduce memory usage
 
             // sort data[low] ... data[high]
             int idx1 = low;
@@ -71,9 +72,22 @@ public class MergeSort {
     // About 10% slower than topdown
     static class BottomUp {
 
+        public static void sort(int[] data) {
+            // The first one to be sorted is size 1 array, then size 2, 4, 8
+            for (int size = 1; size < data.length; size *= 2) {
+                // size + size : low index each time jumps 2 arrays
+                for (int low = 0; low < data.length - size; low += size + size) {
+                    // low + size - 1 : the end of the first array
+                    // low + size + size - 1 : the end of the second array
+                    merge(data, low, low + size - 1, Math.min(low + size + size - 1, data.length - 1));
+                }
+            }
+        }
+
         // runs in linear time
-        private static void merge(int[] data, int[] aux, int low, int middle, int high) {
-            // data[low] to data[middle], data[middle+1] to data[high] should be sorted already
+        private static void merge(int[] data, int low, int middle, int high) {
+            // data[low] ... data[middle]  and   data[middle+1] ... data[high] are sorted, need to merge them
+            int[] aux = new int[data.length];  // auxiliary array
             System.arraycopy(data, low, aux, low, high - low + 1);
 
             int m = low, n = middle + 1;
@@ -92,21 +106,6 @@ public class MergeSort {
             }
 
             // data[low] ... data[high] is sorted
-        }
-
-        public static void sort(int[] data) {
-            final int L = data.length;
-            int[] aux = new int[L];  // auxiliary array
-
-            // The first one to be sorted is size 1 array, then size 2, 4, 8
-            for (int size = 1; size < L; size *= 2) {
-                // size + size : low index each time jumps 2 arrays
-                for (int low = 0; low < L - size; low += size + size) {
-                    // low + size - 1 : the end of the first array
-                    // low + size + size - 1 : the end of the second array
-                    merge(data, aux, low, low + size - 1, Math.min(low + size + size - 1, L - 1));
-                }
-            }
         }
     }
 }
