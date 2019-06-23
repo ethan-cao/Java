@@ -14,19 +14,19 @@ where:
 
 ### Example
 [1,2,3,4,4,3,2,1] --> true
-Explanation: Possible partition [1,1],[2,2],[3,3],[4,4]
+Explanation: Possible getPartitionKey [1,1],[2,2],[3,3],[4,4]
 
 [1,1,1,2,2,2,3,3] -->  false
-Explanation: No possible partition.
+Explanation: No possible getPartitionKey.
 
 [1] --> false
-Explanation: No possible partition.
+Explanation: No possible getPartitionKey.
 
 [1,1] -->  true
-Explanation: Possible partition [1,1]
+Explanation: Possible getPartitionKey [1,1]
 
 [1,1,2,2,2,2] --> true
-Explanation: Possible partition [1,1],[2,2],[2,2]
+Explanation: Possible getPartitionKey [1,1],[2,2],[2,2]
 
 ### Condition
 groupCount * elementCount = deck.length

@@ -1,6 +1,5 @@
 package algorithm.math;
 
-
 import java.util.Arrays;
 import java.util.Random;
 
@@ -14,11 +13,12 @@ public class Shuffle {
         System.out.println(Arrays.toString(data));
     }
 
+    private static final int seed = 1110;
+
     // linear time shuffling algorithm, used to randomize the sequence
     public static void knuthShuffle(Object[] array) {
         int L = array.length;
 
-        final int seed = 1110;
         Random random = new Random(seed);
 
         for (int i = 1; i < L; ++i) {

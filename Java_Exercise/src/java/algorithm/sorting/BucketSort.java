@@ -9,7 +9,7 @@ import java.util.Arrays;
  * <p>
  * Its purpose is to improve counting sort
  * <p>
- * It is similar to Radix sort, but after 1st partition, it staring using other sorting mechanism to sort each bucket
+ * It is similar to Radix sort, but after 1st getPartitionKey, it staring using other sorting mechanism to sort each bucket
  */
 public class BucketSort {
 
@@ -26,7 +26,7 @@ public class BucketSort {
         int[][] bucket = new int[bucketSize][data.length];
         int[] tally = new int[bucketSize]; // tally[i] is the number of elements in bucket[i]
 
-        // partition elements to each bucket
+        // getPartitionKey elements to each bucket
         for (int i = 0; i < data.length; ++i) {
             int idx = data[i] / (range+1) * bucketSize;
             bucket[idx][tally[idx]] = data[i];
@@ -49,7 +49,7 @@ public class BucketSort {
 
     }
 
-    // the key for bucket sort is how to partition data to buckets
+    // the key for bucket sort is how to getPartitionKey data to buckets
     // this is just one example
     // kind of similar to hash()
     private static int getBucketSize(int[] data, int range) {
