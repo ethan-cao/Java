@@ -5,11 +5,11 @@ import java.util.Arrays;
 /**
  * Bucket sort or Bin sort
  *
- * Comparing with counting sort, bucket sort succeeds by constructing a much smaller set of k values
+ * Compared with counting sort, bucket sort succeeds by constructing a much smaller set of k values
  *
  * Its purpose is to improve counting sort
  *
- * It is similar to Radix sort, but after 1st getPartitionKey, it staring using other sorting mechanism to sort each bucket
+ * It is similar to Radix sort, but after 1st partition, it uses other sorting mechanism to sort each bucket
  */
 public class BucketSort {
 
@@ -26,7 +26,7 @@ public class BucketSort {
         int[][] bucket = new int[bucketSize][data.length];
         int[] tally = new int[bucketSize]; // tally[i] is the number of elements in bucket[i]
 
-        // getPartitionKey elements to each bucket
+        // partition elements to each bucket
         for (int i = 0; i < data.length; ++i) {
             int idx = data[i] / (range+1) * bucketSize;
             bucket[idx][tally[idx]] = data[i];
@@ -35,7 +35,7 @@ public class BucketSort {
 
         // sort each bucket
         for (int i = 0; i < bucketSize; ++i) {
-            SelectionSort.sort(bucket[i]);
+            InsertionSort.sort(bucket[i]);
         }
 
         // collect result

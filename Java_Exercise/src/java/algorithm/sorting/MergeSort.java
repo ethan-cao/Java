@@ -3,6 +3,8 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
+ * a divide and conquer algorithm
+ *
  * Time complexity :  NlogN
  *
  * Merge sort is too complicated for tiny array, use insertion sort instead

@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  *
  * Choice of partitionKey:
- * when 1st element as partitionKey, the more sorted elements, the poorer the performance it is
+ * when 1st element as partitionKey, the more sorted elements there is, the poorer the performance it is
  * solution : randomized the array or pick a random partition key
  */
 

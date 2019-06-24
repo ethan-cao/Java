@@ -5,7 +5,8 @@ import java.util.Arrays;
 /**
  * Radix sort handles sorting by implementing counting sort (or bucket sort) on one digit at a time.
  * It generally works best for a range of smallish numbers,
- * It is the very first sorting algorithm in 1887
+ *
+ * the first sorting algorithm in 1887
  *
  * There has 2 flavors:
  * 1.most significant digit (MSD) radix sort : from the greatest digit, and moving towards the least significant digit
