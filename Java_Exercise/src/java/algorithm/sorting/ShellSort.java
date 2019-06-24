@@ -48,10 +48,6 @@ public class ShellSort {
     }
 
     private static void exchange(int[] array, int index1, int index2) {
-        if (index1 == index2 || index1 >= array.length || index2 >= array.length) {
-            return;
-        }
-
         int swap = array[index1];
         array[index1] = array[index2];
         array[index2] = swap;

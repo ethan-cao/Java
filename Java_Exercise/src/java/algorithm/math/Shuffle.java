@@ -6,7 +6,7 @@ import java.util.Random;
 public class Shuffle {
 
     public static void main(String[] args) {
-        Integer[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
         knuthShuffle(data);
 
@@ -17,7 +17,7 @@ public class Shuffle {
     private static final Random random = new Random(SEED);
 
     // linear time shuffling algorithm, used to randomize the sequence
-    public static void knuthShuffle(Object[] data) {
+    public static void knuthShuffle(int[] data) {
         for (int i = 1; i < data.length; ++i) {
             int j = random.nextInt(i);
 
@@ -25,9 +25,9 @@ public class Shuffle {
                 continue;
             }
 
-            Object temp = data[i];
+            int swap = data[i];
             data[i] = data[j];
-            data[j] = temp;
+            data[j] = swap;
         }
 
     }

@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 /**
  * Bucket sort or Bin sort
- * <p>
+ *
  * Comparing with counting sort, bucket sort succeeds by constructing a much smaller set of k values
- * <p>
+ *
  * Its purpose is to improve counting sort
- * <p>
+ *
  * It is similar to Radix sort, but after 1st getPartitionKey, it staring using other sorting mechanism to sort each bucket
  */
 public class BucketSort {

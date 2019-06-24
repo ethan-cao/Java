@@ -26,8 +26,8 @@ public class RadixSort {
         LSDSort(data);
         System.out.println(Arrays.toString(data));
 
-        MSDSort(data);
-        System.out.println(Arrays.toString(data));
+//        MSDSort(data);
+//        System.out.println(Arrays.toString(data));
     }
 
 

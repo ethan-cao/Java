@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 /**
  * works for integer (or char/String)
- * <p>
+ *
  * need to know the range of our input integers.
  * works better with same rang integers (max-mix)
  * only suitable for direct use in situations where the variation in keys is not significantly greater than the number of items. However, it is often used as a subroutine in another sorting algorithm,
- * <p>
+ *
  * the input to counting sort consists of a collection of n items, each of which has a non-negative integer key whose maximum value is at most k.
  */
 

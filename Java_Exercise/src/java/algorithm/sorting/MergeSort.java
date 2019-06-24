@@ -16,8 +16,8 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] data = {16, 522, 3, 9, 11, 0, 3, 14, 7, 3};
 
-//        TopDown.sort(data);
-        BottomUp.sort(data);
+        TopDown.sort(data);
+//        BottomUp.sort(data);
 
         System.out.println(Arrays.toString(data));
     }

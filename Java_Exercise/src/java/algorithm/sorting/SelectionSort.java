@@ -3,8 +3,9 @@ package algorithm.sorting;
 import java.util.Arrays;
 
 /**
+ * Similar to insertion sort
  *
- * Simple but not efficient
+ * When examine i-th element, it looks forward to ensure i-th is in sorted position
  */
 public class SelectionSort {
 
@@ -18,20 +19,17 @@ public class SelectionSort {
 
     public static void sort(int[] data) {
         for (int i = 0; i < data.length; ++i) {
-            /**
-             * assume index i has the smallest element
-             * each iteration is to make sure the smallest one ends in position
-             */
-            int minIdx = i;
+             // assume data[i] is the smallest element
+             // each iteration is to make sure the smallest one ends in position
 
             // search for index of smallest element starting from i + 1
             for (int j = i + 1; j < data.length; ++j) {
 
                 // if there is smaller one, exchange value and update
-                if (data[j] < data[minIdx]) {
-                    int temp = data[j];
-                    data[j] = data[minIdx];
-                    data[minIdx] = temp;
+                if (data[j] < data[i]) {
+                    int swap = data[j];
+                    data[j] = data[i];
+                    data[i] =  swap;
                 }
             }
         }

@@ -8,7 +8,7 @@ import algorithm.sorting.QuickSort;
  */
 public class Selection {
     public static void main(String[] args) {
-        Integer[] data = {2, 4, 5, 3, 1};
+        int[] data = {2, 4, 5, 3, 1};
 
         int k = 2;
         Comparable k_th_smallest = selectNthItem(data, k);
@@ -17,12 +17,11 @@ public class Selection {
     }
 
     // based on quickSort, linear time selection
-    public static Comparable selectNthItem(Comparable[] array, int k) {
+    public static Comparable selectNthItem(int[] array, int k) {
         Shuffle.knuthShuffle(array);
-        final int L = array.length;
 
         int low = 0;
-        int high = L - 1;
+        int high = array.length - 1;
 
         while (low < high) {
             int partitionKeyIndex = QuickSort.partition(array, low, high);
