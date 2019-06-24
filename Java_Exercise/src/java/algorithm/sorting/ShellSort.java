@@ -9,8 +9,8 @@ import java.util.Arrays;
  * Then reducing h gradually to 1, all elements are sorted
  *
  * choice of h :
- *  as long as h contains 1, it guarantees the sorted order
- *  too large h or too small order both decrease performance
+ * as long as h contains 1, it guarantees the sorted order
+ * too large h or too small order both decrease performance
  */
 
 public class ShellSort {
@@ -35,9 +35,11 @@ public class ShellSort {
         while (h >= 1) {
             // insertion sort, make every h-th elements in sorted order
             for (int i = h; i < data.length; ++i) {
-                for (int j = i; j >= h; j -= h) {
+                for (int j = i; j - h >= 0; j -= h) {
                     if (data[j] < data[j - h]) {
-                        exchange(data, j - h, j);
+                        exchange(data, j, j - h);
+                    } else {
+                        break;
                     }
                 }
             }
