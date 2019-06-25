@@ -7,11 +7,12 @@ import java.util.Map;
 public class PrimeFactorization {
 
     public static void main(String... args) {
-
         System.out.println(Arrays.asList(primeFactorize(2343)));
     }
 
-    // <prime, power>
+    /**
+     * return Map<prime, power> :  n = ∑(prime^power)
+     */
     public static Map<Integer, Integer> primeFactorize(int n) {
         Map<Integer, Integer> results = new LinkedHashMap<>();
 

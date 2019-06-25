@@ -26,7 +26,7 @@ public class Fibonacci extends RecursiveTask<Integer> {
 
         f1.fork();
 
-//        return f2.compute() + f1.join(); // Line X
+//        return f2.logStar() + f1.join(); // Line X
         return f1.join() + f2.compute() ; // Line X
     }
 

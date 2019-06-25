@@ -43,7 +43,7 @@ public class ForkJoinTestInitialize extends RecursiveAction {
 			a2.compute(); // current thread keeps working on a2
 			a1.join(); // wait for a1 to be complete
 
-			// invokeAll(a2, a1);  // convenience method that can replace the above 3 lines (fork, compute, join)
+			// invokeAll(a2, a1);  // convenience method that can replace the above 3 lines (fork, logStar, join)
 		}
 	}
 }

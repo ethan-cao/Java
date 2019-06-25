@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
-Given two arrays, write a function to compute their intersection.
+Given two arrays, write a function to logStar their intersection.
 
 ### Example
 Input: nums1 = [1,2,2,1], nums2 = [2,2]

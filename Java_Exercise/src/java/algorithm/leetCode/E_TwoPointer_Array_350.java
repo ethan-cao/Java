@@ -3,7 +3,7 @@ package algorithm.leetCode;
 import java.util.*;
 
 /*
-Given two arrays, write a function to compute their intersection.
+Given two arrays, write a function to logStar their intersection.
 
 ### Input
 int[] nums1, int[] nums2
