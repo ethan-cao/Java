@@ -114,8 +114,11 @@ public class M_LinkedList_2 {
 
         int carry = 0;
 
-        while (node1 != null && node2 != null) {
-            int sum = node1.val + node2.val + carry;
+        while (node1 != null || node2 != null) {
+            int number1 = node1 == null ? 0 : node1.val;
+            int number2 = node2 == null ? 0 : node2.val;
+
+            int sum = number1 + number2 + carry;
             carry = sum / 10;
             sum = sum % 10;
 
@@ -127,20 +130,8 @@ public class M_LinkedList_2 {
                 node = node.next;
             }
 
-            node1 = node1.next;
-            node2 = node2.next;
-        }
-
-        ListNode remainingNode = node1 == null ? node2 : node1;
-        while (remainingNode != null) {
-            int value = remainingNode.val % 10 + carry;
-            carry = value / 10;
-            value = value % 10;
-
-            node.next = new ListNode(value);
-            node = node.next;
-
-            remainingNode = remainingNode.next;
+            node1 = node1 == null ? null : node1.next;
+            node2 = node2 == null ? null : node2.next;
         }
 
         if (carry != 0) {
