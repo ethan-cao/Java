@@ -3,8 +3,9 @@ package algorithm.math;
 public class LeastCommonMultiple {
 
     /*
-    proof lcm(a, b) = ab / gcd(a, b)
+    a * b = lcm(a, b) * gcd(a, b)
     --------------
+    proof
 
     since d = gcd(a, b),
     a = md, b = nd
@@ -22,12 +23,13 @@ public class LeastCommonMultiple {
     ref :  http://www.coursera.org/lecture/number-theory-cryptography/least-common-multiple-3LMq1
      */
     public static void main(String... args) {
-        // lcm(a, b) = (a * b) / gcd(a, b)
-
         int a = 100;
         int b = 23;
 
-        int lcm = a * b / GreatestCommonDivisor.getGreatestCommonDivisor(a, b);
+        System.out.println(getLCM(a, b));
     }
 
+    public static int getLCM(int a, int b) {
+        return a * b / GreatestCommonDivisor.getGCD(a, b);
+    }
 }
