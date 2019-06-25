@@ -1,4 +1,0 @@
-RadixSort
-BubbleSort
-MergeSort
-QuickSort

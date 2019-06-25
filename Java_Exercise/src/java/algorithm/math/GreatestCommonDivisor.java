@@ -1,4 +1,4 @@
-package algorithm.recursion;
+package algorithm.math;
 
 public class GreatestCommonDivisor {
 
@@ -16,7 +16,7 @@ public class GreatestCommonDivisor {
     /*
         https://en.wikipedia.org/wiki/Euclidean_algorithm
 
-        Euclidean algorithm relies on principle : gcd(a, b) = gcd(b, a%b)
+        Euclidean algorithm relies on principle : gcd(a, b) = gcd(b, a % b)
 
         proof:
             assume g = gcd(a, b)
@@ -55,5 +55,3 @@ public class GreatestCommonDivisor {
         return a;
     }
 }
-
-//    Least common multiple

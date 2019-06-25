@@ -1,4 +1,4 @@
-package algorithm.recursion;
+package algorithm.math;
 
 public class Fibonacci {
     public static void main(String[] args) {
@@ -7,11 +7,15 @@ public class Fibonacci {
         System.out.println(fibonacci);
     }
 
-    private static int getFibonacci(int n) {
-        if ( 1 == n || 2 == n){
+    public static int getFibonacci(int n) {
+        if ( n == 1|| n == 2){
             return 1;
         }
 
         return getFibonacci(n-1) + getFibonacci(n-2);
+    }
+
+    public static int getFibonacci1(){
+      return 1;
     }
 }

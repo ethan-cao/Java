@@ -1,4 +1,4 @@
-package algorithm.recursion;
+package algorithm.math;
 
 public class IteratedLogarithm {
 }

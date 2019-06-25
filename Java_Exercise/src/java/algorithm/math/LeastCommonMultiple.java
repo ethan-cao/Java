@@ -1,4 +1,4 @@
-package algorithm.recursion;
+package algorithm.math;
 
 public class LeastCommonMultiple {
 
@@ -22,7 +22,6 @@ public class LeastCommonMultiple {
     ref :  http://www.coursera.org/lecture/number-theory-cryptography/least-common-multiple-3LMq1
      */
     public static void main(String... args) {
-
         // lcm(a, b) = (a * b) / gcd(a, b)
 
         int a = 100;
@@ -30,8 +29,5 @@ public class LeastCommonMultiple {
 
         int lcm = a * b / GreatestCommonDivisor.getGreatestCommonDivisor(a, b);
     }
-
-
-
 
 }
