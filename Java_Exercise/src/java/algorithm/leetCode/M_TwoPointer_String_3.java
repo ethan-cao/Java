@@ -108,9 +108,10 @@ public class M_TwoPointer_String_3 {
         // counter all ASCII chars, ASCII encodes 128 characters
         // could also use HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int[] tally = new int[128];
+        // tally[char] : index of substring containing this char
         Arrays.fill(tally, -1);
 
-        int start = 0;
+        int start = 0; // starting index for the examining substring
         for (int end = start; end < s.length(); ++end) {
             if (tally[s.charAt(end)] >= start) {
                 start = tally[s.charAt(end)] + 1;
