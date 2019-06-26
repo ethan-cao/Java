@@ -1,27 +1,20 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'maven'
+plugins {
+    id 'java'
+    id 'idea'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-
-//External dependencies for the build script
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-    }
-}
 
 repositories {
     mavenCentral()
 }
 
+
 sourceSets {
     main {
         java {
-            srcDirs = ['src/java']
+            srcDirs = ["src/java"]
         }
         resources {
             srcDirs = ['src/resources']
@@ -29,7 +22,16 @@ sourceSets {
     }
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
+
     compile(
             'com.google.guava:guava:27.1-jre',
 //            'org.apache.commons:commons-lang3:8.1',
@@ -37,7 +39,6 @@ dependencies {
     )
 
     testCompile(
-            'junit:junit:4.12',
             'org.mockito:mockito-core:2.+',
     )
 }
