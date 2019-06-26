@@ -7,7 +7,7 @@
 *.class
 
 Java_Exercise/src/java/algorithm/slides/Algorithms4th.pdf
-
+.gradle
 
 Java_Exercise/gradle
 Java_Exercise/.gradle
