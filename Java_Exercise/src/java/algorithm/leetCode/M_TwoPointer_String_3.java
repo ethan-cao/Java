@@ -1,5 +1,6 @@
 package algorithm.leetCode;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,16 +25,16 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 */
 
 
-public class M_String_3 {
+public class M_TwoPointer_String_3 {
 
     public static void main(String... args) {
-        System.out.println(lengthOfLongestSubstring(" ")); // 1
-        System.out.println(lengthOfLongestSubstring("bbbbb")); // 1
-        System.out.println(lengthOfLongestSubstring("abcabcbb")); // 3
-        System.out.println(lengthOfLongestSubstring("aab")); // 2
-        System.out.println(lengthOfLongestSubstring("pwwkew")); // 3
-        System.out.println(lengthOfLongestSubstring("q12423rrr4r3j")); // 4
-        System.out.println(lengthOfLongestSubstring("fiu3hubvoibbbfdvbivblb43gb")); // 7
+        System.out.println(lengthOfLongestSubstring1(" ")); // 1
+        System.out.println(lengthOfLongestSubstring1("bbbbb")); // 1
+        System.out.println(lengthOfLongestSubstring1("abcabcbb")); // 3
+        System.out.println(lengthOfLongestSubstring1("aab")); // 2
+        System.out.println(lengthOfLongestSubstring1("pwwkew")); // 3
+        System.out.println(lengthOfLongestSubstring1("q12423rrr4r3j")); // 4
+        System.out.println(lengthOfLongestSubstring1("fiu3hubvoibbbfdvbivblb43gb")); // 7
     }
 
     // a working approach, but too slow to be accepted
@@ -63,6 +64,7 @@ public class M_String_3 {
         return longestLength;
     }
 
+    // Two pointer
     public static int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -103,7 +105,22 @@ public class M_String_3 {
 
         int longestLength = 0;
 
+        // counter all ASCII chars, ASCII encodes 128 characters
+        // could also use HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int[] tally = new int[128];
+        Arrays.fill(tally, -1);
+
+        int start = 0;
+        for (int end = start; end < s.length(); ++end) {
+            if (tally[s.charAt(end)] >= start) {
+                start = tally[s.charAt(end)] + 1;
+            }
+
+            tally[s.charAt(end)] = end;
+
+            longestLength = Math.max(longestLength, end - start + 1);
+        }
+
         return longestLength;
     }
-
 }
