@@ -12,17 +12,17 @@ Explanation: [4,-1,2,1] has the largest sum = 6.
 */
 public class E_DP_Array_53 {
 
-    public static void main(String[] args){
-        int[] data1 = {-2,1,-3,4,-1,2,1,-5,4};
+    public static void main(String[] args) {
+        int[] data1 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray1(data1));
 
     }
 
     /**
-     *  Dynamic programming, Kadane's Algorithm
+     * Dynamic programming, Kadane's Algorithm
      */
     public static int maxSubArray1(int[] nums) {
-        if (nums == null || nums.length == 0){
+        if (nums == null || nums.length == 0) {
             return 0;
         }
 
@@ -32,16 +32,16 @@ public class E_DP_Array_53 {
         int maxSum = nums[0];
         int localSum = nums[0];
 
-        for (int i = 1; i < nums.length; ++i){
+        for (int i = 1; i < nums.length; ++i) {
             localSum = Math.max(localSum, 0) + nums[i];
-            maxSum = Math.max(localSum, maxSum) ;
+            maxSum = Math.max(localSum, maxSum);
         }
 
         return maxSum;
     }
 
     /**
-     *  Divide and conquer
+     * Divide and conquer
      */
     public int maxSubArray2(int[] nums) {
         int maxSum = 0;

@@ -25,19 +25,19 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 */
 
 
-public class M_TwoPointer_String_3 {
+public class M_TwoPointer_SlidingWindow_String_3 {
 
     public static void main(String... args) {
-        System.out.println(lengthOfLongestSubstring1(" ")); // 1
-        System.out.println(lengthOfLongestSubstring1("bbbbb")); // 1
-        System.out.println(lengthOfLongestSubstring1("abcabcbb")); // 3
-        System.out.println(lengthOfLongestSubstring1("aab")); // 2
-        System.out.println(lengthOfLongestSubstring1("pwwkew")); // 3
-        System.out.println(lengthOfLongestSubstring1("q12423rrr4r3j")); // 4
-        System.out.println(lengthOfLongestSubstring1("fiu3hubvoibbbfdvbivblb43gb")); // 7
+        System.out.println(lengthOfLongestSubstring2(" ")); // 1
+        System.out.println(lengthOfLongestSubstring2("bbbbb")); // 1
+        System.out.println(lengthOfLongestSubstring2("abcabcbb")); // 3
+        System.out.println(lengthOfLongestSubstring2("aab")); // 2
+        System.out.println(lengthOfLongestSubstring2("pwwkew")); // 3
+        System.out.println(lengthOfLongestSubstring2("q12423rrr4r3j")); // 4
+        System.out.println(lengthOfLongestSubstring2("fiu3hubvoibbbfdvbivblb43gb")); // 7
     }
 
-    // a working approach, but too slow to be accepted
+    // Brute force, but too slow to be accepted
     public static int lengthOfLongestSubstring0(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -64,7 +64,7 @@ public class M_TwoPointer_String_3 {
         return longestLength;
     }
 
-    // Two pointer
+    // Two pointer, own solution
     public static int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -75,7 +75,9 @@ public class M_TwoPointer_String_3 {
         Set<Character> tally = new HashSet<>();
 
         int start = 0;
-        for (int end = start + 1; start < end && end < s.length(); ) {
+        int end = start + 1;
+
+        while (start < end && end < s.length()) {
             char startChar = s.charAt(start);
             char endChar = s.charAt(end);
 
@@ -98,6 +100,35 @@ public class M_TwoPointer_String_3 {
         return longestLength;
     }
 
+    // Two pointer - Sliding window
+    // https://youtu.be/mtHelVTLKRQ
+    public static int lengthOfLongestSubstring2(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        int longestLength = 0;
+
+        Set<Character> appearedChars = new HashSet<>();
+
+        int start = 0;
+        int end = 0;
+
+        while (end < s.length()) {
+            if (appearedChars.contains(s.charAt(end))) {
+                appearedChars.remove(s.charAt(start));
+                start++;
+            } else {
+                appearedChars.add(s.charAt(end));
+                end++;
+            }
+
+            longestLength = Math.max(longestLength, end - start);
+        }
+
+        return longestLength;
+    }
+
     public static int lengthOfLongestSubstring1(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -106,7 +137,6 @@ public class M_TwoPointer_String_3 {
         int longestLength = 0;
 
         // counter all ASCII chars, ASCII encodes 128 characters
-        // could also use HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int[] tally = new int[128];
         // tally[char] :  the last appearing index of the char
         Arrays.fill(tally, -1);
@@ -125,4 +155,5 @@ public class M_TwoPointer_String_3 {
 
         return longestLength;
     }
+
 }
