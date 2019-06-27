@@ -13,9 +13,7 @@ The substrings with different start indexes or end indexes are counted as differ
 ### Condition
 The input string length won't exceed 1000.
 
-### Essential problem
-
-### Corner case
+# Related : 5
 
 */
 
