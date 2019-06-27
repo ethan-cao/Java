@@ -14,38 +14,28 @@ public class E_DP_Array_53 {
 
     public static void main(String[] args) {
         int[] data1 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
-        System.out.println(maxSubArray1(data1));
-
+        System.out.println(maxSubArray1(data1));   //6
     }
 
-    /**
-     * Dynamic programming, Kadane's Algorithm
-     */
+    // DP, Kadane's Algorithm
+    // https://en.wikipedia.org/wiki/Maximum_subarray_problem
     public static int maxSubArray1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
 
-        // maxSubArray(A, i) = Math.max(maxSubArray(A, i-1), 0) + A[i];
+        // maxSubArray(A, i) = Math.max(maxSubArray(A, i-1), 0)  +  A[i]
         // i could be 1, 2, .. nums.length -1
 
         int maxSum = nums[0];
-        int localSum = nums[0];
+        int localMaxSum = nums[0];
 
         for (int i = 1; i < nums.length; ++i) {
-            localSum = Math.max(localSum, 0) + nums[i];
-            maxSum = Math.max(localSum, maxSum);
+            localMaxSum = nums[i] + Math.max(localMaxSum, 0);
+            maxSum = Math.max(maxSum, localMaxSum);
         }
 
         return maxSum;
     }
 
-    /**
-     * Divide and conquer
-     */
-    public int maxSubArray2(int[] nums) {
-        int maxSum = 0;
-
-        return maxSum;
-    }
 }
