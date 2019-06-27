@@ -108,17 +108,17 @@ public class M_TwoPointer_String_3 {
         // counter all ASCII chars, ASCII encodes 128 characters
         // could also use HashMap<Character, Integer> map = new HashMap<Character, Integer>();
         int[] tally = new int[128];
-        // tally[char] :  the last apearing index of the char
+        // tally[char] :  the last appearing index of the char
         Arrays.fill(tally, -1);
 
         int start = 0; // starting index for the examining substring
         for (int end = start; end < s.length(); ++end) {
-            // if the char appeared before, then update start index to the next index
+            // if the char appears again, reset the start index
             if (tally[s.charAt(end)] >= start) {
                 start = tally[s.charAt(end)] + 1;
             }
 
-            tally[s.charAt(end)] = end;
+            tally[s.charAt(end)] = end; // update last appearing index
 
             longestLength = Math.max(longestLength, end - start + 1);
         }
