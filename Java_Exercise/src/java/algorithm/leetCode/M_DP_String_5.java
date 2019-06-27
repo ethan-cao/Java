@@ -18,23 +18,23 @@ The answer is "b", with the length of 1.
 public class M_DP_String_5 {
 
     public static void main(String... args) {
-//        System.out.println(longestPalindrome(""));   // ""
-//        System.out.println(longestPalindrome(" "));  // " "
-//        System.out.println(longestPalindrome("  ")); // "  "
-        System.out.println(longestPalindrome("a")); // "a"
-//        System.out.println(longestPalindrome("aba")); // aba
-//        System.out.println(longestPalindrome("babad")); // bab
-//        System.out.println(longestPalindrome("cbbd")); // bb
-//        System.out.println(longestPalindrome("eabcb")); // bcb
+        System.out.println(longestPalindrome1(""));   // ""
+        System.out.println(longestPalindrome1(" "));  // " "
+        System.out.println(longestPalindrome1("  ")); // "  "
+        System.out.println(longestPalindrome1("a")); // "a"
+        System.out.println(longestPalindrome1("aba")); // aba
+        System.out.println(longestPalindrome1("babad")); // bab
+        System.out.println(longestPalindrome1("cbbd")); // bb
+        System.out.println(longestPalindrome1("eabcb")); // bcb
     }
 
     // Two Pointer
     public static String longestPalindrome(String s) {
-        if (s == null ){
+        if (s == null) {
             return "";
         }
 
-        if (s.length() < 2){
+        if (s.length() < 2) {
             return s;
         }
 
@@ -63,6 +63,32 @@ public class M_DP_String_5 {
         end--;
 
         return s.substring(start, end + 1);
+    }
+
+    // DP
+    public static String longestPalindrome1(String s) {
+        final int L = s.length();
+        String longestPalindrome = null;
+
+        boolean[][] dp = new boolean[L][L]; // by default, all false
+        // dp[i][j] indicates whether substring s starting at index i and ending at j is palindrome
+
+        for (int i = L - 1; i >= 0; i--) {
+            for (int j = i; j < L; j++) {
+                dp[i][j] =
+                        s.charAt(i) == s.charAt(j)
+                                &&
+                        (j - i < 3 || dp[i + 1][j - 1]);
+                // if window <= 3 (element number <= 3), i match j is enough, the middle if there is does not matter
+                // if window > 3, substring (i+1, j-1) should be palindrome too, substring (i+1, j-1) has been examined before
+
+                if (dp[i][j] && (longestPalindrome == null || j - i + 1 > longestPalindrome.length())) {
+                    longestPalindrome = s.substring(i, j + 1);
+                }
+            }
+        }
+
+        return longestPalindrome;
     }
 
 }
