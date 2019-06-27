@@ -14,7 +14,7 @@ Explanation: Intervals [1,4] and [4,5] are considered overlapping.
 
 */
 
-public class M_Array_56 {
+public class A_M_Array_56 {
 
     public static void main(String... args) {
 
