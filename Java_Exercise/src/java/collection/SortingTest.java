@@ -63,30 +63,31 @@ public class SortingTest {
             System.out.println(b);
         }
     }
-}
 
-class Book implements Comparable<Book> {
-    String title;
-    int    isbn;
+    static class Book implements Comparable<Book> {
+        String title;
+        int    isbn;
 
-    Book(String title, int isbn) {
-        this.title = title;
-        this.isbn  = isbn;
-    }
-
-    @Override
-    public String toString(){
-    	return this.title + " " + this.isbn;
-    }
-    
-    @Override
-    public int compareTo(Book book) {
-        if (this.title.equals(book.title)) {
-            return this.isbn - book.isbn;
+        Book(String title, int isbn) {
+            this.title = title;
+            this.isbn  = isbn;
         }
 
-        return this.title.compareTo(book.title);
+        @Override
+        public String toString(){
+            return this.title + " " + this.isbn;
+        }
+
+        @Override
+        public int compareTo(Book book) {
+            if (this.title.equals(book.title)) {
+                return this.isbn - book.isbn;
+            }
+
+            return this.title.compareTo(book.title);
+        }
     }
+
 }
 
 
