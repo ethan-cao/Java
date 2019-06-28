@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class A_M_Array_56 {
+public class M_Array_56 {
 
     public static void main(String... args) {
 //        int[][] intervals = {

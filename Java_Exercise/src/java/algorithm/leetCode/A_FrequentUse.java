@@ -28,7 +28,6 @@ public class A_FrequentUse {
         Arrays.stream(ints, startIndex, endIndex).max().getAsInt();
 
 
-
         // slice array
 //        System.arraycopy();
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
@@ -57,7 +56,7 @@ public class A_FrequentUse {
 
         l2.stream().mapToInt(Integer::intValue).toArray();
 
-        // print steam
+        // print list
         l2.forEach(System.out::println);
     }
 
