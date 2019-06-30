@@ -96,4 +96,38 @@ public class M_LinkedList_138 {
         return copy;
     }
 
+    // Concise version
+    public static Node copyRandomList1(Node head) {
+        if (head == null) {
+            return null;
+        }
+
+        // Node use Object.hashCode and Object.equal
+        // Object.hashCode() / Object.equals() return true for objects with same address
+        // use HashMap to make lookup linear, similar to Q1 twoSum
+        Map<Node, Node> originToDuplicate = new HashMap<>();
+
+        Node current = head;
+        while (current != null) {
+            Node duplicate = replicate(current);
+            originToDuplicate.put(current, duplicate);
+
+            current = current.next;
+        }
+
+        Node headCopy = originToDuplicate.get(head);
+
+        current = head;
+        Node currentCopy = headCopy;
+
+        while (current != null) {
+            currentCopy.next = originToDuplicate.get(current.next);
+            currentCopy.random = originToDuplicate.get(current.random);
+
+            current = current.next;
+            currentCopy = currentCopy.next;
+        }
+
+        return headCopy;
+    }
 }
