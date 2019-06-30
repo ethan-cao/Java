@@ -1,8 +1,6 @@
 package algorithm.leetCode;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /*
 Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
