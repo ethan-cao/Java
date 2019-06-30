@@ -29,10 +29,12 @@ public class M_Array_238 {
     public static int[] productExceptSelf(int[] nums) {
         int[] products = new int[nums.length];
         Arrays.fill(products, 1);
+        // products = [1, 1, 1, 1];
 
         for (int i = 1; i < nums.length; ++i) {
             products[i] = products[i - 1] * nums[i - 1];
         }
+        // products = [1, nums[1], nums[1] * nums[2], nums[1] * nums[2]  * nums[3] ]
 
         int right = 1;
         for (int i = nums.length - 1; i >= 0; --i) {
