@@ -22,11 +22,15 @@ Output: -1
 public class M_Array_33 {
 
     public static void main(String... args) {
-        int[] data1 = {4, 5, 6, 7, 0, 1, 2};
+//        int[] data1 = {4, 5, 6, 7, 0, 1, 2};
+//
+//        System.out.println(search(data1, 0)); // 4
+//        System.out.println(search(data1, 3)); // -1
+//        System.out.println(search(data1, 4)); // 0
 
-        System.out.println(search(data1, 0)); // 4
-        System.out.println(search(data1, 3)); // -1
-        System.out.println(search(data1, 4)); // 0
+
+        int[] data2 = {5, 1, 3};
+        System.out.println(search(data2, 5)); // 0
     }
 
     public static int search(int[] nums, int target) {
@@ -34,25 +38,26 @@ public class M_Array_33 {
             return -1;
         }
 
-        // locate the smallest one, binary search O(logN)
+        // find the smallest one, binary search O(logN)
         int left = 0;
         int right = nums.length - 1;
-        while (left < right) {
+        while (left < right) {  // cannot use <=, we are looking for when left== right
             int middle = left + (right - left) / 2;
 
             if (nums[middle] > nums[right]) {
                 left = middle + 1;
             } else {
-                right = middle;
+                right = middle;  // cannot use middle + 1, since we also need to examine nums[middle]
             }
         }
         // now left == right, which is the index for the smallest one
 
         int pivot = left;
 
+        // find target, binary search, O(logN)
+        int targetIndex = -1;
         left = target > nums[nums.length - 1] ? 0 : pivot;
         right = target > nums[nums.length - 1] ? pivot - 1 : nums.length - 1;
-        int targetIndex = -1;
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
@@ -68,7 +73,11 @@ public class M_Array_33 {
         }
 
         return targetIndex;
+    }
 
+    // https://leetcode.com/problems/search-in-rotated-sorted-array/discuss/14435/Clever-idea-making-it-simple
+    public static int search1(int[] nums, int target) {
+        return 1;
     }
 
 }

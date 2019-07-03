@@ -15,7 +15,7 @@ public class BinarySearch {
         int high = array.length - 1;
         int targetIndex = -1;
 
-        while (low < high) {
+        while (low <= high) {
             /*
                 int mid = (low + high) / 2;
                 divided by 2 is a bug... if low + high is larger than maximal value of int, result overflows to negative
