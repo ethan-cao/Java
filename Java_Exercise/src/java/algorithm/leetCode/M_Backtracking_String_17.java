@@ -16,6 +16,8 @@ A mapping of digit to letters is given below. Note that 1 does not map to any le
 ### Example
 "23" -> ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 
+Q22 is similar
+
 */
 
 import java.util.LinkedList;
@@ -63,13 +65,13 @@ public class M_Backtracking_String_17 {
         return letterCombinations;
     }
 
-    // Recursion, really fast
+    // Backtracking, Recursion, DFS, really fast,
     private static String[] letterMap = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     public static List<String> letterCombinations1(String digits) {
         List<String> letterCombinations = new LinkedList<>();
 
-        if (digits != null && digits.length() > 0 ){
+        if (digits != null && digits.length() > 0) {
             combine(new StringBuilder(), digits, 0, letterCombinations);
         }
 
@@ -86,14 +88,8 @@ public class M_Backtracking_String_17 {
         for (char character : letters.toCharArray()) {
             // cannot use position++ or ++position
             combine(combination.append(character), digits, position + 1, letterCombinations);
-            combination.deleteCharAt(combination.length()-1);
+            combination.deleteCharAt(combination.length() - 1); // this is important
         }
     }
 
-    // Backtracking
-    public static List<String> letterCombinations2(String digits) {
-        List<String> letterCombinations = new LinkedList<>();
-
-        return letterCombinations;
-    }
 }
