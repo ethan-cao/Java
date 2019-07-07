@@ -32,8 +32,8 @@ public class IterationTest {
 		}
 
 		// Alternative, applicable for collection implementing Iterable
-		// In the beginning of iteration, a snapshot is used to iterate.
-		// So change made during iteration has no impact on original collection
+		// In the beginning of iteration, a SNAPSHOT is used to iterate !!!!
+		// So change made during iteration has no impact on original collection  !!!!!!!!
 		// this.list is still 1, 3, 4
 		for (Integer integer : list) {
 			if (integer.intValue() == 1){
