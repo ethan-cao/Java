@@ -21,6 +21,7 @@ You may assume the string contains only lowercase alphabets.
 
 ### Corner case
 
+R :
 */
 
 
@@ -44,7 +45,6 @@ public class E_Sort_String_242 {
             return false;
         }
 
-        boolean result = true;
 
         char[] tempS = s.toCharArray();
         char[] tempT = t.toCharArray();
@@ -52,21 +52,39 @@ public class E_Sort_String_242 {
         Arrays.sort(tempS);
         Arrays.sort(tempT);
 
-        for (int i = 0; i < s.length(); ++i) {
-            if (tempS[i] != tempT[i]) {
-                result = false;
-                break;
-            }
-        }
+        return String.valueOf(tempS).equals(String.valueOf(tempT));
 
-        return result;
+//        boolean result = true;
+//        for (int i = 0; i < s.length(); ++i) {
+//            if (tempS[i] != tempT[i]) {
+//                result = false;
+//                break;
+//            }
+//        }
+//        return result;
     }
 
     public static boolean isAnagram1(String s, String t) {
+        if (null == s || null == t || s.length() != t.length()) {
+            return false;
+        }
+
         int[] alphabet = new int[26];
-        for (int i = 0; i < s.length(); i++) alphabet[s.charAt(i) - 'a']++;
-        for (int i = 0; i < t.length(); i++) alphabet[t.charAt(i) - 'a']--;
-        for (int i : alphabet) if (i != 0) return false;
+
+        for (char c: s.toCharArray()  ){
+            alphabet[c-'a']++;
+        }
+
+        for (char c: t.toCharArray()  ){
+            alphabet[c-'a']--;
+        }
+
+        for (int i :alphabet){
+            if (i != 0) {
+                return false;
+            }
+        }
+
         return true;
     }
 }
