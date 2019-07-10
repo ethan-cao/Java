@@ -13,7 +13,7 @@ The answer is "b", with the length of 1.
 
 # related : 647
 
-R :
+R : 1
 */
 
 
@@ -29,36 +29,6 @@ public class M_DP_String_5 {
 //        System.out.println(longestPalindrome11("cbbd")); // bb
 //        System.out.println(longestPalindrome11("eabcb")); // bcb
         System.out.println(longestPalindrome11("aaabaaaa")); // "aaabaaa"
-    }
-
-
-    // Two Pointer
-    public static String longestPalindrome(String s) {
-        String longestPalindrome = "";
-
-        // check until i - 1
-        for (int i = 0; i < s.length() - 1; ++i) {
-            // i is the middle point
-            String oddPalindrome = getLongPalindrome(s, i, i); // handle odd length palindrome
-            String evenPalindrome = getLongPalindrome(s, i, i + 1); // handle even length palindrome
-
-            String longerPalindrome = oddPalindrome.length() > evenPalindrome.length() ? oddPalindrome : evenPalindrome;
-            longestPalindrome = longestPalindrome.length() > longerPalindrome.length() ? longestPalindrome : longerPalindrome;
-        }
-
-        return longestPalindrome;
-    }
-
-    private static String getLongPalindrome(String s, int start, int end) {
-        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
-            start--;
-            end++;
-        }
-
-        start++;
-        end--;
-
-        return s.substring(start, end + 1);
     }
 
 
@@ -91,5 +61,35 @@ public class M_DP_String_5 {
 
         return longestPalindrome;
     }
+
+    // Two Pointer, faster
+    public static String longestPalindrome(String s) {
+        String longestPalindrome = "";
+
+        // check until i - 1
+        for (int i = 0; i < s.length() - 1; ++i) {
+            // i is the middle point
+            String oddPalindrome = getLongPalindrome(s, i, i); // handle odd length palindrome
+            String evenPalindrome = getLongPalindrome(s, i, i + 1); // handle even length palindrome
+
+            String longerPalindrome = oddPalindrome.length() > evenPalindrome.length() ? oddPalindrome : evenPalindrome;
+            longestPalindrome = longestPalindrome.length() > longerPalindrome.length() ? longestPalindrome : longerPalindrome;
+        }
+
+        return longestPalindrome;
+    }
+
+    private static String getLongPalindrome(String s, int start, int end) {
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+            start--;
+            end++;
+        }
+
+        start++;
+        end--;
+
+        return s.substring(start, end + 1);
+    }
+
 
 }
