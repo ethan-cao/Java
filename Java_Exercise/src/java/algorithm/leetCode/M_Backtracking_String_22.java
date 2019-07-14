@@ -69,12 +69,11 @@ public class M_Backtracking_String_22 {
 
         for (String candidate : candidates) {
             generateParenthesis(position + 1, totalParentheses, availableParenthesis, openParenthesis, sb.append(candidate), parentheses);
-            sb.deleteCharAt(sb.length() - 1); // IMPORTANT: keep the same root !!!
+            sb.deleteCharAt(sb.length() - 1); // IMPORTANT: keep the original value!!!
         }
     }
 
 
-    // concise version
     public static List<String> generateParenthesis1(int n) {
         List<String> result = new LinkedList<>();
 
@@ -82,26 +81,25 @@ public class M_Backtracking_String_22 {
             return result;
         }
 
-        generateParenthesis1(new StringBuilder(), n, 0, 0, result);
+        generateParenthesis1(n, 0, 0, new StringBuilder(), result);
 
         return result;
     }
 
-    private static void generateParenthesis1(StringBuilder sb, int totalParentheses, int leftParentheses, int rightParentheses, List<String> parentheses) {
+    private static void generateParenthesis1(int totalParentheses, int leftParentheses, int rightParentheses, StringBuilder sb, List<String> parentheses) {
         if (sb.length() == 2 * totalParentheses) {
             parentheses.add(sb.toString());
             return;
         }
 
         if (leftParentheses < totalParentheses) {
-            generateParenthesis1(sb.append("("), totalParentheses, leftParentheses + 1, rightParentheses, parentheses);
-            sb.deleteCharAt(sb.length() - 1);
+            generateParenthesis1(totalParentheses, leftParentheses + 1, rightParentheses, sb.append("("), parentheses);
+            sb.deleteCharAt(sb.length() - 1); // NECESSARY ! need to keep its original value
         }
 
         if (rightParentheses < leftParentheses) {
-            generateParenthesis1(sb.append(")"), totalParentheses, leftParentheses, rightParentheses + 1, parentheses);
-            sb.deleteCharAt(sb.length() - 1); // NECESSARY !
-            // since sb is mutable, we wanna keep its original value
+            generateParenthesis1(totalParentheses, leftParentheses, rightParentheses + 1, sb.append(")"), parentheses);
+            sb.deleteCharAt(sb.length() - 1); // NECESSARY ! need to keep its original value
         }
     }
 }

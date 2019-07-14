@@ -24,18 +24,16 @@ make the whole array sorted in ascending order.
 Then length of the input array is in range [1, 10,000].
 The input array may contain duplicates, so ascending order here means <=.
 
-### Essential problem
-
-### Corner case
+R: 1
 
 */
 public class E_Array_581 {
 
     public static void main(String... args) {
-//        int[] input = {2, 6, 4, 8, 10, 9, 15}; // --> 5
+        int[] input = {2, 6, 4, 8, 10, 9, 15}; // --> 5
 //        int[] input = {-1, -100, 3, 99}; // --> 2
 //        int[] input = {1, 3, 6, 4, 2, 8, 15}; // --> 4
-        int[] input = {1, 2, 3, 4};  // --> 0
+//        int[] input = {1, 2, 3, 4};  // --> 0
 //        int[] input = {5, 4, 3, 2};  // --> 4
 //        int[] input = {1, 3, 2};  // --> 2
 //        int[] input = {};
