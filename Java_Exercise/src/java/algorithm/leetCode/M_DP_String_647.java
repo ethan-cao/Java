@@ -27,15 +27,21 @@ public class M_DP_String_647 {
         System.out.println(countSubstrings1("abc"));  // 3
     }
 
-    //DP
+    //DP iterative
     public static int countSubstrings1(String s) {
         int count = 0;
 
         int L = s.length();
-        boolean[][] isPalindrome = new boolean[L][L];
+        // since we are talking about substring, we need the start and end index, so came up with this array
+        // isPalindrome[x][y] indicates whether substring s that starts at index x and ends at y is palindrome
+        boolean[][] isPalindrome = new boolean[L][L]; // by default, all false
 
         for (int i = 0; i < L; ++i) {
             for (int j = i; j >= 0; --j) {
+
+                // we cannot use for (int j = i; j < L; ++j) as 2nd iteration and i as start, j as end
+                // since isPalindrome[j][i] could depends on isPalindrome[j + 1][i - 1], we need make sure isPalindrome[j + 1][i - 1] is already checked
+
                 if (i - j < 3) {
                     isPalindrome[j][i] = s.charAt(j) == s.charAt(i);
                 } else {
@@ -51,7 +57,7 @@ public class M_DP_String_647 {
         return count;
     }
 
-    // Two pointer, faster
+    //DP iterative, Two pointer, faster
     public static int countSubstrings(String s) {
         int result = 0;
 

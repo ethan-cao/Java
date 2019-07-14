@@ -20,31 +20,35 @@ R : 1
 public class M_DP_String_5 {
 
     public static void main(String... args) {
-//        System.out.println(longestPalindrome11(""));   // ""
-//        System.out.println(longestPalindrome11(" "));  // " "
-//        System.out.println(longestPalindrome11("  ")); // "  "
-//        System.out.println(longestPalindrome11("a")); // "a"
-//        System.out.println(longestPalindrome11("aba")); // aba
-//        System.out.println(longestPalindrome11("babad")); // bab
-//        System.out.println(longestPalindrome11("cbbd")); // bb
-//        System.out.println(longestPalindrome11("eabcb")); // bcb
-        System.out.println(longestPalindrome11("aaabaaaa")); // "aaabaaa"
+        System.out.println(longestPalindrome1(""));   // ""
+        System.out.println(longestPalindrome1(" "));  // " "
+        System.out.println(longestPalindrome1("  ")); // "  "
+        System.out.println(longestPalindrome1("a")); // "a"
+        System.out.println(longestPalindrome1("aba")); // aba
+        System.out.println(longestPalindrome1("babad")); // bab
+        System.out.println(longestPalindrome1("cbbd")); // bb
+        System.out.println(longestPalindrome1("eabcb")); // bcb
+        System.out.println(longestPalindrome1("aaabaaaa")); // "aaabaaa"
     }
 
 
-    // DP
-    public static String longestPalindrome11(String s) {
+    // DP iterative
+    public static String longestPalindrome1(String s) {
         String longestPalindrome = "";
 
         int L = s.length();
-        boolean[][] isPalindrome = new boolean[L][L]; // by default, all false
+        // since we are talking about substring, we need the start and end index, so came up with this array
         // isPalindrome[x][y] indicates whether substring s that starts at index x and ends at y is palindrome
+        boolean[][] isPalindrome = new boolean[L][L]; // by default, all false
 
         for (int i = 0; i < L; ++i) {
             for (int j = i; j >= 0; --j) {
                 // j: start index, i: end index
 
-                if (i - j < 3) {
+                // we cannot use for (int j = i; j < L; ++j) as 2nd iteration and i as start, j as end
+                // since isPalindrome[j][i] could depends on isPalindrome[j + 1][i - 1], we need make sure isPalindrome[j + 1][i - 1] is already checked
+
+                if (i - j + 1 <= 3) {
                     // base problem
                     // if window < 3 (element number <= 3), i matches j is enough, the middle if there is does not matter
                     isPalindrome[j][i] = s.charAt(j) == s.charAt(i);
@@ -62,7 +66,7 @@ public class M_DP_String_5 {
         return longestPalindrome;
     }
 
-    // Two Pointer, faster
+    // DP iterative, Two Pointer, faster
     public static String longestPalindrome(String s) {
         String longestPalindrome = "";
 
@@ -90,6 +94,5 @@ public class M_DP_String_5 {
 
         return s.substring(start, end + 1);
     }
-
 
 }
