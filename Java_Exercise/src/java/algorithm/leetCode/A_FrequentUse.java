@@ -58,12 +58,16 @@ public class A_FrequentUse {
 
         // print list
         l2.forEach(System.out::println);
+
+        // Slice list
+        l1.subList(0,2);
+
     }
 
     void set(){
         Set<String> set = new HashSet<>();
 
-        String[] strings = set.toArray(new String[]{}); // set to array
+        String[] strings = set.toArray(new String[set.size()]); // set to array, use set.size() to avoid create new array
     }
 
     static void map(){

@@ -6,6 +6,7 @@ public class Test {
         int[] data = {2, 2222, 2, 23, 5, 13};
 
         System.out.println(2);
+
     }
 
 }

@@ -45,11 +45,13 @@ public class M_DP_Array_322 {
         // changes[i] :  number of coins used to make up to i, we need changes[amount]
         int[] changes = new int[amount + 1];
 
+        // filling changes from 1 to amount, changes[0] is 0
         for (int i = 1; i <= amount; ++i) {
-            int minChanges = Integer.MAX_VALUE;
+            int minChanges = Integer.MAX_VALUE;    // could also be amount + 1
 
             for (int coin : coins) {
-                // each iteration checks, with coin, how many changes it needs to make up to i
+                // given value i, for coins that are smaller than i, if use just 1 of that coin,
+                // how many coin needed to make up remain value i - coin
 
                 if (i - coin >= 0 && changes[i - coin] != -1) {
                     minChanges = Math.min(minChanges, changes[i - coin]);
@@ -57,13 +59,32 @@ public class M_DP_Array_322 {
             }
 
             changes[i] = minChanges == Integer.MAX_VALUE ? -1 : minChanges + 1;
-
-            // 1,-1,-1,-1,-1
-            //
         }
 
         return changes[amount];
     }
+
+
+    //DP recursive
+    public static int coinChange1(int[] coins, int amount) {
+        return changeCoin(coins, amount, new int[amount + 1]);
+    }
+
+    private static int changeCoin(int[] coins, int amount, int[] changes) {
+        if (changes[amount] != 0) {
+            return changes[amount];
+        }
+
+        for (int coin : coins) {
+            int change = changeCoin(coins, amount - coin, changes);
+
+
+            changes[amount] = Math.min(changes[amount], change + 1);
+        }
+
+        return changes[amount];
+    }
+
 
     public static int coinChange11(int[] coins, int amount) {
         int minNumberOfCoin = -1;
@@ -107,10 +128,4 @@ public class M_DP_Array_322 {
         return minNumberOfCoin;
     }
 
-    //DP recursive
-    public static int coinChange1(int[] coins, int amount) {
-        int minNumberOfCoin = -1;
-
-        return minNumberOfCoin;
-    }
 }

@@ -59,6 +59,9 @@ public class SortingTest {
         // if the element type does not implements Comparable, or if you want list different way of
         // Comparator instance must be provided
 
+        // alternatively
+//        Collections.sort(list, Comparator.comparingInt(book -> book.isbn));
+
         for (Book b : list){
             System.out.println(b);
         }
