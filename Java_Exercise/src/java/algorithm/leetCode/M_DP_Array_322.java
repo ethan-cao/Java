@@ -16,6 +16,8 @@ Explanation: 11 = 5 + 5 + 1
 Input: coins = [2], amount = 3
 Output: -1
 
+coins is not sorted
+
 */
 
 
@@ -42,10 +44,11 @@ public class M_DP_Array_322 {
 
     //DP iterative
     public static int coinChange(int[] coins, int amount) {
-        // changes[i] :  number of coins used to make up to i, we need changes[amount]
+        // changes[i] : number of coins used to make up to i, we need changes[amount]
+        // changes[0] is 0
         int[] changes = new int[amount + 1];
 
-        // filling changes from 1 to amount, changes[0] is 0
+        // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1]
         for (int i = 1; i <= amount; ++i) {
             int minChanges = Integer.MAX_VALUE;    // could also be amount + 1
 
@@ -127,5 +130,4 @@ public class M_DP_Array_322 {
 
         return minNumberOfCoin;
     }
-
 }
