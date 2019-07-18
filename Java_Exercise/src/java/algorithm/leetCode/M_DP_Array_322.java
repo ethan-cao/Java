@@ -44,17 +44,17 @@ public class M_DP_Array_322 {
 
     //DP iterative
     public static int coinChange(int[] coins, int amount) {
-        // changes[i] : number of coins used to make up to i, we need changes[amount]
-        // changes[0] is 0
+        // changes[i] : number of coins used to make up to amount i, we need changes[amount]
         int[] changes = new int[amount + 1];
 
-        // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1]
+        // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1], changes[0] = 0
         for (int i = 1; i <= amount; ++i) {
             int minChanges = Integer.MAX_VALUE;    // could also be amount + 1
 
             for (int coin : coins) {
-                // given value i, for coins that are smaller than i, if use just 1 of that coin,
-                // how many coin needed to make up remain value i - coin
+                // given amount i, check coins that are smaller than i,
+                // if just use 1 of that coin, how many coins needed to make up remain amount i - coin
+                // changes[i - coin] is either -1 or a positive number
 
                 if (i - coin >= 0 && changes[i - coin] != -1) {
                     minChanges = Math.min(minChanges, changes[i - coin]);
