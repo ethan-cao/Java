@@ -48,15 +48,21 @@ public class M_DP_Array_322 {
         int[] changes = new int[amount + 1];
 
         // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1], changes[0] = 0
+        // so sub problem is to get changes[i], i starts from 1 until amount
+        // changes[i] should be 1 + existing solution if it exists
         for (int i = 1; i <= amount; ++i) {
             int minChanges = Integer.MAX_VALUE;    // could also be amount + 1
 
             for (int coin : coins) {
-                // given amount i, check coins that are smaller than i,
-                // if just use 1 of that coin, how many coins needed to make up remain amount i - coin
-                // changes[i - coin] is either -1 or a positive number
+                // given amount i, check coins that are possible to use: smaller than i
+                // if just use 1 of that coin, how many coins needed to make up the remain amount i - coin
+                // Not necessary to use multiple that coin,
+                // changes[i - coin * 1] is either a positive number or -1
+                // if changes[i-coin] is a positive number, then to make up to i, just need 1 more coin
+                // if changes[i-coin] is -1, then not possible to make up to i - coin and not possible to make up to i
+                // since solution for changes[i] must be built on previous solutions
 
-                if (i - coin >= 0 && changes[i - coin] != -1) {
+                if (coin <= i && changes[i - coin] != -1) {
                     minChanges = Math.min(minChanges, changes[i - coin]);
                 }
             }
@@ -66,7 +72,6 @@ public class M_DP_Array_322 {
 
         return changes[amount];
     }
-
 
     //DP recursive
     public static int coinChange1(int[] coins, int amount) {
