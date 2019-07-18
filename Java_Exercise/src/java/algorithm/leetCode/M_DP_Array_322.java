@@ -56,11 +56,15 @@ public class M_DP_Array_322 {
             for (int coin : coins) {
                 // given amount i, check coins that are possible to use: smaller than i
                 // if just use 1 of that coin, how many coins needed to make up the remain amount i - coin
-                // Not necessary to use multiple that coin,
                 // changes[i - coin * 1] is either a positive number or -1
                 // if changes[i-coin] is a positive number, then to make up to i, just need 1 more coin
                 // if changes[i-coin] is -1, then not possible to make up to i - coin and not possible to make up to i
                 // since solution for changes[i] must be built on previous solutions
+
+                // Not necessary to use multiple that coin, since that case has already been checked
+                // for instance coins [3] and amount 10,
+                // 10-3=7, no solution for using 1 coin 3 to get 7
+                // 10-3*2=4, this is actually 7-3=4, which already checked
 
                 if (coin <= i && changes[i - coin] != -1) {
                     minChanges = Math.min(minChanges, changes[i - coin]);
