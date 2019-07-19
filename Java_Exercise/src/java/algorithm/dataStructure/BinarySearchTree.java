@@ -217,13 +217,14 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     }
 
     /**
+     * Tree traversal algorithms
+     *   DFS : pre-order, in-order, post-order
+     *   BFS
+     *
      * All four traversals require O(n) time as they visit every node exactly once.
-     * DFS : inOrder, preOrder, postOrder
-     * <p>
-     * traversal result is in stack
-     * <p>
-     * Deque<Key> stack = new ArrayDeque<>();  // LIFO
      */
+
+     // traversal result is in stack Deque<Key> stack = new ArrayDeque<>();
     private void inOrder(Node node, Deque<Key> stack) {
         if (node == null) {
             return;
@@ -254,34 +255,27 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         stack.push(node.key);
     }
 
-    /**
-     * Deque<Key> queue = new ArrayDeque<>();   // FIFO
-     * <p>
-     * traversal result is in queue
-     * <p>
-     * https://www.geeksforgeeks.org/level-order-tree-traversal/
-     */
     private void BFS(Node root, Deque<Node> queue) {
         if (root == null) {
             return;
         }
 
-        Deque<Node> internalQueue = new ArrayDeque<>();
-        internalQueue.offer(root);
+        // traversal result is in visited queue, FIFO
+        Deque<Node> visited = new ArrayDeque<>();
+        visited.offer(root);
 
         while (!queue.isEmpty()) {
-            Node node = internalQueue.poll();
+            Node node = visited.poll();
             queue.offer(node);
 
             if (node.left != null) {
-                internalQueue.offer(node.left);
+                visited.offer(node.left);
             }
 
             if (node.right != null) {
-                internalQueue.offer(node.right);
+                visited.offer(node.right);
             }
         }
 
     }
-
 }

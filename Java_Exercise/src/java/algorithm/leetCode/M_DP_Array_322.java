@@ -27,19 +27,19 @@ public class M_DP_Array_322 {
 
     public static void main(String... args) {
         int[] coins1 = {1, 2, 5};
-        System.out.println(coinChange(coins1, 11)); // 3
+        System.out.println(coinChange2(coins1, 11)); // 3
 
         int[] coins2 = {2};
-        System.out.println(coinChange(coins2, 3)); // -1
+        System.out.println(coinChange2(coins2, 3)); // -1
 
         int[] coins3 = {1, 10, 2, 5};
-        System.out.println(coinChange(coins3, 19)); // 4
+        System.out.println(coinChange2(coins3, 19)); // 4
 
         int[] coins4 = {7, 3, 11};
-        System.out.println(coinChange(coins4, 36)); // 4
+        System.out.println(coinChange2(coins4, 36)); // 4
 
         int[] coins9 = {186, 419, 83, 408};
-        System.out.println(coinChange(coins9, 6249)); // 20
+        System.out.println(coinChange2(coins9, 6249)); // 20
     }
 
     //DP iterative
@@ -79,22 +79,39 @@ public class M_DP_Array_322 {
 
     //DP recursive
     public static int coinChange1(int[] coins, int amount) {
-        return changeCoin(coins, amount, new int[amount + 1]);
+        int[] changes = new int[amount + 1];
+        Arrays.fill(changes, Integer.MAX_VALUE);
+        changes[0] = 0;
+
+        return changeCoin(coins, amount, changes);
     }
 
     private static int changeCoin(int[] coins, int amount, int[] changes) {
-        if (changes[amount] != 0) {
+        if (changes[amount] != Integer.MAX_VALUE) {
             return changes[amount];
         }
 
         for (int coin : coins) {
-            int change = changeCoin(coins, amount - coin, changes);
+            if (amount >= coin) {
+                int change = changeCoin(coins, amount - coin, changes);
 
-
-            changes[amount] = Math.min(changes[amount], change + 1);
+                if (change >= 0) {
+                    // compare and increase only when change >= 0
+                    changes[amount] = Math.min(changes[amount], change + 1);
+                }
+            }
         }
 
+        changes[amount] = changes[amount] == Integer.MAX_VALUE ? -1 : changes[amount];
         return changes[amount];
+    }
+
+    // DFS, greedy
+    public static int coinChange2(int[] coins, int amount) {
+        Arrays.sort(coins);
+
+
+        return 0;
     }
 
 
