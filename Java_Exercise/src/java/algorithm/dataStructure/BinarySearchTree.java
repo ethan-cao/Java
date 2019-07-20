@@ -1,5 +1,7 @@
 package algorithm.dataStructure;
 
+import algorithm.sorting.SelectionSort;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -14,12 +16,18 @@ import java.util.Deque;
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     public static void main(String[] args) {
-        BinarySearchTree<Integer, String> symbolTable = new BinarySearchTree<>();
+        BinarySearchTree<Integer, String> bst = new BinarySearchTree<>();
 
-        symbolTable.put(3, "C");
-        symbolTable.put(1, "A");
-        symbolTable.put(2, "B");
-        symbolTable.put(4, "B");
+        bst.put(3, "C");
+        bst.put(1, "A");
+        bst.put(2, "B");
+        bst.put(4, "B");
+
+        // in-order visit : 1,2,3,4
+        for (Integer i : bst.keys()){
+            System.out.println(i);
+        }
+
     }
 
     private class Node {
@@ -210,9 +218,11 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
     }
 
-    public Iterable<Key> keys() {
+    public Deque<Key> keys() {
         Deque<Key> keys = new ArrayDeque<>();
+
         this.inOrder(this.root, keys);
+
         return keys;
     }
 
@@ -224,43 +234,43 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
      * All four traversals require O(n) time as they visit every node exactly once.
      */
 
-     // traversal result is in stack Deque<Key> stack = new ArrayDeque<>();
-    private void inOrder(Node node, Deque<Key> stack) {
+     // traversal result is in queue FIFO
+    private void inOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;
         }
 
-        this.inOrder(node.left, stack);
-        stack.push(node.key);
-        this.inOrder(node.right, stack);
+        this.inOrder(node.left, queue);
+        queue.offer(node.key);
+        this.inOrder(node.right, queue);
     }
 
-    private void preOrder(Node node, Deque<Key> stack) {
+    private void preOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;
         }
 
-        stack.push(node.key);
-        this.inOrder(node.left, stack);
-        this.inOrder(node.right, stack);
+        queue.offer(node.key);
+        this.inOrder(node.left, queue);
+        this.inOrder(node.right, queue);
     }
 
-    private void postOrder(Node node, Deque<Key> stack) {
+    private void postOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;
         }
 
-        this.inOrder(node.left, stack);
-        this.inOrder(node.right, stack);
-        stack.push(node.key);
+        this.inOrder(node.left, queue);
+        this.inOrder(node.right, queue);
+        queue.offer(node.key);
     }
 
+    // traversal result is in visited queue, FIFO
     private void BFS(Node root, Deque<Node> queue) {
         if (root == null) {
             return;
         }
 
-        // traversal result is in visited queue, FIFO
         Deque<Node> visited = new ArrayDeque<>();
         visited.offer(root);
 

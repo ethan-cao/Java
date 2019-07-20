@@ -23,7 +23,7 @@ coins is not sorted
 
 import java.util.Arrays;
 
-public class M_DP_Array_322 {
+public class M_DP_Tree_Array_322 {
 
     public static void main(String... args) {
         int[] coins1 = {1, 2, 5};
