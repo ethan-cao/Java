@@ -106,54 +106,35 @@ public class M_DP_Tree_Array_322 {
         return changes[amount];
     }
 
-    // DFS, greedy
+    // DFS, greedy, use larger coin as much as possible
+    private static int minChange = Integer.MAX_VALUE;
+
     public static int coinChange2(int[] coins, int amount) {
         Arrays.sort(coins);
+        minChange = Integer.MAX_VALUE;
 
+        changeCoin(coins, amount, coins.length - 1, 0);
 
-        return 0;
+        return minChange == Integer.MAX_VALUE ? -1 : minChange;
     }
 
-
-    public static int coinChange11(int[] coins, int amount) {
-        int minNumberOfCoin = -1;
-
-        Arrays.sort(coins);
-
-        int[] changes = new int[coins.length];
-
-        for (int i = coins.length - 1; i >= 0; --i) {
-            int numberOfCoin = -1;
-            changes[i] = amount / coins[i];
-            int remain = 0;
-
-            for (int j = changes[i]; j >= 0; --j) {
-                remain = amount - j * coins[i];
-
-                int k = i - 1;
-                while (remain != 0 && k >= 0) {
-                    changes[k] = remain / coins[k];
-                    remain = remain % coins[k];
-                    k--;
-                }
-
-                if (remain == 0) {
-                    numberOfCoin = Arrays.stream(changes).sum();
-                    break;
-                }
-            }
-
-            if (minNumberOfCoin == -1 && remain == 0) {
-                minNumberOfCoin = numberOfCoin;
-            }
-
-            if (remain == 0) {
-                minNumberOfCoin = Math.min(numberOfCoin, minNumberOfCoin);
-            }
-
-            Arrays.fill(changes, 0);
+    private static void changeCoin(int[] coins, int amount, int coinIdx, int change) {
+        if (coinIdx < 0) {
+            return;
         }
 
-        return minNumberOfCoin;
+        if (amount == 0) {
+            minChange = Math.min(change, minChange);
+            return;
+        }
+
+        int coin = coins[coinIdx];
+
+        // change + i < minChange is to avoid not necessary calculation
+        for (int i = amount / coin; i >= 0 && change + i < minChange; i--) {
+            // try smaller coin, coins[coinIdx-1] <= coins[coinIdx]
+            changeCoin(coins, amount - i * coin, coinIdx - 1, change + i);
+        }
     }
+
 }
