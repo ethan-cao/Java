@@ -20,19 +20,30 @@ public class M_DP_Array_221 {
 
     public static void main(String... args) {
         char[][] matrix = {
+                {1, 0, 1, 0, 0}
+        };
+        System.out.println(maximalSquare(matrix));  // 1
+
+        char[][] matrix1 = {
                 {1, 0, 1, 0, 0},
                 {1, 0, 1, 1, 1},
                 {1, 1, 1, 1, 1},
                 {1, 0, 0, 1, 0}
         };
-        System.out.println(maximalSquare(matrix));  // 4
+        System.out.println(maximalSquare(matrix1));  // 4
     }
 
-    // DP iterative
+    // DP
     public static int maximalSquare(char[][] matrix) {
         int maxSquare = 1;
 
+        for (int i = 1; i < matrix.length; ++i) {
+//            int square = getSquare(matrix, i);
+//            maxSquare = Math.max(maxSquare, square);
+        }
+
         return maxSquare;
     }
+
 
 }
