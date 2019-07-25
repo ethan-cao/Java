@@ -20,6 +20,7 @@ Explanation: The array cannot be partitioned into equal sum subsets.
 */
 
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -41,23 +42,24 @@ public class M_DP_Array_416 {
             return false;
         }
 
-        int sum = 0;
-        Map<Integer, Integer> tally = new TreeMap<>();
-        for (int i : nums) {
-            sum += i;
-            tally.put(i, tally.getOrDefault(i, 0) + 1);
+        int sum = Arrays.stream(nums).sum();
+
+        // if sum is odd number, then not possible
+        if (sum % 2 != 0){
+            return false;
         }
 
         int half = sum / 2;
 
-        // if half sum is not integer, then not possible
-        if (half * 2 != sum) {
-            return false;
-        }
 
         // need to find n elements from nums, which can add up to half
+        // knapsack problem
 
         return false;
     }
 
+    // Brute force
+    public static boolean canPartition1(int[] nums) {
+        return false;
+    }
 }
