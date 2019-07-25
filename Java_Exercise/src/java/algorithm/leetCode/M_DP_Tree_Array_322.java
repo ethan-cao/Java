@@ -119,19 +119,20 @@ public class M_DP_Tree_Array_322 {
     }
 
     private static void changeCoin(int[] coins, int amount, int coinIdx, int change) {
-        if (coinIdx < 0) {
+        // this must be the first return condition, always update minChange
+        if (amount == 0) {
+            minChange = Math.min(change, minChange);
             return;
         }
 
-        if (amount == 0) {
-            minChange = Math.min(change, minChange);
+        if (coinIdx < 0) {
             return;
         }
 
         int coin = coins[coinIdx];
 
         // change + i < minChange is to avoid not necessary calculation
-        for (int i = amount / coin; i >= 0 && change + i < minChange; i--) {
+        for (int i = amount / coin; i >= 0 && change + i < minChange; --i) {
             // try smaller coin, coins[coinIdx-1] <= coins[coinIdx]
             changeCoin(coins, amount - i * coin, coinIdx - 1, change + i);
         }
