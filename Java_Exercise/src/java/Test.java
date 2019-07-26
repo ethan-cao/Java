@@ -1,5 +1,3 @@
-import com.google.common.collect.Lists;
-
 import java.util.*;
 
 public class Test {
@@ -24,7 +22,6 @@ public class Test {
         stack.push(4);
 
         System.out.println(2);
-
 
 
     }
