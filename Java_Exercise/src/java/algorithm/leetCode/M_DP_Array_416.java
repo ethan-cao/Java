@@ -35,6 +35,9 @@ public class M_DP_Array_416 {
 
         int[] nums3 = {1, 3, 6, 1};
         System.out.println(canPartition(nums3));  // f
+
+        int[] nums4 = {5, 1, 4};
+        System.out.println(canPartition(nums4));  // t
     }
 
     public static boolean canPartition(int[] nums) {
