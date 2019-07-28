@@ -16,7 +16,7 @@ public class KnapsackProblem {
         }
     }
 
-    private static final int capacity = 4;
+    private static final int capacity = 23;
 
     private static List<Item> items = new ArrayList<>();
 
@@ -29,9 +29,11 @@ public class KnapsackProblem {
     }
 
     public static void main(String[] args) {
-        System.out.println(KnapsackProblem01.getSolution(0, items, capacity)); // 16
-        System.out.println(KnapsackProblem01.getSolution1(items, capacity)); // 16
-        System.out.println(KnapsackProblem01.getSolution2(items, capacity)); // 16
+        // 16 when capacity is 10
+        System.out.println(KnapsackProblem01.getSolution(0, items, capacity));
+        System.out.println(KnapsackProblem01.getSolution1(items, capacity));
+        System.out.println(KnapsackProblem01.getSolution2(items, capacity));
+        System.out.println(KnapsackProblem01.getSolution3(items, capacity));
 
     }
 
@@ -41,7 +43,7 @@ public class KnapsackProblem {
     // https://youtu.be/xOlhR_2QCXY
     static class KnapsackProblem01 {
 
-        // DP recursive, Top-down, O(2^n)
+        // DP recursive, DFS, Top-down, O(2^n)
         // return optimal total value
         private static int getSolution(int idx, List<Item> items, int capacity) {
             if (idx >= items.size() || capacity <= 0) {
@@ -60,7 +62,7 @@ public class KnapsackProblem {
             }
         }
 
-        // DP recursive with memoization, Top-down
+        // DP recursive with memoization, DFS, Top-down
         // return optimal total value
         private static int getSolution1(List<Item> items, int capacity) {
             int[][] valueCache = new int[items.size() + 1][capacity + 1];
@@ -123,6 +125,36 @@ public class KnapsackProblem {
             }
 
             return values[items.size()][capacity];
+        }
+
+        // DP iterative with 1d array
+        // By observation, draw table and observe from  DP iterative approach
+        // if (item.weight > j) {
+        //  values[i][j] = values[i - 1][j];
+        // } else {
+        //  values[i][j] = Math.max(values[i - 1][j], values[i - 1][j - item.weight] + item.value);
+        // }
+        // values[i][j] depends on, at most, the previous row
+        // it is possible to use 1d array instead
+        private static int getSolution3(List<Item> items, int capacity) {
+            int[] values = new int[capacity + 1];
+
+            for (int i = 1; i <= items.size(); ++i) {
+                // each outer loop refreshes values[]
+                // if iterate from 1 to capacity, values[i] is derived from the current row values[i-num]
+                // but values[i] should be derived from the previous row
+                for (int j = capacity; j > 0; --j) {
+                    Item item = items.get(i - 1);
+
+                    if (item.weight <= j) {
+                        // values[j] is for previous items
+                        values[j] = Math.max(values[j], values[j - item.weight] + item.value);
+                        // values[j] has been updated current items
+                    }
+                }
+            }
+
+            return values[capacity];
         }
     }
 

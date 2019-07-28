@@ -25,22 +25,22 @@ public class M_DP_Array_416 {
 
     public static void main(String... args) {
         int[] nums1 = {1, 5, 11, 5};
-        System.out.println(canPartition1(nums1));  // t
+        System.out.println(canPartition2(nums1));  // t
 
         int[] nums2 = {1, 2, 3, 5};
-        System.out.println(canPartition1(nums2));  // f
+        System.out.println(canPartition2(nums2));  // f
 
         int[] nums3 = {1, 3, 6, 1};
-        System.out.println(canPartition1(nums3));  // f
+        System.out.println(canPartition2(nums3));  // f
 
         int[] nums4 = {5, 1, 4};
-        System.out.println(canPartition1(nums4));  // t
+        System.out.println(canPartition2(nums4));  // t
 
         int[] nums5 = {3, 3, 3, 4, 5};
-        System.out.println(canPartition1(nums5));  // t
+        System.out.println(canPartition2(nums5));  // t
 
         int[] nums6 = {1, 5, 11, 5};
-        System.out.println(canPartition1(nums6));  // t
+        System.out.println(canPartition2(nums6));  // t
     }
 
     //DP iterative
@@ -84,7 +84,7 @@ public class M_DP_Array_416 {
         return sums[nums.length - 1][half];
     }
 
-    //DP iterative, optimized
+    //DP iterative with 1d array
     public static boolean canPartition1(int[] nums) {
         if (nums == null || nums.length < 2) {
             return false;
@@ -115,8 +115,8 @@ public class M_DP_Array_416 {
 
         for (int num : nums) {
             // each outer loop of nums[] refreshes sums[].
-            // if iterate from 0 to half, we will get dp[i] from dp[i-num] , while dp[i-num] has been updated in this loop.
-            // This dp[i-num] is not the number we got from the previous loop.
+            // if iterate from 0 to half, nums[i] is derived from the current row nums[i-num]
+            // but nums[i] should be derived from the previous row
             for (int j = half; j >= 0; --j) {
                 if (num <= j) {
                     // sums[i][j] = sums[i - 1][j] || sums[i - 1][j - number];
@@ -129,8 +129,43 @@ public class M_DP_Array_416 {
         return sums[half];
     }
 
-    // Brute force
+    // Brute force, DFS, recursive, O(2^N),  too slow to be acceptable
+    // TODO DFS memoization
     public static boolean canPartition2(int[] nums) {
-        return false;
+        if (nums == null || nums.length < 2) {
+            return false;
+        }
+
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        // if sum is odd number, then not possible
+        if (sum % 2 != 0) {
+            return false;
+        }
+
+        // need to find n elements from nums[], which can add up to half
+        return canPartition2(0, nums, sum / 2);
+    }
+
+    private static boolean canPartition2(int idx, int[] nums, int sum) {
+        if (sum == 0) {
+            return true;
+        }
+
+        if (idx >= nums.length) {
+            return false;
+        }
+
+        // for each i in nums, check using it and leaving it
+        if (nums[idx] <= sum) {
+            if (canPartition2(idx + 1, nums, sum - nums[idx])) {
+                return true;
+            }
+        }
+
+        return canPartition2(idx + 1, nums, sum);
     }
 }
