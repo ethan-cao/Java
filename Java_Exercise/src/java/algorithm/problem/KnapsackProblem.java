@@ -35,6 +35,9 @@ public class KnapsackProblem {
         System.out.println(KnapsackProblem01.getSolution2(items, capacity));
         System.out.println(KnapsackProblem01.getSolution3(items, capacity));
 
+
+        System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
+
     }
 
 
@@ -165,6 +168,12 @@ public class KnapsackProblem {
     // bounded knapsack problem : each item can be picked without limit
     static class UnboundedKnapsackProblem {
 
+        private static int getSolution(List<Item> items, int capacity) {
+            int[][] values = new int[items.size()+1][capacity+1];
+
+            return 1;
+
+        }
     }
 
 }
