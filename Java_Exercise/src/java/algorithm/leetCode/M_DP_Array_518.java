@@ -36,16 +36,16 @@ public class M_DP_Array_518 {
 
     public static void main(String... args) {
         int[] nums1 = {1, 2, 5};
-        System.out.println(change1(5, nums1));  // 4
+        System.out.println(change2(5, nums1));  // 4
 
         int[] nums2 = {2};
-        System.out.println(change1(3, nums2));  // 0
+        System.out.println(change2(3, nums2));  // 0
 
         int[] nums3 = {10};
-        System.out.println(change1(10, nums3));  // 1
+        System.out.println(change2(10, nums3));  // 1
 
         int[] nums4 = {3, 5, 7, 8, 9, 10, 11};
-        System.out.println(change1(500, nums4));  // 35502874
+        System.out.println(change2(500, nums4));  // 35502874
     }
 
     // DP, recursive, top-down, DFS,  O(2^n), too slow to be accepted
@@ -94,5 +94,29 @@ public class M_DP_Array_518 {
         }
 
         return solutions[coins.length][amount];
+    }
+
+    public static int change2(int amount, int[] coins) {
+        if (amount == 0) {
+            return 1;
+        }
+
+        int[] solutions = new int[amount + 1];
+
+        for (int i = 1; i <= coins.length; ++i) {
+            for (int j = amount; j >=1 ; --j) {
+                int coin = coins[i - 1];
+
+                if (coin == j) {
+                    solutions[j] = solutions[j] + 1;
+                } else if (coin > j) {
+                    solutions[j] = solutions[j];
+                } else {
+                    solutions[j] = solutions[j] + solutions[j - coin];
+                }
+            }
+        }
+
+        return solutions[amount];
     }
 }
