@@ -35,38 +35,37 @@ public class M_DP_Array_518 {
 
     public static void main(String... args) {
         int[] nums1 = {1, 2, 5};
-        System.out.println(change2(5, nums1));  // 4
+        System.out.println(change(5, nums1));  // 4
 
         int[] nums2 = {2};
-        System.out.println(change2(3, nums2));  // 0
+        System.out.println(change(3, nums2));  // 0
 
         int[] nums3 = {10};
-        System.out.println(change2(10, nums3));  // 1
+        System.out.println(change(10, nums3));  // 1
 
         int[] nums4 = {3, 5, 7, 8, 9, 10, 11};
-        System.out.println(change2(500, nums4));  // 35502874
+        System.out.println(change(500, nums4));  // 35502874
     }
 
     // DP, recursive, top-down, DFS,  O(2^n), too slow to be accepted
     public static int change(int amount, int[] coins) {
-        count = 0;
-        changeCoin(amount, coins, 0);
-        return count;
+        return changeCoin(amount, coins, 0);
     }
 
-    private static int count = 0;
-
-    private static void changeCoin(int amount, int[] coins, int idx) {
+    private static int changeCoin(int amount, int[] coins, int idx) {
         if (amount == 0) {
-            count++;
-            return;
+            return 1;
         }
+
+        int change = 0;
 
         for (int i = idx; i < coins.length; ++i) {
             if (amount >= coins[i]) {
-                changeCoin(amount - coins[i], coins, i);
+                change += changeCoin(amount - coins[i], coins, i);
             }
         }
+
+        return change;
     }
 
     // DP, iterative, bottom-up

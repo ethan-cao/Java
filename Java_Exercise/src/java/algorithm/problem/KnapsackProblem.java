@@ -16,7 +16,7 @@ public class KnapsackProblem {
         }
     }
 
-    private static final int capacity = 23;
+    private static final int capacity = 10;
 
     private static List<Item> items = new ArrayList<>();
 
@@ -29,13 +29,16 @@ public class KnapsackProblem {
     }
 
     public static void main(String[] args) {
-        // 16 when capacity is 10
-        System.out.println(KnapsackProblem01.getSolution(0, items, capacity));
-        System.out.println(KnapsackProblem01.getSolution1(items, capacity));
-        System.out.println(KnapsackProblem01.getSolution2(items, capacity));
-        System.out.println(KnapsackProblem01.getSolution3(items, capacity));
+        // for all case, when capacity is 0, solution is always 0
+
+        // 16 (capacity = 10)
+//        System.out.println(KnapsackProblem01.getSolution(0, items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution1(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution2(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution3(items, capacity));
 
 
+        // 50 (capacity = 10)
         System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
 
     }
@@ -168,12 +171,51 @@ public class KnapsackProblem {
     // bounded knapsack problem : each item can be picked without limit
     static class UnboundedKnapsackProblem {
 
-        private static int getSolution(List<Item> items, int capacity) {
-            int[][] values = new int[items.size()+1][capacity+1];
-
-            return 1;
-
+        // DP, recursive, top-down
+        public static int getSolution(List<Item> items, int capacity) {
+            return getChange(items, 0, capacity);
         }
+
+        private static int getChange(List<Item> items, int idx, int capacity) {
+            if (capacity == 0) {
+                return 0;
+            }
+
+            int solution = 0;
+
+            for (int i = idx; i < items.size(); ++i) {
+                Item item = items.get(i);
+
+                if (item.weight > capacity) {
+                   continue;
+                }
+
+
+                solution += getChange(items, i + 1, capacity - item.weight);
+            }
+
+            return solution;
+        }
+
+        // DP, recursive, top-down, with cache
+        public static int getSolution1(List<Item> items, int capacity) {
+            return 1;
+        }
+
+        // DP, iterative, bottom-up
+        public static int getSolution2(List<Item> items, int capacity) {
+            int[][] values = new int[items.size() + 1][capacity + 1];
+
+            return values[items.size()][capacity];
+        }
+
+        // DP, iterative, bottom-up, optimized with 1d array
+        public static int getSolution3(List<Item> items, int capacity) {
+            int[] values = new int[capacity + 1];
+
+            return values[capacity];
+        }
+
     }
 
 }
