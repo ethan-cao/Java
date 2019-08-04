@@ -14,6 +14,10 @@ Output: 2
 Explanation: 13 = 4 + 9.
 */
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.Arrays;
+
 public class M_DP_279 {
 
     public static void main(String... args) {
@@ -26,6 +30,7 @@ public class M_DP_279 {
         System.out.println(numSquares1(234)); // 2
     }
 
+    // DP, top-down, recursive, DFS
     public static int numSquares(int n) {
         int upperLimit = (int) Math.sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
@@ -48,7 +53,6 @@ public class M_DP_279 {
 
             if (perfectSquare <= n) {
                 int numberWithCurrentSquare = 1 + getNumber(perfectSquareNumber, i, n - perfectSquare);
-
                 number = Math.min(number, numberWithCurrentSquare);
             }
         }
@@ -56,6 +60,7 @@ public class M_DP_279 {
         return number;
     }
 
+    // DP, iterative, bottom-up
     public static int numSquares1(int n) {
         int upperLimit = (int) Math.sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
@@ -63,9 +68,30 @@ public class M_DP_279 {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
         }
 
-        int[][] cache = new int[upperLimit + 1][n + 1];
+        int[][] counts = new int[upperLimit + 1][n + 1];
 
-        return getNumber(perfectSquareNumber, 0, n, cache);
+        Arrays.fill(counts[0], n+1);
+        for (int j = 0; j <= n; ++j) {
+            counts[0][j] = 0;
+        }
+
+        for (int[] count : counts){
+            Arrays.fill(count, n+1);
+        }
+
+        for (int i = 1; i <= upperLimit; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                int perfectSquare = perfectSquareNumber[i-1];
+
+                if (perfectSquare <= j) {
+                    counts[i][j] = Math.min(counts[i-1][j], 1 + counts[i][j - perfectSquare]);
+                } else {
+                    counts[i][j] = counts[i-1][j];
+                }
+            }
+        }
+
+        return counts[upperLimit][n];
     }
 
     private static int getNumber(int[] perfectSquareNumber, int idx, int n, int[][] cache) {
