@@ -1,10 +1,13 @@
 package algorithm.problem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * https://en.wikipedia.org/wiki/Knapsack_problem
+ *
+ * Great example for DP
  *
  * Get optimal total value using items without exceeding capacity
  */
@@ -27,7 +30,7 @@ public class KnapsackProblem {
         items.add(new Item(7, 5));
         items.add(new Item(2, 3));
         items.add(new Item(4, 5));
-        items.add(new Item(2, 3));
+        items.add(new Item(2, 7));
         items.add(new Item(5, 2));
     }
 
@@ -36,18 +39,18 @@ public class KnapsackProblem {
     public static void main(String[] args) {
         // for all case, when capacity is 0, solution is always 0
 
-        // 11 (capacity = 10)
-        System.out.println(KnapsackProblem01.getSolution(0, items, capacity));
-        System.out.println(KnapsackProblem01.getSolution1(items, capacity));
-        System.out.println(KnapsackProblem01.getSolution2(items, capacity));
-        System.out.println(KnapsackProblem01.getSolution3(items, capacity));
-
-
         // 15 (capacity = 10)
-        System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution1(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution2(items, capacity));
+//        System.out.println(KnapsackProblem01.getSolution3(items, capacity));
+
+
+        // 35 (capacity = 10)
+//        System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
         System.out.println(UnboundedKnapsackProblem.getSolution1(items, capacity));
         System.out.println(UnboundedKnapsackProblem.getSolution2(items, capacity));
-        System.out.println(UnboundedKnapsackProblem.getSolution3(items, capacity));
+//        System.out.println(UnboundedKnapsackProblem.getSolution3(items, capacity));
     }
 
     // 0-1 knapsack problem: each item can be picked at most once
@@ -57,6 +60,10 @@ public class KnapsackProblem {
 
         // DP recursive, DFS, Top-down, O(2^n)
         // return optimal total value
+        public static int getSolution(List<Item> items, int capacity) {
+            return getSolution(0, items, capacity);
+        }
+
         private static int getSolution(int idx, List<Item> items, int capacity) {
             if (idx >= items.size() || capacity <= 0) {
                 return 0;
@@ -74,7 +81,7 @@ public class KnapsackProblem {
             }
         }
 
-        // DP recursive with memoization, DFS, Top-down
+        // DP recursive, DFS, Top-down, with cache optimization
         private static int getSolution1(List<Item> items, int capacity) {
             int[][] valueCache = new int[items.size() + 1][capacity + 1];
 
@@ -85,11 +92,11 @@ public class KnapsackProblem {
                 }
             }
 
-            return getSolution1(0, items, capacity, valueCache);
+            return getValue(0, items, capacity, valueCache);
         }
 
         // O (n * C),  n : number of items, C : knapsack capacity
-        private static int getSolution1(int idx, List<Item> items, int capacity, int[][] valueCache) {
+        private static int getValue(int idx, List<Item> items, int capacity, int[][] valueCache) {
             if (idx >= items.size() || capacity <= 0) {
                 return 0;
             }
@@ -102,10 +109,10 @@ public class KnapsackProblem {
             int value;
 
             if (item.weight > capacity) {
-                value = getSolution1(idx + 1, items, capacity, valueCache);
+                value = getValue(idx + 1, items, capacity, valueCache);
             } else {
-                int valueWithoutItem = getSolution1(idx + 1, items, capacity, valueCache);
-                int valueWithItem = item.value + getSolution1(idx + 1, items, capacity - item.weight, valueCache);
+                int valueWithoutItem = getValue(idx + 1, items, capacity, valueCache);
+                int valueWithItem = item.value + getValue(idx + 1, items, capacity - item.weight, valueCache);
 
                 value = Math.max(valueWithoutItem, valueWithItem);
             }
@@ -175,37 +182,65 @@ public class KnapsackProblem {
     // bounded knapsack problem : each item can be picked without limit
     static class UnboundedKnapsackProblem {
 
-        // DP, recursive, top-down
+        // DP, recursive, DFS, top-down
         public static int getSolution(List<Item> items, int capacity) {
-            return getChange(items, 0, capacity);
+            return getValue(items, 0, capacity);
         }
 
-        private static int getChange(List<Item> items, int idx, int capacity) {
+        private static int getValue(List<Item> items, int idx, int capacity) {
             if (capacity == 0) {
                 return 0;
             }
 
-            int solution = 0;
+            int value = 0;
 
-            // we can pick only 1 item, the max value
+            // we can pick only one kind of items at a time, the max value
             for (int i = idx; i < items.size(); ++i) {
                 Item item = items.get(i);
 
                 if (item.weight <= capacity) {
-                    int valueWithItem = item.value + getChange(items, i, capacity - item.weight);
-
-                    solution = Math.max(valueWithItem, solution);
+                    // still check the same kind of item
+                    int valueWithItem = item.value + getValue(items, i, capacity - item.weight);
+                    value = Math.max(value, valueWithItem);
                 }
             }
 
-            return solution;
+            return value;
         }
 
-        // DP, recursive, top-down, with cache
+        // DP, recursive, DFS, top-down, with cache optimization
         public static int getSolution1(List<Item> items, int capacity) {
+            int[][] valueCache = new int[items.size() + 1][capacity + 1];
+            for (int i = 0; i <= items.size(); ++i) {
+                Arrays.fill(valueCache[i], -1);
+            }
 
+            return getValue(items, 1, capacity, valueCache);
+        }
 
-            return 1;
+        private static int getValue(List<Item> items, int idx, int capacity, int[][] cache) {
+            if (capacity <= 0 || idx > items.size()) {
+                return 0;
+            }
+
+            if (cache[idx][capacity] != -1) {
+                return cache[idx][capacity];
+            }
+
+            int value = 0;
+
+            for (int i = idx; i <= items.size(); ++i) {
+                Item item = items.get(i - 1);
+
+                if (item.weight <= capacity) {
+                    int valueWithItem = item.value + getValue(items, idx, capacity - item.weight, cache);
+                    value = Math.max(value, valueWithItem);
+                }
+            }
+
+            cache[idx][capacity] = value;
+
+            return value;
         }
 
         // DP, iterative, bottom-up
@@ -214,7 +249,7 @@ public class KnapsackProblem {
 
             for (int i = 1; i <= items.size(); ++i) {
                 for (int j = 1; j <= capacity; ++j) {
-                    Item item = items.get(i-1);
+                    Item item = items.get(i - 1);
 
                     if (item.weight > capacity) {
                         values[i][j] = values[i - 1][j];
@@ -233,7 +268,7 @@ public class KnapsackProblem {
 
             for (int i = 1; i <= items.size(); ++i) {
                 for (int j = capacity; j >= 0; --j) {
-                    Item item = items.get(i-1);
+                    Item item = items.get(i - 1);
 
                     if (item.weight > capacity) {
                         values[j] = values[j];
