@@ -18,7 +18,10 @@ Explanation: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 is the sequence of the first 10 ugly
 public class M_DP_264 {
 
     public static void main(String... args) {
-//        System.out.println(longestPalindrome1("aaabaaaa")); // "aaabaaa"
+        System.out.println(nthUglyNumber(1)); // 1
+        System.out.println(nthUglyNumber(2)); // 2
+        System.out.println(nthUglyNumber(3)); // 3
+        System.out.println(nthUglyNumber(10)); // 12
     }
 
 

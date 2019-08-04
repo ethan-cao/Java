@@ -34,7 +34,7 @@ public class KnapsackProblem {
         items.add(new Item(5, 2));
     }
 
-    private static final int capacity = 10;
+    private static final int capacity = 100;
 
     public static void main(String[] args) {
         // for all case, when capacity is 0, solution is always 0
@@ -47,10 +47,10 @@ public class KnapsackProblem {
 
 
         // 35 (capacity = 10)
-//        System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
+        System.out.println(UnboundedKnapsackProblem.getSolution(items, capacity));
         System.out.println(UnboundedKnapsackProblem.getSolution1(items, capacity));
         System.out.println(UnboundedKnapsackProblem.getSolution2(items, capacity));
-//        System.out.println(UnboundedKnapsackProblem.getSolution3(items, capacity));
+        System.out.println(UnboundedKnapsackProblem.getSolution3(items, capacity));
     }
 
     // 0-1 knapsack problem: each item can be picked at most once
@@ -233,7 +233,7 @@ public class KnapsackProblem {
                 Item item = items.get(i - 1);
 
                 if (item.weight <= capacity) {
-                    int valueWithItem = item.value + getValue(items, idx, capacity - item.weight, cache);
+                    int valueWithItem = item.value + getValue(items, i, capacity - item.weight, cache);
                     value = Math.max(value, valueWithItem);
                 }
             }
