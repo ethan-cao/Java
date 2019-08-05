@@ -102,6 +102,7 @@ public class M_DP_279 {
         }
 
         for (int i = 1; i <= upperLimit; ++i) {
+            // iterate starts from 1
             for (int j = 1; j <= n; ++j) {
                 int perfectSquare = perfectSquareNumber[i - 1];
 
