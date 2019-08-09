@@ -14,22 +14,25 @@ Output: 2
 Explanation: 13 = 4 + 9.
 */
 
+import java.util.Arrays;
 
-public class M_DP_279 {
+import static java.lang.Math.sqrt;
+
+public class M_DP_Math_279 {
 
     public static void main(String... args) {
-        System.out.println(numSquares2(0)); // 0
-        System.out.println(numSquares2(2)); // 2
-        System.out.println(numSquares2(4)); // 1
-        System.out.println(numSquares2(9)); // 1
-        System.out.println(numSquares2(12)); // 3
-        System.out.println(numSquares2(13)); // 2
-        System.out.println(numSquares2(234)); // 2
+        System.out.println(numSquares4(0)); // 0
+        System.out.println(numSquares4(2)); // 2
+        System.out.println(numSquares4(4)); // 1
+        System.out.println(numSquares4(9)); // 1
+        System.out.println(numSquares4(12)); // 3
+        System.out.println(numSquares4(13)); // 2
+        System.out.println(numSquares4(234)); // 2
     }
 
     // DP, top-down, recursive, DFS
     public static int numSquares(int n) {
-        int upperLimit = (int) Math.sqrt(n);
+        int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
@@ -59,7 +62,7 @@ public class M_DP_279 {
 
     // DP, iterative, bottom-up
     public static int numSquares1(int n) {
-        int upperLimit = (int) Math.sqrt(n);
+        int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
@@ -88,7 +91,7 @@ public class M_DP_279 {
 
     // DP, iterative, bottom-up, with 1d array
     public static int numSquares2(int n) {
-        int upperLimit = (int) Math.sqrt(n);
+        int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
@@ -102,7 +105,6 @@ public class M_DP_279 {
         }
 
         for (int i = 1; i <= upperLimit; ++i) {
-            // iterate starts from 1
             for (int j = 1; j <= n; ++j) {
                 int perfectSquare = perfectSquareNumber[i - 1];
 
@@ -113,5 +115,51 @@ public class M_DP_279 {
         }
 
         return counts[n];
+    }
+
+    // optimization on numSquares2
+    public static int numSquares3(int n) {
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+        dp[0] = 0;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j * j <= i; j++) {
+                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+            }
+        }
+        return dp[n];
+    }
+
+    // Based on Lagrange's Four Square theorem: natural number can be represented as the sum of four integer squares
+    // https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem
+    // so there are only 4 possible results: 1, 2, 3, 4
+    //  TODO : review
+    public static int numSquares4(int n) {
+        // If n is a perfect square, return 1.
+        if (sqrt((double) n) == n) {
+            return 1;
+        }
+
+        // The result is 4 if and only if n can be written in the
+        // form of 4^k*(8*m + 7). Please refer to
+        // Legendre's three-square theorem.
+        while ((n & 3) == 0) { // n%4 == 0
+            n >>= 2;
+        }
+
+        if ((n & 7) == 7) { // n%8 == 7
+            return 4;
+        }
+
+        // Check whether 2 is the result.
+        int sqrt_n = (int) (sqrt(n));
+        for (int i = 1; i <= sqrt_n; i++) {
+            if (sqrt((double) (n - i * i)) == (double) (n - i * i)) {
+                return 2;
+            }
+        }
+
+        return 3;
     }
 }

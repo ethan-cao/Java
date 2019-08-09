@@ -29,6 +29,5 @@ public class Shuffle {
             data[i] = data[j];
             data[j] = swap;
         }
-
     }
 }

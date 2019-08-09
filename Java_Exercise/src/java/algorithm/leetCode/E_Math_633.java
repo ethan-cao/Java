@@ -9,13 +9,6 @@ there're two integers a and b such that a^2 + b^2 = c.
 Explanation: 1 * 1 + 2 * 2 = 5
 
 3 -->  false
-
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
 import algorithm.math.PrimeFactorization;
