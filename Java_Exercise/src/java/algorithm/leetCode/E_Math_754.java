@@ -19,10 +19,6 @@ On the first move we step from 0 to 1.
 On the second move we step  from 1 to -1.
 On the third move we step from -1 to 2.
 
-### Condition
-
-### Essential problem
-
 ### Corner case
 int overflow
 

@@ -1,13 +1,13 @@
 package algorithm.math;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PrimeFactorization {
 
     public static void main(String... args) {
-        System.out.println(Arrays.asList(primeFactorize(2343)));
+        System.out.println(Collections.singletonList(primeFactorize(2343)));
     }
 
     /**
