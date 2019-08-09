@@ -23,7 +23,16 @@ public class Test {
 
         System.out.println(2);
 
+        List<String> c = new ArrayList();
+        c.add("1");
+        c.add("2");
+        c.add("3");
 
+        List<String> sub = c.subList(0, c.size());
+        java.util.Collections.reverse(sub);
+
+
+        System.out.println(c.size());
     }
 
 }
