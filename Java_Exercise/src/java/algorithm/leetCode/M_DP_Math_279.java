@@ -1,7 +1,7 @@
 package algorithm.leetCode;
 
 /*
-Given a positive integer n,
+Given a positive integer n (n > 0)
 find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n
 
 ### Example
@@ -21,7 +21,6 @@ import static java.lang.Math.sqrt;
 public class M_DP_Math_279 {
 
     public static void main(String... args) {
-        System.out.println(numSquares4(0)); // 0
         System.out.println(numSquares4(2)); // 2
         System.out.println(numSquares4(4)); // 1
         System.out.println(numSquares4(9)); // 1
@@ -134,30 +133,29 @@ public class M_DP_Math_279 {
     // Based on Lagrange's Four Square theorem: natural number can be represented as the sum of four integer squares
     // https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem
     // so there are only 4 possible results: 1, 2, 3, 4
-    //  TODO : review
     public static int numSquares4(int n) {
         // If n is a perfect square, return 1.
-        if (sqrt((double) n) == n) {
+        int x = (int) Math.sqrt(n);
+        if (x * x == n) {
             return 1;
         }
+
+        for (int j = 1; j * j < n; ++j) {
+            int y = (int) Math.sqrt(n - j * j);
+            if (y * y == n - j * j) {
+                return 2;
+            }
+        }
+
 
         // The result is 4 if and only if n can be written in the
         // form of 4^k*(8*m + 7). Please refer to
         // Legendre's three-square theorem.
-        while ((n & 3) == 0) { // n%4 == 0
-            n >>= 2;
+        while (n % 4 == 0) {// n%4 == 0
+            n /= 4;
         }
-
-        if ((n & 7) == 7) { // n%8 == 7
+        if (n % 8 == 7) {// n%8 == 7
             return 4;
-        }
-
-        // Check whether 2 is the result.
-        int sqrt_n = (int) (sqrt(n));
-        for (int i = 1; i <= sqrt_n; i++) {
-            if (sqrt((double) (n - i * i)) == (double) (n - i * i)) {
-                return 2;
-            }
         }
 
         return 3;
