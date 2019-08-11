@@ -27,6 +27,7 @@ From the top-left corner, there are a total of 3 ways to reach the bottom-right 
 Input: m = 7, n = 3
 Output: 28
 
+Related :  64
 */
 
 import java.util.Arrays;
@@ -34,12 +35,13 @@ import java.util.Arrays;
 public class M_DP_Math_62 {
 
     public static void main(String... args) {
-//        System.out.println(uniquePaths4(1, 1)); // 1
-//        System.out.println(uniquePaths4(2, 2)); // 2
-//        System.out.println(uniquePaths4(3, 2)); // 3
-//        System.out.println(uniquePaths4(3, 3)); // 6
+        System.out.println(uniquePaths4(1, 1)); // 1
+        System.out.println(uniquePaths4(2, 2)); // 2
+        System.out.println(uniquePaths4(3, 2)); // 3
+        System.out.println(uniquePaths4(3, 3)); // 6
         System.out.println(uniquePaths4(3, 7)); // 28
-//        System.out.println(uniquePaths4(7, 3)); // 28
+        System.out.println(uniquePaths4(7, 3)); // 28
+        System.out.println(uniquePaths4(10, 10)); // 48620
     }
 
     // use tree to analyse all possible cases, then came up with recursion solution
@@ -134,7 +136,7 @@ public class M_DP_Math_62 {
     // then we know how many ways to reach from (1,1) to (m,m)
     // Thus we just need to get P(m+n-2, m-1)
     public static int uniquePaths4(int m, int n) {
-        double uniquePath = 1;
+        double uniquePath = 1;   // pay attention to precision !!!
 
         // m/1 * (m+1)/2 * (m+2)/3 ... * (m-1+n-1)/(n-1)
         for (double i = 1; i < n; ++i) {
@@ -142,6 +144,6 @@ public class M_DP_Math_62 {
 //            System.out.println(uniquePath);
         }
 
-        return (int) uniquePath;
+        return (int) Math.round(uniquePath);
     }
 }
