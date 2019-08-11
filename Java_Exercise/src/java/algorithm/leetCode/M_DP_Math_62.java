@@ -29,14 +29,17 @@ Output: 28
 
 */
 
-public class M_DP_62 {
+import java.util.Arrays;
+
+public class M_DP_Math_62 {
 
     public static void main(String... args) {
-        System.out.println(uniquePaths1(1, 1)); // 1
-        System.out.println(uniquePaths1(2, 2)); // 2
-        System.out.println(uniquePaths1(3, 2)); // 3
-        System.out.println(uniquePaths1(3, 3)); // 6
-        System.out.println(uniquePaths1(7, 3)); // 28
+//        System.out.println(uniquePaths4(1, 1)); // 1
+//        System.out.println(uniquePaths4(2, 2)); // 2
+//        System.out.println(uniquePaths4(3, 2)); // 3
+//        System.out.println(uniquePaths4(3, 3)); // 6
+        System.out.println(uniquePaths4(3, 7)); // 28
+//        System.out.println(uniquePaths4(7, 3)); // 28
     }
 
     // use tree to analyse all possible cases, then came up with recursion solution
@@ -51,11 +54,11 @@ public class M_DP_62 {
 
         int path = 0;
 
-        if (i < m) {
+        if (i + 1 < m) {
             path += getPathNumber(m, n, i + 1, j);
         }
 
-        if (j < n) {
+        if (j + 1 < n) {
             path += getPathNumber(m, n, i, j + 1);
         }
 
@@ -93,8 +96,52 @@ public class M_DP_62 {
         return path;
     }
 
-    // iterative
+    // iterative, analyse with tabulation
     public static int uniquePaths2(int m, int n) {
-        return 1;
+        int[][] grid = new int[m][n];
+
+        Arrays.fill(grid[0], 1);
+        for (int i = 1; i < m; ++i) {
+            grid[i][0] = 1;
+        }
+
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                grid[i][j] = grid[i - 1][j] + grid[i][j - 1];
+            }
+        }
+
+        return grid[m - 1][n - 1];
+    }
+
+    // uniquePaths2 with optimization
+    public static int uniquePaths3(int m, int n) {
+        int[] grid = new int[n];
+
+        Arrays.fill(grid, 1);
+
+        for (int i = 1; i < m; ++i) {
+            for (int j = 1; j < n; ++j) {
+                grid[j] = grid[j] + grid[j - 1];
+            }
+        }
+
+        return grid[n - 1];
+    }
+
+    // move from (1,1) to (m, n), there are (m-1)+(n-1) steps needed, namely m+n-2
+    // in m+n-2 steps, if we identify m-1 steps towards right, then n-1 steps towards down is definite
+    // then we know how many ways to reach from (1,1) to (m,m)
+    // Thus we just need to get P(m+n-2, m-1)
+    public static int uniquePaths4(int m, int n) {
+        double uniquePath = 1;
+
+        // m/1 * (m+1)/2 * (m+2)/3 ... * (m-1+n-1)/(n-1)
+        for (double i = 1; i < n; ++i) {
+            uniquePath *= (m - 1 + i) / i;
+//            System.out.println(uniquePath);
+        }
+
+        return (int) uniquePath;
     }
 }
