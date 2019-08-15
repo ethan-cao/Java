@@ -19,7 +19,7 @@ Explanation: Because the path 1→3→1→1→1 minimizes the sum.
 Related : 62
 */
 
-public class M_DP_64 {
+public class M_DP_Array_64 {
 
     public static void main(String... args) {
         int[][] grid = {
@@ -46,6 +46,7 @@ public class M_DP_64 {
     private static int getPathSum(int[][] grid, int i, int j) {
         int current = grid[i][j];
 
+        // base case
         if (i == grid.length - 1 && j == grid[0].length - 1) {
             return current;
         }

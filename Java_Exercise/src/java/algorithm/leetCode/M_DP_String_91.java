@@ -19,15 +19,15 @@ Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 */
 
 
-public class M_DP_91 {
+public class M_DP_String_91 {
 
     public static void main(String... args) {
-        System.out.println(numDecodings2("0"));      // 0
-        System.out.println(numDecodings2("12"));     // 2
-        System.out.println(numDecodings2("226"));    // 3
-        System.out.println(numDecodings2("234"));    // 2
-        System.out.println(numDecodings2("232344")); // 4
-        System.out.println(numDecodings2("212221")); // 13
+        System.out.println(numDecodings3("0"));      // 0
+        System.out.println(numDecodings3("12"));     // 2
+        System.out.println(numDecodings3("226"));    // 3
+        System.out.println(numDecodings3("234"));    // 2
+        System.out.println(numDecodings3("232344")); // 4
+        System.out.println(numDecodings3("212221")); // 13
     }
 
     // recursive, DFS
@@ -35,7 +35,7 @@ public class M_DP_91 {
         return numDecodings(s, 0);
     }
 
-    // get number of decoding from
+    // get number of ways to decode s.substring(idx, s.length)
     private static int numDecodings(String s, int idx) {
         if (idx == s.length()) {
             return 1;
@@ -115,4 +115,20 @@ public class M_DP_91 {
         return numDecodings[0];
     }
 
+    public static int numDecodings3(String s) {
+        // numDecodings[i] : number of decoding for s.substring(0, i+1)
+        int[] numDecodings = new int[s.length()];
+        numDecodings[0] = 1;
+
+        for (int i = 1; i < s.length(); ++i) {
+            numDecodings[i] += numDecodings[i - 1];
+
+            int doubleDigit = Integer.parseInt(s.substring(i-1, i+1));
+            if (doubleDigit >= 10 && doubleDigit <= 26) {
+                numDecodings[i] += i >=2 ? numDecodings[i - 2] : 1;
+            }
+        }
+
+        return numDecodings[s.length() - 1];
+    }
 }
