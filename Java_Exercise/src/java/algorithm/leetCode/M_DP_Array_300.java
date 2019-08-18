@@ -21,12 +21,22 @@ length of longest increasing subsequence for {a1}, {a1, a2}, {a1, a2} ...
 
 import java.util.Arrays;
 
-public class M_DP_300 {
+public class M_DP_Array_300 {
     public static void main(String... args) {
         int[] nums1 = {10, 9, 2, 5, 3, 7, 101, 18};
         System.out.println(lengthOfLIS(nums1)); // 4
+
+        int[] nums2 = {};
+        System.out.println(lengthOfLIS(nums2)); // 0
+
+        int[] nums3 = {1, 1};
+        System.out.println(lengthOfLIS(nums3)); // 1
+
+        int[] nums4 = {2, 5, 3, 6, 5, 6, 80};
+        System.out.println(lengthOfLIS(nums4)); // 5 = 2,3,5,6,80
     }
 
+    // // https://youtu.be/fV-TF4OvZpk
     public static int lengthOfLIS(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
