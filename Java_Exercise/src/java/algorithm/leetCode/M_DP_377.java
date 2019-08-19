@@ -21,17 +21,24 @@ Note that different sequences are counted as different combinations.
 
 Therefore the output is 7.
 
+Sub problem
+
 */
 
 
 public class M_DP_377 {
     public static void main(String... args) {
+        int[] nums1 = {1, 2, 3};
+        System.out.println(combinationSum4(nums1, 4)); // 7
 
+        int[] nums2 = {1, 2, 3};
+        System.out.println(combinationSum4(nums2, 5)); // 13
     }
 
     public static int combinationSum4(int[] nums, int target) {
+
+
         return 1;
     }
-
 
 }
