@@ -13,12 +13,6 @@ You may assume that
 
 [2,2,1,1,1,2,2] --> 2
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
 

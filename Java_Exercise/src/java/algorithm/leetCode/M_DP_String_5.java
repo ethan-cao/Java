@@ -11,24 +11,24 @@ You may assume that the maximum length of s is 1000.
 "cbbd"-> "bb"
 The answer is "b", with the length of 1.
 
-# related : 647
+# related : 1, 516, 647
 
-R : 1
+this asks for substring !!!
+
 */
-
 
 public class M_DP_String_5 {
 
     public static void main(String... args) {
-        System.out.println(longestPalindrome1(""));   // ""
-        System.out.println(longestPalindrome1(" "));  // " "
-        System.out.println(longestPalindrome1("  ")); // "  "
-        System.out.println(longestPalindrome1("a")); // "a"
-        System.out.println(longestPalindrome1("aba")); // aba
-        System.out.println(longestPalindrome1("babad")); // bab
-        System.out.println(longestPalindrome1("cbbd")); // bb
-        System.out.println(longestPalindrome1("eabcb")); // bcb
-        System.out.println(longestPalindrome1("aaabaaaa")); // "aaabaaa"
+        System.out.println(longestPalindrome(""));   // ""
+        System.out.println(longestPalindrome(" "));  // " "
+        System.out.println(longestPalindrome("  ")); // "  "
+        System.out.println(longestPalindrome("a")); // "a"
+        System.out.println(longestPalindrome("aba")); // aba
+        System.out.println(longestPalindrome("babad")); // bab
+        System.out.println(longestPalindrome("cbbd")); // bb
+        System.out.println(longestPalindrome("eabcb")); // bcb
+        System.out.println(longestPalindrome("aaabaaaa")); // "aaabaaa"
     }
 
 
@@ -71,7 +71,7 @@ public class M_DP_String_5 {
         String longestPalindrome = "";
 
         // check until i - 1
-        for (int i = 0; i < s.length() - 1; ++i) {
+        for (int i = 0; i < s.length(); ++i) {
             // i is the middle point
             String oddPalindrome = getLongPalindrome(s, i, i); // handle odd length palindrome
             String evenPalindrome = getLongPalindrome(s, i, i + 1); // handle even length palindrome

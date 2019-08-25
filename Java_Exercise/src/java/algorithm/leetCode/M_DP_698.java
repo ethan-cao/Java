@@ -14,13 +14,12 @@ Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3)
 
 */
 
-
 public class M_DP_698 {
     public static void main(String... args) {
-
+        System.out.println(canPartitionKSubsets(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
     }
 
-    public boolean canPartitionKSubsets(int[] nums, int k) {
+    public static boolean canPartitionKSubsets(int[] nums, int k) {
         return true;
     }
 

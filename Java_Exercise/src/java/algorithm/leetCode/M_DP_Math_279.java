@@ -33,6 +33,7 @@ public class M_DP_Math_279 {
     public static int numSquares(int n) {
         int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
+
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
         }
@@ -63,6 +64,7 @@ public class M_DP_Math_279 {
     public static int numSquares1(int n) {
         int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
+
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
         }
@@ -92,6 +94,7 @@ public class M_DP_Math_279 {
     public static int numSquares2(int n) {
         int upperLimit = (int) sqrt(n);
         int[] perfectSquareNumber = new int[upperLimit];
+
         for (int i = 0; i < upperLimit; ++i) {
             perfectSquareNumber[i] = (i + 1) * (i + 1);
         }
@@ -127,6 +130,7 @@ public class M_DP_Math_279 {
                 dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
             }
         }
+
         return dp[n];
     }
 
@@ -160,4 +164,5 @@ public class M_DP_Math_279 {
 
         return 3;
     }
+
 }
