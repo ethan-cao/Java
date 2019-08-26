@@ -7,7 +7,6 @@ find if the array can be partitioned into 2 subsets such that the sum of element
 Each of the array element will not exceed 100.
 The array size will not exceed 200.
 
-
 ### Example
 Input: [1, 5, 11, 5]
 Output: true
@@ -17,9 +16,12 @@ Input: [1, 2, 3, 5]
 Output: false
 Explanation: The array cannot be partitioned into equal sum subsets.
 
-Related : 518 unbounded knapsack problem
+Related : 518, 698
+
+This is 0-1 knapsack problem
 */
 
+import java.util.Arrays;
 
 public class M_DP_Array_416 {
 
@@ -49,17 +51,14 @@ public class M_DP_Array_416 {
             return false;
         }
 
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-        }
+        int sum = Arrays.stream(nums).sum();
 
         // if sum is odd number, then not possible
         if (sum % 2 != 0) {
             return false;
         }
 
-        // need to find n elements from nums[], which can add up to half
+        // need to find n elements from nums[0]...nums[length-2], which can add up to half, then nums[length-1] is half as well
         // 0-1 knapsack problem
         // sums[i][j] : if first i elements can sum up to j
         int half = sum / 2;
@@ -90,12 +89,7 @@ public class M_DP_Array_416 {
             return false;
         }
 
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-        }
-
-        // if sum is odd number, then not possible
+        int sum = Arrays.stream(nums).sum();
         if (sum % 2 != 0) {
             return false;
         }
