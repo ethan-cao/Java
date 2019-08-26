@@ -20,7 +20,7 @@ Related : 416
 
 import java.util.Arrays;
 
-public class M_DP_Array_698 {
+public class M_DP_Backtracking_Array_698 {
 
     public static void main(String... args) {
         System.out.println(canPartitionKSubsets(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
@@ -43,4 +43,8 @@ public class M_DP_Array_698 {
         return true;
     }
 
+    // DP, Bit Masking
+    public static boolean canPartitionKSubsets1(int[] nums, int k) {
+        return true;
+    }
 }
