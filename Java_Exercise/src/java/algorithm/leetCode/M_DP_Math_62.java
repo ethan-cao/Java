@@ -27,7 +27,7 @@ From the top-left corner, there are a total of 3 ways to reach the bottom-right 
 Input: m = 7, n = 3
 Output: 28
 
-Related :  64
+Related :  64, 63
 */
 
 import java.util.Arrays;

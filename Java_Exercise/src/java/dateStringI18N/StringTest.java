@@ -33,8 +33,6 @@ public class StringTest {
         st1 += "d";
         System.out.println( st1 + " " + st2 + " " + (st1 == st2) );  // different reference
 
-		// insert 是 StringBuilder的
-
 		// method can be chained
 		System.out.println("chained: " + s1.replace("s", "e").replace("t", "a")); 
 		
@@ -56,5 +54,13 @@ public class StringTest {
 		// this will cause compiler error, + does not support StringBuffer and int
 //		StringBuffer sb = new StringBuffer("3");
 //		System.out.print(5 + 4 + sb + 2 + 1);
+	}
+
+	void performance(){
+		String s = "{a:"+ ", b:" + ", c: " + "}";
+		// compiler will turn this into StringBuilder, which is faster
+		new StringBuilder().append("{a:").append(", b:").append(", c:").append("}");
+
+		// if concatenate in a loop - compiler usually can't substitute StringBuilder by itself
 	}
 }

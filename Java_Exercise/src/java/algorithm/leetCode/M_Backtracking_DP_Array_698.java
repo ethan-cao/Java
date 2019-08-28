@@ -18,14 +18,16 @@ Related : 416
 
 */
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class M_Backtracking_DP_Array_698 {
 
     public static void main(String... args) {
-        System.out.println(canPartitionKSubsets(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
-        System.out.println(canPartitionKSubsets(new int[]{4, 3, 2, 3, 5, 2, 1}, 5)); // F
-        System.out.println(canPartitionKSubsets(new int[]{2, 2, 2, 2, 3, 4, 5}, 5)); // F
+        System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
+        System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 5)); // F
+        System.out.println(canPartitionKSubsets2(new int[]{2, 2, 2, 2, 3, 4, 5}, 5)); // F
+        System.out.println(canPartitionKSubsets2(new int[]{18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037}, 4)); // T
     }
 
     // Backtracking, DFS
@@ -80,7 +82,58 @@ public class M_Backtracking_DP_Array_698 {
     }
 
     // DP, Bit Masking
-    public static boolean canPartitionKSubsets1(int[] nums, int k) {
-        return true;
+    // Time complexity : O(n * 2^n)
+    public static boolean canPartitionKSubsets2(int[] nums, int k) {
+        int sum = IntStream.of(nums).sum();
+        final int L = nums.length;
+        int targetSum = sum / k;
+
+        if (L < k || sum % k != 0) {
+            return false;
+        }
+
+        // dp[i] : if array of    can be partitioned into k subsets of equal sum
+        final int SIZE = (int) Math.pow(2, L);
+        boolean[] dp = new boolean[SIZE];
+        dp[0] = true;
+
+        // Alternatively, move digit 1 left by L bits
+        // boolean dp[] = new boolean[1<<L];
+
+        // total[i] : sum of subset with sum less than equal to targetSum
+        int[] total = new int[SIZE];
+
+        // Optimization
+        Arrays.sort(nums);
+        if (nums[L - 1] > targetSum) {
+            return false;
+        }
+
+        for (int i = 0; i < SIZE; ++i) {
+            if (!dp[i]) {
+                continue;
+            }
+
+            // examine each num
+            for (int j = 0; j < L; ++j) {
+
+                // set the jth bit
+                int temp = i | (1 << j);
+
+                if (temp != i) {
+
+                    // if total sum is less than target store in dp and total array
+                    if (nums[j] <= (targetSum - (total[i] % targetSum))) {
+                        dp[temp] = true;
+                        total[temp] = nums[j] + total[i];
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return dp[SIZE - 1];
+
     }
 }
