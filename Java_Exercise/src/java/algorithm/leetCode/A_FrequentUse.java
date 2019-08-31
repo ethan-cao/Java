@@ -62,8 +62,11 @@ public class A_FrequentUse {
 
 
         // slice array
-//        System.arraycopy();
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
+
+
+        // reverse array
+        Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
     }
 
     static void list() {
