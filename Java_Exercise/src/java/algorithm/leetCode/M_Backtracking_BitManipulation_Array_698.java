@@ -83,6 +83,7 @@ public class M_Backtracking_BitManipulation_Array_698 {
 
     // DP, Bit Masking
     // Time complexity : O(n * 2^n)
+    // https://www.hackerearth.com/zh/practice/algorithms/dynamic-programming/bit-masking/tutorial/
     public static boolean canPartitionKSubsets2(int[] nums, int k) {
         int sum = IntStream.of(nums).sum();
         final int L = nums.length;
@@ -92,14 +93,13 @@ public class M_Backtracking_BitManipulation_Array_698 {
             return false;
         }
 
-
         // create a bitmask, whose length is 1 more digits than the array length
         final int SIZE = 1 << L;
 
-        // if i-th bit is set to T, i-th element is used
+        // used[i] : mark number used in subset, if i-th bit is set to T, i-th element is used
         boolean[] used = new boolean[SIZE];
-        // total[i] : sum of subset with sum less than equal to targetSum
-        int[] total = new int[SIZE];
+        // total[i] : sum of subset used[i], with sum less than equal to targetSum
+        int[] sums = new int[SIZE];
 
         // Optimization
         Arrays.sort(nums);
@@ -110,25 +110,27 @@ public class M_Backtracking_BitManipulation_Array_698 {
         // start using the 1st element
         used[0] = true;
 
-        // examine each bitmask
+        // examine all possible bitmasking situation
         for (int i = 0; i < SIZE; ++i) {
+            // if the mask bit is not set, the number is not used, skip
             if (!used[i]) {
                 continue;
             }
 
-            // when i-th element is used, examine each num
+            // examine each num
             for (int j = 0; j < L; ++j) {
 
-                // check if  j-th bit    is
+                // try using the j-th element, so set j-th bit and get subset
                 int temp = i | (1 << j);
 
-                // if it not used
+                // if get a new subset
                 if (temp != i) {
-                    // if total sum is less than target store in used  and total array
-                    if (nums[j] <= (targetSum - (total[i] % targetSum))) {
+                    if (nums[j] + (sums[i] % targetSum) <= targetSum) {
+                        // if total sum is less than target store by so far, pick the number and add to sum
                         used[temp] = true;
-                        total[temp] = nums[j] + total[i];
+                        sums[temp] = sums[i] + nums[j];
                     } else {
+                        // if exceed targetSum
                         break;
                     }
                 }
