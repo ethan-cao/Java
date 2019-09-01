@@ -43,10 +43,21 @@ public class M_DP_63 {
                 {0, 1, 0},
                 {0, 0, 0}
         };
-        System.out.println(uniquePathsWithObstacles(obstacleGrid)); // 2
 
+        System.out.println(uniquePathsWithObstacles1(obstacleGrid)); // 2
+
+        int[][] obstacleGrid1 = {
+                {1, 0}
+        };
+        System.out.println(uniquePathsWithObstacles1(obstacleGrid1)); // 0
+
+        int[][] obstacleGrid2 = {
+                {0, 0}
+        };
+        System.out.println(uniquePathsWithObstacles1(obstacleGrid2)); // 1
     }
 
+    // DP, recursive, TLE
     public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
         if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0][0] == 1) {
             return 0;
@@ -76,4 +87,41 @@ public class M_DP_63 {
 
         return pathCount;
     }
+
+    // DP, iterative
+    public static int uniquePathsWithObstacles1(int[][] obstacleGrid) {
+        int[][] solution = new int[obstacleGrid.length][obstacleGrid[0].length];
+
+        solution[0][0] = obstacleGrid[0][0] == 0 ? 1 : 0;
+        if (solution[0][0] == 0) {
+            return 0;
+        }
+
+        for (int i = 0; i < solution.length; ++i) {
+            for (int j = 0; j < solution[0].length; ++j) {
+                // initialize 1st row
+                if (i == 0 && j > 0) {
+                    solution[0][j] = (obstacleGrid[0][j] == 0 && solution[0][j - 1] != 0) ? 1 : 0;
+                }
+
+                // initialize 1st column
+                if (j == 0 && i > 0) {
+                    solution[i][0] = (obstacleGrid[i][0] == 0 && solution[i - 1][0] != 0) ? 1 : 0;
+                }
+
+                if (i != 0 && j != 0) {
+                    solution[i][j] = obstacleGrid[i][j] == 0 ? (solution[i - 1][j] + solution[i][j - 1]) : 0;
+                }
+            }
+        }
+
+        return solution[solution.length - 1][solution[0].length - 1];
+    }
+
+
+    // DP, iterative, with condensed array
+    public static int uniquePathsWithObstacles2(int[][] obstacleGrid) {
+        return 1;
+    }
 }
+

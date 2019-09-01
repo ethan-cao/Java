@@ -21,7 +21,7 @@ Related : 416
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class M_Backtracking_DP_Array_698 {
+public class M_Backtracking_BitManipulation_Array_698 {
 
     public static void main(String... args) {
         System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
@@ -92,14 +92,12 @@ public class M_Backtracking_DP_Array_698 {
             return false;
         }
 
-        // dp[i] : if array of    can be partitioned into k subsets of equal sum
-        final int SIZE = (int) Math.pow(2, L);
-        boolean[] dp = new boolean[SIZE];
-        dp[0] = true;
 
-        // Alternatively, move digit 1 left by L bits
-        // boolean dp[] = new boolean[1<<L];
+        // create a bitmask, whose length is 1 more digits than the array length
+        final int SIZE = 1 << L;
 
+        // if i-th bit is set to T, i-th element is used
+        boolean[] used = new boolean[SIZE];
         // total[i] : sum of subset with sum less than equal to targetSum
         int[] total = new int[SIZE];
 
@@ -109,22 +107,26 @@ public class M_Backtracking_DP_Array_698 {
             return false;
         }
 
+        // start using the 1st element
+        used[0] = true;
+
+        // examine each bitmask
         for (int i = 0; i < SIZE; ++i) {
-            if (!dp[i]) {
+            if (!used[i]) {
                 continue;
             }
 
-            // examine each num
+            // when i-th element is used, examine each num
             for (int j = 0; j < L; ++j) {
 
-                // set the jth bit
+                // check if  j-th bit    is
                 int temp = i | (1 << j);
 
+                // if it not used
                 if (temp != i) {
-
-                    // if total sum is less than target store in dp and total array
+                    // if total sum is less than target store in used  and total array
                     if (nums[j] <= (targetSum - (total[i] % targetSum))) {
-                        dp[temp] = true;
+                        used[temp] = true;
                         total[temp] = nums[j] + total[i];
                     } else {
                         break;
@@ -133,7 +135,6 @@ public class M_Backtracking_DP_Array_698 {
             }
         }
 
-        return dp[SIZE - 1];
-
+        return used[SIZE - 1];
     }
 }

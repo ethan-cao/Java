@@ -37,10 +37,11 @@ Output:
 public class M_Array_289_TODO {
 
     public static void main(String... args) {
+
     }
 
-    // lexicographically greater is not the same as ascending order
     public static void gameOfLife(int[][] board) {
+
     }
 
 }
