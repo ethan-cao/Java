@@ -1,39 +1,38 @@
 package designPattern;
 
+/**
+ * Factory Method Pattern
+ *
+ * It provides a way to delegate the instantiation logic to child classes.
+ */
 public class FactoryMethodTest {
 
-	public static void main(String[] args) {
-		/*
-		 * Pick the desired factory
-		 * The logic of choosing the desired is in client side
-		 */
+    public static void main(String[] args) {
+        // The logic of choosing the desired factory is in client side
 
-		// Factory factory = new CircleFactory();
-		Factory factory = new RectangleFactory();
-		
-		Shape shape = factory.getShape();
-		
-		System.out.println(shape);
-	}
+        Factory factory1 = new CircleFactory();
+        Shape shape1 = factory1.getShape();
+
+        Factory factory2 = new RectangleFactory();
+        Shape shape2 = factory2.getShape();
+    }
 }
-
-// Shape interface, Rectangle, Circle classes are defined in SimpleFactoryTest.java
 
 interface Factory {
-	public Shape getShape();
+    Shape getShape();
 }
 
-class CircleFactory implements Factory{
-	public Circle getShape(){
-		return new Circle();
-	}
+class CircleFactory implements Factory {
+    public Circle getShape() {
+        return new Circle();
+    }
 }
 
-class RectangleFactory implements Factory{
-	public Rectangle getShape(){
-		return new Rectangle();
-	}
+class RectangleFactory implements Factory {
+    public Rectangle getShape() {
+        return new Rectangle();
+    }
 }
 
-// Add new factory and according class, if you need to create different instance
-// No need to modify existing factory 
+// if we wanna create different instance, just need to add new factory
+// No need to modify existing factory, this complies with open for extension and closed for modification
