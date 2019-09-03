@@ -3,7 +3,8 @@ package designPattern;
 /**
  * Factory Method Pattern
  *
- * It provides a way to delegate the instantiation logic to child classes.
+ * It defines an interface for creating objects, and delegate the instantiation logic to child classes.
+ *
  */
 public class FactoryMethodTest {
 
