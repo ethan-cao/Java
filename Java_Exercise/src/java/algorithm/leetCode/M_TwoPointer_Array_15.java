@@ -22,11 +22,7 @@ import java.util.List;
 public class M_TwoPointer_Array_15 {
 
     public static void main(String... args) {
-//        int[] data = {-1, 0, 1, 2, -1, -4};
-        int[] data = {0, 0, 0};
-
-
-        List<List<Integer>> solutions = threeSum(data);
+        List<List<Integer>> solutions = threeSum(new int[]{-1, 0, 1, 2, -1, -4});
 
         for (List<Integer> solution : solutions) {
             solution.forEach(System.out::print);
