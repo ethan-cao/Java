@@ -16,7 +16,6 @@ A solution set is:
   [-2, -1, 1, 2],
   [-2,  0, 0, 2]
 ]
-
 */
 
 import java.util.ArrayList;
@@ -97,5 +96,31 @@ public class M_TwoPointer_Array_18 {
         }
 
         return quadruplets;
+    }
+}
+
+// General solution for K sum: look for k elements in array to form sum target
+// it can be divided into two problems:
+//  can be divided into two problems:
+//      Reduce K sum problem to K – 1 sum Problem 2sum Problem
+//      Solve sum Problem
+
+class K_Sum {
+
+    public static void main(String... args) {
+
+    }
+
+    // !!! make sure nums is sorted
+    private static List<List<Integer>> kSum(int[] nums, int start, int k, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        if ( k == 2){
+            // 2 sum
+        } else {
+            // reduce k sum to 2 sum
+        }
+
+        return result;
     }
 }
