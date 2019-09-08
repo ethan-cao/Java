@@ -124,7 +124,7 @@ class K_Sum {
     }
 
     // !!! make sure nums is sorted
-    private static List<List<Integer>> kSum(int[] nums, int start, int k, int target) {
+    public static List<List<Integer>> kSum(int[] nums, int start, int k, int target) {
         List<List<Integer>> result = new ArrayList<>();
 
         if (k == 2) {
@@ -143,10 +143,10 @@ class K_Sum {
                     list.add(nums[j]);
                     result.add(list);
 
-                    while (i < j && i == i + 1) i++;
+                    while (i < j && nums[i] == nums[i + 1]) i++;
                     i++;
 
-                    while (i < j && j == j - 1) j--;
+                    while (i < j && nums[j] == nums[j - 1]) j--;
                     j--;
                 } else if (sum < target) {
                     i++;
