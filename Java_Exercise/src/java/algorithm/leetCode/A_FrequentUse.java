@@ -79,7 +79,9 @@ public class A_FrequentUse {
 
 
         Integer[] b = new Integer[]{1, 2, 3};
-        List<Integer> l2 = Arrays.asList(b);
+        List<Integer> l2 = Arrays.asList(b); // Arrays.asList returns a fix sized list view on array
+        // Array.asList() wraps an array in the list interface. The list is still backed by the array.
+        // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
 
         // PRINT
         System.out.println(Arrays.toString(l2.toArray()));

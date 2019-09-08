@@ -16,7 +16,6 @@ public class IterationTest {
 		list.add(1);
 		list.add(3);
 		list.add(5);
-
 	}
 
 	// Order relies on iterator
@@ -49,6 +48,7 @@ public class IterationTest {
 	}
 
 	// Java 8 forEach, which accepts a java.util.function.Consumer object as argument
+    // forEach does not mutate the collection
 	static void test4(){
 		list.forEach(new Consumer<Integer>(){
 			@Override

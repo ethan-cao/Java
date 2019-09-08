@@ -3,36 +3,17 @@ import java.util.*;
 public class Test {
 
     public static void main(String... args) {
-        int[] data = {2, 2222, 2, 23, 5, 13};
 
-        System.out.println(2);
+        List<List<Integer>> c = new ArrayList<>();
 
-        Deque<Integer> queue = new ArrayDeque<>();
-        queue.offer(1);
-        queue.offer(2);
-        queue.offer(3);
-        queue.offer(4);
+        c.add(Arrays.asList(1, 2));
+        c.add(Arrays.asList(3, 4));
 
+        for(List<Integer> list: c){
+            list.add(0, 0);
+        }
 
-
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        stack.push(4);
-
-        System.out.println(2);
-
-        List<String> c = new ArrayList();
-        c.add("1");
-        c.add("2");
-        c.add("3");
-
-        List<String> sub = c.subList(0, c.size());
-        java.util.Collections.reverse(sub);
-
-
-        System.out.println(c.size());
+        System.out.println(c.get(0));
     }
 
 }
