@@ -4,16 +4,42 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class A_FrequentUse {
+
     public static void main(String[] arg) {
-        list();
+        Number.getAverage(1, 2);
     }
 
     static class Number {
         static void test() {
             int i = 2;
 
-            // check if i is even
-            boolean b = (i & 1) == 0;
+            boolean b = (i & 1) == 0; // check if i is even
+            b = (i & 1) == 1;  // check if i is odd
+
+        }
+
+        static int getAverage(int a, int b) {
+            int average = a + (b - a) / 2;   // avoid overflow
+            // overflow
+//            (a + b ) >> 1;
+//            (a + b )/ 2
+            return average;
+        }
+
+        static void bit() {
+            int maxInt = ~(1 << 31);
+            int minInt = 1 << 31;
+            minInt = 1 << -1;
+
+            int x = 1;
+            int y = 2;
+            boolean b;
+
+            // Check whether both have the same sign
+            b = (x ^ y) >= 0;
+
+            x = x << 1; // Multiplied by 2
+            x = x >> 1; // Divided by 2
         }
 
         static boolean isPerfectSquare0(int i) {

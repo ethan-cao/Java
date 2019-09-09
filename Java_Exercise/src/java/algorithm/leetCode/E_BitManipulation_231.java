@@ -63,7 +63,6 @@ public class E_BitManipulation_231 {
         return n == 1;
     }
 
-
     // count how many bit in binary form, if there is only 1 digit , then return true
     public static boolean isPowerOfTwo3(int n) {
         int shifts = (n == 1) ? 0 : 1;

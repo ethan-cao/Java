@@ -26,9 +26,39 @@ public class M_Array_34 {
         System.out.println(Arrays.toString(searchRange(new int[]{5, 7, 7, 8, 8, 10}, 6))); //[-1,-1]
     }
 
-    // brute force
+    // O(log n)
     public static int[] searchRange(int[] nums, int target) {
         int[] result = {-1, -1};
+
+        int start = 0;
+        int end = nums.length - 1;
+        int middle = start + (end - start) / 2;
+
+        while (middle >= 0 && middle < nums.length) {
+
+            if (nums[middle] == target) {
+                int left = middle;
+                int right = middle;
+
+                while (left - 1 >= 0 && nums[left - 1] == nums[left]) {
+                    left--;
+                }
+                result[0] = left;
+
+                while (right + 1 < nums.length && nums[right + 1] == nums[right]) {
+                    right++;
+                }
+                result[1] = right;
+
+                break;
+            } else if (nums[middle] < target) {
+                start = middle;
+            } else {
+                end = middle;
+            }
+
+            middle = start + (end - start) / 2;
+        }
 
         return result;
     }
