@@ -9,7 +9,7 @@ public class BinarySearch {
         System.out.println("target is at : " + index);
     }
 
-    // searching a finite sorted array.
+    // searching a finite sorted array
     static int binarySearch(int[] array, int target) {
         int low = 0;
         int high = array.length - 1;
@@ -22,10 +22,6 @@ public class BinarySearch {
                 https://research.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html
              */
             int mid = low + (high - low) / 2;
-
-//            int mid = (low + high) >>> 1;
-            // >>> is signed bit operator, moving toward right to get the int value of x/2
-
             int midValue = array[mid];
 
             if (midValue < target) {

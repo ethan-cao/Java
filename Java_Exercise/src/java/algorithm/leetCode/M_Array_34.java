@@ -16,7 +16,6 @@ Output: [-1,-1]
 
 */
 
-
 import java.util.Arrays;
 
 public class M_Array_34 {
@@ -30,56 +29,53 @@ public class M_Array_34 {
         System.out.println(Arrays.toString(searchRange(new int[]{1, 2, 3}, 1))); //[0,0]
     }
 
-    // O(log n)
+    // O(log n), Binary search
     public static int[] searchRange(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return new int[]{-1, -1};
-        }
-
-        if (nums.length == 1 && nums[0] == target) {
-            return new int[]{0, 0};
-        }
-
         int[] result = {-1, -1};
 
-        if (nums.length == 2) {
-            result[0] = nums[0] == target ? 0 : nums[1] == target ? 1 : -1;
-            result[1] = nums[0] == target ? nums[1] == target ? 1 : 0 : result[0] == 1 ? 1 : -1;
+        if (nums == null || nums.length == 0) {
             return result;
         }
 
+        // seek left boundary from 0 to length-1
         int start = 0;
         int end = nums.length - 1;
-        int middle = start + (end - start) / 2;
 
-        while (middle >= 0 && middle < nums.length && end - start > 1) {
+        while (start < end) {
+            int middle = start + (end - start) / 2;  // biased towards left
 
-            if (nums[middle] == target) {
-                int left = middle;
-                int right = middle;
-
-                while (left - 1 >= 0 && nums[left - 1] == nums[left]) {
-                    left--;
-                }
-                result[0] = left;
-
-                while (right + 1 < nums.length && nums[right + 1] == nums[right]) {
-                    right++;
-                }
-                result[1] = right;
-
-                break;
-            } else if (nums[middle] < target) {
-                start = middle;
+            if (nums[middle] < target) {
+                start = middle + 1;
             } else {
                 end = middle;
             }
-
-            middle = start + (end - start) / 2;
-
         }
+
+        // if we could not find left boundary, no result
+        if (nums[start] != target) {
+            return result;
+        }
+
+        result[0] = start;
+
+        // seek right boundary from left boundary to length-1
+        end = nums.length - 1;
+        while (start < end) {
+            int middle = start + (end - start) / 2 + 1; // biased towards right
+
+            if (nums[middle] > target) {
+                end = middle - 1; // this is like middle + 1 if middle = start + (end - start) / 2
+            } else
+                start = middle;
+        }
+
+
+        result[1] = end;
 
         return result;
     }
 
+    public static int[] searchRange1(int[] nums, int target) {
+        return null;
+    }
 }

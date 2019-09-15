@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class M_Backtracking_String_22 {
+public class M_Backtrack_String_22 {
 
     public static void main(String... args) {
         System.out.println(generateParenthesis1(0)); // [""]

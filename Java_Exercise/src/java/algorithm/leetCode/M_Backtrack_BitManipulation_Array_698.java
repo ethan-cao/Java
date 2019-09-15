@@ -21,7 +21,7 @@ Related : 416
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class M_Backtracking_BitManipulation_Array_698 {
+public class M_Backtrack_BitManipulation_Array_698 {
 
     public static void main(String... args) {
         System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T

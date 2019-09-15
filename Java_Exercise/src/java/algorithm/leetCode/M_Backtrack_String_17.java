@@ -23,7 +23,7 @@ Q22 is similar
 import java.util.LinkedList;
 import java.util.List;
 
-public class M_Backtracking_String_17 {
+public class M_Backtrack_String_17 {
 
     public static void main(String... args) {
         System.out.println(letterCombinations1("2"));  // [a, b, c]
@@ -88,6 +88,7 @@ public class M_Backtracking_String_17 {
         for (char character : letters.toCharArray()) {
             // cannot use position++ or ++position
             combine(combination.append(character), digits, position + 1, letterCombinations);
+
             combination.deleteCharAt(combination.length() - 1); // this is important
         }
     }
