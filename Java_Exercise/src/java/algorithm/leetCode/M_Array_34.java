@@ -95,7 +95,7 @@ public class M_Array_34 {
         int left = 0;
         int right = nums.length - 1;
 
-
+        // !!! =, iterate all
         while (left <= right) {
             int middle = left + (right - left) / 2;
 
@@ -117,6 +117,7 @@ public class M_Array_34 {
         int left = 0;
         int right = nums.length - 1;
 
+        // !!! =, iterate all
         while (left <= right) {
             int middle = left + (right - left) / 2;
 

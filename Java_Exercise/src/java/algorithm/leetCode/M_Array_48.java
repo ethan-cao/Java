@@ -1,75 +1,61 @@
 package algorithm.leetCode;
 
 /*
-Given a collection of intervals, merge all overlapping intervals
+You are given an n x n 2D matrix representing an image.
+Rotate the image by 90 degrees (clockwise).
 
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+DO NOT allocate another 2D matrix and do the rotation.
 
 ### Example
-[[1,3],[2,6],[8,10],[15,18]] --> [[1,6],[8,10],[15,18]]
-Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+Given input matrix =
+[  [1,2,3],
+   [4,5,6],
+   [7,8,9]  ],
+rotate the input matrix in-place such that it becomes:
+[  [7,4,1],
+   [8,5,2],
+   [9,6,3] ]
 
-[[1,4],[4,5]] --> [[1,5]]
-Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+Given input matrix =
+[ [ 5, 1, 9,11],
+  [ 2, 4, 8,10],
+  [13, 3, 6, 7],
+  [15,14,12,16] ],
 
+rotate the input matrix in-place such that it becomes:
+[ [15,13, 2, 5],
+  [14, 3, 4, 1],
+  [12, 6, 8, 9],
+  [16, 7,10,11] ]
 */
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class M_Array_48 {
 
     public static void main(String... args) {
-//        int[][] intervals = {
-//                {1, 3},
-//                {2, 6},
-//                {8, 10},
-//                {15, 18}
-//        };
-
-        int[][] intervals = {
-                {1, 4},
-                {5, 6},
-                {2, 7},
+        int[][] matrix = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9},
         };
 
+        int[][] matrix1 = {
+                {5, 1, 9, 11},
+                {2, 4, 8, 10},
+                {13, 3, 6, 7},
+                {15, 14, 12, 16}
+        };
 
-        int[][] mergedIntervals = merge(intervals);
+        rotate(matrix);
 
-        for (int[] merge : mergedIntervals) {
+        for (int[] merge : matrix) {
             System.out.println(Arrays.toString(merge));
         }
     }
 
-    public static int[][] merge(int[][] intervals) {
-        if (intervals == null) {
-            return null;
-        }
-
-        if (intervals.length <= 1) {
-            return intervals;
-        }
-
-        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
-
-        List<int[]> mergedIntervals = new ArrayList();
-
-        int start = intervals[0][0];
-        int end = intervals[0][1];
-
-        for (int[] interval : intervals) {
-            if (end >= interval[0]) {
-                end = Math.max(end, interval[1]);
-            } else {
-                mergedIntervals.add(new int[]{start, end});
-                start = interval[0];
-                end = interval[1];
-            }
-
-        }
-        mergedIntervals.add(new int[]{start, end});
-
-        return mergedIntervals.toArray(new int[0][]);
+    public static void rotate(int[][] matrix) {
     }
 }
