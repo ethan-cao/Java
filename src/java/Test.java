@@ -13,6 +13,8 @@ public class Test {
             list.add(0, 0);
         }
 
+
+
         System.out.println(c.get(0));
     }
 
