@@ -49,9 +49,9 @@ public class M_Array_48 {
                 {15, 14, 12, 16}
         };
 
-        rotate1(matrix);
+        rotate1(matrix1);
 
-        for (int[] merge : matrix) {
+        for (int[] merge : matrix1) {
             System.out.println(Arrays.toString(merge));
         }
     }
@@ -65,17 +65,17 @@ public class M_Array_48 {
         int L = matrix.length;
 
         // transpose matrix : A[i][j] = A[j][i]
-        for (int x = 0; x < L; ++x) {
-            for (int y = 0; y <= x; ++y) {
-                swap(matrix, x, y, y, x);
+        for (int i = 0; i < L; ++i) {
+            for (int j = 0; j <= i; ++j) {
+                swap(matrix, i, j, j, i);
             }
         }
 
         // flip matrix horizontally
         // flip matrix vertically, for anticlockwise rotation,
-        for (int x = 0; x < L; ++x) {
-            for (int y = 0; y < L / 2; ++y) {
-                swap(matrix, x, y, x, L - 1 - y);
+        for (int i = 0; i < L; ++i) {
+            for (int j = 0; j < L / 2; ++j) {
+                swap(matrix, i, j, i, L - 1 - j);
             }
         }
     }
@@ -94,20 +94,26 @@ public class M_Array_48 {
 
         int L = matrix.length;
 
-        for (int x = 0; x < L / 2; ++x) {
-            for (int y = 0; y < L - 1 - x; ++y) {
-                rotate(matrix, x, y);
+        // iterate half row
+        for (int i = 0; i < L / 2; ++i) {
+            // iterate half column
+            for (int j = i; j < L - 1 - i; ++j) {
+                rotate(matrix, i, j);
             }
         }
+
+
     }
 
-    private static void rotate(int[][] matrix, int x, int y) {
+    // !!! Practice repeatedly to have better 2D array comprehension
+    private static void rotate(int[][] matrix, int i, int j) {
         int L = matrix.length;
 
-        int temp = matrix[x][y];
-        matrix[x][y] = matrix[L - 1 - y][x];
-        matrix[L - 1 - y][x] = matrix[L - 1 - y][L - 1 - x];
-        matrix[L - 1 - y][L - 1 - x] = matrix[y][L - 1 - x];
-        matrix[y][L - 1 - x] = temp;
+        int temp = matrix[i][j];
+        matrix[i][j] = matrix[L - 1 - j][i];
+        matrix[L - 1 - j][i] = matrix[L - 1 - i][L - 1 - j];
+        matrix[L - 1 - i][L - 1 - j] = matrix[j][L - 1 - i];
+        matrix[j][L - 1 - i] = temp;
     }
+
 }

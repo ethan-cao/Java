@@ -66,7 +66,6 @@ public class A_FrequentUse {
         }
     }
 
-
     static void array() {
         String[] strings = new String[]{"1", "2", "3"};
         int[] ints = {1, 2, 3, 4, 4};
