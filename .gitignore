@@ -5,13 +5,14 @@
 *.class
 
 src/java/algorithm/slides/Algorithms4th.pdf
-.gradle
+
+.idea
 
 gradlew
 gradlew.bat
 gradle
 .gradle
-.idea
+
 .metadata
 build
 bin
