@@ -101,8 +101,6 @@ public class M_Array_48 {
                 rotate(matrix, i, j);
             }
         }
-
-
     }
 
     // !!! Practice repeatedly to have better 2D array comprehension
