@@ -1,4 +1,3 @@
-*DS_Store*
 *.iml*
 *.ipr*
 *.iws*
@@ -6,11 +5,12 @@
 
 src/java/algorithm/slides/Algorithms4th.pdf
 
-.idea/*
+.DS_Store
+.idea/
 
 gradlew
 gradlew.bat
-gradle/*
+gradle/
 .gradle
 
 .metadata
