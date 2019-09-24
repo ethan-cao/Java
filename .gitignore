@@ -6,11 +6,11 @@
 
 src/java/algorithm/slides/Algorithms4th.pdf
 
-.idea
+.idea/*
 
 gradlew
 gradlew.bat
-gradle
+gradle/*
 .gradle
 
 .metadata
