@@ -1,27 +1,16 @@
-./src/java/Test.java
-
 *DS_Store*
 *.iml*
 *.ipr*
 *.iws*
 *.class
 
-Java_Exercise/src/java/algorithm/slides/Algorithms4th.pdf
+src/java/algorithm/slides/Algorithms4th.pdf
 .gradle
 
-Java_Exercise/gradle
-Java_Exercise/.gradle
-Java_Exercise/.idea
-Java_Exercise/.metadata
-Java_Exercise/build
-Java_Exercise/bin
-Java_Exercise/out
-
-topcoder/gradle
-topcoder/.gradle
-topcoder/.idea
-topcoder/.metadata
-
-
-
-
+gradle
+.gradle
+.idea
+.metadata
+build
+bin
+out
