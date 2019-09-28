@@ -70,8 +70,6 @@ public class A_FrequentUse {
         String[] strings = new String[]{"1", "2", "3"};
         int[] ints = {1, 2, 3, 4, 4};
 
-        int l = strings.length;
-
         // PRINT
         System.out.println(Arrays.toString(strings));
 
@@ -85,6 +83,14 @@ public class A_FrequentUse {
         int endIndex = ints.length;
         Arrays.stream(ints, startIndex, endIndex).max().getAsInt();
 
+        // array to List
+        int[] a = {1, 2, 3};
+        List<Integer> l1 = Arrays.stream(a).boxed().collect(Collectors.toList());
+
+        Integer[] b = new Integer[]{1, 2, 3};
+        List<Integer> l2 = Arrays.asList(b); // Arrays.asList returns a fix sized list view on array
+        // Array.asList() wraps an array in the list interface. The list is still backed by the array.
+        // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
 
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
@@ -95,31 +101,18 @@ public class A_FrequentUse {
     }
 
     static void list() {
-        // array to List
-        int[] a = {1, 2, 3};
-//        List<Integer> l1  = Arrays.asList(a); // this does not work
-        Integer[] integerArray = Arrays.stream(a).boxed().toArray(Integer[]::new);  // int[] --> Integer[]
-        List<Integer> l1 = new ArrayList<>();
-        Collections.addAll(l1, integerArray);
-
-
-        Integer[] b = new Integer[]{1, 2, 3};
-        List<Integer> l2 = Arrays.asList(b); // Arrays.asList returns a fix sized list view on array
-        // Array.asList() wraps an array in the list interface. The list is still backed by the array.
-        // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
+        List<Integer> l = new ArrayList<>();
+        l.addAll(Arrays.asList(1, 2, 3));
 
         // PRINT
-        System.out.println(Arrays.toString(l2.toArray()));
+        System.out.println(Arrays.toString(l.toArray()));
+        l.forEach(System.out::println);
 
         // List<Integer> -> int[]
-        l2.stream().mapToInt(Integer::intValue).toArray();
-
-        // print list
-        l2.forEach(System.out::println);
+        l.stream().mapToInt(Integer::intValue).toArray();
 
         // Slice list
-        l1.subList(0, 2);
-
+        l.subList(0, 2);
     }
 
     static void set() {
@@ -130,7 +123,6 @@ public class A_FrequentUse {
     }
 
     static void map() {
-
         Map<String, Integer> m = new HashMap<>();
 
         int a = 1;
