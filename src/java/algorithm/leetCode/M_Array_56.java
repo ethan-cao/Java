@@ -34,7 +34,6 @@ public class M_Array_56 {
                 {2, 7},
         };
 
-
         int[][] mergedIntervals = merge(intervals);
 
         for (int[] merge : mergedIntervals) {

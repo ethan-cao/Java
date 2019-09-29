@@ -70,7 +70,11 @@ public class A_FrequentUse {
         String[] strings = new String[]{"1", "2", "3"};
         int[] ints = {1, 2, 3, 4, 4};
 
-        // PRINT
+        // iterate
+        for (String s : strings) {
+        }
+
+        // print
         System.out.println(Arrays.toString(strings));
 
         // int[] to Set<Integer>
