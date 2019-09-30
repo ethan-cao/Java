@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        Number.getAverage(1, 2);
+        list();
     }
 
     static class Number {
@@ -78,9 +78,7 @@ public class A_FrequentUse {
         System.out.println(Arrays.toString(strings));
 
         // int[] to Set<Integer>
-        HashSet<Integer> set1 = Arrays.stream(ints)
-                .boxed()
-                .collect(Collectors.toCollection(HashSet::new));
+        Set<Integer> set1 = Arrays.stream(ints).boxed().collect(Collectors.toSet());
 
         // get max value in array
         int startIndex = 0;
@@ -96,16 +94,19 @@ public class A_FrequentUse {
         // Array.asList() wraps an array in the list interface. The list is still backed by the array.
         // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
 
+
+
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
-
 
         // reverse array
         Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
     }
 
     static void list() {
-        List<Integer> l = new ArrayList<>();
+        List<Integer> l = new ArrayList<>(2);
+        System.out.println("size : " + l.size()); // 0
+
         l.addAll(Arrays.asList(1, 2, 3));
 
         // PRINT

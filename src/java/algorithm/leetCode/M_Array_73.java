@@ -51,7 +51,7 @@ public class M_Array_73 {
         // mark row and column to be cleaned
         for (int i = 0; i < matrix.length; ++i) {
             for (int j = 0; j < matrix[0].length; ++j) {
-                // this will not work, since it will execute even when i is not 0,
+                // !!! this will not work, since it will execute even when i is not 0,
                 // and if the previous row already mark it as 0, cleanFirstRow will be 0
 //                if (matrix[0][j] == 0){
 //                    cleanFirstRow = true;
