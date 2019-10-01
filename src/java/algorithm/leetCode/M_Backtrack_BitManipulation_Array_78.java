@@ -8,13 +8,14 @@ Note: The solution set must not contain duplicate subsets.
 Input: nums = [1,2,3]
 Output: [ [3], [1],  [2],  [1,2,3],  [1,3],  [2,3],  [1,2],  [] ]
 
+Related : 90
 ]*/
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_Backtrack_Array_78 {
+public class M_Backtrack_BitManipulation_Array_78 {
 
     public static void main(String... args) {
         int[] nums = {1, 2, 3};
@@ -30,19 +31,51 @@ public class M_Backtrack_Array_78 {
     // Backtrack
     public static List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> subsets = new ArrayList<>();
-        getSubset(nums, subsets, new ArrayList<>(), 0);
+        List<Integer> tracker = new ArrayList<>();
+
+        collectSubset(nums, subsets, tracker, 0);
 
         return subsets;
     }
 
-    private static void getSubset(int[] nums, List<List<Integer>> subsets, List<Integer> subset, int start) {
-        subsets.add(new ArrayList<>(subset));
+    private static void collectSubset(int[] nums, List<List<Integer>> subsets, List<Integer> tracker, int start) {
+        List<Integer> subset = new ArrayList<>(tracker);
+        subsets.add(subset);
 
         for (int i = start; i < nums.length; ++i) {
-            subset.add(nums[i]);
-            getSubset(nums, subsets, subset, i + 1);
-            subset.remove(subset.size() - 1);
+            tracker.add(nums[i]);
+            collectSubset(nums, subsets, tracker, i + 1);
+            tracker.remove(tracker.size() - 1);
         }
+    }
+
+    // Iterative, BFS
+    public static List<List<Integer>> subsets2(int[] nums) {
+        List<List<Integer>> subsets = new ArrayList<>();
+        subsets.add(new ArrayList<>());
+
+        // start from an empty subset, each time add an item to all existing subset
+        // []
+        // [1]
+        // [2] [1,2]
+        // [3] [1, 3] [2, 3] [1,2, 3]
+
+        for (int i = 0; i < nums.length; ++i) {
+            int size = subsets.size();
+
+            for (int j = 0; j < size; ++j) {
+                // duplicate all existing subset
+                List<Integer> subset = new ArrayList<>(subsets.get(j));
+
+                // add each item to the duplicated subset
+                subset.add(nums[i]);
+
+                // add it back to the subsets
+                subsets.add(subset);
+            }
+        }
+
+        return subsets;
     }
 
     // Bit manipulation
@@ -68,20 +101,4 @@ public class M_Backtrack_Array_78 {
         return subsets;
     }
 
-    // Iterative, BFS
-    public static List<List<Integer>> subsets2(int[] nums) {
-        List<List<Integer>> subsets = new ArrayList<>();
-        subsets.add(new ArrayList<>());
-
-        for (int i = 0; i < nums.length; i++) {
-            int size = subsets.size();
-
-            for (int j = 0; j < size; j++) {
-                List<Integer> subset = new ArrayList<>(subsets.get(j));
-                subset.add(nums[i]);
-                subsets.add(subset);
-            }
-        }
-        return subsets;
-    }
 }

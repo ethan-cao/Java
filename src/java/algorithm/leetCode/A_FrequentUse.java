@@ -77,13 +77,13 @@ public class A_FrequentUse {
         // print
         System.out.println(Arrays.toString(strings));
 
-        // int[] to Set<Integer>
-        Set<Integer> set1 = Arrays.stream(ints).boxed().collect(Collectors.toSet());
-
         // get max value in array
         int startIndex = 0;
         int endIndex = ints.length;
         Arrays.stream(ints, startIndex, endIndex).max().getAsInt();
+
+        // int[] to Set
+        Set<Integer> set1 = Arrays.stream(ints).boxed().collect(Collectors.toSet());
 
         // array to List
         int[] a = {1, 2, 3};
@@ -93,8 +93,6 @@ public class A_FrequentUse {
         List<Integer> l2 = Arrays.asList(b); // Arrays.asList returns a fix sized list view on array
         // Array.asList() wraps an array in the list interface. The list is still backed by the array.
         // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
-
-
 
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
