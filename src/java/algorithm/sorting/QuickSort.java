@@ -6,17 +6,16 @@ import java.util.Arrays;
 
 /**
  * QuickSort (partition-exchange sort),  a divide and conquer algorithm
- * <p>
+ *
  * 1) pick an element partitionKey(pivot) from the array,
- * <p>
+ *
  * 2) put elements that are smaller than partitionKey before partitionKey
  * elements that are larger than partitionKey after partitionKey
  * elements that are equal to partitionKey to partitionKey's either side
  * Then partitionKey is in the right position
- * <p>
+ *
  * 3) repeat step 1 and 2 to sub-array before and after partitionKey
- * <p>
- * <p>
+ *
  * Choice of partitionKey:
  * when 1st element as partitionKey, the more sorted elements there is, the poorer the performance it is
  * solution : randomized the array or pick a random partition key

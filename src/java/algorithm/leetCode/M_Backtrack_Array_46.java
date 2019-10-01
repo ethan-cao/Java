@@ -54,23 +54,24 @@ public class M_Backtrack_Array_46 {
     }
 
     // Iterative
+    // https://leetcode.com/problems/permutations/discuss/18237/My-AC-simple-iterative-javapython-solution
     public static List<List<Integer>> permute1(int[] nums) {
         List<List<Integer>> permutations = new ArrayList<>();
         permutations.add(new ArrayList<>());
 
         for (int i = 0; i < nums.length; ++i) {
-            List<List<Integer>> tmpResult = new ArrayList<>();
+            List<List<Integer>> tempPermutations = new ArrayList<>();
 
             for (int insertPos = 0; insertPos <= i; ++insertPos) {
 
                 for (List<Integer> permutation : permutations) {
                     List<Integer> permutationCopy = new ArrayList<>(permutation);
                     permutationCopy.add(insertPos, nums[i]);
-                    tmpResult.add(permutationCopy);
+                    tempPermutations.add(permutationCopy);
                 }
             }
 
-            permutations = tmpResult;
+            permutations = tempPermutations;
         }
 
         return permutations;
