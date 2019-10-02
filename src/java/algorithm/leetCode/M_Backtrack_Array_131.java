@@ -26,7 +26,6 @@ public class M_Backtrack_Array_131 {
         //  [ ["aa","b"],  ["a","a","b"] ]
     }
 
-    // Backtrack
     private static List<List<String>> partition(String s) {
         List<List<String>> partitions = new ArrayList<>();
 
