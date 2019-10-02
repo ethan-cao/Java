@@ -23,7 +23,6 @@ Related : 322
 
 */
 
-
 import java.util.Arrays;
 
 public class M_DP_Array_377 {
@@ -35,7 +34,6 @@ public class M_DP_Array_377 {
         System.out.println(combinationSum4_2(nums1, 3)); // 4
         System.out.println(combinationSum4_2(nums1, 4)); // 7
         System.out.println(combinationSum4_2(nums1, 5)); // 13
-
     }
 
     // Sub problem : how many ways to sum up first n number to m
@@ -104,7 +102,7 @@ public class M_DP_Array_377 {
 
         for (int i : nums) {
             if (target >= i) {
-                solution += getSolution(nums, target-i);
+                solution += getSolution(nums, target - i);
             }
         }
 

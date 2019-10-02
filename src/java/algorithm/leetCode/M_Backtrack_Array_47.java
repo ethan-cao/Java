@@ -16,13 +16,13 @@ import java.util.List;
 public class M_Backtrack_Array_47 {
 
     public static void main(String... args) {
-        int[] nums = {1, 1, 2};
+        int[] nums = {1, 1, 2, 2};
 
-        List<List<Integer>> subsets = permuteUnique(nums);
+        List<List<Integer>> subsets = permuteUnique1(nums);
         for (List<Integer> subset : subsets) {
             System.out.println(Arrays.toString(subset.toArray()));
         }
-        // [  [1,1,2],   [1,2,1],   [2,1,1] ]
+        // [[1,1,2,2], [1,2,1,2], [1,2,2,1],  [2,1,1,2],  [2,1,2,1],  [2,2,1,1]]
     }
 
     // Backtrack
@@ -72,16 +72,21 @@ public class M_Backtrack_Array_47 {
 
             // clear all existing permutations, replace with newPermutation
             for (int j = 0; j < size; ++j) {
+                // remove() removes the specified one, and shifts all the rest towards left
                 List<Integer> permutation = permutations.remove(0);
 
                 for (int insertIdx = 0; insertIdx <= permutation.size(); ++insertIdx) {
 
-                    // if
+                    // for duplicate numbers in a row, only add same number in in front of them.
                     if (insertIdx > 0 && nums[i] == permutation.get(insertIdx - 1)) {
+                        // !!! use break, continue does not work
+                        // since inserting duplicate value, the ignored rest permutations will appear next round
+                        // check case [1,1,2,2]
                         break;
                     }
 
                     ArrayList<Integer> newPermutation = new ArrayList<>(permutation);
+                    // add(idx, ele) adds the specified one, shift all rest towards right
                     newPermutation.add(insertIdx, nums[i]);
                     permutations.add(newPermutation);
                 }

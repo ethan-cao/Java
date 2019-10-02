@@ -107,12 +107,15 @@ public class A_FrequentUse {
 
         l.addAll(Arrays.asList(1, 2, 3));
 
-        // PRINT
+        // print
         System.out.println(Arrays.toString(l.toArray()));
         l.forEach(System.out::println);
 
+        // sum
+        int sum = l.stream().mapToInt(Integer::intValue).sum();
+
         // List<Integer> -> int[]
-        l.stream().mapToInt(Integer::intValue).toArray();
+        int[] array = l.stream().mapToInt(Integer::intValue).toArray();
 
         // Slice list
         l.subList(0, 2);
