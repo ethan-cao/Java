@@ -31,7 +31,6 @@ public class M_DP_String_5 {
         System.out.println(longestPalindrome("aaabaaaa")); // "aaabaaa"
     }
 
-
     // DP iterative
     public static String longestPalindrome1(String s) {
         String longestPalindrome = "";

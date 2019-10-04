@@ -54,7 +54,6 @@ public class M_Backtrack_Array_39 {
     }
 
     private static void collectCombinations(int[] candidates, int remain, List<List<Integer>> combinations, List<Integer> tracker, int start) {
-
         if (remain == 0) {
             combinations.add(new ArrayList<>(tracker));
             return;
