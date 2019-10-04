@@ -21,19 +21,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_Backtrack_Array_39 {
+public class M_Backtrack_DP_Array_39 {
 
     public static void main(String... args) {
         int[] candidates = {2, 3, 6, 7};
 
-        List<List<Integer>> results = combinationSum(candidates, 7);
+        List<List<Integer>> results = combinationSum1(candidates, 7);
         for (List<Integer> result : results) {
             System.out.println(Arrays.toString(result.toArray()));
         }
         // [  [7],  [2,2,3] ]
     }
 
-    // Backtrack
+    // Backtrack, 2ms
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> combinations = new ArrayList<>();
 
@@ -71,21 +71,48 @@ public class M_Backtrack_Array_39 {
         }
     }
 
-    // Iterative, DP
+    // DP, 9ms
     public static List<List<Integer>> combinationSum1(int[] candidates, int target) {
-        List<List<Integer>> combinations = new ArrayList<>();
-
-        if (candidates == null || candidates.length == 0) {
-            return combinations;
-        }
-
         Arrays.sort(candidates);
 
         if (candidates[0] > target) {
-            return combinations;
+            return new ArrayList<>();
         }
 
+        List<List<List<Integer>>> allCombinations = new ArrayList<>();
 
-        return combinations;
+        for (int currentTarget = 0; currentTarget <= target; ++currentTarget) {
+            List<List<Integer>> combinations = new ArrayList<>();
+
+            for (int candidate : candidates) {
+                if (candidate > currentTarget) {
+                    break;
+                }
+
+                if (candidate == currentTarget) {
+                    combinations.add(Arrays.asList(candidate));
+                    continue;
+                }
+
+                for (List<Integer> combination : allCombinations.get(currentTarget - candidate)) {
+
+                    // skip duplicate
+                    // candidates is sorted, if the current candidate is smaller than the last one
+                    // that means it has been used
+                    if (candidate < combination.get(combination.size() - 1)) {
+                        continue;
+                    }
+
+                    List<Integer> newCombination = new ArrayList<>(combination);
+                    newCombination.add(candidate);
+                    combinations.add(newCombination);
+                }
+            }
+
+            allCombinations.add(combinations);
+        }
+
+        return allCombinations.get(target);
     }
+
 }
