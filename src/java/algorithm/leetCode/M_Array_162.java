@@ -1,0 +1,98 @@
+package algorithm.leetCode;
+
+/*
+A peak element is an element that is greater than its neighbors.
+Given an input array nums, where nums[i] ≠ nums[i+1], find a peak element and return its index.
+The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
+You may imagine that nums[-1] = nums[n] = -∞.
+Your solution should be in logarithmic complexity O(logN)
+
+### Example
+[1,2,3,1]  -> 2
+Explanation: 3 is a peak element and your function should return the index number 2.
+
+[1,2,1,3,5,6,4] -> 1 or 5
+Explanation: Your function can return either index number 1 where the peak element is 2,
+             or index number 5 where the peak element is 6.0
+
+*/
+
+public class M_Array_162 {
+
+    public static void main(String... args) {
+        System.out.println(findPeakElement(new int[]{3, 2, 1}));              // 0
+        System.out.println(findPeakElement(new int[]{3, 2, 1}));              // 0
+        System.out.println(findPeakElement(new int[]{1, 2, 3, 1}));           // 2
+        System.out.println(findPeakElement(new int[]{1, 3, 2, 1}));           // 1
+        System.out.println(findPeakElement(new int[]{1, 2, 1, 3, 5, 6, 4}));  // 1 or 5
+    }
+
+    // binary search
+    public static int findPeakElement(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int middle = left + (right - left) / 2;
+
+            if (middle >= 1 && nums[middle] < nums[middle - 1]) {
+                right = middle - 1;
+            } else if (nums[middle] < nums[middle + 1]) {
+                left = middle + 1;
+            } else {
+                return middle;
+            }
+        }
+
+        return left;
+    }
+
+    // binary search
+    private static int findPeakElement1(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left < right) {
+            int middle = left + (right - left) / 2;
+
+            // since we use condition middle < nums.length -1, case left = nums.length - 1 is skiped
+            if (middle < nums.length - 1 && nums[middle] <= nums[middle + 1]) {
+                left = middle + 1;
+            } else {
+                right = middle;
+            }
+        }
+
+        // since case left = nums.length - 1 is skipped, need to check it later
+        if (left == nums.length - 1 && nums.length - 2 >= 0) {
+            return nums[nums.length - 1] > nums[nums.length - 2] ? nums.length - 1 : nums.length - 2;
+        } else {
+            return left;
+        }
+    }
+
+    public static int findPeakElement2(int[] nums) {
+        if (1 == nums.length) return 0;
+        if (2 == nums.length) return nums[0] > nums[1] ? 0 : 1;
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (right - left >= 2) {
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] > nums[middle - 1] && nums[middle] > nums[middle + 1]) {
+                return middle;
+            }
+
+            if (nums[middle] < nums[middle - 1]) {
+                right = middle;
+            } else {
+                left = middle;
+            }
+
+        }
+
+        return nums[left] > nums[right] ? left : right;
+    }
+}

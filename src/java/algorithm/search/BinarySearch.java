@@ -10,7 +10,8 @@ public class BinarySearch {
     }
 
     // searching a finite sorted array
-    static int binarySearch(int[] array, int target) {
+    // Time: O(logN)
+    public static int binarySearch(int[] array, int target) {
         int left = 0;
         int right = array.length - 1;
 
@@ -34,5 +35,10 @@ public class BinarySearch {
         }
 
         return -1;
+    }
+
+    // recursive
+    static int binarySearch1(int[] array, int target){
+        return 1;
     }
 }
