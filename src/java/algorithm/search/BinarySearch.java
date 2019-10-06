@@ -11,29 +11,28 @@ public class BinarySearch {
 
     // searching a finite sorted array
     static int binarySearch(int[] array, int target) {
-        int low = 0;
-        int high = array.length - 1;
-        int targetIndex = -1;
+        int left = 0;
+        int right = array.length - 1;
 
-        while (low <= high) {
+        while (left <= right) {
             /*
-                int mid = (low + high) / 2;
-                divided by 2 is a bug... if low + high is larger than maximal value of int, result overflows to negative
+                int mid = (left + right) / 2;
+                divided by 2 is a bug... if left + right is larger than maximal value of int, result overflows to negative
                 https://research.googleblog.com/2006/06/extra-extra-read-all-about-it-nearly.html
              */
-            int mid = low + (high - low) / 2;
-            int midValue = array[mid];
+            int middle = left + (right - left) / 2;
 
-            if (midValue < target) {
-                low = mid + 1;
-            } else if (midValue > target) {
-                high = mid - 1;
+            if (array[middle] == target) {
+                return middle;
+            }
+
+            if (array[middle] < target) {
+                left = middle + 1;
             } else {
-                targetIndex = mid;
-                break;
+                right = middle - 1;
             }
         }
 
-        return targetIndex;
+        return -1;
     }
 }
