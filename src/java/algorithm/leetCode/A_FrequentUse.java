@@ -70,6 +70,8 @@ public class A_FrequentUse {
         String[] strings = new String[]{"1", "2", "3"};
         int[] ints = {1, 2, 3, 4, 4};
 
+        Arrays.binarySearch(ints, 3);
+
         // iterate
         for (String s : strings) {
         }
