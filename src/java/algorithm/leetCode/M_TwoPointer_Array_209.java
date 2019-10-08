@@ -16,6 +16,7 @@ public class M_TwoPointer_Array_209 {
 
     public static void main(String... args) {
         System.out.println(minSubArrayLen(7, new int[]{2, 3, 1, 2, 4, 3}));  // 2
+        System.out.println(minSubArrayLen(3, new int[]{1, 1}));  // 0
     }
 
     // Time: O(n)
@@ -24,26 +25,23 @@ public class M_TwoPointer_Array_209 {
             return 0;
         }
 
-        int minLength = nums.length;
-        int length = 0;
-
+        int minLength = Integer.MAX_VALUE;
         int sum = 0;
 
         // since we are looking for subarray length, naturally think about using 2 pointer
         for (int left = 0, right = 0; right < nums.length; ++right) {
             sum += nums[right];
-            length++;
 
             while (sum >= s) {
-                minLength = Math.min(minLength, length);
+                // length of current subarray is (rigth - left + 1)
+                minLength = Math.min(minLength, right - left + 1);
 
                 sum -= nums[left];
                 left++;
-                length--;
             }
         }
 
-        return minLength;
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
 }
