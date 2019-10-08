@@ -27,6 +27,36 @@ public class M_Array_162 {
         System.out.println(findPeakElement(new int[]{1, 2, 1, 3, 5, 6, 4}));  // 1 or 5
     }
 
+    public static int findPeakElement0(int[] nums) {
+        if (nums.length == 1) {
+            return 0;
+        }
+
+        if (nums.length == 2) {
+            return nums[0] > nums[1] ? 0 : 1;
+        }
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (right - left >= 2) {
+            int middle = left + (right - left) / 2;
+
+            // right - left >=2 assures middle + 1 < nums.length
+            if (nums[middle] > nums[middle - 1] && nums[middle] > nums[middle + 1]) {
+                return middle;
+            }
+
+            if (nums[middle] < nums[middle - 1]) {
+                right = middle;
+            } else {
+                left = middle;
+            }
+        }
+
+        return nums[left] > nums[right] ? left : right;
+    }
+
     // binary search
     public static int findPeakElement(int[] nums) {
         int left = 0;
@@ -71,28 +101,4 @@ public class M_Array_162 {
         }
     }
 
-    public static int findPeakElement2(int[] nums) {
-        if (1 == nums.length) return 0;
-        if (2 == nums.length) return nums[0] > nums[1] ? 0 : 1;
-
-        int left = 0;
-        int right = nums.length - 1;
-
-        while (right - left >= 2) {
-            int middle = left + (right - left) / 2;
-
-            if (nums[middle] > nums[middle - 1] && nums[middle] > nums[middle + 1]) {
-                return middle;
-            }
-
-            if (nums[middle] < nums[middle - 1]) {
-                right = middle;
-            } else {
-                left = middle;
-            }
-
-        }
-
-        return nums[left] > nums[right] ? left : right;
-    }
 }
