@@ -36,9 +36,7 @@ public class HashMapTest {
 
         Map map = new HashMap();
         // This cause compiler error, since generic type is not used, map.entrySet will return Object, rather than Map.Entry<K, V>
-//        for(Map.Entry entry : map.entrySet()){
-//
-//        }
+//        for(Map.Entry entry : map.entrySet()){ }
         for (Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
             Object entry = it.next();
         }
