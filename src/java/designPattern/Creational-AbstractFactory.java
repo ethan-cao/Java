@@ -3,13 +3,12 @@ package designPattern;
 /**
  * Abstract Factory Pattern
  *
+ * Enhanced Factory Method Pattern, useful when necessary to group related objects creation
  * A factory of factories
- * A factory that groups the individual but related/dependent factories together without specifying their concrete classes.
  */
 
-public class AbstractFactoryTest {
+public class AbstractFactoryPattern {
     public static void main(String[] args) {
-
     }
 }
 
@@ -21,17 +20,6 @@ class Mac extends Computer {
 }
 
 class ChromeBook extends Computer {
-}
-
-
-
-abstract class Phone {
-}
-
-class Iphone extends Phone {
-}
-
-class Android extends Phone {
 }
 
 
@@ -51,7 +39,7 @@ class AppleFactory implements AbstractFactory {
 
     @Override
     public Phone createPhone() {
-        return new Iphone();
+        return new IPhone();
     }
 }
 

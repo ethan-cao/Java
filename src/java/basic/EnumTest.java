@@ -22,7 +22,7 @@ public class EnumTest {
     /**
      * enum implicitly extend java.lang.Enum, thus they can't extend another class/Enum
      * public abstract class Enum<E extends Enum<E>> implements Comparable<E>, Serializable
-     * <p>
+     *
      * it can only implement additional interfaces
      */
     public enum Light implements I {
