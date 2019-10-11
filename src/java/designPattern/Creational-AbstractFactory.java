@@ -7,12 +7,6 @@ package designPattern;
  * A factory of factories
  */
 
-public class AbstractFactoryPattern {
-    public static void main(String[] args) {
-    }
-}
-
-
 abstract class Computer {
 }
 

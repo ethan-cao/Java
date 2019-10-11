@@ -16,13 +16,6 @@ package designPattern;
  *
  */
 
-public class FactoryMethodPattern {
-    public static void main(String[] args) {
-        // The logic of choosing the desired factory is in client side
-
-    }
-}
-
 
 abstract class PhoneFactory {
     abstract Phone createPhone();

@@ -7,7 +7,7 @@ package designPattern;
  *
  */
 
-public class BuilderPattern {
+class BuilderPattern {
     public static void main(String[] args) {
         Car.Builder carBuilder = new Car.Builder("BMW");
         Car car = carBuilder.setColor("white").build();

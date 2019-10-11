@@ -10,7 +10,7 @@ package designPattern;
  *
  */
 
-public class FactoryPattern {
+class FactoryPattern {
     public static void main(String[] args) {
     }
 }

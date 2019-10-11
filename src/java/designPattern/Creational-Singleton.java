@@ -8,8 +8,7 @@ import java.io.Serializable;
  * Ensure a class only has one instance, and provide a global point of access to it
  */
 
-class SingletonTest{
-
+class SingletonPattern {
     public static void main(String[] args) {
         Singleton s1 = Singleton.INSTANCE;
         Singleton s2 = Singleton.INSTANCE;
@@ -19,7 +18,6 @@ class SingletonTest{
         Singleton1 ss2 = Singleton1.getInstance();
         System.out.println(ss1 == ss2); // true
     }
-
 }
 
 // serializable, thread-safe, singleton
