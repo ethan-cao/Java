@@ -9,7 +9,7 @@ public class A_FrequentUse {
         map();
     }
 
-    static class Number {
+    static class number {
         static void test() {
             int i = 2;
 
@@ -66,6 +66,17 @@ public class A_FrequentUse {
         }
     }
 
+    static void string() {
+        String a = "aaabbb";
+
+        // String -> char[]
+        a.toCharArray();
+
+        // iteration
+        for (char c : a.toCharArray()) {
+        }
+    }
+
     static void array() {
         String[] strings = new String[]{"1", "2", "3"};
         int[] ints = {1, 2, 3, 4, 4};
@@ -101,17 +112,6 @@ public class A_FrequentUse {
 
         // reverse array
         Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
-    }
-
-    static void string() {
-        String a = "aaabbb";
-
-        // String -> char[]
-        a.toCharArray();
-
-        // iteration
-        for (char c : a.toCharArray()) {
-        }
     }
 
     static void list() {
@@ -152,15 +152,15 @@ public class A_FrequentUse {
 
         // iterate
         // forEach is usually performant
-        map.forEach( (key, value) -> {
+        map.forEach((key, value) -> {
             System.out.println(key + " -> " + value);
         });
 
-        for (Map.Entry<String, Integer> entry: map.entrySet()) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
 
-        map.entrySet().stream().forEach(entry ->  System.out.println(entry.getKey() + " -> " + entry.getValue()));
+        map.entrySet().stream().forEach(entry -> System.out.println(entry.getKey() + " -> " + entry.getValue()));
 
         System.out.println(map.containsKey("test1")); // true
         System.out.println(map.containsValue(1)); // true
@@ -171,6 +171,9 @@ public class A_FrequentUse {
 
         Integer newValue2 = map.computeIfAbsent("test2", k -> k.length());  // 2 if key is present, return the value
         Integer newValue4 = map.computeIfAbsent("test4", k -> k.length());  // 5, if key is absent,  add entry key -> value, and return the value
+
+        newValue1 = map.compute("test1", (k, v) -> v + 1); // if newValue is not null, replace old value
+        newValue3 = map.compute("test3", (k, v) -> v + 1); // if newValue is null, remove the entry if it exists
     }
 
 }

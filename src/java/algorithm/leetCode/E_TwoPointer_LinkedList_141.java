@@ -2,13 +2,10 @@ package algorithm.leetCode;
 
 /*
 Given a linked list, determine if it has a cycle in it.
+Use an integer pos which represents the position (0-indexed) in the linked list where tail (the last one) connects to
+If pos is -1, then there is no cycle in the linked list.
 
-To represent a cycle in the given linked list, we use an integer pos
-which represents the position (0-indexed) in the linked list
-where tail connects to. If pos is -1, then there is no cycle in the linked list.
-
-pos is just used to illustrate where the last node connects to,
-since it it not possible to represent it in a array
+pos is just used to reference the next node, since it is not possible to represent list in a array
 
 ### Example
 head = [3,2,0,-4], pos = 1 --->  true
@@ -20,17 +17,10 @@ There is a cycle in the linked list, where tail connects to the first node (0)
 head = [1], pos = -1  --->  false
 There is no cycle in the linked list (-1)
 
-### Condition
-Can you solve it using O(1) (i.e. constant) memory?
-
-### Essential problem
-
-### Corner case
-
 */
 
-
 public class E_TwoPointer_LinkedList_141 {
+
     public static void main(String... args) {
         ListNode node1 = new ListNode(3);
         ListNode node2 = new ListNode(2);
@@ -52,20 +42,26 @@ public class E_TwoPointer_LinkedList_141 {
         }
     }
 
-    // Floyd’s cycle detection
+    // cycle detection:  Floyd’s algorithm
+    // Space: O(1)
     public static boolean hasCycle(ListNode head) {
-        ListNode p1 = head;
-        ListNode p2 = head;
-
-        while (p2 != null && p2.next != null) {
-            if (p1 == p2) {
-                return true;
-            }
-
-            p1 = p1.next;
-            p2 = p2.next.next;
+        if (head == null || head.next == null) {
+            return false;
         }
 
-        return false;
+        ListNode slowPointer = head.next;
+        ListNode fastPointer = head.next.next;
+
+        while (slowPointer != fastPointer) {
+            if (slowPointer == null || fastPointer == null || fastPointer.next == null) {
+                return false;
+            }
+
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+        }
+
+        // if slowPointer == fastPointer, they meet and there is a cycle
+        return true;
     }
 }
