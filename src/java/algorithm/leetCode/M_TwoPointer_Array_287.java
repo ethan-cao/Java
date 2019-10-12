@@ -41,7 +41,7 @@ public class M_TwoPointer_Array_287 {
         return -1;
     }
 
-    // Binary Search
+    // Binary Search, this works since we know there is only 1 duplicate
     // Time: O(NlogN), Space: O(1)
     public static int findDuplicate1(int[] nums) {
         // !!! forget about array, do binary search for the value, and given we know there is only 1 duplicate number

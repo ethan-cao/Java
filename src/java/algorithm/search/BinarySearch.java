@@ -1,5 +1,10 @@
 package algorithm.search;
 
+/**
+ * Binary search
+ * Prerequisite:  array is sorted
+ */
+
 public class BinarySearch {
 
     public static void main(String[] args) {
@@ -9,8 +14,8 @@ public class BinarySearch {
         System.out.println("target is at : " + index);
     }
 
-    // searching a finite sorted array
-    // Time: O(logN)
+    // Iterative
+    // Time: O(logN), Space: O(1)
     public static int binarySearch(int[] array, int target) {
         int left = 0;
         int right = array.length - 1;
@@ -35,7 +40,8 @@ public class BinarySearch {
         return -1;
     }
 
-    // recursive
+    // Recursive
+    // Time: O(logN), Space: O(logN)
     public static int binarySearch1(int[] array, int target) {
         return search(array, 0, array.length - 1, target);
     }
