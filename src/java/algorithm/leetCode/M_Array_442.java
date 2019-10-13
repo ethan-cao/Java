@@ -57,6 +57,7 @@ public class M_Array_442 {
             // check nums[nums[i]-1], make sure it has the expected value
             // the missed num and the according pos will not have expected value
 
+            // TODO: why this works?
             while (nums[nums[i] - 1] != nums[i]) {
                 // otherwise, pick the next number to check
                 // util nums[nums[i]-1] has the expected value

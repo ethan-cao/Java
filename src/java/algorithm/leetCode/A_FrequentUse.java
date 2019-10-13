@@ -177,5 +177,3 @@ public class A_FrequentUse {
     }
 
 }
-
-
