@@ -17,12 +17,6 @@ Explanation:
 Node 1's value is 1, both of its next and random pointer points to Node 2.
 Node 2's value is 2, its next pointer points to null and its random pointer points to itself.
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
 import java.util.HashMap;

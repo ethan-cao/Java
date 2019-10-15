@@ -9,17 +9,15 @@ The solution set must not contain duplicate triplets.
 ### Example
 [-1, 0, 1, 2, -1, -4]
 A solution set is:
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
+[  [-1, 0, 1],
+   [-1, -1, 2] ]
 */
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_TwoPointer_Array_15 {
+public class M_ThreePointer_Array_15 {
 
     public static void main(String... args) {
         int[] nums = {-1, 0, 1, 2, -1, -4};
@@ -44,9 +42,9 @@ public class M_TwoPointer_Array_15 {
 
     }
 
-    // O(n^2)
+    // Time: O(N^2)
     public static List<List<Integer>> threeSum(int[] nums) {
-        final int TARGET = 0;
+        int TARGET = 0;
 
         Arrays.sort(nums); // important to make the inner lookup linear
 
@@ -54,11 +52,14 @@ public class M_TwoPointer_Array_15 {
 
         for (int i = 0; i < nums.length - 2; ++i) {
 
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // skip duplicates
+            // skip duplicates
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
 
-            if (nums[i] * 3 > TARGET) break; // if smallest possible sum is larger than target, not possible
+            // if smallest possible sum is larger than target, not possible
+            if (nums[i] * 3 > TARGET) break;
 
-            if (nums[i] + nums[nums.length - 1] * 2 < TARGET) continue; // if largest possible sum is smaller than target
+            // if largest possible sum is smaller than target
+            if (nums[i] + nums[nums.length - 1] * 2 < TARGET) continue;
 
             // since nums is sorted, the lookup is O(n), not it is 2 sum problem
             int required = TARGET - nums[i];
@@ -69,12 +70,14 @@ public class M_TwoPointer_Array_15 {
                 int sum = nums[left] + nums[right];
 
                 if (sum == required) {
-                    solutions.add(Arrays.asList(nums[i], nums[left], nums[right]));  // list view on array
+                    solutions.add(Arrays.asList(nums[i], nums[left], nums[right]));  // list view on array, fixed size
 
-                    while (left < right && nums[left] == nums[left + 1]) left++; // check next different nums[left]
+                    // skip duplicates
+                    while (left < right && nums[left] == nums[left + 1]) left++;
                     left++;
 
-                    while (left < right && nums[right] == nums[right - 1]) right--; // check next different nums[right]
+                    // skip duplicates
+                    while (left < right && nums[right] == nums[right - 1]) right--;
                     right--;
                 } else if (sum > required) {
                     right--;

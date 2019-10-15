@@ -15,7 +15,7 @@ The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
 
 import java.util.Arrays;
 
-public class M_TwoPointer_Array_16 {
+public class M_ThreePointer_Array_16 {
 
     public static void main(String... args) {
         System.out.println(threeSumClosest(new int[]{-1, 2, 1, -4}, 1));  // 2
@@ -28,18 +28,16 @@ public class M_TwoPointer_Array_16 {
 
         // cannot use Integer.MAX_VALUE for closestSum !!!
         // if target is negative, (closestSum - target) overflows
-        // just pick a random initial value
+        // just pick a valid initial value
         int closestSum = nums[0] + nums[1] + nums[2];
 
-        for (int start = 0; start < nums.length - 2; ++start) { // !!! < nums.length - 2
+        for (int left = 0; left < nums.length - 2; ++left) { // leave room for at least 1 left and 1 middle
 
-            // optimization
-            if (start > 0 && nums[start] == nums[start - 1]) {
-                continue;
-            }
+            // skip duplicates
+            if (left > 0 && nums[left] == nums[left - 1]) continue;
 
-            for (int middle = start + 1, end = nums.length - 1; middle < end; ) {
-                int sum = nums[start] + nums[middle] + nums[end];
+            for (int middle = left + 1, right = nums.length - 1; middle < right; ) {
+                int sum = nums[left] + nums[middle] + nums[right];
 
                 if (sum == target) {
                     return sum;
@@ -48,11 +46,10 @@ public class M_TwoPointer_Array_16 {
                 closestSum = Math.abs(sum - target) < Math.abs(closestSum - target) ? sum : closestSum;
 
                 if (sum > target) {
-                    end--;
+                    right--;
                 } else {
                     middle++;
                 }
-
             }
         }
 

@@ -17,6 +17,15 @@ Given a sorted linked list, delete all duplicates such that each element appear 
 
 
 public class E_LinkedList_83 {
+
+    public static void printList(ListNode node1) {
+        ListNode node = node1;
+        while (node != null) {
+            System.out.println(node.val);
+            node = node.next;
+        }
+    }
+
     public static void main(String[] args) {
         ListNode node1 = new ListNode(1);
         ListNode node2 = new ListNode(2);
@@ -28,12 +37,10 @@ public class E_LinkedList_83 {
         node3.next = node4;
 
         deleteDuplicates0(node1);
-        ListNode node = node1;
-        while (node != null) {
-            System.out.println(node.val);
-            node = node.next;
-        }
+
+        printList(node1);
     }
+
 
     public static class ListNode {
         int val;
