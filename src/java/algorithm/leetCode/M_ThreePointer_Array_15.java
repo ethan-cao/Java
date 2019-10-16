@@ -22,67 +22,62 @@ public class M_ThreePointer_Array_15 {
     public static void main(String... args) {
         int[] nums = {-1, 0, 1, 2, -1, -4};
         List<List<Integer>> solutions = threeSum(nums);
-//        solutions.forEach(System.out::println); //  [[-1, 0, 1] [-1, -1, 2]]
-//        System.out.println();
-
-        Arrays.sort(nums);
-        solutions = K_Sum.kSum(nums, 0, 3, 0);
         solutions.forEach(System.out::println); //  [[-1, 0, 1] [-1, -1, 2]]
         System.out.println();
 
         int[] nums1 = {-2, 0, 0, 2, 2};
         List<List<Integer>> solutions1 = threeSum(nums1);
-//        solutions1.forEach(System.out::println); // [[-2,0,2]]
-//        System.out.println();
-
-        Arrays.sort(nums1);
-        solutions1 = K_Sum.kSum(nums1, 0, 3, 0);
         solutions1.forEach(System.out::println); // [[-2,0,2]]
         System.out.println();
 
+
+//        Arrays.sort(nums);
+//        solutions = K_Sum.kSum(nums, 0, 3, 0);
+//        solutions.forEach(System.out::println); //  [[-1, 0, 1] [-1, -1, 2]]
+//        System.out.println();
+
+//        Arrays.sort(nums1);
+//        solutions1 = K_Sum.kSum(nums1, 0, 3, 0);
+//        solutions1.forEach(System.out::println); // [[-2,0,2]]
+//        System.out.println();
     }
 
     // Time: O(N^2)
+    // Three Pointer, initial position: left = 0, middle = 1, right = L -1
     public static List<List<Integer>> threeSum(int[] nums) {
-        int TARGET = 0;
+        List<List<Integer>> solutions = new ArrayList<>();
 
         Arrays.sort(nums); // important to make the inner lookup linear
 
-        List<List<Integer>> solutions = new ArrayList<>();
-
-        for (int i = 0; i < nums.length - 2; ++i) {
-
-            // skip duplicates
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
-
-            // if smallest possible sum is larger than target, not possible
-            if (nums[i] * 3 > TARGET) break;
-
-            // if largest possible sum is smaller than target
-            if (nums[i] + nums[nums.length - 1] * 2 < TARGET) continue;
-
-            // since nums is sorted, the lookup is O(n), not it is 2 sum problem
-            int required = TARGET - nums[i];
-            int left = i + 1;
+        for (int left = 0; left < nums.length - 2; ++left) {
+            int middle = left + 1;
             int right = nums.length - 1;
 
-            while (left < right) {
-                int sum = nums[left] + nums[right];
+            // skip duplicates
+            if (left > 0 && nums[left] == nums[left - 1]) continue;
 
-                if (sum == required) {
-                    solutions.add(Arrays.asList(nums[i], nums[left], nums[right]));  // list view on array, fixed size
+            // if smallest possible sum is larger than target, not possible
+            if (nums[left] + nums[middle] + nums[middle + 1] > 0) break;
+
+            while (middle < right) {
+                int sum = nums[left] + nums[middle] + nums[right];
+
+                if (0 == sum) {
+                    solutions.add(Arrays.asList(nums[left], nums[middle], nums[right]));  // list view on array, fixed size
 
                     // skip duplicates
-                    while (left < right && nums[left] == nums[left + 1]) left++;
-                    left++;
+                    while (middle < right && nums[middle] == nums[middle + 1]) middle++;
+                    middle++;
 
                     // skip duplicates
-                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    while (middle < right && nums[right] == nums[right - 1]) right--;
                     right--;
-                } else if (sum > required) {
+                } else if (sum > 0) {
+                    // if use skip duplicates here, it works, but slower
                     right--;
                 } else {
-                    left++;
+                    // if use skip duplicates here, it works, but slower
+                    middle++;
                 }
             }
         }

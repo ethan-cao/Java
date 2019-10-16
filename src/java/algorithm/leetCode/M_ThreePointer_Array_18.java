@@ -9,20 +9,18 @@ The solution set must not contain duplicate quadruplets.
 
 ### Example
 nums = [1, 0, -1, 0, -2, 2], and target = 0.
-
 A solution set is:
-[
-  [-1,  0, 0, 1],
-  [-2, -1, 1, 2],
-  [-2,  0, 0, 2]
-]
+[   [-1,  0, 0, 1],
+    [-2, -1, 1, 2],
+    [-2,  0, 0, 2]  ]
+
 */
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_TwoPointer_Array_18 {
+public class M_ThreePointer_Array_18 {
 
     public static void main(String... args) {
         List<List<Integer>> lists = fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0);
@@ -42,6 +40,7 @@ public class M_TwoPointer_Array_18 {
         System.out.println(System.lineSeparator());
     }
 
+    // Four Pointer, initial position: a = 0, b = 1, c = 2, d = L -1
     public static List<List<Integer>> fourSum(int[] nums, int target) {
         List<List<Integer>> quadruplets = new ArrayList<>();
 
@@ -51,9 +50,9 @@ public class M_TwoPointer_Array_18 {
 
         Arrays.sort(nums);
 
-        for (int a = 0; a < nums.length - 3; ++a) { // !!! nums.length - 3: leave room for another 3 nums
+        for (int a = 0; a < nums.length - 3; ++a) { // !!! nums.length - 3: leave room for another b, c, d
 
-            // skip same value number
+            // skip duplicates
             if (a > 0 && nums[a] == nums[a - 1]) continue;
 
             // if the smallest sum is larger than target, not possible
@@ -62,7 +61,7 @@ public class M_TwoPointer_Array_18 {
             // if the largest sum is smaller than target, try next one
             if (nums[a] + nums[nums.length - 1] * 3 < target) continue;
 
-            for (int b = a + 1; b < nums.length - 2; ++b) { //  !!! nums.length - 2 : leave room the 2 other nums
+            for (int b = a + 1; b < nums.length - 2; ++b) { //  !!! nums.length - 2 : leave room the c, d
 
                 if (b > a + 1 && nums[b] == nums[b - 1]) continue; // !!! b > a+ 1, do it at least when b is a + 1
 

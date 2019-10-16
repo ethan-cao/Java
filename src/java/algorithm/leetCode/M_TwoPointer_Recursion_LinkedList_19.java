@@ -51,6 +51,7 @@ public class M_TwoPointer_Recursion_LinkedList_19 {
     private static int idx = 0;
 
     // Time: , Space:
+    // Recursion
     public static ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode secondNode = head.next;
         int headVal = head.val;

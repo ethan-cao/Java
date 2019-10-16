@@ -23,6 +23,7 @@ public class M_ThreePointer_Array_16 {
         System.out.println(threeSumClosest(new int[]{1, 1, 1, 0}, 100));  // 3
     }
 
+    // Three Pointer, initial position: left = 0, middle = 1, right = L -1
     public static int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);
 
@@ -46,8 +47,10 @@ public class M_ThreePointer_Array_16 {
                 closestSum = Math.abs(sum - target) < Math.abs(closestSum - target) ? sum : closestSum;
 
                 if (sum > target) {
+                    // if use skip duplicates here, it works, but slower
                     right--;
                 } else {
+                    // if use skip duplicates here, it works, but slower
                     middle++;
                 }
             }
