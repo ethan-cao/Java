@@ -3,7 +3,7 @@ package designPattern;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitorTest1 {
+class VisitorTest1 {
     public static void main(String[] args) {
         List<License> list = new ArrayList<>();
         list.add(new DownloadingLicense());

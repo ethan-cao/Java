@@ -1,6 +1,6 @@
 package designPattern;
 
-public class VistorTest{
+class VistorTest{
     public static void main(String[] args) {
 
     	Tobacoo t1 = new Tobacoo(100);

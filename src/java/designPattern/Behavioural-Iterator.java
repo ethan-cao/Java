@@ -3,7 +3,7 @@ package designPattern;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class IteratorTest {
+class IteratorTest {
     public static void main(String[] args) {
         SongList songlist1 = new SongList();
         SongInfo song;
