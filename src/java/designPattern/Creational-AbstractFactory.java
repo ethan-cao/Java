@@ -8,6 +8,17 @@ package designPattern;
  */
 
 abstract class Computer {
+    public void turnOn() {
+        System.out.println("Turning on ...");
+    }
+
+    public void runVirusScan() {
+        System.out.println("Running virus scan ...");
+    }
+
+    public void turnOff() {
+        System.out.println("Turning off ...");
+    }
 }
 
 class Mac extends Computer {
@@ -15,7 +26,6 @@ class Mac extends Computer {
 
 class ChromeBook extends Computer {
 }
-
 
 
 interface AbstractFactory {

@@ -3,7 +3,8 @@ package designPattern;
 /**
  * Adapter Pattern
  *
- * It wraps an object as another type to make it compatible with another class, not always possible
+ * It wraps an object as another type to make it compatible with another type,
+ * possible if the type has similar functional role
  *
  * It takes an instance of different abstract/interface type
  * and returns an implementation of own/another abstract/interface type,
@@ -13,7 +14,6 @@ package designPattern;
  */
 
 class AdapterPattern {
-
     public static void main(String... args) {
         ChinesePlug chinesePlug = new ChinesePlug();
 
@@ -22,7 +22,6 @@ class AdapterPattern {
 
         chinesePlug.connect(chineseSocket);
     }
-
 }
 
 abstract class ChineseSocket {

@@ -15,7 +15,6 @@ public class A_FrequentUse {
 
             boolean b = (i & 1) == 0; // check if i is even
             b = (i & 1) == 1;  // check if i is odd
-
         }
 
         static int getAverage(int a, int b) {
@@ -69,12 +68,11 @@ public class A_FrequentUse {
     static void string() {
         String a = "aaabbb";
 
-        // String -> char[]
-        a.toCharArray();
-
-        // iteration
+        // iteration, String -> char[]
         for (char c : a.toCharArray()) {
         }
+
+        System.out.printf("%s is Good", "format");
     }
 
     static void array() {

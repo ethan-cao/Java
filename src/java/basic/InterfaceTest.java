@@ -31,8 +31,7 @@ interface I4 extends I2, I3 {
     }
 
     // not allowed to have Object class default methods.
-//    default String toString(){
-//    }
+    // default String toString(){}
 
     // Java 8
     static void sayHelloToWorld() {

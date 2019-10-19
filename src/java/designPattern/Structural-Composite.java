@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Composite Pattern
  *
- * It composes objects in tree structure (recursive) to enable performing operation uniformly
+ * It composes objects in tree structure to enable performing operation uniformly
  *
  * Put all operations that you want to perform "uniformly" in base component,
  * so it can let clients treat individual objects and compositions uniformly.
