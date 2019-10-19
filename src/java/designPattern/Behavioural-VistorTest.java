@@ -1,79 +1,68 @@
 package designPattern;
 
-class VistorTest{
-    public static void main(String[] args) {
+/**
+ * Visitor Pattern
+ *
+ * It adds operation to object without modifying the object structure
+ * by separating the operation from the object structure on which it operates
+ *
+ * it follows  open/closed principle
+ */
 
-    	Tobacoo t1 = new Tobacoo(100);
-    	Liquor  l1 = new Liquor(100);
-    	
-    	TaxVisitor tv = new TaxVisitor();
-    	System.out.println("Tax for t1 is : " + tv.visit(t1) );
-    	System.out.println("Tax for l1 is : " + tv.visit(l1) );
+class VisitorPattern {
+    public static void main(String[] args) {
+        Home home = new Home();
+
+        Visitor friendVisitor = new FriendVisitor();
+        home.accept(friendVisitor);
+
+        Visitor familyVisitor = new FamilyVisitor();
+        home.accept(familyVisitor);
+
+        // when we wanna add new operation to home object,
+        // just set up a new Type PartnerVisitor to host new operation
+
+        Visitor partnerVisitor = new PartnerVisitor();
+        home.accept(partnerVisitor);
     }
 }
 
-/////////////////////////////////////////////
 
-//The visitor pattern is used when you have to perform
-//the same action on many objects of different types
+// Visitor host new operation
 interface Visitor {
-	public double visit(Tobacoo tobacooItem);
-	
-	public double visit(Liquor liquorItem);
+    void visit(Home home);
 }
 
-//Allows the Visitor to pass the object so the right operations occur on the right type of object.
-interface Visitable {
-	public double accept(Visitor visitor);
+class FriendVisitor implements Visitor {
+    @Override
+    public void visit(Home home) {
+        System.out.printf("Friend is visiting home\n");
+    }
 }
 
-/////////////////////////////////////////////
-
-class TaxVisitor implements Visitor{
-
-	// Implement the actual calculation for Tobacoo
-	@Override
-	public double visit(Tobacoo tobacooItem){
-		return tobacooItem.getPrice() * 0.2;
-	}
-	
-	// Implement the actual calculation for Liquor 
-	@Override
-	public double visit(Liquor liquorItem){
-		return liquorItem.getPrice() * 0.3;
-	}
+class FamilyVisitor implements Visitor {
+    @Override
+    public void visit(Home home) {
+        System.out.printf("Family is visiting home\n");
+    }
 }
 
-class Tobacoo implements Visitable{
-	private double price;
-	
-	Tobacoo(double price){
-		this.price = price;
-	}
-	
-	@Override
-	public double accept(Visitor visitor){
-		return visitor.visit(this);
-	}
-	
-	public double getPrice(){
-		return this.price;
-	}
+class PartnerVisitor implements Visitor {
+    @Override
+    public void visit(Home home) {
+        System.out.printf("Partner is visiting home\n");
+    }
 }
 
-class Liquor implements Visitable{
-	private double price;
-	
-	Liquor(double price){
-		this.price = price;
-	}
-	
-	@Override 
-	public double accept(Visitor visitor){
-		return visitor.visit(this);
-	}
-	
-	public double getPrice(){
-		return this.price;
-	}
+
+// Visitee remains the same
+interface Visitee {
+    void accept(Visitor visitor);
+}
+
+class Home implements Visitee {
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }
