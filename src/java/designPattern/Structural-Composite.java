@@ -33,7 +33,8 @@ class CompositePattern {
 
 // base component
 abstract class Employee {
-    String name;
+    public String name;
+    public int budget;
 
     abstract public void work();
 }

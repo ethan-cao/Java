@@ -104,7 +104,7 @@ public class A_FrequentUse {
         List<Integer> l2 = Arrays.asList(b);
         // Arrays.asList(T... t) returns a fix sized list view on array
         // Array.asList() wraps an array in the list interface. The list is still backed by the array.
-        // Arrays are a fixed size - they don't support adding or removing elements, so the wrapper can't either.
+        // the returned array can be changed by is fixed size
 
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
