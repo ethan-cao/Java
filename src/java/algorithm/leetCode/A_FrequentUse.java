@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        map();
+        queue();
     }
 
     static class number {
@@ -134,11 +134,53 @@ public class A_FrequentUse {
     }
 
     static void stack() {
+        Deque<Integer> stack = new ArrayDeque<>();  // backed by array
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
 
+        //   [4, 3, 2, 1]
+        //  first     last
+
+        // Stack specific method
+        stack.push(5);  // insert to first, [5, 4, 3, 2, 1]
+        stack.pop();       // remove the first, [4, 3, 2, 1]
+
+        // general method, just retrieve value, null if empty
+        Integer first = stack.peekFirst();  // 4
+        Integer last = stack.peekLast();    // 1
+
+        // general method, retrieve and remove, null if empty
+        first = stack.pollFirst();     // 4
+        last = stack.pollLast();       // 4
+
+        System.out.print(stack.size());
     }
 
     static void queue() {
+        Deque<Integer> queue = new ArrayDeque<>(); // backed by array
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+        queue.offer(4);
 
+        //   [1, 2, 3, 4]
+        //  first     last
+
+        // Queue specific method
+        queue.offer(5);  // insert to last,  [1, 2, 3, 4, 5]
+        queue.poll();       // remove the first [2, 3, 4, 5]
+
+        // general method, just retrieve value, null if empty
+        Integer first = queue.peekFirst();  // 2
+        Integer last = queue.peekLast();    // 5
+
+        // general method, retrieve and remove, null if empty
+        first = queue.pollFirst();     // 2
+        last = queue.pollLast();       // 5
+
+        System.out.print(queue.size());
     }
 
     static void set() {

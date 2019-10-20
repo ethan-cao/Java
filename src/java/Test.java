@@ -1,3 +1,5 @@
+import algorithm.leetCode.E_LinkedList_160;
+
 import java.util.*;
 
 public class Test {
@@ -12,6 +14,7 @@ public class Test {
         System.out.println(t2.hashCode());
 
         System.out.printf("%s is good", "J");
+
     }
 
 }

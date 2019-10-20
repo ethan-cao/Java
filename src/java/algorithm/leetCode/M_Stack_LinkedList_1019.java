@@ -22,7 +22,11 @@ The given list has length in the range [0, 10000].
 
 */
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
 public class M_Stack_LinkedList_1019 {
 
@@ -92,27 +96,29 @@ public class M_Stack_LinkedList_1019 {
         return solution;
 
         // even slower
-//        return answer.stream().mapToInt(Integer::intValue).toArray();
+        // return answer.stream().mapToInt(Integer::intValue).toArray();
     }
 
     // Stack
     // Time: O(N) Space: O(N)
     public static int[] nextLargerNodes1(ListNode head) {
-
-        // !!!  Transfrom LinkedList to ArrayList
+        // Store node.val to ArrayList
         List<Integer> nodes = new ArrayList<>();
         for (ListNode currentNode = head; currentNode != null; currentNode = currentNode.next) {
             nodes.add(currentNode.val);
         }
 
-        int[] solution = new int[nodes.size()];
+        int[] solution = new int[nodes.size()];  // default value is 0
+
+        // stack stores index that needs to find next larger node
         Deque<Integer> stack = new ArrayDeque<>();
 
         for (int i = 0; i < nodes.size(); ++i) {
 
-            while (!stack.isEmpty() && nodes.get(stack.peekFirst()) < nodes.get(i)) {
+            while (!stack.isEmpty() && nodes.get(i) > nodes.get(stack.peekFirst())) {
                 solution[stack.pop()] = nodes.get(i);
             }
+
             stack.push(i);
         }
 
@@ -121,7 +127,6 @@ public class M_Stack_LinkedList_1019 {
 
     // use array to mimic stack, fastest
     public static int[] nextLargerNodes2(ListNode head) {
-        // !!!  Transfrom LinkedList to ArrayList
         List<Integer> nodes = new ArrayList<>();
         for (ListNode currentNode = head; currentNode != null; currentNode = currentNode.next) {
             nodes.add(currentNode.val);
@@ -132,9 +137,11 @@ public class M_Stack_LinkedList_1019 {
         int top = -1;
 
         for (int i = 0; i < nodes.size(); ++i) {
-            while (top != -1 && nodes.get(stack[top]) < nodes.get(i)) {
+
+            while (top != -1 && nodes.get(i) > nodes.get(stack[top])) {
                 solution[stack[top--]] = nodes.get(i);
             }
+
             stack[++top] = i;
         }
 
