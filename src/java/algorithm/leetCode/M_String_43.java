@@ -40,13 +40,13 @@ public class M_String_43 {
                 int number2 = num2.charAt(j) - '0';
                 int product = number1 * number2;
 
-                int onesPlaceIdx = i + j;
-                int tensPlaceIdx = onesPlaceIdx + 1;
+                int onesPlaceIdx = i + j + 1;
+                int tensPlaceIdx = i + j;
 
-                int sum = product + digits[tensPlaceIdx];
+                int sum = product + digits[onesPlaceIdx];
 
-                digits[onesPlaceIdx] += sum / 10;
-                digits[tensPlaceIdx] = sum % 10;
+                digits[onesPlaceIdx] = sum % 10;
+                digits[tensPlaceIdx] += sum / 10;
             }
         }
 
