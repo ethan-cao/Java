@@ -17,7 +17,7 @@ Output: "56088"
 
 */
 
-public class M_String_43 {
+public class M_Stack_String_43 {
 
     public static void main(String... args) {
         System.out.println(multiply("2", "3"));      // 6
@@ -36,9 +36,9 @@ public class M_String_43 {
 
         for (int i = num1.length() - 1; i >= 0; --i) {
             for (int j = num2.length() - 1; j >= 0; --j) {
-                int number1 = num1.charAt(i) - '0';
-                int number2 = num2.charAt(j) - '0';
-                int product = number1 * number2;
+                int operand1 = num1.charAt(i) - '0';
+                int operand2 = num2.charAt(j) - '0';
+                int product = operand1 * operand2;
 
                 int onesPlaceIdx = i + j + 1;
                 int tensPlaceIdx = i + j;

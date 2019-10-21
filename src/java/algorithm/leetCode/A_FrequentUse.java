@@ -65,6 +65,11 @@ public class A_FrequentUse {
         }
     }
 
+    static void charTest() {
+        Character.isDigit('1'); // T
+        Character.isDigit('1'); // T
+    }
+
     static void string() {
         String a = "aaabbb";
 
