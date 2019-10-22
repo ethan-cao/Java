@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        queue();
+        charTest();
     }
 
     static class number {
@@ -66,8 +66,14 @@ public class A_FrequentUse {
     }
 
     static void charTest() {
-        Character.isDigit('1'); // T
-        Character.isDigit('1'); // T
+        boolean result = false;
+
+        result = Character.isDigit('1'); // T
+        result = Character.isDigit('a'); // F
+
+        result = Character.isLetter('a'); // T
+        result = Character.isUpperCase('a'); // F
+        result = Character.isLowerCase('a'); // T
     }
 
     static void string() {
@@ -140,13 +146,15 @@ public class A_FrequentUse {
 
     static void stack() {
         Deque<Integer> stack = new ArrayDeque<>();  // backed by array
+
+        // behind the scene, elements are added from the last position in array towards the first position
         stack.push(1);
         stack.push(2);
         stack.push(3);
         stack.push(4);
 
-        //   [4, 3, 2, 1]
-        //  first     last
+        //   [            4, 3, 2, 1]
+        //             first     last
 
         // Stack specific method
         stack.push(5);  // insert to first, [5, 4, 3, 2, 1]
@@ -165,12 +173,14 @@ public class A_FrequentUse {
 
     static void queue() {
         Deque<Integer> queue = new ArrayDeque<>(); // backed by array
+
+        // behind the scene, elements are added from the first position in array towards the last position
         queue.offer(1);
         queue.offer(2);
         queue.offer(3);
         queue.offer(4);
 
-        //   [1, 2, 3, 4]
+        //   [1, 2, 3, 4          ]
         //  first     last
 
         // Queue specific method

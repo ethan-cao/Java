@@ -17,7 +17,7 @@ Output: "56088"
 
 */
 
-public class M_Stack_String_43 {
+public class M_String_43 {
 
     public static void main(String... args) {
         System.out.println(multiply("2", "3"));      // 6
