@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        charTest();
+        list();
     }
 
     static class number {
@@ -125,23 +125,32 @@ public class A_FrequentUse {
     }
 
     static void list() {
-        List<Integer> l = new ArrayList<>(2);
-        System.out.println("size : " + l.size()); // 0
+        // ArrayList is single-linked list,  add operation time complexity is O(N)+  (amortised constant time)
+        // LinkedList is double-linked list, add operation time complexity is O(N)
 
-        l.addAll(Arrays.asList(1, 2, 3));
+        List<Integer> list = new ArrayList<>(2);
+        System.out.println("size : " + list.size()); // 0
+
+        list.addAll(Arrays.asList(1, 2, 3));
+
+        list.add(4); // add to the end
+        list.add(0, 0); // add to specified position
+
+        list.remove(0); // remove the one on specified position
+        list.remove(new Integer(1)); // removes the first occurrence of the specified element
 
         // print
-        System.out.println(Arrays.toString(l.toArray()));
-        l.forEach(System.out::println);
+        System.out.println(Arrays.toString(list.toArray())); // [1, 2, 3]
+        list.forEach(System.out::println);
 
         // sum
-        int sum = l.stream().mapToInt(Integer::intValue).sum();
+        int sum = list.stream().mapToInt(Integer::intValue).sum();
 
         // List<Integer> -> int[]
-        int[] array = l.stream().mapToInt(Integer::intValue).toArray();
+        int[] array = list.stream().mapToInt(Integer::intValue).toArray();
 
-        // Slice list
-        l.subList(0, 2);
+        // slice list
+        list.subList(0, 2);
     }
 
     static void stack() {
