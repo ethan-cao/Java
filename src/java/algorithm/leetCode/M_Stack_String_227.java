@@ -152,7 +152,7 @@ public class M_Stack_String_227 {
     }
 
     // Stack
-    // Time: O(), Space: O()
+    // Time: O(N), Space: O(N)
     static int calculate2(String s) {
         int operand1 = 0;
         char operator = '+';
