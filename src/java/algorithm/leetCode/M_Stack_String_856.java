@@ -69,6 +69,8 @@ public class M_Stack_String_856 {
                 level--;
             }
 
+            // update score when () appears
+            // 1 << level is score of the just appeared ()
             if (c == ')' && s.charAt(i - 1) == '(') {
                 score += 1 << level;
             }
