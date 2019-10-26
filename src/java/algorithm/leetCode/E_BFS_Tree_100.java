@@ -20,7 +20,6 @@ Input:     1         1
          2             2
 
         [1,2],     [1,null,2]
-
 Output: true
 
 
@@ -29,18 +28,11 @@ Input:     1         1
          2   1     1   2
 
         [1,2,1],   [1,1,2]
-
 Output: false
 
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
-public class E_Recursion_Tree_100 {
+public class E_BFS_Tree_100 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
@@ -51,6 +43,7 @@ public class E_Recursion_Tree_100 {
         n1.right = n3;
     }
 
+    // BFS
     public static boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null || q == null) {
             return p == q;
