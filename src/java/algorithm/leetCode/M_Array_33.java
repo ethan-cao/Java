@@ -41,8 +41,6 @@ public class M_Array_33 {
         int right = nums.length - 1;
 
         // cannot use <=, we are looking for when left== right
-        // use while (start < end) if need to exit loop first, and then use start or end to return the match
-        // use while (start <= end) if you are returning the match from inside the loop
         while (left < right) {
             int middle = left + (right - left) / 2;
 

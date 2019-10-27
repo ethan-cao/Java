@@ -25,10 +25,72 @@ public class M_Stack_Array_503 {
 
     public static void main(String... args) {
         System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 1}))); // 2, -1, 2
+        System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 14, 2, 1, 0}))); // 2, 14, -1, 14, 2, 1
     }
 
     // Stack
+    // Time: O(N), Space: O(N)
     public static int[] nextGreaterElements(int[] nums) {
-        return null;
+        if (nums == null || nums.length == 0) {
+            return new int[]{};
+        }
+
+        // default value is 0, not good. use -1, assume no larger element by default
+        int[] nextGreaterElements = new int[nums.length];
+        Arrays.fill(nextGreaterElements, -1);
+
+        // store indexes of decreasing subsequence
+        Deque<Integer> decreasingElementIndices = new ArrayDeque<>();
+
+        // !!! extend the array to handle circular array
+        for (int i = 0; i < nums.length * 2; ++i) {
+            int num = nums[i % nums.length];
+
+            while (!decreasingElementIndices.isEmpty() && nums[decreasingElementIndices.peekFirst()] < num) {
+                nextGreaterElements[decreasingElementIndices.pop()] = num;
+            }
+
+            // store index only once
+            if (i < nums.length) {
+                decreasingElementIndices.push(i);
+            }
+        }
+
+        return nextGreaterElements;
+    }
+
+    // Stack
+    // Time: O(N), Space: O(N)
+    public static int[] nextGreaterElements1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[]{};
+        }
+
+        // default value is 0, not good. use -1, assume no larger element by default
+        int[] nextGreaterElements = new int[nums.length];
+        Arrays.fill(nextGreaterElements, -1);
+
+        // store element from right to left
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = nums.length - 1; i >= 0; --i) {
+            stack.push(nums[i]);
+        }
+
+        for (int i = nums.length - 1; i >= 0; --i) {
+
+            // look from left to right, find the next greater element for nums[i]
+            while (!stack.isEmpty() && stack.peekFirst() <= nums[i]) {
+                stack.pop();
+            }
+
+            if (!stack.isEmpty()) {
+                nextGreaterElements[i] = stack.peekFirst();
+            }
+
+            // put the processed element to stack top, since it is circular array
+            stack.push(nums[i]);
+        }
+
+        return nextGreaterElements;
     }
 }

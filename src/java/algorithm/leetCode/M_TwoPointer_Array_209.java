@@ -80,7 +80,7 @@ public class M_TwoPointer_Array_209 {
         // given a left for sums[], right can be searched using binary search
         for (int left = 0; left < sums.length; ++left) {
             // if there is an index right exists between [left+1, sums.length-1]
-            // and the corresponding value is sums[left] + s, then sum between [left+1, right] is s
+            // and the corresponding value is larger or equal to sums[left] + s, then sum between [left+1, right] is s
             int right = search(sums, left + 1, sums.length - 1, sums[left] + s);
 
             if (right != sums.length) {
@@ -94,11 +94,15 @@ public class M_TwoPointer_Array_209 {
 
     // Binary search
     private static int search(int[] nums, int left, int right, int target) {
-        // narrow the window to length 1
+        // narrow the window [left, right]
+        // make sure in the end, nums[left] >= target
+        // if no one is >= target, left is moved to nums.length
+
+        // !!! loop until left = right + 1
         while (left <= right) {
             int middle = left + (right - left) / 2;
 
-            if (nums[middle] >= target) {
+            if (target <= nums[middle]) {
                 right = middle - 1;
             } else {
                 left = middle + 1;
