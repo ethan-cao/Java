@@ -88,9 +88,6 @@ public class M_Array_31 {
         nums[idx2] = temp;
     }
 
-    /**
-     * Swap value at idx1 and idx2 in nums[]
-     */
     private static void reverse(int[] nums, int idx1, int idx2) {
         while (idx1 < idx2) {
             swap(nums, idx1, idx2);
@@ -111,4 +108,5 @@ class PreviousPermutation {
     private static void previousPermutation(int[] nums) {
 
     }
+
 }

@@ -28,6 +28,30 @@ public class M_Stack_Array_503 {
         System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 14, 2, 1, 0}))); // 2, 14, -1, 14, 2, 1
     }
 
+    // Time: O(N^2), Space: O(N)
+    public static int[] nextGreaterElements0(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[]{};
+        }
+
+        int[] nextGreaterElements = new int[nums.length];
+        Arrays.fill(nextGreaterElements, -1);
+
+        for (int i = 0; i < nums.length; ++i) {
+            for (int j = i + 1; j < i + nums.length; ++j) {
+                int currentElement = nums[i];
+                int nextElement = nums[j % nums.length];
+
+                if (nextElement > currentElement) {
+                    nextGreaterElements[i] = nextElement;
+                    break;
+                }
+            }
+        }
+
+        return nextGreaterElements;
+    }
+
     // Stack
     // Time: O(N), Space: O(N)
     public static int[] nextGreaterElements(int[] nums) {
@@ -42,7 +66,7 @@ public class M_Stack_Array_503 {
         // store indexes of decreasing subsequence
         Deque<Integer> decreasingElementIndices = new ArrayDeque<>();
 
-        // !!! extend the array to handle circular array
+        // !!! extend the array to handle circular array, typically solution
         for (int i = 0; i < nums.length * 2; ++i) {
             int num = nums[i % nums.length];
 
