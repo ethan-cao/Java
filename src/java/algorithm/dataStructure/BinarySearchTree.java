@@ -3,7 +3,9 @@ package algorithm.dataStructure;
 import algorithm.sorting.SelectionSort;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 /**
  * Binary search tree implementation for symbol table (Map)
@@ -24,7 +26,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         bst.put(4, "B");
 
         // in-order visit : 1,2,3,4
-        for (Integer i : bst.keys()){
+        for (Integer i : bst.keys()) {
             System.out.println(i);
         }
     }
@@ -227,13 +229,13 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     /**
      * Tree traversal algorithms
-     *   DFS : pre-order, in-order, post-order
-     *   BFS
+     * DFS : pre-order, in-order, post-order
+     * BFS
      *
      * All four traversals require O(n) time as they visit every node exactly once.
      */
 
-     // traversal result is in queue FIFO
+    // traversal result is in queue FIFO
     private void inOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;
@@ -242,6 +244,25 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         this.inOrder(node.left, queue);
         queue.offer(node.key);
         this.inOrder(node.right, queue);
+    }
+
+    // Iterative, Stack, reuse call stack
+    // Time O(n), Space: O(n)
+    public void inOrder1(Node root, Deque<Key> queue) {
+        Deque<Node> stack = new ArrayDeque<>();
+
+        Node currentNode = root;
+
+        while (currentNode != null || !stack.isEmpty()) {
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            currentNode = stack.pop();
+            queue.offer(currentNode.key);
+            currentNode = currentNode.right;
+        }
     }
 
     private void preOrder(Node node, Deque<Key> queue) {
@@ -287,4 +308,5 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
 
     }
+
 }

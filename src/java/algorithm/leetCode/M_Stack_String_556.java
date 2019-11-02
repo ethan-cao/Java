@@ -36,9 +36,8 @@ public class M_Stack_String_556 {
         // look for a digit larger than  digits[i], on the right most position
         for (int i = digits.length - 1; i >= 0; --i) {
 
-            while (!idxStack.isEmpty() && digits[idxStack.peekFirst()] > digits[i]) {
-                rightMostLargerDigitIdx = idxStack.peekFirst();
-                idxStack.pop();
+            while (!idxStack.isEmpty() && digits[i] < digits[idxStack.peekFirst()]) {
+                rightMostLargerDigitIdx = idxStack.pop();
             }
 
             if (rightMostLargerDigitIdx != -1) {
