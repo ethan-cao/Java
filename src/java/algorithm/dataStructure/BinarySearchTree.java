@@ -13,6 +13,10 @@ import java.util.List;
  * binary tree, each node has a key and
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
+ *
+ * @author Guangxue Cao
+ * @version 1.0
+ * @since 1.0
  */
 
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
@@ -149,6 +153,10 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     /**
      * Removes the smallest Node from the subtree
+     * @param node root of the subtree
+     * @return the removed node
+     * @throws NullPointerException if the subtree root is empty
+     * @since 1.0
      */
     private Node deleteMinNode(Node node) {
         if (node.left == null) {
@@ -308,5 +316,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
 
     }
+
+    // verify BST: algorithm.leetCode.M_Stack_Tree_98.isValidBST
 
 }

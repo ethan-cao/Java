@@ -249,4 +249,5 @@ public class A_FrequentUse {
         newValue3 = map.compute("test3", (k, v) -> v + 1); // if newValue is null, remove the entry if it exists
     }
 
+    // Javadoc example: algorithm.dataStructure.BinarySearchTree
 }

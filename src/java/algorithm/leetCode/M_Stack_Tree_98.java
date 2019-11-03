@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class M_Tree_98 {
+public class M_Stack_Tree_98 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
@@ -52,8 +52,24 @@ public class M_Tree_98 {
         }
     }
 
-    // Time O(), Space: O()
+    // Time O(logN), Space: O()
     public static boolean isValidBST(TreeNode root) {
-        return false;
+        return verifyBST(root, null, null);
+    }
+
+    private static boolean verifyBST(TreeNode node, Integer min, Integer max) {
+        if (node == null) {
+            return true;
+        }
+
+        if (min != null && node.val <= min) {
+            return false;
+        }
+
+        if (max != null && node.val >= max) {
+            return false;
+        }
+
+        return verifyBST(node.left, min, node.val) && verifyBST(node.right, node.val, max);
     }
 }
