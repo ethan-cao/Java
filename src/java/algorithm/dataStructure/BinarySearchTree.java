@@ -240,10 +240,11 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
      * DFS : pre-order, in-order, post-order
      * BFS
      *
-     * All four traversals require O(n) time as they visit every node exactly once.
+     * All four traversals require O(n) time as each node is visited exactly once.
      */
 
     // traversal result is in queue FIFO
+    // BST inorder traversal should iterate value in ascending order
     private void inOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;

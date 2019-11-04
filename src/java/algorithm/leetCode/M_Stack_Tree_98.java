@@ -24,22 +24,19 @@ Both the left and right subtrees must also be binary search trees.
 The root node's value is 5 but its right child's value is 4.
 */
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class M_Stack_Tree_98 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
+        TreeNode n11 = new TreeNode(1);
         TreeNode n2 = new TreeNode(2);
         TreeNode n3 = new TreeNode(3);
 
-        n2.left = n1;
-        n2.right = n3;
+        n1.left = n11;
 
-        System.out.println(isValidBST(n1));
+        System.out.println(isValidBST2(n1));
     }
 
     static class TreeNode {
@@ -52,7 +49,7 @@ public class M_Stack_Tree_98 {
         }
     }
 
-    // Time O(logN), Space: O()
+    // Time O(logN), Space: O(). fastest
     public static boolean isValidBST(TreeNode root) {
         return verifyBST(root, null, null);
     }
@@ -72,4 +69,74 @@ public class M_Stack_Tree_98 {
 
         return verifyBST(node.left, min, node.val) && verifyBST(node.right, node.val, max);
     }
+
+    // inorder traversal, iterative
+    public static boolean isValidBST1(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode currentNode = root;
+        TreeNode previousNode = null;
+
+        while (currentNode != null || !stack.isEmpty()) {
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            currentNode = stack.pop();
+
+            // !!! BST inorder traversal should iterate value in ascending order
+            if (previousNode != null && currentNode.val <= previousNode.val) {
+                return false;
+            }
+            previousNode = currentNode;
+            currentNode = currentNode.right;
+        }
+
+        return true;
+    }
+
+    // inorder traversal, recursive
+    private static TreeNode previousNode = null;
+
+    public static boolean isValidBST2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        boolean isValidLeftBST = isValidBST2(root.left);
+        boolean isValidNode = (previousNode != null && root.val <= previousNode.val) ? false : true;
+        previousNode = root;
+        boolean isValidRightBST = isValidBST2(root.right);
+
+        return isValidLeftBST && isValidNode && isValidRightBST;
+    }
+
+    // an iterative version that works for BST with duplicate values.
+    // (Below, duplicate values must be on the left side of a node.
+    // If it needs to be on right side, then just switch the > and >= signs.)
+    public boolean isValidBST3(TreeNode root) {
+        if (root == null) return true;
+        Deque<TreeNode> stack = new LinkedList<>();
+        TreeNode prev = null;
+        boolean onRightSideOfPrev = false;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (prev != null && ((!onRightSideOfPrev && prev.val > root.val) || (onRightSideOfPrev && prev.val >= root.val))) {
+                return false;
+            }
+            prev = root;
+            root = root.right;
+            onRightSideOfPrev = root == null ? false : true;
+        }
+        return true;
+    }
+
 }
