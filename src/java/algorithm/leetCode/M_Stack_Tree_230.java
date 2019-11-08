@@ -2,8 +2,8 @@ package algorithm.leetCode;
 
 /*
 Given a binary search tree, write a function kthSmallest to find the kth smallest element in it.
-
 You may assume k is always valid, 1 ≤ k ≤ BST's total elements.
+
 What if the BST is modified (insert/delete operations) often
 and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
 
@@ -27,12 +27,16 @@ Input: root = [5,3,6,2,4,null,null,1], k = 3
 Output: 3
 */
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class M_Stack_Tree_230 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
         TreeNode n2 = new TreeNode(2);
         TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
     }
 
     static class TreeNode {
@@ -45,8 +49,83 @@ public class M_Stack_Tree_230 {
         }
     }
 
-    // Time O(logN), Space: O()
+    // inorder, iterative
+    // Time O(n), Space: O(n)
     public static int kthSmallest(TreeNode root, int k) {
-        return 1;
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        int count = 0;
+
+        TreeNode currentNode = root;
+
+        while (currentNode != null || !stack.isEmpty()) {
+
+            while (currentNode != null) {
+                stack.push(currentNode);
+                currentNode = currentNode.left;
+            }
+
+            currentNode = stack.pop();
+
+            count++;
+            if (count == k) {
+                return currentNode.val;
+            }
+
+            currentNode = currentNode.right;
+        }
+
+        return -1;
+    }
+
+    // inorder, recursive
+    // Time O(n), Space: O(n)
+    private static int count = 0;
+    private static int kthSmallest = -1;
+
+    public static int kthSmallest1(TreeNode root, int k) {
+        inorderVisit(root, k);
+        return kthSmallest;
+    }
+
+    private static void inorderVisit(TreeNode node, int k) {
+        if (node == null) {
+            return;
+        }
+
+        inorderVisit(node.left, k);
+
+        count++;
+        if (count == k) {
+            kthSmallest = node.val;
+        }
+
+        // optimization
+        if (count > k) {
+            return;
+        }
+
+        inorderVisit(node.right, k);
+    }
+
+    // Binary search
+    public static int kthSmallest2(TreeNode root, int k) {
+        int count = countNodes(root.left);
+
+        if (count >= k) {
+            return kthSmallest2(root.left, k);
+        } else if (count + 1 < k)  {
+            return kthSmallest2(root.right, k - 1 - count); // 1 is counted as current node
+        }
+
+        return root.val;
+    }
+
+    // count number of nodes in this subtree rooted at node
+    private static int countNodes(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+
+        return countNodes(node.left) + 1 + countNodes(node.right);
     }
 }

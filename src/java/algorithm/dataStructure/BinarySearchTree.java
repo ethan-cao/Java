@@ -54,6 +54,15 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return this.size(this.root);
     }
 
+    // if size is not know
+    public int count(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        return count(node.left) + 1 + count(node.right);
+    }
+
     private int size(Node node) {
         return node == null ? 0 : node.size;
     }
@@ -153,6 +162,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     /**
      * Removes the smallest Node from the subtree
+     *
      * @param node root of the subtree
      * @return the removed node
      * @throws NullPointerException if the subtree root is empty
@@ -237,7 +247,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     /**
      * Tree traversal algorithms
-     * DFS : pre-order, in-order, post-order
+     * DFS: pre-order, in-order, post-order
      * BFS
      *
      * All four traversals require O(n) time as each node is visited exactly once.
@@ -251,7 +261,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
 
         this.inOrder(node.left, queue);
-        queue.offer(node.key);
+        queue.offer(node.key);  // this is the actual visiting part
         this.inOrder(node.right, queue);
     }
 
