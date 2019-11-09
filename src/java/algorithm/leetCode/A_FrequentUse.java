@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        list();
+        stack();
     }
 
     static class number {
@@ -161,6 +161,7 @@ public class A_FrequentUse {
         stack.push(2);
         stack.push(3);
         stack.push(4);
+//        stack.push(null);  // NullPointerException
 
         //   [            4, 3, 2, 1]
         //             first     last
@@ -188,6 +189,7 @@ public class A_FrequentUse {
         queue.offer(2);
         queue.offer(3);
         queue.offer(4);
+//        queue.offer(null); // NullPointerException
 
         //   [1, 2, 3, 4          ]
         //  first     last

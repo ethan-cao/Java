@@ -325,9 +325,29 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
                 visited.offer(node.right);
             }
         }
+    }
+
+    // DFS, using DFS preorder to implement BFS, leetcode102
+    public List<List<Node>> BFS1(Node root) {
+        List<List<Node>> traversal = new ArrayList<>();
+        preorderVisit(root, 0, traversal);
+        return traversal;
+    }
+
+    private void preorderVisit(Node node, int depth, List<List<Node>> traversal) {
+        if (node == null) {
+            return;
+        }
+
+        if (depth >= traversal.size()) {
+            traversal.add(new ArrayList<>());
+        }
+
+        traversal.get(depth).add(node);
+        preorderVisit(node.left, depth + 1, traversal);
+        preorderVisit(node.right, depth + 1, traversal);
 
     }
 
     // verify BST: algorithm.leetCode.M_Stack_Tree_98.isValidBST
-
 }

@@ -32,7 +32,7 @@ Output: false
 
 
 */
-public class E_BFS_Tree_100 {
+public class E_Tree_100 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
