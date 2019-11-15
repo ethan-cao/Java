@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        stack();
+        Number.bit();
     }
 
-    static class number {
+    static class Number {
         static void test() {
             int i = 2;
 

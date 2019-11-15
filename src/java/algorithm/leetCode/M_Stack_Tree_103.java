@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class M_Tree_103 {
+public class M_Stack_Tree_103 {
 
     public static void main(String... args) {
     }
@@ -94,35 +94,33 @@ public class M_Tree_103 {
             return traversal;
         }
 
-        Deque<TreeNode> stack1 = new ArrayDeque<>();
-        Deque<TreeNode> stack2 = new ArrayDeque<>();
-        stack1.push(root);
+        Deque<TreeNode> currentLevelStack = new ArrayDeque<>();
+        Deque<TreeNode> nextLevelStack = new ArrayDeque<>();
 
-        TreeNode currentNode = null;
+        currentLevelStack.push(root);
 
-        while (!stack1.isEmpty() || !stack2.isEmpty()) {
-            List<Integer> levelTraversal = new ArrayList<Integer>();
+        // process 2 levels at a time
+        while (!currentLevelStack.isEmpty()) {
 
-            while (!stack1.isEmpty()) {
-                currentNode = stack1.pop();
+            List<Integer> levelTraversal = new ArrayList<>();
+            while (!currentLevelStack.isEmpty()) {
+                TreeNode currentNode = currentLevelStack.pop();
                 levelTraversal.add(currentNode.val);
 
-                if (currentNode.left != null) stack2.push(currentNode.left);
-                if (currentNode.right != null) stack2.push(currentNode.right);
+                if (currentNode.left != null) nextLevelStack.push(currentNode.left);
+                if (currentNode.right != null) nextLevelStack.push(currentNode.right);
             }
-
+            // it is certain that levelTraversal is not empty
             traversal.add(levelTraversal);
 
-            levelTraversal = new ArrayList<Integer>();
-
-            while (!stack2.isEmpty()) {
-                currentNode = stack2.pop();
+            levelTraversal = new ArrayList<>();
+            while (!nextLevelStack.isEmpty()) {
+                TreeNode currentNode = nextLevelStack.pop();
                 levelTraversal.add(currentNode.val);
 
-                if (currentNode.right != null) stack1.push(currentNode.right);
-                if (currentNode.left != null) stack1.push(currentNode.left);
+                if (currentNode.right != null) currentLevelStack.push(currentNode.right);
+                if (currentNode.left != null) currentLevelStack.push(currentNode.left);
             }
-
             if (!levelTraversal.isEmpty()) {
                 traversal.add(levelTraversal);
             }
@@ -130,8 +128,5 @@ public class M_Tree_103 {
 
         return traversal;
     }
+
 }
-
-
-
-
