@@ -19,7 +19,7 @@ There is no cycle in the linked list (-1)
 
 */
 
-public class E_TwoPointer_LinkedList_141 {
+public class E_2Pointer_LinkedList_141 {
 
     public static void main(String... args) {
         ListNode node1 = new ListNode(3);

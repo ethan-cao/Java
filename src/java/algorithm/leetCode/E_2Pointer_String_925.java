@@ -30,7 +30,7 @@ Explanation: It's not necessary to long press any character.
 
 */
 
-public class E_TwoPointer_String_925 {
+public class E_2Pointer_String_925 {
     public static void main(String... args) {
         String name = "alex";
         String typed = "aaleex";  // true

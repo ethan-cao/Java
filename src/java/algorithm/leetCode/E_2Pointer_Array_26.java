@@ -19,7 +19,7 @@ with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respect
 
  */
 
-public class E_TwoPointer_Array_26 {
+public class E_2Pointer_Array_26 {
 
     public static void main(String[] args) {
         int[] nums = {1, 1, 2};

@@ -34,7 +34,7 @@ Could you do it in-place with O(1) extra space?
 ### Corner case
 
 */
-public class E_TwoPointer_Array_189 {
+public class E_2Pointer_Array_189 {
 
     public static void main(String... args) {
 //        int[] input = {1, 2, 3, 4, 5, 6, 7};

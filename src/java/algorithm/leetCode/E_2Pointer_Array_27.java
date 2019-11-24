@@ -20,7 +20,7 @@ Note that the order of those five elements can be arbitrary.
 // R : 1
 
  */
-public class E_TwoPointer_Array_27 {
+public class E_2Pointer_Array_27 {
 
     // Similar to Q26
 

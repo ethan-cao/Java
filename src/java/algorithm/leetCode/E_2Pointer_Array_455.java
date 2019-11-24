@@ -32,7 +32,7 @@ You need to output 2
 ### Corner case
 
 */
-public class E_TwoPointer_Array_455 {
+public class E_2Pointer_Array_455 {
 
     public static void main(String[] args) {
         int[] g1 = {1, 2, 3};

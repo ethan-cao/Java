@@ -2,7 +2,7 @@ package algorithm.leetCode;
 
 import java.util.Arrays;
 
-public class E_TwoPointer_Array_88 {
+public class E_2Pointer_Array_88 {
 
     public static void main(String[] args) {
         int[] nums1 = {1, 2, 3, 0, 0, 0};
