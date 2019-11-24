@@ -15,7 +15,7 @@ The first node is considered odd, the second node even and so on
 
 */
 
-public class M_TwoPointer_Recursion_LinkedList_328 {
+public class M_2Pointer_Recursion_LinkedList_328 {
 
     public static void main(String... args) {
         ListNode node1 = new ListNode(1);

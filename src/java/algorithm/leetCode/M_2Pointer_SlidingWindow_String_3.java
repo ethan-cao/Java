@@ -25,7 +25,7 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 */
 
 
-public class M_TwoPointer_SlidingWindow_String_3 {
+public class M_2Pointer_SlidingWindow_String_3 {
 
     public static void main(String... args) {
         System.out.println(lengthOfLongestSubstring2(" ")); // 1

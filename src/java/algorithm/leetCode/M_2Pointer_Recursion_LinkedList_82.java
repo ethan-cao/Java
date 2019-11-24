@@ -10,7 +10,7 @@ leaving only distinct numbers from the original list.
 
 */
 
-public class M_TwoPointer_Recursion_LinkedList_82 {
+public class M_2Pointer_Recursion_LinkedList_82 {
 
     public static void main(String... args) {
         ListNode n1 = new ListNode(1);

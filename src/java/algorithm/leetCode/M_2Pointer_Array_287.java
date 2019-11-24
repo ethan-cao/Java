@@ -18,7 +18,7 @@ find the duplicate one without modifying the array
 import java.util.HashMap;
 import java.util.Map;
 
-public class M_TwoPointer_Array_287 {
+public class M_2Pointer_Array_287 {
 
     public static void main(String... args) {
         System.out.println(findDuplicate2(new int[]{2, 2, 2, 2, 2})); // 2

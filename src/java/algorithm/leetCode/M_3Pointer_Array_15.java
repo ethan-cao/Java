@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_ThreePointer_Array_15 {
+public class M_3Pointer_Array_15 {
 
     public static void main(String... args) {
         int[] nums = {-1, 0, 1, 2, -1, -4};

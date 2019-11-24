@@ -9,7 +9,7 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 
 */
 
-public class M_TwoPointer_Recursion_LinkedList_24 {
+public class M_2Pointer_Recursion_LinkedList_24 {
 
     public static void main(String... args) {
         ListNode n1 = new ListNode(1);

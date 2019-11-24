@@ -85,6 +85,7 @@ public class M_Greedy_Array_134 {
         int startStation = 0;
         int remainingGas = 0;
 
+        // since the question guarantees 1 solution, station leads to non-empty gas is the solution
         for (int station = 0; station < N; ++station) {
             remainingGas += gas[station] - cost[station];
 
@@ -95,7 +96,6 @@ public class M_Greedy_Array_134 {
             }
         }
 
-        // since the question guarantees 1 solution, startStation is the answer
         return startStation;
     }
 

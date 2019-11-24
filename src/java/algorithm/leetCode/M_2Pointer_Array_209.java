@@ -12,7 +12,7 @@ Explanation: the subarray [4,3] has the minimal length under the problem constra
 
 */
 
-public class M_TwoPointer_Array_209 {
+public class M_2Pointer_Array_209 {
 
     public static void main(String... args) {
         System.out.println(minSubArrayLen1(7, new int[]{2, 3, 1, 2, 4, 3}));  // 2

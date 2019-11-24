@@ -21,7 +21,7 @@ Valid combinations are:
 
 import java.util.Arrays;
 
-public class M_ThreePointer_Array_611 {
+public class M_3Pointer_Array_611 {
 
     public static void main(String... args) {
         System.out.println(triangleNumber3(new int[]{3, 4, 5}));    // 1

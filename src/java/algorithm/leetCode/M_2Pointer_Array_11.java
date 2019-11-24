@@ -15,7 +15,7 @@ Note: You may not slant the container and n is at least 2.
 */
 
 
-public class M_TwoPointer_Array_11 {
+public class M_2Pointer_Array_11 {
 
     public static void main(String... args) {
         System.out.println(maxArea1(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7})); //49
