@@ -5,9 +5,9 @@ In a row of dominoes, A[i] and B[i] represent the top and bottom halves of the i
 (A domino is a tile with two numbers from 1 to 6 - one on each half of the tile.)
 We may rotate the i-th domino, so that A[i] and B[i] swap values.
 
-Return the minimum number of rotations
-so that all the values in A are the same, or all the values in B are the same.
+Return the minimum number of rotations, so all the values in A are the same, or all the values in B are the same
 If it cannot be done, return -1.
+
 1 <= A[i], B[i] <= 6
 2 <= A.length == B.length <= 20000
 
@@ -31,12 +31,12 @@ import java.util.*;
 public class M_Greedy_Array_1007 {
 
     public static void main(String... args) {
-        System.out.println(minDominoRotations0(new int[]{2}, new int[]{1})); // 0
-        System.out.println(minDominoRotations0(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));     // 2
-        System.out.println(minDominoRotations0(new int[]{3, 5, 1, 2, 3}, new int[]{3, 6, 3, 3, 4}));           // -1
-        System.out.println(minDominoRotations0(new int[]{1, 2, 3, 4, 6}, new int[]{6, 6, 6, 6, 5}));           // 1
-        System.out.println(minDominoRotations0(new int[]{3, 5, 1, 2, 3}, new int[]{3, 6, 3, 3, 4}));           // -1
-        System.out.println(minDominoRotations0(new int[]{2, 1, 1, 1, 2, 2, 2, 1, 1, 2}, new int[]{1, 1, 2, 1, 1, 1, 1, 2, 1, 1}));           // 2
+        System.out.println(minDominoRotations1(new int[]{2}, new int[]{1}));                                   // 0
+        System.out.println(minDominoRotations1(new int[]{2, 1, 2, 4, 2, 2}, new int[]{5, 2, 6, 2, 3, 2}));     // 2
+        System.out.println(minDominoRotations1(new int[]{3, 5, 1, 2, 3}, new int[]{3, 6, 3, 3, 4}));           // -1
+        System.out.println(minDominoRotations1(new int[]{1, 2, 3, 4, 6}, new int[]{6, 6, 6, 6, 5}));           // 1
+        System.out.println(minDominoRotations1(new int[]{3, 5, 1, 2, 3}, new int[]{3, 6, 3, 3, 4}));           // -1
+        System.out.println(minDominoRotations1(new int[]{2, 1, 1, 1, 2, 2, 2, 1, 1, 2}, new int[]{1, 1, 2, 1, 1, 1, 1, 2, 1, 1}));    // 2
     }
 
     // Time: O(N), Space: O(N)
@@ -97,15 +97,69 @@ public class M_Greedy_Array_1007 {
         b[i] = temp;
     }
 
+    // Time: O(N)
+    // 6ms
     public static int minDominoRotations(int[] A, int[] B) {
-        int minimumRotationCount = 0;
+        int N = A.length;
+        int SIZE = 6; //  value ∈ [1,6]
 
-        return minimumRotationCount;
+        // !!! since we need to count value ∈ [1,6], use array is better than Map
+        int[] counterA = new int[SIZE];
+        int[] counterB = new int[SIZE];
+        int[] counterCommon = new int[SIZE];
+
+        // count occurrence for each value
+        for (int i = 0; i < N; ++i) {
+            counterA[A[i] - 1]++;
+            counterB[B[i] - 1]++;
+
+            if (A[i] == B[i]) {
+                counterCommon[A[i] - 1]++;
+            }
+        }
+
+        // N - counterCommon[i] : number of slots that have different value (dismiss slots that have identical value)
+        // this is the minimal occurrence for a value to make either A or B have the same value
+        for (int i = 0; i < SIZE; ++i) {
+            if (counterA[i] + counterB[i] >= N - counterCommon[i]) {
+                // the more the value occurs, the less the rotation is required
+                return N - Math.max(counterA[i], counterB[i]);
+            }
+        }
+
+        return -1;
     }
 
+    // 4ms
     public static int minDominoRotations1(int[] A, int[] B) {
-        int minimumRotationCount = 0;
+        int minimumRotationCount = Integer.MAX_VALUE;
 
-        return minimumRotationCount;
+        // inspect each possible value
+        for (int target = 1; target <= 6; ++target) {
+            minimumRotationCount = Math.min(minimumRotationCount, getRotationCount(A, B, target));
+            minimumRotationCount = Math.min(minimumRotationCount, getRotationCount(B, A, target));
+        }
+
+        return minimumRotationCount == Integer.MAX_VALUE ? -1 : minimumRotationCount;
     }
+
+    // make all item in base identical
+    private static int getRotationCount(int[] base, int[] reference, int target) {
+        int count = 0;
+
+        for (int i = 0; i < base.length; ++i) {
+            // if both are different than target, not possible
+            if (base[i] != target && reference[i] != target) {
+                return Integer.MAX_VALUE;
+            }
+
+            // the base[i] is not target, but reference is target, swapping works
+            if (base[i] != target && reference[i] == target) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 }
