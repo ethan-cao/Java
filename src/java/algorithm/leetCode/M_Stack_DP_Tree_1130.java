@@ -2,7 +2,6 @@ package algorithm.leetCode;
 
 /*
 Given an array arr of positive integers, consider all binary trees such that:
-
 * Each node has either 0 or 2 children;  (full tree)
 * The values of arr correspond to the values of each leaf in an in-order traversal of the tree.
 * Value of each non-leaf node = the product of the largest leaf value in its left and right subtree respectively.
@@ -157,4 +156,5 @@ public class M_DP_Greedy_Stack_Tree_1130 {
 
         return smallestSum;
     }
+
 }
