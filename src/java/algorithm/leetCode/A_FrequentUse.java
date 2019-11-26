@@ -241,12 +241,19 @@ public class A_FrequentUse {
         System.out.println(map.containsValue(1)); // true
 
 
+        // access entry under condition
+        Integer defaultValue = map.getOrDefault("test", 0); //0
+
+        // update entry under condition
         Integer newValue1 = map.computeIfPresent("test1", (k, v) -> v + 1);  // 2, if key is present, replace old value with new value, and return new value
         Integer newValue3 = map.computeIfPresent("test3", (k, v) -> v + 1);  // null, if key is not present, return null
+        // putIfPresent(k, v) is similar, just the 2nd param is value
 
         Integer newValue2 = map.computeIfAbsent("test2", k -> k.length());  // 2 if key is present, return the value
         Integer newValue4 = map.computeIfAbsent("test4", k -> k.length());  // 5, if key is absent,  add entry key -> value, and return the value
+        // putIfAbsent(k, v) is similar, just the 2nd param is value
 
+        // shortcut
         newValue1 = map.compute("test1", (k, v) -> v + 1); // if newValue is not null, replace old value
         newValue3 = map.compute("test3", (k, v) -> v + 1); // if newValue is null, remove the entry if it exists
     }

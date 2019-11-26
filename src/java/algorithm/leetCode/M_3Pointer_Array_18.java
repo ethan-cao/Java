@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class M_ThreePointer_Array_18 {
+public class M_3Pointer_Array_18 {
 
     public static void main(String... args) {
         List<List<Integer>> lists = fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0);

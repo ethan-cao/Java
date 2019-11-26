@@ -52,6 +52,8 @@ public class M_Array_442 {
         // start re-distributing to make sure nums[i] = nums[nums[i] - 1]
         for (int i = 0; i < nums.length; ++i) {
             while (nums[i] != nums[nums[i] - 1]) {
+                // each swap either moves nums[i] to nums[i]-1 or i-1
+                // Therefore, at most loop 2n times in this while loop.
                 swap(nums, i, nums[i] - 1);
             }
         }
