@@ -25,7 +25,7 @@ Explanation: There are two possible trees. The 1st has non-leaf node sum 36, and
 
 import java.util.*;
 
-public class M_DP_Greedy_Stack_Tree_1130 {
+public class M_Stack_DP_Tree_1130 {
 
     public static void main(String... args) {
         System.out.println(mctFromLeafValues2(new int[]{6, 2, 4}));        // 32
@@ -88,12 +88,11 @@ public class M_DP_Greedy_Stack_Tree_1130 {
         return smallestSums[0][arr.length - 1];
     }
 
-    // Greedy
     // Time: O(N^2)
     public static int mctFromLeafValues1(int[] arr) {
         int smallestSum = 0;
 
-        // LinkedList is fast for remove elements
+        // LinkedList is faster to remove elements
         List<Integer> values = new LinkedList<>();
         for (int a : arr) values.add(a);
 
