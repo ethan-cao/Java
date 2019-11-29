@@ -84,6 +84,15 @@ public class A_FrequentUse {
         }
 
         System.out.printf("%s is Good", "format");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("1");
+        sb.append("2");
+        sb.append("3");
+
+        sb.reverse(); // sb is reversed
+
+        sb.deleteCharAt(0);
     }
 
     static void array() {
