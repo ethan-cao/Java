@@ -1,7 +1,7 @@
 package algorithm.leetCode;
 
 /*
-Write a program to solve a Sudoku puzzle by filling the empty cells.
+Write a program to solve a Sudoku(数独) puzzle by filling the empty cells.
 
 A sudoku solution must satisfy all of the following rules:
 
@@ -23,6 +23,7 @@ import java.util.*;
 
 public class H_Backtrack_HashTable_37 {
 
+    // Backtrack
     // Time: O(N), Space: O(N)
     public static void solveSudoku(char[][] board) {
 
