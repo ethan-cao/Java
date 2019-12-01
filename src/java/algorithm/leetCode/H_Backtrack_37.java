@@ -21,12 +21,136 @@ https://leetcode.com/problems/sudoku-solver/
 
 import java.util.*;
 
-public class H_Backtrack_HashTable_37 {
+public class H_Backtrack_37 {
 
-    // Backtrack
-    // Time: O(N), Space: O(N)
-    public static void solveSudoku(char[][] board) {
+    private final char EMPTY = '.';
+    private int SIZE = 9;
 
+    // Backtrack, 12ms
+    public void solveSudoku(char[][] board) {
+        solve(board);
     }
 
+    private boolean solve(char[][] board) {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+
+                if (board[i][j] != EMPTY) {
+                    continue;
+                }
+
+                for (char digit = '1'; digit <= '9'; ++digit) {
+
+                    // if digit already occurred, skip
+                    if (!validate(board, i, j, digit)) {
+                        continue;
+                    }
+
+                    // Try filling board[i][j] with digit
+                    board[i][j] = digit;
+
+                    // backtrack
+                    if (solve(board)) {
+                        // fill board[i][j] with digit, if the path works, then it is the one solution
+                        return true;
+                    } else {
+                        // if not valid, backtrack
+                        board[i][j] = EMPTY;
+                    }
+                }
+
+                // !!! after try all possible digit, true is not return, then it is not possible
+                return false;
+            }
+        }
+
+        // image if SIZE = 0; without board, just return true
+        return true;
+    }
+
+    private boolean validate(char[][] board, int row, int column, char digit) {
+        for (int i = 0; i < SIZE; ++i) {
+
+            // occur exactly once in each column.
+            if (board[i][column] != EMPTY && board[i][column] == digit) {
+                return false;
+            }
+
+            // occur exactly once in each row.
+            if (board[row][i] != EMPTY && board[row][i] == digit) {
+                return false;
+            }
+
+            int localRowOrigin = 3 * (row / 3);  //!!! 3 * (row / 3) != row
+            int localColumnOrigin = 3 * (column / 3);
+            int localRow = i / 3;
+            int localColumn = i % 3;
+
+            // occur exactly once in each of the 9 3x3 sub-boxes
+            if (board[localRowOrigin + localRow][localColumnOrigin + localColumn] != EMPTY &&
+                    board[localRowOrigin + localRow][localColumnOrigin + localColumn] == digit) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    // Backtrack, 5ms
+    public void solveSudoku1(char[][] board) {
+        solve(board, 0);
+    }
+
+    private boolean solve(char[][] board, int start) {
+        // !!! Actually this does not affect performance that much
+        for (int i = start; i < SIZE * SIZE; i++) {
+            int row = i / 9;
+            int col = i % 9;
+
+            if (board[row][col] != EMPTY) {
+                continue;
+            }
+
+            for (char digit = '1'; digit <= '9'; digit++) {
+                if (validate(board, row, col, digit)) {
+                    board[row][col] = digit;
+
+                    if (solve(board, i + 1)) {
+                        return true;
+                    } else {
+                        board[row][col] = EMPTY;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    // validate1 is faster than validate
+    // use 3 different loop, increase the change of terminating loop early
+    private boolean validate1(char[][] board, int row, int col, char num) {
+        for (int j = 0; j < SIZE; j++) {
+            if (board[row][j] == num) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < SIZE; i++) {
+            if (board[i][col] == num) {
+                return false;
+            }
+        }
+
+        for (int i = row / 3 * 3; i < row / 3 * 3 + 3; i++) {
+            for (int j = col / 3 * 3; j < col / 3 * 3 + 3; j++) {
+                if (board[i][j] == num) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
