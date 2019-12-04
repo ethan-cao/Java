@@ -76,8 +76,9 @@ public class M_Greedy_Array_452 {
                 minArrowCount++;
                 overlappingGroupEnd = point[1];  // update group end when entering a new group
             } else {
-                // !!!! when still in the same group
-                // use the smaller end, so there
+                // !!!! when still in the same overlapping group, pick the smaller end
+                // since it leads to more chance of overlapping
+                // and minArrowCount is actually maxOverlappingBalloonGroupCount
                 overlappingGroupEnd = Math.min(overlappingGroupEnd, point[1]);
             }
         }
