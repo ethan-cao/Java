@@ -102,8 +102,7 @@ public class A_FrequentUse {
         Arrays.binarySearch(ints, 3);
 
         // iterate
-        for (String s : strings) {
-        }
+        for (String s : strings)
 
         // print
         System.out.println(Arrays.toString(strings));
