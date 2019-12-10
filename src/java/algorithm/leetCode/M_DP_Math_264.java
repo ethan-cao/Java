@@ -60,10 +60,12 @@ public class M_DP_Math_264 {
     }
 
     public int nthUglyNumber1(int n) {
-        if (n == 1){
+        if (n == 1) {
             return 1;
         }
 
+        // array-based binary heap, keeping item sorted while inserting O(logN)
+        // better than sorted array O(N)
         PriorityQueue<Long> q = new PriorityQueue<>();
         q.add(1l);
 

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        Number.bit();
+        stringBuilder();
     }
 
     static class Number {
@@ -77,22 +77,46 @@ public class A_FrequentUse {
     }
 
     static void string() {
-        String a = "aaabbb";
+        String s = "aAaabbAb";
+
+        // index
+        System.out.println(s.indexOf("A"));             // 1
+        System.out.println(s.lastIndexOf("A"));    // 6
 
         // iteration, String -> char[]
-        for (char c : a.toCharArray()) {
+        for (char c : s.toCharArray()) {
         }
 
-        System.out.printf("%s is Good", "format");
+        // format
+        System.out.printf("%s is Good\n", "format");
 
+        // sort
+        String[] strings = new String[]{"cwqe, b3r3r, ae3r, 5sf"};
+        Arrays.sort(strings, (s1, s2) -> s1.compareTo(s2));
+        System.out.println(Arrays.toString(strings));
+
+    }
+
+    static void stringBuilder() {
         StringBuilder sb = new StringBuilder();
-        sb.append("1");
-        sb.append("2");
-        sb.append("3");
+
+        sb.append('a')  // char
+                .append("b")  // String
+                .append(1)   // number
+                .append("a");
 
         sb.reverse(); // sb is reversed
+        System.out.println(sb); // a1ba
 
-        sb.deleteCharAt(0);
+        sb.deleteCharAt(2); //
+        System.out.println(sb); // a1a
+
+        System.out.println(sb.indexOf("a"));          // 0
+        System.out.println(sb.lastIndexOf("a")); //  2
+
+        // insert "new" to index 0 in sb.toString(), shift existing string towards right
+        sb.insert(1, "new");
+        System.out.println(sb);   // anew1a
     }
 
     static void array() {
@@ -104,8 +128,8 @@ public class A_FrequentUse {
         // iterate
         for (String s : strings)
 
-        // print
-        System.out.println(Arrays.toString(strings));
+            // print
+            System.out.println(Arrays.toString(strings));
 
         // get max value in array
         int startIndex = 0;
@@ -217,6 +241,10 @@ public class A_FrequentUse {
         System.out.print(queue.size());
     }
 
+    static void heap() {
+        // use add() and remove()
+    }
+
     static void set() {
         Set<String> set = new HashSet<>();
 
@@ -250,6 +278,7 @@ public class A_FrequentUse {
 
 
         // access entry under condition
+        // !!! the default value will not be associated with key in map
         Integer defaultValue = map.getOrDefault("test", 0); //0
 
         // update entry under condition
@@ -261,9 +290,12 @@ public class A_FrequentUse {
         Integer newValue4 = map.computeIfAbsent("test4", k -> k.length());  // 5, if key is absent,  add entry key -> value, and return the value
         // putIfAbsent(k, v) is similar, just the 2nd param is value
 
-        // shortcut
+        // shortcut,  v = map.get(k)
         newValue1 = map.compute("test1", (k, v) -> v + 1); // if newValue is not null, replace old value
         newValue3 = map.compute("test3", (k, v) -> v + 1); // if newValue is null, remove the entry if it exists
+        newValue4 = map.compute("test4", (k, v) -> v == null ? 1 : 2); // use this if need to initiate a collection as value
+
+
     }
 
     // Javadoc example: algorithm.dataStructure.BinarySearchTree

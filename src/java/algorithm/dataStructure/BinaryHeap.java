@@ -11,6 +11,8 @@ package algorithm.dataStructure;
  * * Largest key is nodes[1], the root
  *
  * for min binary heap, the smallest one is the root a [1]
+ *
+ * use java.util.PriorityQueue as native Java heap
  */
 
 
@@ -115,4 +117,5 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         this.nodes[index1] = this.nodes[index2];
         this.nodes[index2] = swap;
     }
+
 }

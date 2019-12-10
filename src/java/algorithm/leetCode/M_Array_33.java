@@ -1,6 +1,8 @@
 package algorithm.leetCode;
 
 /*
+Shifted Array Search
+
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
 You are given a target value to search. If found in the array return its index, otherwise return -1.
@@ -15,52 +17,41 @@ Output: 4
 Input: nums = [4,5,6,7,0,1,2], target = 3
 Output: -1
 
-Related : 80, 153
+Review : 1
+
 */
 
 public class M_Array_33 {
 
     public static void main(String... args) {
-//        int[] data1 = {4, 5, 6, 7, 0, 1, 2};
-//        System.out.println(search(data1, 0)); // 4
-//        System.out.println(search(data1, 3)); // -1
-//        System.out.println(search(data1, 4)); // 0
-
-        int[] data2 = {5, 1, 3};
-        System.out.println(search(data2, 5)); // 0
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 0)); // 4
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3)); // -1
+        System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 4)); // 0
+        System.out.println(search(new int[]{5, 1, 3}, 5));             // 0
     }
 
     // binary search
-    // time: O(logN)
+    // Time: O(logN)
     public static int search(int[] nums, int target) {
+        int targetIdx = -1;
+
         if (nums == null || nums.length == 0) {
-            return -1;
+            return targetIdx;
         }
 
-        int left = 0;
-        int right = nums.length - 1;
-
-        // cannot use <=, we are looking for when left== right
-        while (left < right) {
-            int middle = left + (right - left) / 2;
-
-            //middle is biased towards left, middle will not equal to right, middle could equal to left
-            // so compare middle and right
-            if (nums[middle] < nums[right]) {
-                // pivot is in left half
-                right = middle;  // cannot use middle + 1, middle is biased towards left and need to examine nums[middle]
-            } else {
-                // pivot is in right half
-                right = middle + 1;
-            }
-        }
-        // now left == right, which is the index for the smallest one
-        int pivot = left;
+        int turningIdx = getTurningIdx(nums); // O(logN)
 
         // find target, binary search, O(logN)
-        int targetIndex = -1;
-        left = target > nums[nums.length - 1] ? 0 : pivot;
-        right = target > nums[nums.length - 1] ? pivot - 1 : nums.length - 1;
+        int left = target > nums[nums.length - 1] ? 0 : turningIdx;
+        int right = target > nums[nums.length - 1] ? turningIdx - 1 : nums.length - 1;
+
+        targetIdx = getTargetIdx(left, right, nums, target);
+
+        return targetIdx;
+    }
+
+    private static int getTargetIdx(int left, int right, int[] nums, int target) {
+        int targetIdx = -1;
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
@@ -70,12 +61,34 @@ public class M_Array_33 {
             } else if (nums[middle] < target) {
                 left = middle + 1;
             } else {
-                targetIndex = middle;
+                targetIdx = middle;
                 break;
             }
         }
 
-        return targetIndex;
+        return targetIdx;
+    }
+
+    // find sorted array's first idx
+    private static int getTurningIdx(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left < right) {  // cannot use <=, we are looking for when left== right
+            int middle = left + (right - left) / 2;
+
+            // in sorted array, nums[middle] > nums[left], nums[middle] < nums[right]
+            // if nums[middle] > nums[right], turningIdx is on the right half
+            if (nums[middle] > nums[right]) {
+                left = middle + 1;  // nums[middle] is not possible to be the turningIdx
+            } else {
+                // in this case, nums[middle] <= nums[right], sorted from middle til right
+                right = middle;  // cannot use middle - 1, nums[middle] could be the turningIdx
+            }
+        }
+
+        // now left == right, which is the index for the smallest one
+        return left;
     }
 
     // check common solution algorithm.leetCode.M_Array_81.search1

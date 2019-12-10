@@ -19,18 +19,20 @@ https://leetcode.com/problems/sudoku-solver/
 
 */
 
-import java.util.*;
-
 public class H_Backtrack_37 {
 
     private final char EMPTY = '.';
     private int SIZE = 9;
 
-    // Backtrack, 12ms
     public void solveSudoku(char[][] board) {
+        // Backtrack, 12ms
         solve(board);
+
+        // Backtrack, 5ms
+        solve(board, 0);
     }
 
+    // true: the board can be solved, false:  the board cannot be solved
     private boolean solve(char[][] board) {
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
@@ -42,7 +44,7 @@ public class H_Backtrack_37 {
                 for (char digit = '1'; digit <= '9'; ++digit) {
 
                     // if digit already occurred, skip
-                    if (!validate(board, i, j, digit)) {
+                    if (!checkDigitOccurrence(board, i, j, digit)) {
                         continue;
                     }
 
@@ -64,20 +66,20 @@ public class H_Backtrack_37 {
             }
         }
 
-        // image if SIZE = 0; without board, just return true
+        // this is the case where SIZE = 0; without board, just return true
         return true;
     }
 
-    private boolean validate(char[][] board, int row, int column, char digit) {
+    private boolean checkDigitOccurrence(char[][] board, int row, int column, char digit) {
         for (int i = 0; i < SIZE; ++i) {
 
-            // occur exactly once in each column.
-            if (board[i][column] != EMPTY && board[i][column] == digit) {
+            // occur exactly once in each column
+            if (board[i][column] == digit) {
                 return false;
             }
 
             // occur exactly once in each row.
-            if (board[row][i] != EMPTY && board[row][i] == digit) {
+            if (board[row][i] == digit) {
                 return false;
             }
 
@@ -87,8 +89,7 @@ public class H_Backtrack_37 {
             int localColumn = i % 3;
 
             // occur exactly once in each of the 9 3x3 sub-boxes
-            if (board[localRowOrigin + localRow][localColumnOrigin + localColumn] != EMPTY &&
-                    board[localRowOrigin + localRow][localColumnOrigin + localColumn] == digit) {
+            if (board[localRowOrigin + localRow][localColumnOrigin + localColumn] == digit) {
                 return false;
             }
         }
@@ -96,41 +97,9 @@ public class H_Backtrack_37 {
         return true;
     }
 
-
-    // Backtrack, 5ms
-    public void solveSudoku1(char[][] board) {
-        solve(board, 0);
-    }
-
-    private boolean solve(char[][] board, int start) {
-        // !!! Actually this does not affect performance that much
-        for (int i = start; i < SIZE * SIZE; i++) {
-            int row = i / 9;
-            int col = i % 9;
-
-            if (board[row][col] != EMPTY) {
-                continue;
-            }
-
-            for (char digit = '1'; digit <= '9'; digit++) {
-                if (validate(board, row, col, digit)) {
-                    board[row][col] = digit;
-
-                    if (solve(board, i + 1)) {
-                        return true;
-                    } else {
-                        board[row][col] = EMPTY;
-                    }
-                }
-            }
-            return false;
-        }
-        return true;
-    }
-
-    // validate1 is faster than validate
+    // checkDigitOccurrence1 is faster than checkDigitOccurrence1
     // use 3 different loop, increase the change of terminating loop early
-    private boolean validate1(char[][] board, int row, int col, char num) {
+    private boolean checkDigitOccurrence1(char[][] board, int row, int col, char num) {
         for (int j = 0; j < SIZE; j++) {
             if (board[row][j] == num) {
                 return false;
@@ -153,4 +122,33 @@ public class H_Backtrack_37 {
 
         return true;
     }
+
+    private boolean solve(char[][] board, int start) {
+        // !!! Actually this does not affect performance that much
+        for (int i = start; i < SIZE * SIZE; i++) {
+            int row = i / 9;
+            int col = i % 9;
+
+            if (board[row][col] != EMPTY) {
+                continue;
+            }
+
+            for (char digit = '1'; digit <= '9'; digit++) {
+                if (checkDigitOccurrence(board, row, col, digit)) {
+                    board[row][col] = digit;
+
+                    if (solve(board, i + 1)) {
+                        return true;
+                    } else {
+                        board[row][col] = EMPTY;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
 }

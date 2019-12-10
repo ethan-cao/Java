@@ -1,91 +1,86 @@
 package algorithm.leetCode;
 
 /*
-We want to use quad trees to store an N x N boolean grid. Each cell in the grid can only be true or false.
-The root node represents the whole grid. For each node,
-it will be subdivided into four children nodes until the values in the region it represents are all the same.
+Let's play the minesweeper game, You are given a 2D char matrix representing the game board.
+'M' represents an unrevealed mine, 'E' represents an unrevealed empty square,
+'B' represents a revealed blank square that has no adjacent (above, below, left, right, and all 4 diagonals) mines,
+digit ('1' to '8') represents how many mines are adjacent to this revealed square, and finally 'X' represents a revealed mine.
 
-Each node has another two boolean attributes : isLeaf and val.
-isLeaf is true if and only if the node is a leaf node.
-The val attribute for a leaf node contains the value of the region it represents.
+Now given the next click position (row and column indices) among all the unrevealed squares ('M' or 'E'),
+return the board after revealing this position according to the following rules:
 
-Your task is to use a quad tree to represent a given grid.
-N is less than 1000 and guaranteened to be a power of 2.
+If a mine ('M') is revealed, then the game is over - change it to 'X'.
+If an empty square ('E') with no adjacent mines is revealed,
+then change it to revealed blank ('B') and all of its adjacent unrevealed squares should be revealed recursively.
+If an empty square ('E') with at least one adjacent mine is revealed,
+then change it to a digit ('1' to '8') representing the number of adjacent mines.
+Return the board when no more squares will be revealed.
 
 ### Example
-https://leetcode.com/problems/construct-quad-tree/
+https://leetcode.com/problems/minesweeper/
 
 ### Review:
+
  */
 
 
-import java.util.*;
+public class M_Tree_529 {
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
+    private final char UNREVEALED_MINE = 'M';
+    private final char UNREVEALED_EMPTY = 'E';
+    private final char MINE = 'X';
+    private final char BLANK = 'B';
 
-public class M_Tree_427 {
+    final int[][] vectors = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
-    public Node construct(int[][] grid) {
-        return constructSubTree(0, 0, grid.length, grid);
-    }
+    private char[][] updateBoard(char[][] board, int[] click) {
+        char toBeRevealed = board[click[0]][click[1]];
 
-    // Time: O(N^2)
-    private Node constructSubTree(int originX, int originY, int N, int[][] grid) {
-        Boolean value = FALSE;
-        Boolean isLeft = FALSE;
-        Node topLeft = null;
-        Node topRight = null;
-        Node bottomLeft = null;
-        Node bottomRight = null;
-
-        Boolean identicalValue = getIdenticalValue(originX, originY, N, grid);
-
-        if (identicalValue == null) {
-            topLeft = constructSubTree(originX, originY, N / 2, grid);
-            topRight = constructSubTree(originX, originY + N / 2, N / 2, grid);
-            bottomLeft = constructSubTree(originX + N / 2, originY, N / 2, grid);
-            bottomRight = constructSubTree(originX + N / 2, originY + N / 2, N / 2, grid);
-        } else {
-            isLeft = TRUE;
-            value = identicalValue;
+        if (toBeRevealed == UNREVEALED_MINE) {
+            board[click[0]][click[1]] = MINE;
+        } else if (toBeRevealed == UNREVEALED_EMPTY) {
+            checkSurroundings(board, click[0], click[1], board.length, board[0].length);
         }
 
-        return new Node(value, isLeft, topLeft, topRight, bottomLeft, bottomRight);
+        return board;
     }
 
-    // null :  no identical
-    // T or F : the identical value
-    private Boolean getIdenticalValue(int originX, int originY, int N, int[][] grid) {
-        int identicalValue = grid[originX][originY];
+    private void checkSurroundings(char[][] board, int x, int y, int m, int n) {
+        if (x < 0 || x >= m || y < 0 || y >= n || board[x][y] != UNREVEALED_EMPTY) {
+            return;
+        }
 
-        for (int x = originX; x < originX + N; ++x) {
-            for (int y = originY; y < originY + N; ++y) {
-                if (grid[x][y] != identicalValue) {
-                    return null;
-                }
+        int mineCount = countSurroundingMine(board, x, y, m, n);
+
+        if (mineCount > 0) {
+            board[x][y] = (char) ('0' + mineCount);
+        } else {
+            board[x][y] = BLANK;
+
+            for (int[] vector : vectors) {
+                checkSurroundings(board, x + vector[0], y + vector[1], m, n);
+            }
+        }
+    }
+
+    private int countSurroundingMine(char[][] board, int x, int y, int m, int n) {
+        int mineCount = 0;
+
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (0 <= i && i < m && 0 <= j && j < n && board[i][j] == UNREVEALED_MINE)
+                    mineCount++;
             }
         }
 
-        return identicalValue == 1;
+        return mineCount;
     }
 
-}
+    // BFS
+    // Time: O(N)
+    private char[][] updateBoard1(char[][] board, int[] click) {
 
-class Node {
-    public boolean val;
-    public boolean isLeaf;
-    public Node topLeft;
-    public Node topRight;
-    public Node bottomLeft;
-    public Node bottomRight;
 
-    public Node(boolean _val, boolean _isLeaf, Node _topLeft, Node _topRight, Node _bottomLeft, Node _bottomRight) {
-        val = _val;
-        isLeaf = _isLeaf;
-        topLeft = _topLeft;
-        topRight = _topRight;
-        bottomLeft = _bottomLeft;
-        bottomRight = _bottomRight;
+        return board;
     }
 }
