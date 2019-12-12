@@ -136,16 +136,19 @@ public class M_Stack_DP_Tree_1130 {
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(Integer.MAX_VALUE);
 
+        // since we are looking for smallest non-leaf node sum
+        // and non-leaf_node = left_largest_leaf           *   right_largest_leaf
+        // we need             smallet_left_largest_leaf  and  smallest_right_largest_leaf
+        // leaf value corresponds to value in arr[]
         for (int value : arr) {
 
             while (value >= stack.peekFirst()) {
-                // value >= minValue
                 int minValue = stack.pop();
-                // to remove minValue, use the smaller greater value from itsleft or right
+                // smallest non-leaf node sum = left_largest_leaf * right_largest_leaf
                 smallestSum += minValue * Math.min(stack.peekFirst(), value);
             }
 
-            // remove the minimal value, since it will not be used in production any more
+            // remove the minimal value, since it is already used and will not be used
             stack.push(value);
         }
 

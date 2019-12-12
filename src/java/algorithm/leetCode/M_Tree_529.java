@@ -23,7 +23,6 @@ https://leetcode.com/problems/minesweeper/
 
  */
 
-
 public class M_Tree_529 {
 
     private final char UNREVEALED_MINE = 'M';
@@ -31,7 +30,7 @@ public class M_Tree_529 {
     private final char MINE = 'X';
     private final char BLANK = 'B';
 
-    final int[][] vectors = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    private final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
     private char[][] updateBoard(char[][] board, int[] click) {
         char toBeRevealed = board[click[0]][click[1]];
@@ -39,36 +38,37 @@ public class M_Tree_529 {
         if (toBeRevealed == UNREVEALED_MINE) {
             board[click[0]][click[1]] = MINE;
         } else if (toBeRevealed == UNREVEALED_EMPTY) {
-            checkSurroundings(board, click[0], click[1], board.length, board[0].length);
+            checkSurroundings(board, click[0], click[1]);
         }
 
         return board;
     }
 
-    private void checkSurroundings(char[][] board, int x, int y, int m, int n) {
-        if (x < 0 || x >= m || y < 0 || y >= n || board[x][y] != UNREVEALED_EMPTY) {
+    // check UNREVEALED_EMPTY block
+    private void checkSurroundings(char[][] board, int x, int y) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length || board[x][y] != UNREVEALED_EMPTY) {
             return;
         }
 
-        int mineCount = countSurroundingMine(board, x, y, m, n);
+        int mineCount = countSurroundingMine(board, x, y);
 
         if (mineCount > 0) {
-            board[x][y] = (char) ('0' + mineCount);
+            board[x][y] = (char) ('0' + mineCount);  // !!! convert int to char
         } else {
             board[x][y] = BLANK;
 
-            for (int[] vector : vectors) {
-                checkSurroundings(board, x + vector[0], y + vector[1], m, n);
+            for (int[] vector : DIRECTIONS) {
+                checkSurroundings(board, x + vector[0], y + vector[1]);
             }
         }
     }
 
-    private int countSurroundingMine(char[][] board, int x, int y, int m, int n) {
+    private int countSurroundingMine(char[][] board, int x, int y) {
         int mineCount = 0;
 
         for (int i = x - 1; i <= x + 1; i++) {
             for (int j = y - 1; j <= y + 1; j++) {
-                if (0 <= i && i < m && 0 <= j && j < n && board[i][j] == UNREVEALED_MINE)
+                if (0 <= i && i < board.length && 0 <= j && j < board[0].length && board[i][j] == UNREVEALED_MINE)
                     mineCount++;
             }
         }

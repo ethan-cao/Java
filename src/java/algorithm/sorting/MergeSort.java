@@ -5,12 +5,14 @@ import java.util.Arrays;
 /**
  * a divide and conquer algorithm
  *
- * Time complexity :  NlogN
+ * Time:  O(NlogN)
  *
  * Merge sort is too complicated for tiny array, use insertion sort instead
  * Optimal per compare (upper bound and lower bound are the same), not optimal per space usage
  *
  * https://youtu.be/fHYVhCL4riM
+ *
+ * LeetCode: 986
  */
 
 public class MergeSort {

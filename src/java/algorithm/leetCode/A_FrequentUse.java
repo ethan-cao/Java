@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        stringBuilder();
+        list();
     }
 
     static class Number {
@@ -74,6 +74,9 @@ public class A_FrequentUse {
         result = Character.isLetter('a'); // T
         result = Character.isUpperCase('a'); // F
         result = Character.isLowerCase('a'); // T
+
+        // int -> char
+        char c1 = (char) ('0' + 1);
     }
 
     static void string() {
@@ -178,8 +181,19 @@ public class A_FrequentUse {
         // sum
         int sum = list.stream().mapToInt(Integer::intValue).sum();
 
+        // List<Integer> -> Integer[]
+        Integer[] IArray = list.toArray(new Integer[3]);
+
         // List<Integer> -> int[]
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
+        // this is slow, use iterate and convert manually
+
+        //List<int[]> -> int[][], since int[] is object
+        List<int[]> newList = new ArrayList<>();
+        newList.add(new int[]{1, 2});
+        newList.add(new int[]{3, 4});
+        newList.add(new int[]{5, 6});
+        int[][] newArray = newList.toArray(new int[3][2]);
 
         // slice list
         list.subList(0, 2);
