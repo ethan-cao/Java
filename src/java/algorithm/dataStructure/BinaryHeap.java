@@ -1,26 +1,25 @@
 package algorithm.dataStructure;
 
 /**
- * Heap : complete tree
+ * Heap
  *
- * (max) Binary heap: heap-ordered complete binary tree, implemented by array
- * * make a[0] empty, store element from index 1, since it will be easy to calculate key of parent and children
- * * Parent of node at k is at k/2.
- * * Children of node at k are at 2k(left) and 2k+1(right)
- * * Heap-ordered : parent's key >= children's key
- * * Largest key is nodes[1], the root
+ * Binary Heap: complete binary tree, heap-ordered
+ * Max Binary Heap:  heap-ordered is  parent's key >= children's key, largest key is the root
+ * Min Binary Heap:  heap-ordered is  parent's key <= children's key, smallest key is the root
  *
- * for min binary heap, the smallest one is the root a [1]
+ * Given array implementation,
+ *  a[0] is set as empty, store element from index 1, since it will be easy to calculate key of parent and children
+ *  Parent of node at k is at k/2.
+ *  Children of node at k are at 2k(left) and 2k+1(right)
  *
  * use java.util.PriorityQueue as native Java heap
  */
 
 
+// Max Binary Heap
 public class BinaryHeap<Key extends Comparable<Key>> {
 
     public static void main(String[] args) {
-        // Use Binary heap to implement priorityQueue,
-        // whose remove operation delete the largest(max-originated) or smallest(min-originated) item.
         BinaryHeap bh = new BinaryHeap(32);
     }
 
@@ -43,6 +42,7 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         return isEmpty() ? null : this.nodes[1]; // root
     }
 
+    // O(logN)
     public void insert(Key key) {
         // since index 0 is empty, maximal value for size is initialCapacity, which is length - 1
         if (this.size() >= this.nodes.length) {
@@ -56,14 +56,16 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         this.swim(newIndex);
     }
 
-    public Key deleteMax() {
+    // delete the root, the max one
+    // O(logN)
+    public Key delete() {
         Key max = max();
 
         this.exchange(1, this.size());
         this.nodes[this.size()] = null;
         this.size--;
 
-        // At most 2lgN compares
+        // O(logN): at most 2logN compares
         this.sink(1);
 
         return max;

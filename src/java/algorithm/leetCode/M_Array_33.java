@@ -40,11 +40,10 @@ public class M_Array_33 {
         }
 
         int turningIdx = getTurningIdx(nums); // O(logN)
-
-        // find target, binary search, O(logN)
         int left = target > nums[nums.length - 1] ? 0 : turningIdx;
         int right = target > nums[nums.length - 1] ? turningIdx - 1 : nums.length - 1;
 
+        // find target, binary search, O(logN)
         targetIdx = getTargetIdx(left, right, nums, target);
 
         return targetIdx;
@@ -64,6 +63,13 @@ public class M_Array_33 {
                 targetIdx = middle;
                 break;
             }
+
+            // alternatively, this find the left most value that is identical as target
+//            if (nums[middle] < target) {
+//                left = middle + 1;
+//            } else {
+//                right = middle;
+//            }
         }
 
         return targetIdx;

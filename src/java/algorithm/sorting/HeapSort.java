@@ -28,7 +28,7 @@ public class HeapSort {
         // Remove the largest one repeatedly
         int idx = data.length - 1;
         while (!binaryHeap.isEmpty()) {
-            int max = binaryHeap.deleteMax();
+            int max = binaryHeap.delete();
             data[idx--] = max;
         }
     }
