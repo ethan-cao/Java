@@ -47,7 +47,6 @@ public class M_2Pointer_Array_986 {
             } else {
                 j++;
             }
-
         }
 
         return intersections.toArray(new int[intersections.size()][2]);
