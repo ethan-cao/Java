@@ -24,12 +24,86 @@ import java.util.*;
 public class M_2Pointer_SlidingWindow_String_567 {
 
     public static void main(String... args) {
-        System.out.println(checkInclusion("ab", "eidbaooo")); // T
-        System.out.println(checkInclusion("ab", "eidboaoo")); // F
+        System.out.println(checkInclusion1("ab", "eidbaooo")); // T
+        System.out.println(checkInclusion1("ab", "eidboaoo")); // F
+        System.out.println(checkInclusion1("hello", "ooolleoooleh")); // F
     }
 
+    // string p is a permutation of string s if each character in p is in s.
+    // Time: O(N), 4ms
     public static boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+
+        int[] counter = new int[26];
+        for (char c : s1.toCharArray()) {
+            counter[c - 'a']++;
+        }
+
+        for (int i = 0; i < s2.length(); ++i) {
+            char charToInclude = s2.charAt(i);
+            counter[charToInclude - 'a']--;
+
+            //  create a sliding window with length == s1.length()
+            // char outside the sliding window needs to added back to counter
+            if (i >= s1.length()) {
+                char charToExclude = s2.charAt(i - s1.length());
+                counter[charToExclude - 'a']++;
+            }
+
+            if (isEmpty(counter)) {
+                return true;
+            }
+        }
+
         return false;
     }
+
+    private static boolean isEmpty(int[] counter) {
+        for (int i = 0; i < 26; i++) {
+            if (counter[i] != 0) return false;
+        }
+
+        return true;
+    }
+
+    // Time: O(N), ~6ms
+    public static boolean checkInclusion1(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+
+        int[] counter = new int[26];
+        for (char c : s1.toCharArray()) {
+            counter[c - 'a']++;
+        }
+
+        int left = 0;
+        int right = 0;
+
+        while (right < s2.length()) {
+            char rightChar = s2.charAt(right);
+            right++;
+            counter[rightChar - 'a']--;
+
+            // for the 1st time, there is an extra char, check if there an identical char from beginning to subtract
+            // left never surpasses right, since when left reaches right, counter[rightChar - 'a'] will be 0, loop stops
+            while (counter[rightChar - 'a'] < 0) {
+                char leftChar = s2.charAt(left);
+                left++;
+                counter[leftChar - 'a']++;
+            }
+
+            // Now, from left to right, char appears in both s1 and s2
+            // and if length of the sliding window is s1.length(), s2 contains s1's permutation
+            if (right - left == s1.length()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 }

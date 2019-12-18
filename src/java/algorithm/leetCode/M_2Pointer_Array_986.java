@@ -26,29 +26,32 @@ import java.util.*;
 
 public class M_2Pointer_Array_986 {
 
+    // same idea as algorithm.sorting.MergeSort.TopDown.merge
+    // Time: O(M + N), where M, N are the lengths of A and B respectively.
     public static int[][] intervalIntersection(int[][] A, int[][] B) {
         List<int[]> intersections = new ArrayList<>();
 
-        // Like in "merge" phase of mergeSort, use 2 pointers to combine sorted sequences
         int i = 0;
         int j = 0;
 
         while (i < A.length && j < B.length) {
-            int left = Math.max(A[i][0], B[j][0]);
-            int right = Math.min(A[i][1], B[j][1]);
+            int start = Math.max(A[i][0], B[j][0]);
+            int end = Math.min(A[i][1], B[j][1]);
 
             // !!! include =, since the single value could also be an intersection
-            if (left <= right) {
-                intersections.add(new int[]{left, right});
+            if (start <= end) {
+                intersections.add(new int[]{start, end});
             }
 
-            if (A[i][1] < B[j][1]) {
+            if (A[i][1] <= B[j][1]) {
+                // not possible for A[i] to have intersection with others, pass on
                 i++;
             } else {
                 j++;
             }
         }
 
+        // List<T> -> T[]
         return intersections.toArray(new int[intersections.size()][2]);
     }
 

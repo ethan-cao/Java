@@ -42,6 +42,8 @@ public class MergeSort {
             sort(data, low, middle);
             sort(data, middle + 1, high);
 
+            // now, data[low ... middle] and data[middle+1 ... high] are sorted
+
             merge(data, low, middle, high);
         }
 
@@ -58,12 +60,13 @@ public class MergeSort {
             // aux[] could be static member to reduce memory usage
 
             // sort data[low] ... data[high]
-            int idx1 = low;
-            int idx2 = middle + 1;
+            int idx1 = low;          // start of data[low...middle]
+            int idx2 = middle + 1;   // start of data[middle+1, high]
+
             for (int i = low; i <= high; ++i) {
-                if (idx1 > middle) { // if idx1 reaches the middle
+                if (idx1 > middle) {      // when data[low...middle] is exhausted
                     data[i] = aux[idx2++];
-                } else if (idx2 > high) { // if idx2 reaches the end
+                } else if (idx2 > high) { // when data[middle+1...high] is exhausted
                     data[i] = aux[idx1++];
                 } else {
                     data[i] = aux[idx1] < aux[idx2] ? aux[idx1++] : aux[idx2++];
@@ -73,7 +76,7 @@ public class MergeSort {
         }
     }
 
-    // About 10% slower than topdown
+    // About 10% slower than topDown
     static class BottomUp {
 
         public static void sort(int[] data) {

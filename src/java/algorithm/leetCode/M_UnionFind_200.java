@@ -9,16 +9,14 @@ You may assume all four edges of the grid are all surrounded by water.
 11110
 11010
 11000
-00000
-->
-1
+00000 -> 1
 
 11000
 11000
 00100
-00011
-->
-3
+00011 -> 3
+
+### Review:
 
 */
 
@@ -43,18 +41,58 @@ public class M_UnionFind_200 {
         };
         System.out.println(numIslands(grid2)); // 3
 
-        char[][] grid3 = {
-                {'1', '0', '1'},
-                {'1', '0', '1'}
-        };
-        System.out.println(numIslands(grid3)); // 2
-
         char[][] grid4 = {
                 {'1', '0', '1', '1', '1'},
                 {'1', '0', '1', '0', '1'},
                 {'1', '1', '1', '0', '1'}
         };
         System.out.println(numIslands(grid4)); // 1
+    }
+
+    static private char LAND = '1';
+    static private char WATER = '0';
+    static private int[][] DIRECTIONS = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    // DFS ~1ms
+    // Time:  O(MN), M = grid.length, N = grid[0].length
+    // !!! modify input, possible to solve without modify input ?
+    public static int numIslands2(char[][] grid) {
+        int islandCount = 0;
+
+        for (int i = 0; i < grid.length; ++i) {
+            for (int j = 0; j < grid[0].length; ++j) {
+
+                if (grid[i][j] == WATER) {
+                    continue;
+                }
+
+                checkSurrounding(grid, i, j);
+                islandCount++;
+            }
+        }
+
+        return islandCount;
+    }
+
+    private static void checkSurrounding(char[][] grid, int i, int j) {
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
+            return;
+        }
+
+        if (grid[i][j] == WATER) {
+            return;
+        }
+
+        grid[i][j] = WATER;
+
+        for (int[] direction : DIRECTIONS) {
+            checkSurrounding(grid, i + direction[0], j + direction[1]);
+        }
+    }
+
+    // BFS
+    public static int numIslands1(char[][] grid) {
+        return 1;
     }
 
     // Union Find
@@ -163,13 +201,4 @@ public class M_UnionFind_200 {
         }
     }
 
-    // BFS
-    public static int numIslands1(char[][] grid) {
-        return 1;
-    }
-
-    // DFS
-    public static int numIslands2(char[][] grid) {
-        return 1;
-    }
 }

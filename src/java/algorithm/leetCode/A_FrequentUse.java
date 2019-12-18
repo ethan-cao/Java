@@ -188,12 +188,12 @@ public class A_FrequentUse {
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         // this is slow, use iterate and convert manually
 
-        //List<int[]> -> int[][], since int[] is object
+        //List<int[]> -> int[][], since int[] is object, List<T> -> T[]
         List<int[]> newList = new ArrayList<>();
         newList.add(new int[]{1, 2});
         newList.add(new int[]{3, 4});
         newList.add(new int[]{5, 6});
-        int[][] newArray = newList.toArray(new int[3][2]);
+        int[][] newArray = newList.toArray(new int[newList.size()][2]);
 
         // slice list
         list.subList(0, 2);
@@ -237,7 +237,7 @@ public class A_FrequentUse {
         queue.offer(4);
 //        queue.offer(null); // NullPointerException
 
-        //   [1, 2, 3, 4          ]
+        //   [1, 2, 3, 4     ]
         //  first     last
 
         // Queue specific method
