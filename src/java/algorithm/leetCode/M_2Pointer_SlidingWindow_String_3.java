@@ -1,29 +1,20 @@
 package algorithm.leetCode;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 /*
 Given a string, find the length of the longest substring without repeating characters.
 
 ### Example
-"abcabcbb" -> 3
-The answer is "abc", with the length of 3.
+"abcabcbb" -> 3,  "abc", with the length of 3.
 
-"bbbbb"-> 1
-The answer is "b", with the length of 1.
+"bbbbb"-> 1, "b", with the length of 1.
 
-"pwwkew" -> 3
-The answer is "wke", with the length of 3.
-Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+"pwwkew" -> 3, "wke", with the length of 3. answer must be a substring, "pwke" is a subsequence and not a substring.
 
-### Condition
-### Essential problem
-### Corner case
+### Review:
 
 */
 
+import java.util.*;
 
 public class M_2Pointer_SlidingWindow_String_3 {
 
@@ -101,56 +92,66 @@ public class M_2Pointer_SlidingWindow_String_3 {
     }
 
     // Two pointer - Sliding window
-    // https://youtu.be/mtHelVTLKRQ
+    // Time: ~9ms
     public static int lengthOfLongestSubstring2(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-
         int longestLength = 0;
+
+        if (s == null || s.length() == 0) {
+            return longestLength;
+        }
 
         Set<Character> appearedChars = new HashSet<>();
 
-        int start = 0;
-        int end = 0;
+        int left = 0;
+        int right = 0;
 
-        while (end < s.length()) {
-            if (appearedChars.contains(s.charAt(end))) {
-                appearedChars.remove(s.charAt(start));
-                start++;
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            char leftChar = s.charAt(left);
+
+            if (appearedChars.contains(rightChar)) {
+                appearedChars.remove(leftChar);
+                left++;
             } else {
-                appearedChars.add(s.charAt(end));
-                end++;
+                appearedChars.add(rightChar);
+                right++;
             }
 
-            longestLength = Math.max(longestLength, end - start);
+            longestLength = Math.max(longestLength, right - left);
         }
 
         return longestLength;
     }
 
+    // Time: 2ms
     public static int lengthOfLongestSubstring1(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
-
         int longestLength = 0;
 
-        // counter all ASCII chars, ASCII encodes 128 characters
-        int[] tally = new int[128];
-        // tally[char] :  the last appearing index of the char
-        Arrays.fill(tally, -1);
+        if (s == null || s.length() == 0) {
+            return longestLength;
+        }
 
-        int start = 0; // starting index for the examining substring
-        for (int end = start; end < s.length(); ++end) {
-            // if the char appears again, reset the start index
-            if (tally[s.charAt(end)] >= start) {
-                start = tally[s.charAt(end)] + 1;
+        // lastAppearingIdx all ASCII chars, ASCII encodes 128 characters
+        int[] lastAppearingIdx = new int[128];
+        // lastAppearingIdx[char] :  the last appearing index of the char
+        Arrays.fill(lastAppearingIdx, -1);
+
+        int left = 0; // starting index for the examining substring
+        int right = 0;
+
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+
+            // if the char appears again, reset the left index
+            if (lastAppearingIdx[rightChar] >= left) {
+                left = lastAppearingIdx[rightChar] + 1;
             }
 
-            tally[s.charAt(end)] = end; // update last appearing index
+            lastAppearingIdx[rightChar] = right; // update last appearing index
 
-            longestLength = Math.max(longestLength, end - start + 1);
+            longestLength = Math.max(longestLength, right - left + 1);
+
+            right++;
         }
 
         return longestLength;

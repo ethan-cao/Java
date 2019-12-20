@@ -11,17 +11,18 @@ If there is such window, you are guaranteed that there will always be only one u
 Input: S = "ADOBECODEBANC", T = "ABC"
 Output: "BANC"
 
+### Review:
+
 */
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class H_SlidingWindow_String_76 {
 
     public static void main(String[] args) {
-        System.out.println(minWindow("aa", "aa")); // "aa"
-        System.out.println(minWindow("ADOBECODEBANC", "ADB")); // ADOB
-        System.out.println(minWindow("ADOBECODEBANC", "ABC"));  // BANC
+//        System.out.println(minWindow2("aa", "aa")); // "aa"
+        System.out.println(minWindow2("ADOBECODEBANC", "ADB")); // ADOB
+        System.out.println(minWindow2("ADOBECODEBANC", "ABC"));  // BANC
     }
 
     /*    General approach to search substring
@@ -31,51 +32,49 @@ public class H_SlidingWindow_String_76 {
      */
 
     // Two pointer, sliding window
-    public static String minWindow(String s, String t) {
+    // Time: O(N) 2ms
+    public static String minWindow2(String s, String t) {
         if (s.length() == 0 || s.length() < t.length() || t.length() == 0) {
             return "";
         }
 
         // Strings are encoded as UTF-16. In UTF-16, the ASCII character set is encoded as values [0 - 127]
-        int[] charOccurrence = new int[128];
+        int[] counter = new int[128];
         for (char c : t.toCharArray()) {
-            charOccurrence[c]++;
+            counter[c]++;
         }
 
-        // since we are looking for substring, naturally think about using left and right pointer
-        boolean hasMinWindow = false;
-        int minWindowLength = s.length();
-        int minWindowLeft = 0;
-        int minWindowRight = s.length() - 1;
-
+        int left = 0;
+        int right = 0;
         int requiredCharCount = t.length();
+        int minLeft = 0;
+        int minLength = Integer.MAX_VALUE;
 
-        for (int left = 0, right = 0; right < s.length(); ++right) {
+        while (right < s.length()) {
             char rightChar = s.charAt(right);
 
-            charOccurrence[rightChar]--;
-
-            // when the count is < 0, the char is not required
-            if (charOccurrence[rightChar] >= 0) {
+            if (counter[rightChar] > 0) {
                 requiredCharCount--;
             }
 
-            // when found substring from s containing all chars in t, start moving left pointer
-            while (requiredCharCount == 0 && left <= right) {
-                char leftChar = s.charAt(left);
-                hasMinWindow = true;
+            counter[rightChar]--;
+            right++;
 
-                // since initial value for minWindowLength is s.length()
-                // if we identify substring that has s.length() length, we need to update pointers
-                if (right - left + 1 <= minWindowLength) {
-                    minWindowLeft = left;
-                    minWindowRight = right;
-                    minWindowLength = right - left + 1;
+            while (requiredCharCount == 0) {
+
+                // update minLength
+                if (right - left < minLength) {
+                    minLength = right - left;
+
+                    // since we need to move left, use minLeft to track
+                    minLeft = left;
                 }
 
-                charOccurrence[leftChar]++;
+                // exclude leftChar
+                char leftChar = s.charAt(left);
+                counter[leftChar]++;
 
-                if (charOccurrence[leftChar] >= 1){
+                if (counter[leftChar] > 0) {
                     requiredCharCount++;
                 }
 
@@ -83,7 +82,7 @@ public class H_SlidingWindow_String_76 {
             }
         }
 
-        return hasMinWindow ? s.substring(minWindowLeft, minWindowRight + 1) : "";
+        return minLength == Integer.MAX_VALUE ? "" : s.substring(minLeft, minLeft + minLength);
     }
 
     // use map to count, slow

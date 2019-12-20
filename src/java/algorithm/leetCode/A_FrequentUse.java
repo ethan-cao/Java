@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class A_FrequentUse {
 
     public static void main(String[] arg) {
-        list();
+        string();
     }
 
     static class Number {
@@ -82,9 +82,14 @@ public class A_FrequentUse {
     static void string() {
         String s = "aAaabbAb";
 
-        // index
+        // index(char / String)
         System.out.println(s.indexOf("A"));             // 1
-        System.out.println(s.lastIndexOf("A"));    // 6
+        System.out.println(s.indexOf('A'));             // 1
+        System.out.println(s.lastIndexOf("A"));     // 6
+        System.out.println(s.lastIndexOf('A'));     // 6
+
+        // contains(String)
+        System.out.println(s.contains("A"));     // T
 
         // iteration, String -> char[]
         for (char c : s.toCharArray()) {

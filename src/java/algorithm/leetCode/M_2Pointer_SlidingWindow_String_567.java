@@ -29,7 +29,8 @@ public class M_2Pointer_SlidingWindow_String_567 {
         System.out.println(checkInclusion1("hello", "ooolleoooleh")); // F
     }
 
-    // string p is a permutation of string s if each character in p is in s.
+    // string p is a permutation of string s if each char in p is in s
+    // find a sliding window of length s1.length() in s2 that contains all chars in s1
     // Time: O(N), 4ms
     public static boolean checkInclusion(String s1, String s2) {
         if (s1.length() > s2.length()) {
@@ -45,7 +46,7 @@ public class M_2Pointer_SlidingWindow_String_567 {
             char charToInclude = s2.charAt(i);
             counter[charToInclude - 'a']--;
 
-            //  create a sliding window with length == s1.length()
+            // create a sliding window with length == s1.length()
             // char outside the sliding window needs to added back to counter
             if (i >= s1.length()) {
                 char charToExclude = s2.charAt(i - s1.length());
@@ -62,7 +63,9 @@ public class M_2Pointer_SlidingWindow_String_567 {
 
     private static boolean isEmpty(int[] counter) {
         for (int i = 0; i < 26; i++) {
-            if (counter[i] != 0) return false;
+            if (counter[i] != 0) {
+                return false;
+            }
         }
 
         return true;
@@ -84,15 +87,15 @@ public class M_2Pointer_SlidingWindow_String_567 {
 
         while (right < s2.length()) {
             char rightChar = s2.charAt(right);
-            right++;
             counter[rightChar - 'a']--;
+            right++;
 
             // for the 1st time, there is an extra char, check if there an identical char from beginning to subtract
             // left never surpasses right, since when left reaches right, counter[rightChar - 'a'] will be 0, loop stops
             while (counter[rightChar - 'a'] < 0) {
                 char leftChar = s2.charAt(left);
-                left++;
                 counter[leftChar - 'a']++;
+                left++;
             }
 
             // Now, from left to right, char appears in both s1 and s2
