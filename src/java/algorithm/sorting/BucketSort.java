@@ -10,6 +10,8 @@ import java.util.Arrays;
  * Its purpose is to improve counting sort
  *
  * It is similar to Radix sort, but after 1st partition, it uses other sorting mechanism to sort each bucket
+ *
+ * LeetCode: 740, 198
  */
 public class BucketSort {
 
@@ -24,13 +26,13 @@ public class BucketSort {
     public static void sort(int[] data, int range) {
         int bucketSize = getBucketSize(data, range); // number of bucket
         int[][] bucket = new int[bucketSize][data.length];
-        int[] tally = new int[bucketSize]; // tally[i] is the number of elements in bucket[i]
+        int[] counter = new int[bucketSize]; // counter[i] is the number of elements in bucket[i]
 
         // partition elements to each bucket
         for (int i = 0; i < data.length; ++i) {
-            int idx = data[i] / (range+1) * bucketSize;
-            bucket[idx][tally[idx]] = data[i];
-            tally[idx]++;
+            int bucketID = data[i] / (range + 1) * bucketSize;
+            bucket[bucketID][counter[bucketID]] = data[i];
+            counter[bucketID]++;
         }
 
         // sort each bucket
@@ -41,12 +43,11 @@ public class BucketSort {
         // collect result
         int idx = 0;
         for (int i = 0; i < bucketSize; ++i) {
-            for (int j = 0; j < tally[i]; ++j) {
+            for (int j = 0; j < counter[i]; ++j) {
                 data[idx] = bucket[i][j];
                 idx++;
             }
         }
-
     }
 
     // the key for bucket sort is how to getPartitionKey data to buckets
