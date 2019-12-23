@@ -2,7 +2,7 @@ package collection;
 
 import java.util.*;
 
-public class TreeMapTest {
+public class TreeSetTest {
 
     public static void main(String[] args) {
         TreeSet<String> set1 = new TreeSet<>( new Comparator<String>(){

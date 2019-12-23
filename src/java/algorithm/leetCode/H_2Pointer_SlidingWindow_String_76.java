@@ -17,10 +17,10 @@ Output: "BANC"
 
 import java.util.*;
 
-public class H_SlidingWindow_String_76 {
+public class H_2Pointer_SlidingWindow_String_76 {
 
     public static void main(String[] args) {
-//        System.out.println(minWindow2("aa", "aa")); // "aa"
+        System.out.println(minWindow2("aa", "aa")); // "aa"
         System.out.println(minWindow2("ADOBECODEBANC", "ADB")); // ADOB
         System.out.println(minWindow2("ADOBECODEBANC", "ABC"));  // BANC
     }
@@ -46,6 +46,7 @@ public class H_SlidingWindow_String_76 {
 
         int left = 0;
         int right = 0;
+
         int requiredCharCount = t.length();
         int minLeft = 0;
         int minLength = Integer.MAX_VALUE;
@@ -72,12 +73,12 @@ public class H_SlidingWindow_String_76 {
 
                 // exclude leftChar
                 char leftChar = s.charAt(left);
-                counter[leftChar]++;
 
-                if (counter[leftChar] > 0) {
-                    requiredCharCount++;
+                if (counter[leftChar] >= 0) {
+                    requiredCharCount++;  // break the loop
                 }
 
+                counter[leftChar]++;
                 left++;
             }
         }

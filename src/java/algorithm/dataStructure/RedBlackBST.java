@@ -11,6 +11,8 @@ package algorithm.dataStructure;
  * No node has two red links connected to it
  * Every path from root to null link has the same number of black links (perfect black balance, 2-3 tree are perfect balanced)
  * Red links lean left
+ *
+ * use TreeMap as Java native Rea Black Tree
  */
 public class RedBlackBST<Key extends Comparable, Value> {
     private static final boolean RED = true;
