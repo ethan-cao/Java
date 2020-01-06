@@ -1,12 +1,12 @@
 package algorithm.dataStructure;
 
 /**
- * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary search tree
+ * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary Search Tree
  * 2-3 tree: tree contains 2-3 node
  * 2-3 nodes :
- *  B-D
- * / | \
- * A  C  E
+ *    B - D
+ *  / |   \
+ * A  C   E
  *
  * No node has two red links connected to it
  * Every path from root to null link has the same number of black links (perfect black balance, 2-3 tree are perfect balanced)
@@ -14,6 +14,7 @@ package algorithm.dataStructure;
  *
  * use TreeMap as Java native Rea Black Tree
  */
+
 public class RedBlackBST<Key extends Comparable, Value> {
     private static final boolean RED = true;
     private static final boolean BLACK = false;

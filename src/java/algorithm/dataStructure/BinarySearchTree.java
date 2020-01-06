@@ -1,11 +1,8 @@
 package algorithm.dataStructure;
 
-import algorithm.sorting.SelectionSort;
+import java.util.*;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import algorithm.sorting.SelectionSort;
 
 /**
  * Binary search tree implementation for symbol table (Map)
@@ -14,9 +11,8 @@ import java.util.List;
  * the key is larger than all keys in its left subtree
  * the key is smaller than all keys in its right subtree
  *
- * @author Guangxue Cao
- * @version 1.0
- * @since 1.0
+ *
+ * use TreeMap as Java native Rea Black Tree, which is also BST
  */
 
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {

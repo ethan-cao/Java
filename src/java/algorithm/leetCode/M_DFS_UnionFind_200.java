@@ -20,7 +20,7 @@ You may assume all four edges of the grid are all surrounded by water.
 
 */
 
-public class M_UnionFind_200 {
+public class M_DFS_UnionFind_200 {
 
     public static void main(String[] args) {
         char[][] grid1 = {

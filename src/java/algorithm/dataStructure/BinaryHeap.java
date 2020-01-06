@@ -15,7 +15,6 @@ package algorithm.dataStructure;
  * use java.util.PriorityQueue as native Java heap
  */
 
-
 // Max Binary Heap
 public class BinaryHeap<Key extends Comparable<Key>> {
 
