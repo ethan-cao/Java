@@ -7,11 +7,6 @@ You may assume that the maximum length of s is 1000.
 ### Example
 "bbbab" -> 4, One possible longest palindromic subsequence is "bbbb".
 "cbbd" -> 2, One possible longest palindromic subsequence is "bb".
-
-Related: 5, 647
-
-this asks for subsequence !!! different from substring
-
 */
 
 public class M_DP_String_516 {

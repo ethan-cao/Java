@@ -48,39 +48,39 @@ public class H_2Pointer_SlidingWindow_String_76 {
         int right = 0;
 
         int requiredCharCount = t.length();
+
         int minLeft = 0;
         int minLength = Integer.MAX_VALUE;
 
         while (right < s.length()) {
             char rightChar = s.charAt(right);
+            counter[rightChar]--;
 
-            if (counter[rightChar] > 0) {
+            if (counter[rightChar] >= 0) {
                 requiredCharCount--;
             }
 
-            counter[rightChar]--;
-            right++;
-
+            // trying to minimize window while requiredCharCount is 0
             while (requiredCharCount == 0) {
 
-                // update minLength
-                if (right - left < minLength) {
-                    minLength = right - left;
-
-                    // since we need to move left, use minLeft to track
+                // capture the moment when there is a minLength
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
                     minLeft = left;
                 }
 
-                // exclude leftChar
+                // try to move window left towards right
                 char leftChar = s.charAt(left);
+                counter[leftChar]++;
 
-                if (counter[leftChar] >= 0) {
+                if (counter[leftChar] > 0) {
                     requiredCharCount++;  // break the loop
                 }
 
-                counter[leftChar]++;
                 left++;
             }
+
+            right++;
         }
 
         return minLength == Integer.MAX_VALUE ? "" : s.substring(minLeft, minLeft + minLength);

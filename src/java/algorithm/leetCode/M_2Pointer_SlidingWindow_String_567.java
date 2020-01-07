@@ -76,7 +76,7 @@ public class M_2Pointer_SlidingWindow_String_567 {
             return false;
         }
 
-        int[] counter = new int[26];
+        int[] counter = new int[26];  // use 128, not necessary to contain only letter
         for (char c : s1.toCharArray()) {
             counter[c - 'a']++;
         }
@@ -87,21 +87,25 @@ public class M_2Pointer_SlidingWindow_String_567 {
         while (right < s2.length()) {
             char rightChar = s2.charAt(right);
             counter[rightChar - 'a']--;
-            right++;
 
-            // when there is an extra char, check if there an identical char from beginning to subtract
-            // left never surpasses right, since when left reaches right, counter[rightChar - 'a'] will be 0, loop stops
-            while (counter[rightChar - 'a'] < 0) {
+            // when the char is more than we need, check if it is possible to move window left to get rid of extra char
+            // this loop assures that we
+            while (counter[rightChar - 'a'] < 0 && left <= right) {
+                // left never surpasses right, since when left reaches right, counter[rightChar - 'a'] will be 0, loop stops
+                // so we can ignore left <= right
                 char leftChar = s2.charAt(left);
                 counter[leftChar - 'a']++;
+
                 left++;
             }
 
-            // Now, from left to right, char appears in both s1 and s2
-            // and if length of the sliding window is s1.length(), s2 contains s1's permutation
-            if (right - left == s1.length()) {
+            // at this stage, chars in s2.substring(left, right+1) are all in s1
+            // and if window size is s1.length(), it means this window contains all the chars in s1
+            if (right - left + 1 == s1.length()) {
                 return true;
             }
+
+            right++;
         }
 
         return false;
