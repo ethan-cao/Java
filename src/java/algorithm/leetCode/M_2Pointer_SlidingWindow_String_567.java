@@ -69,6 +69,7 @@ public class M_2Pointer_SlidingWindow_String_567 {
         return true;
     }
 
+    // SlidingWindow
     // Time: O(N), ~6ms
     public static boolean checkInclusion1(String s1, String s2) {
         if (s1.length() > s2.length()) {
@@ -88,7 +89,7 @@ public class M_2Pointer_SlidingWindow_String_567 {
             counter[rightChar - 'a']--;
             right++;
 
-            // for the 1st time, there is an extra char, check if there an identical char from beginning to subtract
+            // when there is an extra char, check if there an identical char from beginning to subtract
             // left never surpasses right, since when left reaches right, counter[rightChar - 'a'] will be 0, loop stops
             while (counter[rightChar - 'a'] < 0) {
                 char leftChar = s2.charAt(left);

@@ -123,6 +123,7 @@ public class M_2Pointer_SlidingWindow_String_3 {
         return longestLength;
     }
 
+    // Two pointer - Sliding window
     // Time: 2ms
     public static int lengthOfLongestSubstring1(String s) {
         int longestLength = 0;
