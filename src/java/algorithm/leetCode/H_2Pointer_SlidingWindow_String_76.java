@@ -61,7 +61,7 @@ public class H_2Pointer_SlidingWindow_String_76 {
             }
 
             // trying to minimize window while requiredCharCount is 0
-            while (requiredCharCount == 0) {
+            while (requiredCharCount == 0 && left <= right) {
 
                 // capture the moment when there is a minLength
                 if (right - left + 1 < minLength) {

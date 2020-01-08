@@ -10,9 +10,7 @@ Because nums[0] + nums[1] = 2 + 7 = 9, return [0, 1].
 
 */
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class E_Array_1 {
 
@@ -22,8 +20,7 @@ public class E_Array_1 {
         System.out.println(Arrays.toString(twoSum2(new int[]{3, 3,}, 6)));        // 1, 0
     }
 
-    // Time: O(NlogN), logN is to find the element or insert the element to the map
-    // Space: O(N)
+    // Time: O(N), Space: O(N)
     public static int[] twoSum1(int[] nums, int target) {
         int[] result = new int[2];
 

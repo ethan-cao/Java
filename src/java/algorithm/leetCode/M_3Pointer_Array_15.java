@@ -13,9 +13,7 @@ A solution set is:
    [-1, -1, 2] ]
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_3Pointer_Array_15 {
 
@@ -50,34 +48,32 @@ public class M_3Pointer_Array_15 {
         Arrays.sort(nums); // important to make the inner lookup linear
 
         for (int left = 0; left < nums.length - 2; ++left) {
-            int middle = left + 1;
-            int right = nums.length - 1;
+            // if smallest possible sum is larger than target, not possible
+            if (nums[left] + nums[left + 1] + nums[left + 2] > 0) break;
 
             // skip duplicates
             if (left > 0 && nums[left] == nums[left - 1]) continue;
 
-            // if smallest possible sum is larger than target, not possible
-            if (nums[left] + nums[middle] + nums[middle + 1] > 0) break;
+            int middle = left + 1;
+            int right = nums.length - 1;
 
             while (middle < right) {
                 int sum = nums[left] + nums[middle] + nums[right];
 
-                if (0 == sum) {
+                if (sum < 0) {
+                    middle++;
+                } else if (sum > 0) {
+                    right--;
+                } else {
                     solutions.add(Arrays.asList(nums[left], nums[middle], nums[right]));  // list view on array, fixed size
 
-                    // skip duplicates
+                    // skip duplicates, assures the next combination is different
                     while (middle < right && nums[middle] == nums[middle + 1]) middle++;
                     middle++;
 
-                    // skip duplicates
+                    // skip duplicates, assures the next combination is different
                     while (middle < right && nums[right] == nums[right - 1]) right--;
                     right--;
-                } else if (sum > 0) {
-                    // if use skip duplicates here, it works, but slower
-                    right--;
-                } else {
-                    // if use skip duplicates here, it works, but slower
-                    middle++;
                 }
             }
         }
