@@ -28,7 +28,8 @@ public class E_Array_1 {
         Map<Integer, Integer> tally = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
-            int requiredNum = target - nums[i];
+            int num = nums[i];
+            int requiredNum = target - num;
 
             // first check the required number is in existing tally
             if (tally.containsKey(requiredNum)) {
@@ -39,12 +40,13 @@ public class E_Array_1 {
 
             // if the required number is not there, record it
             // this must happen in the end, otherwise, the latter duplicate value overrides index, e.g.{3,3} 6
-            tally.put(nums[i], i);
+            tally.put(num, i);
         }
 
         return result;
     }
 
+    // Time: O(N), Space: O(N)
     public static int[] twoSum2(int[] nums, int target) {
         int[] result = new int[2];
 
@@ -52,11 +54,12 @@ public class E_Array_1 {
         Map<Integer, Integer> tally = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
-            int requiredNum = target - nums[i];
+            int num = nums[i];
+            int requiredNum = target - num;
 
-            if (tally.containsKey(nums[i])) {
+            if (tally.containsKey(num)) {
                 result[0] = i;
-                result[1] = tally.get(nums[i]);
+                result[1] = tally.get(num);
                 break;
             }
 

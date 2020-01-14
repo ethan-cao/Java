@@ -1,7 +1,7 @@
 package algorithm.dataStructure;
 
 /**
- * Left Lean Red Black (LLRB) tree, Represent 2-3 tree as a Binary Search Tree
+ * Left Lean Red Black (LLRB) tree, Represents 2-3 tree as a Binary Search Tree
  * 2-3 tree: tree contains 2-3 node
  * 2-3 nodes :
  *    B - D

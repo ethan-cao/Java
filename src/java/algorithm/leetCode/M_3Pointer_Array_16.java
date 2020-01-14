@@ -23,14 +23,14 @@ public class M_3Pointer_Array_16 {
         System.out.println(threeSumClosest(new int[]{1, 1, 1, 0}, 100));  // 3
     }
 
-    // Three Pointer, initial position: left = 0, middle = 1, right = L -1
+    // 3Pointer, initial position: left = 0, middle = 1, right = L -1
     public static int threeSumClosest(int[] nums, int target) {
-        Arrays.sort(nums);
-
-        // cannot use Integer.MAX_VALUE for closestSum !!!
+        // !!! cannot use Integer.MAX_VALUE for closestSum,
         // if target is negative, (closestSum - target) overflows
         // just pick a valid initial value
         int closestSum = nums[0] + nums[1] + nums[2];
+
+        Arrays.sort(nums);
 
         for (int left = 0; left < nums.length - 2; ++left) { // leave room for at least 1 left and 1 middle
 
@@ -44,13 +44,15 @@ public class M_3Pointer_Array_16 {
                     return sum;
                 }
 
-                closestSum = Math.abs(sum - target) < Math.abs(closestSum - target) ? sum : closestSum;
+                if (Math.abs(sum - target) < Math.abs(closestSum - target)) {
+                    closestSum = sum;
+                }
 
                 if (sum > target) {
-                    // if use skip duplicates here, it works, but slower
+                    while (middle < right && right == right - 1) right--;
                     right--;
                 } else {
-                    // if use skip duplicates here, it works, but slower
+                    while (middle < right && middle == middle + 1) middle++;
                     middle++;
                 }
             }

@@ -18,7 +18,6 @@ Valid combinations are:
 
 */
 
-
 import java.util.Arrays;
 
 public class M_3Pointer_Array_611 {

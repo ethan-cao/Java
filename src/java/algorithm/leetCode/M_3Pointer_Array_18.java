@@ -16,9 +16,7 @@ A solution set is:
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_3Pointer_Array_18 {
 
@@ -79,11 +77,11 @@ public class M_3Pointer_Array_18 {
                     if (sum == target) {
                         quadruplets.add(Arrays.asList(nums[a], nums[b], nums[c], nums[d]));
 
-                        // try next different c
+                        // skip duplicate
                         while (c < d && nums[c] == nums[c + 1]) c++;
                         c++;
 
-                        // try next different d
+                        // skip duplicate
                         while (c < d && nums[d] == nums[d - 1]) d--;
                         d--;
                     } else if (sum < target) {
