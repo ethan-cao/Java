@@ -41,18 +41,21 @@ public class M_3Pointer_Array_15 {
     }
 
     // Time: O(N^2)
-    // Three Pointer, initial position: left = 0, middle = 1, right = L -1
+    // Three Pointer, initial position: left = 0, middle = left+1, right = L -1
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> solutions = new ArrayList<>();
 
         Arrays.sort(nums); // important to make the inner lookup linear
 
         for (int left = 0; left < nums.length - 2; ++left) {
-            // if smallest possible sum is larger than target, not possible
-            if (nums[left] + nums[left + 1] + nums[left + 2] > 0) break;
-
             // skip duplicates
             if (left > 0 && nums[left] == nums[left - 1]) continue;
+
+            // if smallest possible sum is larger than target, not possible
+            if (nums[left] * 3 > 0) break;
+
+            // if largest possible sum is smaller than target, try next one
+            if (nums[left] + nums[nums.length - 1] * 2 < 0) continue;
 
             int middle = left + 1;
             int right = nums.length - 1;
@@ -61,18 +64,22 @@ public class M_3Pointer_Array_15 {
                 int sum = nums[left] + nums[middle] + nums[right];
 
                 if (sum < 0) {
+                    // skip duplicates, assures the next combination is different
+                    while (middle < nums.length - 1 && nums[middle] == nums[middle + 1]) middle++;
                     middle++;
                 } else if (sum > 0) {
+                    // skip duplicates, assures the next combination is different
+                    while (right > 1 && nums[right] == nums[right - 1]) right--;
                     right--;
                 } else {
                     solutions.add(Arrays.asList(nums[left], nums[middle], nums[right]));  // list view on array, fixed size
 
-                    // skip duplicates, assures the next combination is different
-                    while (middle < right && nums[middle] == nums[middle + 1]) middle++;
-                    middle++;
+                    // move either middle or right to get a different combination
+                    
+//                    while (middle < nums.length - 1 && nums[middle] == nums[middle + 1]) middle++;
+//                    middle++;
 
-                    // skip duplicates, assures the next combination is different
-                    while (middle < right && nums[right] == nums[right - 1]) right--;
+                    while (right > 1 && nums[right] == nums[right - 1]) right--;
                     right--;
                 }
             }

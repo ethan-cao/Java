@@ -74,6 +74,10 @@ public class M_3Pointer_Array_611 {
 
         Arrays.sort(nums);
 
+        // to get a valid triplet, sum of any 2 side should be larger than the other side
+        // after sorting nums, as long as we can ensure the left + middle > right, they are valid triplet
+
+        // use right as driver
         for (int right = nums.length - 1; right > 1; --right) { // leave room for at least 1 left and 1 middle
             int left = 0;
             int middle = right - 1;
@@ -122,8 +126,7 @@ public class M_3Pointer_Array_611 {
         return tripletCount;
     }
 
-    // to fix triangleNumber2
-    // Binary Search
+    // Binary Search, to fix triangleNumber2
     // Time: O(N^2LogN)
     public static int triangleNumber3(int[] nums) {
         int tripletCount = 0;
@@ -134,6 +137,7 @@ public class M_3Pointer_Array_611 {
 
         Arrays.sort(nums);
 
+        // use left as driver
         for (int left = 0; left < nums.length - 2; ++left) {
             for (int middle = left + 1; middle < nums.length - 1; ++middle) {
                 int sum = nums[left] + nums[middle];
