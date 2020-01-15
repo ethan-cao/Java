@@ -75,7 +75,7 @@ public class M_3Pointer_Array_15 {
                     solutions.add(Arrays.asList(nums[left], nums[middle], nums[right]));  // list view on array, fixed size
 
                     // move either middle or right to get a different combination
-                    
+
 //                    while (middle < nums.length - 1 && nums[middle] == nums[middle + 1]) middle++;
 //                    middle++;
 

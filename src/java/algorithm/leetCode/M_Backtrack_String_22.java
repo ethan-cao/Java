@@ -15,10 +15,7 @@ Given n pairs of parentheses, write a function to generate all combinations of w
 
 */
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class M_Backtrack_String_22 {
 
@@ -74,6 +71,7 @@ public class M_Backtrack_String_22 {
     }
 
 
+    // backtrack
     public static List<String> generateParenthesis1(int n) {
         List<String> result = new LinkedList<>();
 

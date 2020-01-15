@@ -50,58 +50,50 @@ public class M_2Pointer_Recursion_LinkedList_24 {
         }
     }
 
-    // Two Pointer
     // Time: O(N), Space: O(1)
+    // Two Pointer, 0ms
     public static ListNode swapPairs(ListNode head) {
-        ListNode newHead = head;
+        ListNode newHead = null;
 
-        if (newHead == null || newHead.next == null) {
+        if (head == null) {
             return newHead;
         }
 
-        // swap the 1st and 2nd node
-        newHead = head.next;
-        head.next = head.next.next;
-        newHead.next = head;
+        newHead = head.next == null ? head : head.next;
 
-        // swap the rest
-        ListNode currentNode = newHead;
-        ListNode nextNode = currentNode.next;
+        ListNode current = head;
+        ListNode next = current.next;
 
-        while (currentNode.next.next != null && nextNode.next.next != null) {
-            ListNode previousNode = nextNode;
-            currentNode = currentNode.next.next;
-            nextNode = nextNode.next.next;
-            ListNode nextNextNode = nextNode.next;
+        while (current != null && next != null) {
+            ListNode nextNext = next.next;
 
-            nextNode.next = currentNode;
-            currentNode.next = nextNextNode;
-            previousNode.next = nextNode;
+            next.next = current;
+            current.next = (nextNext != null && nextNext.next != null) ? nextNext.next : nextNext;
 
-            // !!! reset current and next after swapping
-            ListNode temp = currentNode;
-            currentNode = nextNode;
-            nextNode = temp;
+            current = nextNext;
+            next = current == null ? null : current.next;
         }
 
         return newHead;
     }
 
-    // swapPairs() simplified
+    // 0ms
     public ListNode swapPairs1(ListNode head) {
         ListNode virtualHead = new ListNode(0);
         virtualHead.next = head;
 
-        ListNode currentNode = virtualHead;
+        ListNode current = virtualHead;
+        ListNode next = current.next;
 
-        while (currentNode.next != null && currentNode.next.next != null) {
-            ListNode node1 = currentNode.next;
-            ListNode node2 = currentNode.next.next;
+        while (next != null && next.next != null) {
+            ListNode nextNext = next.next;
 
-            currentNode.next = node2;
-            node1.next = node2.next;
-            node2.next = node1;
-            currentNode = node1;
+            current.next = next.next;
+            next.next = nextNext.next;
+            nextNext.next = next;
+
+            current = next;
+            next = current.next;
         }
 
         return virtualHead.next;
@@ -114,12 +106,12 @@ public class M_2Pointer_Recursion_LinkedList_24 {
             return head;
         }
 
-        ListNode nextNode = head.next;
+        ListNode next = head.next;
 
-        head.next = swapPairs2(head.next.next);
-        nextNode.next = head;
+        head.next = swapPairs2(next.next);
+        next.next = head;
 
-        return nextNode;
+        return next;
     }
 
 }

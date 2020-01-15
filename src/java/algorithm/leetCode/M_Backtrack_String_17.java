@@ -20,8 +20,7 @@ Q22 is similar
 
 */
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_String_17 {
 
@@ -89,7 +88,7 @@ public class M_Backtrack_String_17 {
             // cannot use position++ or ++position
             combine(combination.append(character), digits, position + 1, letterCombinations);
 
-            combination.deleteCharAt(combination.length() - 1); // this is important
+            combination.deleteCharAt(combination.length() - 1); // backtrack
         }
     }
 
