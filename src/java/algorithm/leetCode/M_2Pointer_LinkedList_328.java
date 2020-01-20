@@ -15,7 +15,7 @@ The first node is considered odd, the second node even and so on
 
 */
 
-public class M_2Pointer_Recursion_LinkedList_328 {
+public class M_2Pointer_LinkedList_328 {
 
     public static void main(String... args) {
         ListNode node1 = new ListNode(1);
@@ -58,18 +58,18 @@ public class M_2Pointer_Recursion_LinkedList_328 {
 
         ListNode evenHead = head.next;
 
-        ListNode oddTail = head;
-        ListNode evenTail = head.next;
+        ListNode odd = head;
+        ListNode evevn = head.next;
 
-        while (oddTail.next != null && evenTail.next != null) {
-            oddTail.next = oddTail.next.next;
-            evenTail.next = evenTail.next.next;
+        while (odd.next != null && evevn.next != null) {
+            odd.next = odd.next.next;
+            evevn.next = evevn.next.next;
 
-            oddTail = oddTail.next;
-            evenTail = evenTail.next;
+            odd = odd.next;
+            evevn = evevn.next;
         }
 
-        oddTail.next = evenHead;
+        odd.next = evenHead;
 
         return head;
     }
@@ -83,18 +83,19 @@ public class M_2Pointer_Recursion_LinkedList_328 {
         return splitList(head, head, head.next);
     }
 
-    private static ListNode splitList(ListNode head, ListNode oddTail, ListNode evenTail) {
-        if (evenTail == null || evenTail.next == null) {
+    // from head to nextOdd and nextEven, all odd nodes are grouped followed by all even nodes
+    private static ListNode splitList(ListNode head, ListNode odd, ListNode even) {
+        if (even == null || even.next == null) {
             return head;
         }
 
-        ListNode nextOdd = evenTail.next;
+        ListNode nextOdd = even.next;
         ListNode nextEven = nextOdd.next;
 
-        nextOdd.next = oddTail.next;
+        nextOdd.next = odd.next;
 
-        oddTail.next = nextOdd;
-        evenTail.next = nextEven;
+        odd.next = nextOdd;
+        even.next = nextEven;
 
         return splitList(head, nextOdd, nextEven);
     }

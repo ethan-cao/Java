@@ -13,7 +13,7 @@ After removing the second node from the end, the linked list becomes 1->2->3->5.
 
 */
 
-public class M_2Pointer_Recursion_LinkedList_19 {
+public class M_2Pointer_LinkedList_19 {
 
     public static void main(String... args) {
         ListNode node1 = new ListNode(1);
