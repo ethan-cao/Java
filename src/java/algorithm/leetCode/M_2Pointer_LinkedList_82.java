@@ -61,15 +61,15 @@ public class M_2Pointer_LinkedList_82 {
         ListNode virtualHead = new ListNode(head.val - 1);
         virtualHead.next = head;
 
-        ListNode current = virtualHead; // no duplicate until current
+        ListNode current = virtualHead; // no duplicate until current (inclusive)
         ListNode next = current.next;
 
         while (next != null && next.next != null) {
             boolean skip = false;
 
             while (next.next != null && next.val == next.next.val) {
-                next.next = next.next.next;
                 skip = true;
+                next.next = next.next.next;
             }
 
             if (skip) {

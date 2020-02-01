@@ -79,39 +79,48 @@ public class M_2Pointer_LinkedList_24 {
 
     // 0ms
     public ListNode swapPairs1(ListNode head) {
+        if (head == null || head.next == null ) {
+            return head;
+        }
+
         ListNode virtualHead = new ListNode(0);
-        virtualHead.next = head;
+        virtualHead.next = head.next;
 
-        ListNode current = virtualHead;
-        ListNode next = current.next;
+        ListNode odd = head;
+        ListNode even = head.next;
 
-        while (next != null && next.next != null) {
-            ListNode nextNext = next.next;
+        while (odd != null && even != null) {
+            ListNode nextOdd = even.next;
+            ListNode nextEven = nextOdd == null ? null : nextOdd.next;
 
-            current.next = next.next;
-            next.next = nextNext.next;
-            nextNext.next = next;
+            even.next = odd;
+            odd.next = nextEven == null ? nextOdd : nextEven;
 
-            current = next;
-            next = current.next;
+            odd = nextOdd;
+            even = nextEven;
         }
 
         return virtualHead.next;
     }
 
-    // Recursion
     // Time:   Space: O(N)
-    public static ListNode swapPairs2(ListNode head) {
+    private ListNode swap (ListNode odd, ListNode even) {
+        if (odd == null || even == null) {
+            return odd;
+        }
+
+        odd.next = swap(even.next, even.next == null ? null : even.next.next);
+        even.next = odd;
+
+        return even;
+    };
+
+    public ListNode swapPairs2(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode next = head.next;
-
-        head.next = swapPairs2(next.next);
-        next.next = head;
-
-        return next;
-    }
+        return swap(head, head.next);
+    };
 
 }

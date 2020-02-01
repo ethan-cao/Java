@@ -42,19 +42,18 @@ public class M_Array_31 {
     // https://youtu.be/quAS1iydq7U
     // https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
     // the key is to analyze and figure what is next permutation
-
     // take set {1,2,3,4,5} for instance, the smallest permutation is [1,2,3,4,5], the largest permutation is [5,4,3,2,1]
     // if given [1,2,5,4,3] as input, analyse it using tree, we need to find the right number to increase it
     // examine from right to left, [5,4,3] is the largest permutation for the last 3 indices, [3,4,5] is the smallest
     // to get the next permutation, we need to check index 1, if pick a slightly larger value from [2,3,4,5], which will be 3
-    // we get [1,3] as the first 2 number, given this, the smallest permutation is [2,4,5].
+    // we get [1,3] as the first 2 number, given this, sort the rest, the smallest permutation is [2,4,5].
     // thus the next permutation is [1,3,2,4,5]
     public static void nextPermutation(int[] nums) {
         if (nums == null || nums.length < 2) {
             return;
         }
 
-        // look for turning point
+        // look for turning point, from right to left, the 1st one that is smaller than its right value
         int turningPoint = nums.length - 1;
         for (int i = nums.length - 1; i > 0; --i) {
             if (nums[i - 1] < nums[i]) {
@@ -69,7 +68,7 @@ public class M_Array_31 {
             return;
         }
 
-        // look for replacement for turning point, and swap them
+        // seek replacement for turningPoint to swap, the smallest one that is larger than turningPoint
         int replacement = turningPoint + 1;
         for (int i = turningPoint + 1; i < nums.length; ++i) {
             if (nums[i] > nums[turningPoint] && nums[i] <= nums[replacement]) { //!!! use <= to pick same value at larger index

@@ -53,12 +53,11 @@ public class M_2Pointer_LinkedList_19 {
     // Time: , Space:
     // Recursion
     public static ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode secondNode = head.next;
         int headVal = head.val;
 
         visitNext(null, head, n);
 
-        return head.val != headVal ? secondNode : head;
+        return head.val != headVal ? head.next : head;
     }
 
     private static void visitNext(ListNode previousNode, ListNode currentNode, int n) {
@@ -67,7 +66,7 @@ public class M_2Pointer_LinkedList_19 {
         }
 
         visitNext(currentNode, currentNode.next, n);
-        idx++; // count backwards
+        idx++; // idx is the index of currentNode
 
         if (idx == n) {
             if (previousNode == null) {
@@ -84,21 +83,21 @@ public class M_2Pointer_LinkedList_19 {
         ListNode virtualHead = new ListNode(0);
         virtualHead.next = head;
 
-        ListNode leftPointer = virtualHead;
-        ListNode rightPointer = virtualHead;
+        ListNode left = virtualHead;
+        ListNode right = virtualHead;
 
         // make distance between 2 pointers to n
         for (int i = 0; i <= n; ++i) {
-            rightPointer = rightPointer.next;
+            right = right.next;
         }
 
-        // when rightPointer moves behind the last one, leftPointer.next is the one to drop
-        while (rightPointer != null) {
-            leftPointer = leftPointer.next;
-            rightPointer = rightPointer.next;
+        // when rightPointer moves behind the last one, left.next is the one to drop
+        while (right != null) {
+            left = left.next;
+            right = right.next;
         }
 
-        leftPointer.next = leftPointer.next.next;
+        left.next = left.next.next;
 
         return virtualHead.next;
     }
