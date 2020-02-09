@@ -28,73 +28,66 @@ public class M_Array_33 {
         System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 3)); // -1
         System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 4)); // 0
         System.out.println(search(new int[]{5, 1, 3}, 5));             // 0
+        System.out.println(search(new int[]{1, 3}, 1));                // 0
     }
 
-    // binary search
     // Time: O(logN)
     public static int search(int[] nums, int target) {
-        int targetIdx = -1;
-
         if (nums == null || nums.length == 0) {
-            return targetIdx;
+            return -1;
         }
 
-        int turningIdx = getTurningIdx(nums); // O(logN)
-        int left = target > nums[nums.length - 1] ? 0 : turningIdx;
-        int right = target > nums[nums.length - 1] ? turningIdx - 1 : nums.length - 1;
+        int pivot = getPivot(nums, 0, nums.length - 1); // O(logN)
 
-        // find target, binary search, O(logN)
-        targetIdx = getTargetIdx(left, right, nums, target);
+        // !!! compare with nums[nums.length -1]
+        int left = target > nums[nums.length - 1] ? 0 : pivot;
+        int right = target > nums[nums.length - 1] ? pivot - 1 : nums.length - 1;
 
-        return targetIdx;
+        return getTargetIdx(nums, left, right, target);
     }
 
-    private static int getTargetIdx(int left, int right, int[] nums, int target) {
-        int targetIdx = -1;
-
-        while (left <= right) {
-            int middle = left + (right - left) / 2;
-
-            if (nums[middle] > target) {
-                right = middle - 1;
-            } else if (nums[middle] < target) {
-                left = middle + 1;
-            } else {
-                targetIdx = middle;
-                break;
-            }
-
-            // alternatively, this find the left most value that is identical as target
-//            if (nums[middle] < target) {
-//                left = middle + 1;
-//            } else {
-//                right = middle;
-//            }
+    // find the pivot, the sorted array's first idx
+    // binary search, O(logN)
+    private static int getPivot(int[] nums, int left, int right) {
+        if (left > right) {
+            return -1;
         }
 
-        return targetIdx;
-    }
-
-    // find sorted array's first idx
-    private static int getTurningIdx(int[] nums) {
-        int left = 0;
-        int right = nums.length - 1;
-
-        while (left < right) {  // cannot use <=, we are looking for when left== right
+        // narrow the window until left === right
+        while (left < right) {
             int middle = left + (right - left) / 2;
 
-            // in sorted array, nums[middle] > nums[left], nums[middle] < nums[right]
-            // if nums[middle] > nums[right], turningIdx is on the right half
+            // !!! cannot compare nums[middle] and nums[left],
+            // when nums[middle] > nums[left], pivot could be in [left, middle] or [middle, right]
+
             if (nums[middle] > nums[right]) {
-                left = middle + 1;  // nums[middle] is not possible to be the turningIdx
+                left = middle + 1; // not possible for left to be middle
             } else {
-                // in this case, nums[middle] <= nums[right], sorted from middle til right
-                right = middle;  // cannot use middle - 1, nums[middle] could be the turningIdx
+                right = middle;  // possible to right to be middle
             }
         }
 
         // now left == right, which is the index for the smallest one
         return left;
+    }
+
+    // binary search, O(logN)
+    private static int getTargetIdx(int[] nums, int left, int right, int target) {
+        if (left > right) {
+            return -1;
+        }
+
+        while (left < right) {
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] < target) {
+                left = middle + 1;
+            } else {
+                right = middle;
+            }
+        }
+
+        return nums[left] == target ? left : -1;
     }
 
     // check common solution algorithm.leetCode.M_Array_81.search1

@@ -7,11 +7,9 @@ The array may contain duplicates
 You are given a target value to search. If found in the array return true, otherwise return false.
 
 ### Example
-Input: nums = [2,5,6,0,0,1,2], target = 0
-Output: true
+nums = [2,5,6,0,0,1,2], target = 0 -> true
 
-Input: nums = [2,5,6,0,0,1,2], target = 3
-Output: false
+nums = [2,5,6,0,0,1,2], target = 3 -> false
 
 Related : 33
 
@@ -20,13 +18,12 @@ Related : 33
 public class M_Array_81 {
 
     public static void main(String... args) {
-        int[] nums = {2, 5, 6, 0, 0, 1, 2};
-        System.out.println(search(nums, 0)); // T
-        System.out.println(search(nums, 3)); // F
+        System.out.println(search(new int[]{2, 5, 6, 0, 0, 1, 2}, 0)); // T
+        System.out.println(search(new int[]{2, 5, 6, 0, 0, 1, 2}, 3)); // F
     }
 
     // binary search
-    // Time: O(n)
+    // Time: O(logN)
     public static boolean search(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
@@ -69,12 +66,11 @@ public class M_Array_81 {
         int right = nums.length - 1;
 
         while (left <= right) {
-            // dismiss the impact of duplicates
+            // skip duplicates
             while (nums[left] == nums[right] && left < right) {
                 left++;
             }
 
-            // common for 33 and 81
             int middle = left + (right - left) / 2;
 
             if (target == nums[middle]) {
