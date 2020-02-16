@@ -13,10 +13,14 @@ find the duplicate one without modifying the array
 [1,3,4,2,2] --> 2
 [3,1,3,4,2] --> 3
 
+Related: 442
+
 */
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class M_2Pointer_Array_287 {
 
@@ -28,13 +32,13 @@ public class M_2Pointer_Array_287 {
 
     // Time: O(N), Space: O(N)
     public static int findDuplicate0(int[] nums) {
-        Map<Integer, Integer> counter = new HashMap<>();
+        Set<Integer> appearedNums = new HashSet<>();
 
         for (int num : nums) {
-            counter.put(num, counter.getOrDefault(num, 0) + 1);
-
-            if (counter.get(num) >= 2) {
+            if (appearedNums.contains(num)) {
                 return num;
+            } else {
+                appearedNums.add(num);
             }
         }
 
@@ -45,17 +49,22 @@ public class M_2Pointer_Array_287 {
     // Time: O(NlogN), Space: O(1)
     public static int findDuplicate1(int[] nums) {
         // !!! forget about array, do binary search for the value, and given we know there is only 1 duplicate number
-
         // left <= num <= right
         int left = 1;
         int right = nums.length - 1;
 
-        while (left < right) {
+        while (left <= right) {
+            if (left == right) {
+                return left;
+            }
+
             int middle = left + (right - left) / 2;
 
             int count = 0; // number of elements that are <= middle value
             for (int num : nums) {
-                count += num <= middle ? 1 : 0;
+                if (num <= middle) {
+                    count++;
+                }
             }
 
             // if there is no duplicate, values are evenly distributed
@@ -69,11 +78,11 @@ public class M_2Pointer_Array_287 {
             if (count > middle) {
                 right = middle;
             } else {
-                left = middle + 1;
+                left = middle + 1;  //middle is biased towards left
             }
         }
 
-        return left;
+        return -1;
     }
 
     // Time: O(N), Space: O(1)

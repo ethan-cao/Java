@@ -31,8 +31,42 @@ public class M_Array_33 {
         System.out.println(search(new int[]{1, 3}, 1));                // 0
     }
 
+    // binary search, same as M_Array_81.search
     // Time: O(logN)
     public static int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] == target) {
+                return middle;
+            }
+
+            // !!! including equal case
+            if (nums[left] <= nums[middle]) {
+                // the left half is sorted
+                if (target >= nums[left] && target < nums[middle]) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                }
+            } else {
+                // the right half is sorted
+                if (target > nums[middle] && target <= nums[right]) {
+                    left = middle + 1;
+                } else {
+                    right = middle - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    // Time: O(logN)
+    public static int search1(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
             return -1;
         }
@@ -90,10 +124,8 @@ public class M_Array_33 {
         return nums[left] == target ? left : -1;
     }
 
-    // check common solution algorithm.leetCode.M_Array_81.search1
-
     // https://leetcode.com/problems/search-in-rotated-sorted-array/discuss/14435/Clever-idea-making-it-simple
-    public static int search1(int[] nums, int target) {
+    public static int search2(int[] nums, int target) {
         return 1;
     }
 

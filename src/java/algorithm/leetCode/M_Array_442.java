@@ -21,6 +21,7 @@ public class M_Array_442 {
     }
 
     // Time: O(N), Space: O(1)
+    // 5ms
     public static List<Integer> findDuplicates(int[] nums) {
         List<Integer> duplicates = new ArrayList<>();
 
@@ -41,13 +42,14 @@ public class M_Array_442 {
     }
 
     // Time: O(N), Space: O(1)
+    // 4ms
     // Similar to 41
     public static List<Integer> findDuplicates1(int[] nums) {
         List<Integer> duplicates = new ArrayList<>();
 
         // there are n slots and n possible values to distribute
         // if there is no duplicate, it is possible to have distribution: nums[i] = i + 1
-        // then i = nums[i] - 1 =>  nums[i] = nums[nums[i] - 1]
+        // then i = nums[i] - 1 so nums[i] = nums[nums[i] - 1]
 
         // start re-distributing to make sure nums[i] = nums[nums[i] - 1]
         for (int i = 0; i < nums.length; ++i) {

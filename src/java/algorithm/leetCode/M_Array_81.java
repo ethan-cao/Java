@@ -8,7 +8,6 @@ You are given a target value to search. If found in the array return true, other
 
 ### Example
 nums = [2,5,6,0,0,1,2], target = 0 -> true
-
 nums = [2,5,6,0,0,1,2], target = 3 -> false
 
 Related : 33
@@ -22,7 +21,7 @@ public class M_Array_81 {
         System.out.println(search(new int[]{2, 5, 6, 0, 0, 1, 2}, 3)); // F
     }
 
-    // binary search
+    // binary search, same as M_Array_33.search
     // Time: O(logN)
     public static boolean search(int[] nums, int target) {
         int left = 0;
@@ -35,15 +34,17 @@ public class M_Array_81 {
                 return true;
             }
 
-            if (nums[middle] > nums[left]) {
+            // since there is duplicate, we might have nums[left] = nums[middle] = nums[right]
+            // use strict compare to move left and right
+
+            if (nums[left] < nums[middle]) {
                 // the left part is sorted
                 if (target >= nums[left] && target <= nums[middle]) {
-                    // target is in sorted part
                     right = middle - 1;
                 } else {
                     left = middle + 1;
                 }
-            } else if (nums[middle] < nums[left]) {
+            } else if (nums[left] > nums[middle]) {
                 // the right part is sorted
                 if (target >= nums[middle] && target <= nums[right]) {
                     left = middle + 1;
@@ -51,22 +52,38 @@ public class M_Array_81 {
                     right = middle - 1;
                 }
             } else {
-                // for duplicates, just ignore
+                // for duplicates, like [1,3,1,1,1], nums[left] == nums[middle]
                 // worst case time O(n), which makes the solution O(n)
                 left++;
             }
+
+            // it is also possible to compare with right
+//            if (nums[middle] < nums[right]) {
+//                if (target > nums[middle] && target <= nums[right]) {
+//                    left = middle + 1;
+//                } else {
+//                    right = middle - 1;
+//                }
+//            } else if (nums[middle] > nums[right]) {
+//                if (target >= nums[left] && target < nums[middle]) {
+//                    right = middle - 1;
+//                } else {
+//                    left = middle + 1;
+//                }
+//            } else {
+//                right--;
+//            }
         }
 
         return false;
     }
 
-    // this is general solution for both 33 and 81
     public static boolean search1(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
 
         while (left <= right) {
-            // skip duplicates
+            // skip duplicates, for case like [1,3,1,1,1]
             while (nums[left] == nums[right] && left < right) {
                 left++;
             }

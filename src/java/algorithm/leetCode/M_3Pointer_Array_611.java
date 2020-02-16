@@ -140,10 +140,8 @@ public class M_3Pointer_Array_611 {
         // use left as driver
         for (int left = 0; left < nums.length - 2; ++left) {
             for (int middle = left + 1; middle < nums.length - 1; ++middle) {
-                int sum = nums[left] + nums[middle];
-
-                // seek the 1st number that < sum
-                int right = binarySearch(nums, middle + 1, nums.length - 1, sum);
+                // seek the 1st number that < nums[left] + nums[middle];
+                int right = binarySearch(nums, middle + 1, nums.length - 1, nums[left] + nums[middle]);
 
                 if (right != -1) {
                     tripletCount += right - middle;
@@ -155,24 +153,32 @@ public class M_3Pointer_Array_611 {
     }
 
     private static int binarySearch(int[] nums, int left, int right, int target) {
-        while (left + 1 < right) {  // !!! after loop, left + 1 = right
+        while (left <= right) {
             int middle = left + (right - left) / 2;
 
+            if (left == middle) {
+                if (nums[right] < target) {
+                    return right;
+                } else if (nums[left] < target) {
+                    return left;
+                } else {
+                    return -1;
+                }
+            }
+
+            if (middle + 1 < nums.length && nums[middle] < target && nums[middle + 1] >= target) {
+                return middle;
+            }
+
+            // since we already excluded that possibility that middle is the right answer, -1 and +1 accordingly
             if (nums[middle] >= target) {
-                right = middle - 1;  // we can exclude middle, since we are looking for num < target
+                right = middle - 1;
             } else {
-                left = middle;
+                left = middle - 1;
             }
         }
 
-        // check right first
-        if (nums[right] < target) {
-            return right;
-        } else if (nums[left] < target) {
-            return left;
-        } else {
-            return -1;
-        }
+        return -1;
     }
 
 }

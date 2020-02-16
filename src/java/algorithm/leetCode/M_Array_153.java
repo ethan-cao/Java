@@ -11,8 +11,6 @@ You may assume no duplicate exists in the array.
  [3,4,5,1,2]  -> 1
  [4,5,6,7,0,1,2] -> 0
 
-Related : 33, 81
-
 */
 
 public class M_Array_153 {
@@ -21,6 +19,34 @@ public class M_Array_153 {
         System.out.println(findMin(new int[]{3, 4, 5, 1, 2}));      // 1
         System.out.println(findMin(new int[]{4, 5, 6, 7, 0, 1, 2}));  // 0
     }
+
+    // binary search
+    // Time: O(n)
+    public static int findMin0(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+
+            //middle is biased towards left, middle will not equal to right, middle could equal to left
+            // in this case, there are only 2 elements to check [left, right]. left === middle
+            if (left == middle) {
+                return Math.min(nums[left], nums[right]);
+            }
+
+            if (nums[middle] > nums[right]) {
+                // pivot is in right half
+                left = middle + 1;
+            } else {
+                // pivot is in left half
+                right = middle;
+            }
+        }
+
+        return nums[left];
+    }
+
 
     // binary search
     // Time: O(n)
@@ -52,30 +78,4 @@ public class M_Array_153 {
         return nums[left];
     }
 
-    // binary search
-    // Time: O(n)
-    public static int findMin1(int[] nums) {
-        int left = 0;
-        int right = nums.length - 1;
-
-        // cannot use <=, we are looking for when left== right
-        // use while (start < end) if need to exit loop first, and then use start or end to return the match
-        // use while (start <= end) if you are returning the match from inside the loop
-        while (left < right) {
-            int middle = left + (right - left) / 2;
-
-            //middle is biased towards left, middle will not equal to right, middle could equal to left
-            // so compare middle and right without ==
-            if (nums[middle] < nums[right]) {
-                // pivot is in left half
-                right = middle;  // cannot use middle + 1, middle is biased towards left and need to examine nums[middle]
-            } else {
-                // pivot is in right half
-                right = middle + 1;
-            }
-        }
-        // now left == right, which is the index for the smallest one
-
-        return nums[left];
-    }
 }
