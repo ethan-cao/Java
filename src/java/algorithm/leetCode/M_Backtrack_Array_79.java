@@ -57,18 +57,16 @@ public class M_Backtrack_Array_79 {
         return false;
     }
 
-    private static boolean searchWord(char[][] board, int row, int column, String word, int charIdx, boolean[][] used) {
-        if (charIdx == word.length()) {
+    private static boolean searchWord(char[][] board, int row, int column, String word, int matchCount, boolean[][] used) {
+        if (matchCount == word.length()) {
             return true;
         }
-
-        // merge the next 2 check does not make it faster
 
         if (row < 0 || row >= board.length || column < 0 || column >= board[0].length) {
             return false;
         }
 
-        if (board[row][column] != word.charAt(charIdx) || used[row][column]) { // order of check does not affect time
+        if (board[row][column] != word.charAt(matchCount) || used[row][column]) { // order of check does not affect time
             return false;
         }
 
@@ -77,16 +75,16 @@ public class M_Backtrack_Array_79 {
         // this works, just slow 8ms
 //        int[][] vectors = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 //        for (int[] vector : vectors) {
-//            if (searchWord(board, row + vector[0], column + vector[1], word, charIdx + 1, used)) {
+//            if (searchWord(board, row + vector[0], column + vector[1], word, matchCount + 1, used)) {
 //                return true;
 //            }
 //        }
 
         // this works and faster, 4ms
-        if (searchWord(board, row, column + 1, word, charIdx + 1, used) ||
-            searchWord(board, row, column + -1, word, charIdx + 1, used) ||
-            searchWord(board, row + 1, column, word, charIdx + 1, used) ||
-            searchWord(board, row + -1, column, word, charIdx + 1, used)) {
+        if (searchWord(board, row, column + 1, word, matchCount + 1, used) ||
+                searchWord(board, row, column + -1, word, matchCount + 1, used) ||
+                searchWord(board, row + 1, column, word, matchCount + 1, used) ||
+                searchWord(board, row + -1, column, word, matchCount + 1, used)) {
             return true;
         }
 

@@ -8,15 +8,14 @@ What if the BST is modified (insert/delete operations) often
 and you need to find the kth smallest frequently? How would you optimize the kthSmallest routine?
 
 ### Example
-Input: root = [3,1,4,null,2], k = 1
+Input: root = [3,1,4,null,2], k = 1   ==> 1
    3
   / \
  1   4
   \
    2
-Output: 1
 
-Input: root = [5,3,6,2,4,null,null,1], k = 3
+root = [5,3,6,2,4,null,null,1], k = 3  ==>  3
        5
       / \
      3   6
@@ -24,11 +23,9 @@ Input: root = [5,3,6,2,4,null,null,1], k = 3
    2   4
   /
  1
-Output: 3
 */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class M_Stack_Tree_230 {
 
@@ -97,10 +94,6 @@ public class M_Stack_Tree_230 {
         count++;
         if (count == k) {
             kthSmallest = node.val;
-        }
-
-        // optimization
-        if (count > k) {
             return;
         }
 
@@ -108,16 +101,19 @@ public class M_Stack_Tree_230 {
     }
 
     // Binary search
+    // best: O(N), worst: O(N^2)
     public static int kthSmallest2(TreeNode root, int k) {
-        int count = countNodes(root.left);
+        int leftChildCount = countNodes(root.left);
 
-        if (count >= k) {
-            return kthSmallest2(root.left, k);
-        } else if (count + 1 < k)  {
-            return kthSmallest2(root.right, k - 1 - count); // 1 is counted as current node
+        if (leftChildCount == k - 1) {
+            return root.val;
         }
 
-        return root.val;
+        if (leftChildCount >= k) {
+            return kthSmallest(root.left, k);
+        } else {
+            return kthSmallest(root.right, k - 1 - leftChildCount);
+        }
     }
 
     // count number of nodes in this subtree rooted at node
@@ -128,4 +124,5 @@ public class M_Stack_Tree_230 {
 
         return countNodes(node.left) + 1 + countNodes(node.right);
     }
+
 }

@@ -4,10 +4,9 @@ package algorithm.leetCode;
 Given a collection of distinct integers, return all possible permutations.
 
 ### Example
-Input: [1,2,3]
-Output: [ [1,2,3],  [1,3,2],  [2,1,3],  [2,3,1],  [3,1,2],  [3,2,1] ]
+[1,2,3] -> [ [1,2,3],  [1,3,2],  [2,1,3],  [2,3,1],  [3,1,2],  [3,2,1] ]
 
-]*/
+*/
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +47,9 @@ public class M_Backtrack_Array_46 {
             }
 
             tracker.add(num);
+
             collectPermutation(nums, permutations, tracker);
+
             tracker.remove(tracker.size() - 1);
         }
     }

@@ -5,14 +5,11 @@ Given a string s, partition s such that every substring of the partition is a pa
 Return all possible palindrome partitioning of s.
 
 ### Example
-Input: "aab"
-Output: [ ["aa","b"],  ["a","a","b"] ]
+"aab" -> [ ["aa","b"],  ["a","a","b"] ]
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_Array_131 {
 
@@ -41,13 +38,13 @@ public class M_Backtrack_Array_131 {
 
         for (int i = start; i < s.length(); ++i) {
             String substring = s.substring(start, i + 1);
-            if (!isPalindrome(substring)) {
-                continue;
-            }
 
-            tracker.add(substring);
-            collectPartitions(s, partitions, tracker, i + 1);
-            tracker.remove(tracker.size() - 1);
+            if (isPalindrome(substring)) {
+                tracker.add(substring);
+                collectPartitions(s, partitions, tracker, i + 1);
+
+                tracker.remove(tracker.size() - 1);
+            }
         }
     }
 

@@ -19,14 +19,9 @@ Node 2's value is 2, its next pointer points to null and its random pointer poin
 
 */
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class M_LinkedList_138 {
-
-    public static void main(String... args) {
-//        Node n1 = new Node(1)
-    }
 
     static class Node {
         public int val;

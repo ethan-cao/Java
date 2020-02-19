@@ -50,7 +50,7 @@ public class M_Backtrack_Array_40 {
 
         for (int i = start; i < candidates.length; ++i) {
             if (candidates[i] > target) {
-                continue;
+                break;
             }
 
             if (i > start && candidates[i] == candidates[i - 1]) {  // !!! i > start
@@ -59,7 +59,7 @@ public class M_Backtrack_Array_40 {
 
             combination.add(combination.size(), candidates[i]);  // Try
 
-            getCombinations(candidates, start + 1, target - candidates[i], combination, combinations);
+            getCombinations(candidates, i + 1, target - candidates[i], combination, combinations);
 
             combination.remove(combination.size() - 1);   // Backtrack
         }

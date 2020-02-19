@@ -15,6 +15,7 @@ Explanation: 342 + 465 = 807.
 */
 
 public class M_LinkedList_2 {
+
     public static void main(String... args) {
         ListNode n1 = new ListNode(2);
         ListNode n2 = new ListNode(4);
@@ -47,92 +48,34 @@ public class M_LinkedList_2 {
         }
     }
 
-    // this is not acceptable answer since l1 and l2 could be even larger than long
-    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) {
-            return null;
-        }
-
-        if (l1 == null || l2 == null) {
-            return l1 == null ? l2 : l1;
-        }
-
-        long num1 = getValue(l1);
-        long num2 = getValue(l2);
-        long sum = num1 + num2;
-
-        ListNode head = null;
-        ListNode node = null;
-
-        while (sum > 0) {
-            int remainder = (int) (sum % 10);
-
-            if (node == null) {
-                node = new ListNode(remainder);
-                head = node;
-            } else {
-                node.next = new ListNode(remainder);
-                node = node.next;
-            }
-
-            sum /= 10;
-        }
-
-        return head;
-    }
-
-    private static long getValue(ListNode node) {
-        StringBuilder sb = new StringBuilder();
-
-        while (node != null) {
-            sb.append(node.val);
-            node = node.next;
-        }
-
-        return Long.valueOf(sb.reverse().toString());
-    }
-
     public static ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) {
-            return null;
-        }
+        ListNode virtualHead = new ListNode(0);
 
-        if (l1 == null || l2 == null) {
-            return l1 == null ? l2 : l1;
-        }
-
+        ListNode node = virtualHead;
         ListNode node1 = l1;
         ListNode node2 = l2;
 
-        ListNode node = null;
-        ListNode head = null;
-
+        int sum = 0;
         int carry = 0;
 
         while (node1 != null || node2 != null) {
-            int number1 = node1 == null ? 0 : node1.val;
-            int number2 = node2 == null ? 0 : node2.val;
+            int value1 = node1 == null ? 0 : node1.val;
+            int value2 = node2 == null ? 0 : node2.val;
 
-            int sum = number1 + number2 + carry;
-            carry = sum / 10;
-            sum = sum % 10;
+            sum = (value1 + value2 + carry) % 10;
+            carry = (value1 + value2 + carry) / 10;
 
-            if (node == null) {
-                node = new ListNode(sum);
-                head = node;
-            } else {
-                node.next = new ListNode(sum);
-                node = node.next;
-            }
+            node.next = new ListNode(sum);
 
             node1 = node1 == null ? null : node1.next;
             node2 = node2 == null ? null : node2.next;
+            node = node.next;
         }
 
         if (carry != 0) {
             node.next = new ListNode(carry);
         }
 
-        return head;
+        return virtualHead.next;
     }
 }
