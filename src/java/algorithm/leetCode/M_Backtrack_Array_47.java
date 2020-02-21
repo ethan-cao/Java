@@ -6,7 +6,7 @@ Given a collection of numbers that might contain duplicates, return all possible
 ### Example
 [1,1,2] -> [  [1,1,2],   [1,2,1],   [2,1,1] ]
 
-]*/
+*/
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +31,7 @@ public class M_Backtrack_Array_47 {
         boolean[] used = new boolean[nums.length];
 
         Arrays.sort(nums);
+
         collectPermutation(nums, permutations, tracker, used);
 
         return permutations;
@@ -47,15 +48,18 @@ public class M_Backtrack_Array_47 {
                 continue;
             }
 
-            // skip duplication, require nums to be sorted
-            // !used[i-1] : the previous one has been use in previous round
-            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+            // !!! skip duplicated case, require nums to be sorted
+            // if the current is the same as the previous one && the previous one is not in use
+            // this is the same case as the previous is used
+            if (i > 0 && !used[i - 1] && nums[i] == nums[i - 1]) {
                 continue;
             }
 
             tracker.add(nums[i]);
             used[i] = true;
+
             collectPermutation(nums, permutations, tracker, used);
+
             tracker.remove(tracker.size() - 1);
             used[i] = false;
         }

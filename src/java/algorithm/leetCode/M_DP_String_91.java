@@ -18,7 +18,6 @@ Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 
 */
 
-
 public class M_DP_String_91 {
 
     public static void main(String... args) {
@@ -37,22 +36,24 @@ public class M_DP_String_91 {
 
     // get number of ways to decode s.substring(idx, s.length)
     private static int numDecodings(String s, int idx) {
+        // base case
         if (idx == s.length()) {
             return 1;
         }
 
-        int result = 0;
+        // not possible to have leading 0
+        if (s.charAt(idx) == '0') {
+            return 0;
+        }
 
-        //case 1 : single digit
-        if (s.charAt(idx) != '0') {
-            result += numDecodings(s, idx + 1);
+        // case 1: result for case idx === result for idx + 1
+        int result = numDecodings(s, idx + 1);
 
-            // case 2: double digit
-            if (idx < s.length() - 1) {
-                int doubleDigit = Integer.parseInt(s.substring(idx, idx + 2));
-                if (doubleDigit <= 26) {
-                    result += numDecodings(s, idx + 2);
-                }
+        if (idx < s.length() - 1) {
+            int doubleDigit = Integer.parseInt(s.substring(idx, idx + 2));
+            if (doubleDigit <= 26) {
+                // case 2: result for case idx === result for idx + 2
+                result += numDecodings(s, idx + 2);
             }
         }
 
