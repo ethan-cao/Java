@@ -19,16 +19,16 @@ import java.util.Deque;
 public class M_DP_String_583 {
 
     public static void main(String... args) {
-        System.out.println(minDistance("a", "a"));     // 0
-        System.out.println(minDistance("ab", "a"));    // 1
-        System.out.println(minDistance("", "aaa"));    // 3
-        System.out.println(minDistance("a", "aaa"));   // 2
-        System.out.println(minDistance("park", "spake"));   // 3
-        System.out.println(minDistance("sea", "eat")); // 2
+        System.out.println(minDistance1("a", "a"));          // 0
+        System.out.println(minDistance1("ab", "a"));         // 1
+        System.out.println(minDistance1("", "aaa"));         // 3
+        System.out.println(minDistance1("a", "aaa"));        // 2
+        System.out.println(minDistance1("park", "spake"));   // 3
+        System.out.println(minDistance1("sea", "eat"));      // 2
     }
 
-    // DP:  finding the longest common subsequence.
     // Time: O(N^2)
+    // DP 2d array: same idea as finding the longest common subsequence.
     public static int minDistance(String word1, String word2) {
         //  dp[i][j] stands for distance of first i chars of word1 and first j chars of word2
         int[][] minDistances = new int[word1.length() + 1][word2.length() + 1];
@@ -47,7 +47,7 @@ public class M_DP_String_583 {
                 if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
                     minDistances[i][j] = minDistances[i - 1][j - 1];
                 } else {
-                    minDistances[i][j] = Math.min(minDistances[i - 1][j], minDistances[i][j - 1]) + 1;
+                    minDistances[i][j] = 1 + Math.min(minDistances[i - 1][j], minDistances[i][j - 1]);
                 }
             }
         }
@@ -55,8 +55,31 @@ public class M_DP_String_583 {
         return minDistances[word1.length()][word2.length()];
     }
 
-    // DP, 1d array
+    // DP 1d array
     public static int minDistance1(String word1, String word2) {
-        return 1;
+        int[] minDistances = new int[word2.length() + 1];
+
+        for (int i = 0; i <= word2.length(); ++i) {
+            minDistances[i] = i;
+        }
+
+        for (int i = 1; i <= word1.length(); ++i) {
+            int previous = minDistances[0];
+            minDistances[0] = i;
+
+            for (int j = 1; j <= word2.length(); ++j) {
+                int temp = minDistances[j];
+
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    minDistances[j] = previous;
+                } else {
+                    minDistances[j] = 1 + Math.min(minDistances[j], minDistances[j - 1]);
+                }
+
+                previous = temp;
+            }
+        }
+
+        return minDistances[word2.length()];
     }
 }

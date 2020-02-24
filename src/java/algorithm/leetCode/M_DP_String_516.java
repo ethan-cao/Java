@@ -13,33 +13,33 @@ You may assume that the maximum length of s is 1000.
 public class M_DP_String_516 {
 
     public static void main(String... args) {
-        System.out.println(longestPalindromeSubseq0("")); // 0
-        System.out.println(longestPalindromeSubseq0("a")); // 1
-        System.out.println(longestPalindromeSubseq0("aa")); // 2
-        System.out.println(longestPalindromeSubseq0("aaa")); // 3
-        System.out.println(longestPalindromeSubseq0("bbbab")); // 4
-        System.out.println(longestPalindromeSubseq0("cbbd")); // 2
+//        System.out.println(longestPalindromeSubseq("")); // 0
+//        System.out.println(longestPalindromeSubseq("a")); // 1
+//        System.out.println(longestPalindromeSubseq("aa")); // 2
+        System.out.println(longestPalindromeSubseq("aaa")); // 3
+//        System.out.println(longestPalindromeSubseq("bbbab")); // 4
+//        System.out.println(longestPalindromeSubseq("cbbd")); // 2
     }
 
     // DP, use tabulation to analyze
-    public static int longestPalindromeSubseq0(String s) {
+    public static int longestPalindromeSubseq(String s) {
         if (s == null || s.isEmpty()) {
             return 0;
         }
 
-        // longestLength[i][j] : longest Palindrome Subsequence for substring(i, j+1)
+        // longestLength[i][j]: longest Palindrome Subsequence for substring(left, right)
         int[][] longestLength = new int[s.length()][s.length()];
 
-        for (int i = s.length() - 1; i >= 0; i--) {
-            longestLength[i][i] = 1;
+        for (int left = s.length() - 1; left >= 0; --left) {
+            longestLength[left][left] = 1;
 
-            for (int j = i + 1; j < s.length(); ++j) {
+            for (int right = left + 1; right < s.length(); ++right) {
 
-                if (s.charAt(i) == s.charAt(j)) {
-                    longestLength[i][j] = longestLength[i + 1][j - 1] + 2;
-                    // longestLength[i + 1][j - 1] exclude the 2 chars that matches
+                if (s.charAt(left) == s.charAt(right)) {
+                    // 2 more chars than longestLength[left + 1][right - 1]
+                    longestLength[left][right] = 2 + longestLength[left + 1][right - 1];
                 } else {
-                    longestLength[i][j] = Math.max(longestLength[i][j - 1], longestLength[i + 1][j]);
+                    longestLength[left][right] = Math.max(longestLength[left + 1][right], longestLength[left][right - 1]);
                 }
             }
         }

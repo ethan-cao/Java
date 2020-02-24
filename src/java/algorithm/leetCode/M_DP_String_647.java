@@ -5,15 +5,12 @@ Given a string, your task is to count how many palindromic substrings in this st
 
 The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.
 
-
 ### Example
 "abc" ->  3, Explanation: Three palindromic strings: "a", "b", "c".
 "aaa" ->  6, Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
 
 ### Condition
 The input string length won't exceed 1000.
-
-# Related : 5
 
 */
 
@@ -31,24 +28,23 @@ public class M_DP_String_647 {
     public static int countSubstrings1(String s) {
         int count = 0;
 
-        int L = s.length();
         // since we are talking about substring, we need the start and end index, so came up with this array
         // isPalindrome[x][y] indicates whether substring s that starts at index x and ends at y is palindrome
-        boolean[][] isPalindrome = new boolean[L][L]; // by default, all false
+        boolean[][] isPalindrome = new boolean[s.length()][s.length()]; // by default, all false
 
-        for (int i = 0; i < L; ++i) {
-            for (int j = i; j >= 0; --j) {
+        for (int left = 0; left < s.length(); ++left) {
+            for (int right = left; right >= 0; --right) {
 
-                // we cannot use for (int j = i; j < L; ++j) as 2nd iteration and i as start, j as end
-                // since isPalindrome[j][i] could depends on isPalindrome[j + 1][i - 1], we need make sure isPalindrome[j + 1][i - 1] is already checked
+                // we cannot use for (int right = left; right < L; ++right) as 2nd iteration and left as start, right as end
+                // since isPalindrome[right][left] could depends on isPalindrome[right + 1][left - 1], we need make sure isPalindrome[right + 1][left - 1] is already checked
 
-                if (i - j < 3) {
-                    isPalindrome[j][i] = s.charAt(j) == s.charAt(i);
+                if (left - right < 3) {
+                    isPalindrome[right][left] = s.charAt(right) == s.charAt(left);
                 } else {
-                    isPalindrome[j][i] = s.charAt(j) == s.charAt(i) && isPalindrome[j + 1][i - 1];
+                    isPalindrome[right][left] = s.charAt(right) == s.charAt(left) && isPalindrome[right + 1][left - 1];
                 }
 
-                if (isPalindrome[j][i]) {
+                if (isPalindrome[right][left]) {
                     count++;
                 }
             }
@@ -59,15 +55,15 @@ public class M_DP_String_647 {
 
     //DP iterative, Two pointer, faster
     public static int countSubstrings(String s) {
-        int result = 0;
+        int count = 0;
 
         // i is the middle point
         for (int i = 0; i < s.length(); ++i) {
-            result += countPalindrome(s, i, i); // handle odd length palindrome
-            result += countPalindrome(s, i, i + 1); // handle even length palindrome
+            count += countPalindrome(s, i, i); // handle odd length palindrome
+            count += countPalindrome(s, i, i + 1); // handle even length palindrome
         }
 
-        return result;
+        return count;
     }
 
     private static int countPalindrome(String s, int left, int right) {

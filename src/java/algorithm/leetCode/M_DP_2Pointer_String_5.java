@@ -11,7 +11,7 @@ You may assume that the maximum length of s is 1000.
 
 */
 
-public class M_2Pointer_DP_String_5 {
+public class M_DP_2Pointer_String_5 {
 
     public static void main(String... args) {
         System.out.println(longestPalindrome(""));   // ""
@@ -63,8 +63,8 @@ public class M_2Pointer_DP_String_5 {
 
         for (int i = 0; i < s.length(); ++i) {
             // i is the middle point
-            String oddPalindrome = getLongPalindrome(s, i, i); // handle odd length palindrome
-            String evenPalindrome = getLongPalindrome(s, i, i + 1); // handle even length palindrome
+            String oddPalindrome = getPalindrome(s, i, i); // handle odd length palindrome
+            String evenPalindrome = getPalindrome(s, i, i + 1); // handle even length palindrome
 
             String longerPalindrome = oddPalindrome.length() > evenPalindrome.length() ? oddPalindrome : evenPalindrome;
             longestPalindrome = longestPalindrome.length() > longerPalindrome.length() ? longestPalindrome : longerPalindrome;
@@ -73,16 +73,16 @@ public class M_2Pointer_DP_String_5 {
         return longestPalindrome;
     }
 
-    private static String getLongPalindrome(String s, int start, int end) {
-        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
-            start--;
-            end++;
+    private static String getPalindrome(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
         }
 
-        start++;
-        end--;
+        left++;
+        right--;
 
-        return s.substring(start, end + 1);
+        return s.substring(left, right + 1);
     }
 
 }

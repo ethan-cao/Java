@@ -14,6 +14,11 @@ public class ArrayTest {
         System.out.println();
         System.out.println(Arrays.toString(array));
 
+        boolean contains = Arrays.stream(array).anyMatch(x->x ==2);
+        System.out.println("array contains 2 : " + contains);
+
+        String[] values = {"AB","BC","CD","AE"};
+        contains = Arrays.stream(values).anyMatch("s"::equals);
 
         Object[] a1 = new Object[]{null, new Object(), new Object()};
 
