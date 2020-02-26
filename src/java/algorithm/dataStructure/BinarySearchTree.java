@@ -2,8 +2,6 @@ package algorithm.dataStructure;
 
 import java.util.*;
 
-import algorithm.sorting.SelectionSort;
-
 /**
  * Binary search tree implementation for symbol table (Map)
  *

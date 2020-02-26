@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.sort;
 
 import java.util.Arrays;
 
@@ -17,6 +17,7 @@ public class SelectionSort {
         System.out.println(Arrays.toString(data));
     }
 
+    // Time: O(N^2)
     public static void sort(int[] data) {
         for (int i = 0; i < data.length; ++i) {
              // assume data[i] is the smallest element

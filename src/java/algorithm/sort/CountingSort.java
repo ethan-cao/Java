@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.sort;
 
 import java.util.Arrays;
 
@@ -16,9 +16,9 @@ import java.util.Arrays;
 public class CountingSort {
 
     public static void main(String[] args) {
-        int[] data = {10, 10, 5, 11, 13, 1};
+        int[] data = {2, 1, 3, 5, 4};
 
-        sort(data, 13); // 13 is range, the max value
+        sort(data, 5); // 13 is range, the max value
 
         System.out.println(Arrays.toString(data));
     }
@@ -35,14 +35,20 @@ public class CountingSort {
             tally[i] += tally[i - 1];
         }
 
+        int[] tempResult = new int[data.length];
+
         // position element in order
-        int[] result = new int[data.length];
         for (int a : data) {
-            int numberOfSmallerElements = tally[a]; // number of elements that are <=  (the element represented by tally[i])
-            result[numberOfSmallerElements - 1] = a;  // -1 : since index starts from 0
+            int nonGreaterElementCount = tally[a]; // number of elements that are <=  (the element represented by tally[i])
+
+            // put the current element on the right position
+            tempResult[nonGreaterElementCount - 1] = a;  // -1 : since index starts from 0
+
+            // reduce number of element to be sorted
             tally[a]--;
         }
 
-        System.arraycopy(result, 0, data, 0, data.length);
+        System.arraycopy(tempResult, 0, data, 0, data.length);
     }
+
 }

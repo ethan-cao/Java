@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.sort;
 
 import java.util.Arrays;
 
@@ -22,12 +22,11 @@ public class InsertionSort {
         System.out.println(Arrays.toString(data));
     }
 
+    // Time: O(N^2)
     public static void sort(int[] data) {
         for (int i = 0; i < data.length; ++i) {
             // each iteration checks only 1 element data[i], aiming to put it in sorted position
-
             // compare data[i] with elements before it, elements before it are sorted
-
             for (int j = i; j > 0; --j) {
                 if (data[j - 1] > data[j]) {
                     int swap = data[j - 1];

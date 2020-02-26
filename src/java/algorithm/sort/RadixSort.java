@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.sort;
 
 import java.util.Arrays;
 
@@ -9,8 +9,8 @@ import java.util.Arrays;
  * the first sorting algorithm in 1887
  *
  * There has 2 flavors:
- * 1.most significant digit (MSD) radix sort : from the greatest digit, and moving towards the least significant digit
- * 2.least significant digit (LSD) radix sort : the smallest digit first, moving towards the greater
+ * 1.most significant digit (MSD) radix sort:  from the greatest digit, and moving towards the least significant digit
+ * 2.least significant digit (LSD) radix sort: from the smallest digit first, moving towards the greater
  * Both based on counting sort
  *
  * Can also be used to sort String, since each char has int value

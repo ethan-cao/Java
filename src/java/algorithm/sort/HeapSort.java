@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.sort;
 
 import algorithm.dataStructure.BinaryHeap;
 
