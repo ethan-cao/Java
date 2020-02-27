@@ -5,15 +5,11 @@ Given a set of distinct integers, nums, return all possible subsets (the power s
 Note: The solution set must not contain duplicate subsets.
 
 ### Example
-Input: nums = [1,2,3]
-Output: [ [3], [1],  [2],  [1,2,3],  [1,3],  [2,3],  [1,2],  [] ]
+nums = [1,2,3] -> [ [3], [1],  [2],  [1,2,3],  [1,3],  [2,3],  [1,2],  [] ]
 
-Related : 90
-]*/
+*/
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_BitManipulation_Array_78 {
 
@@ -25,7 +21,6 @@ public class M_Backtrack_BitManipulation_Array_78 {
             System.out.println(Arrays.toString(subset.toArray()));
         }
         // [ [], [3], [2],  [1], [1,3],  [2,3],  [1,2], [1,2,3],  ]
-
     }
 
     // Backtrack

@@ -9,24 +9,16 @@ then the whole array will be sorted in ascending order, too.
 
 You need to find the shortest such subarray and output its length
 
-### Input
-int[] array, int k
-
-### Output
-int[]
+Then length of the input array is in range [1, 10,000].
+The input array may contain duplicates, so ascending order here means <=.
 
 ### Example
 [2, 6, 4, 8, 10, 9, 15] -->  5
 Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to
 make the whole array sorted in ascending order.
 
-### Condition
-Then length of the input array is in range [1, 10,000].
-The input array may contain duplicates, so ascending order here means <=.
-
-R: 1
-
 */
+
 public class E_Array_581 {
 
     public static void main(String... args) {

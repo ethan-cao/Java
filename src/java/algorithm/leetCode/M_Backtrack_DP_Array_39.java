@@ -17,9 +17,7 @@ A solution set is: [  [2,2,2,2],  [2,3,3],   [3,5] ]
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_DP_Array_39 {
 

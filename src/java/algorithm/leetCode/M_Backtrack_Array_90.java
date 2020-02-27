@@ -8,11 +8,9 @@ Note: The solution set must not contain duplicate subsets
 ### Example
 [1,2,2] -> [  [2],  [1],  [1,2,2],  [2,2], [1,2],  [] ]
 
-]*/
+*/
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_Array_90 {
 
@@ -33,6 +31,7 @@ public class M_Backtrack_Array_90 {
         List<Integer> tracker = new ArrayList<>();
 
         Arrays.sort(nums);
+
         collectSubset(nums, subsets, tracker, 0);
 
         return subsets;
