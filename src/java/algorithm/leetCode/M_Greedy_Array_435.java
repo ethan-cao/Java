@@ -37,18 +37,21 @@ public class M_Greedy_Array_435 {
         }
 
         int minOverlappingIntervalCount = 0;
-
-        // sort by start
-        Arrays.sort(intervals, (interval1, interval2) -> interval1[0] - interval2[0]);
-
         int previousNonOverlappingIntervalEnd = Integer.MIN_VALUE;
 
+        // O(NlogN)
+        Arrays.sort(intervals, (interval1, interval2) -> interval1[0] - interval2[0]); // sort by start
+
+
+        // O(N)
         for (int[] interval : intervals) {
-            if (interval[0] < previousNonOverlappingIntervalEnd) {
+
+            // similar to 452, but count in different condition
+
+            if (previousNonOverlappingIntervalEnd > interval[0]) {
                 minOverlappingIntervalCount++;
 
-                // when 2 intervals overlap, the one with smaller end should be removed, since it leaves more room for the rest
-                // so less intercal should be remove later
+                // when 2 intervals overlap, the one with larger end should be removed, since it could overlap with others
                 previousNonOverlappingIntervalEnd = Math.min(previousNonOverlappingIntervalEnd, interval[1]);
 
                 // This is not necessary if we sort by the end

@@ -17,8 +17,7 @@ import java.util.*;
 public class M_Greedy_Stack_Array_56 {
 
     public static void main(String... args) {
-        int[][] mergedIntervals = merge(new int[][]{{1, 4}, {5, 6}, {2, 7},});
-        for (int[] merge : mergedIntervals) System.out.println(Arrays.toString(merge));
+        System.out.println(Arrays.deepToString(merge(new int[][]{{1, 4}, {4, 5}})));
     }
 
     // Time: O(NlogN)
@@ -41,7 +40,6 @@ public class M_Greedy_Stack_Array_56 {
         for (int[] interval : intervals) {
             if (overlappingGroupEnd >= interval[0]) {
                 // since sort by start, the previous is always smaller, no need to update overlappingGroupStart
-//                overlappingGroupStart = Math.min(overlappingGroupStart, interval[0]);
                 overlappingGroupEnd = Math.max(overlappingGroupEnd, interval[1]);
             } else {
                 mergedIntervals.add(new int[]{overlappingGroupStart, overlappingGroupEnd});

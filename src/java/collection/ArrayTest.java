@@ -29,7 +29,14 @@ public class ArrayTest {
 
         Object[] a4 = new Object[4];
 
+        int[][] twoDimensionArray = new int[2][2];
+        twoDimensionArray[0][0] = 99;
+        twoDimensionArray[0][1] = 151;
+        twoDimensionArray[1][0] = 30;
+        twoDimensionArray[1][1] = 5;
 
+        System.out.println("print 2d array with Arrays.deepToString");
+        System.out.println(Arrays.deepToString(twoDimensionArray));
 
     }
 
