@@ -20,33 +20,9 @@ import java.util.*;
 public class M_Greedy_Array_406 {
 
     public static void main(String... args) {
-        int[][] people = {
-                {7, 0},
-                {4, 4},
-                {7, 1},
-                {5, 0},
-                {6, 1},
-                {5, 2},
-        };
-
-        int[][] people1 = {
-                {9, 0},
-                {7, 0},
-                {1, 9},
-                {3, 0},
-                {2, 7},
-                {5, 3},
-                {6, 0},
-                {3, 4},
-                {6, 2},
-                {5, 2}
-        };
-
-        int[][] queue = reconstructQueue(people1);
-
-        for (int[] person : queue) {
-            System.out.println(Arrays.toString(person));
-        }
+        int[][] people = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
+        int[][] people1 = {{9, 0}, {7, 0}, {1, 9}, {3, 0}, {2, 7}, {5, 3}, {6, 0}, {3, 4}, {6, 2}, {5, 2}};
+        System.out.println(Arrays.deepToString(reconstructQueue(people)));
     }
 
     // Brute Force, TLE
@@ -117,7 +93,7 @@ public class M_Greedy_Array_406 {
         // sort people from tall to short, for same height, people with smaller k comes first
         // since the tallest person's k is irrelevant to anyone, we will position them first
         // implement quick sorting to sort can improve performance
-        Arrays.sort(people, (person1, person2) -> person2[0] == person1[0] ? person1[1] - person2[1] : person2[0] - person1[0]);
+        Arrays.sort(people, (person1, person2) -> person1[0] == person2[0] ? person1[1] - person2[1] : person2[0] - person1[0]);
 
         // ArrayList is faster than LinkedList in this case, maybe just more iteration is used
         // Normally, one would just use LinkedList

@@ -67,13 +67,10 @@ public class M_Greedy_Array_134 {
     }
 
     // Time: O(N)
-    // clean and performant
     public static int canCompleteCircuit1(int[] gas, int[] cost) {
-        int N = gas.length;
-
         int remainingGasAfterFullCircle = 0;
 
-        for (int i = 0; i < gas.length; i++) {
+        for (int i = 0; i < gas.length; ++i) {
             remainingGasAfterFullCircle += gas[i] - cost[i];
         }
 
@@ -86,13 +83,13 @@ public class M_Greedy_Array_134 {
         int remainingGas = 0;
 
         // since the question guarantees 1 solution, station leads to non-empty gas is the solution
-        for (int station = 0; station < N; ++station) {
-            remainingGas += gas[station] - cost[station];
+        for (int i = 0; i < gas.length; ++i) {
+            remainingGas += gas[i] - cost[i];
 
             // if not enough gas, reset and start from the next station
             if (remainingGas < 0) {
                 remainingGas = 0;
-                startStation = station + 1;
+                startStation = i + 1;
             }
         }
 
@@ -102,14 +99,12 @@ public class M_Greedy_Array_134 {
     // Time: O(N)
     // compacted version canCompleteCircuit1
     public static int canCompleteCircuit2(int[] gas, int[] cost) {
-        int N = gas.length;
-
         int startStation = 0;
         int remainingGas = 0;
         int remainingGasAfterFullCircle = 0;
 
         // start from a station and go as far as possible until remainingGas < 0
-        for (int station = 0; station < N; ++station) {
+        for (int station = 0; station < gas.length; ++station) {
             remainingGas += gas[station] - cost[station];
             remainingGasAfterFullCircle += gas[station] - cost[station];
 
@@ -124,4 +119,5 @@ public class M_Greedy_Array_134 {
         // since the question guarantees 1 solution, startStation is the answer
         return remainingGasAfterFullCircle >= 0 ? startStation : -1;
     }
+
 }

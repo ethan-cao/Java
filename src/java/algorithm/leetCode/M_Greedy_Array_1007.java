@@ -5,23 +5,20 @@ In a row of dominoes, A[i] and B[i] represent the top and bottom halves of the i
 (A domino is a tile with two numbers from 1 to 6 - one on each half of the tile.)
 We may rotate the i-th domino, so that A[i] and B[i] swap values.
 
-Return the minimum number of rotations, so all the values in A are the same, or all the values in B are the same
+Return the minimum number of rotations, so all the values in A are the same,
+or all the values in B are the same
 If it cannot be done, return -1.
 
 1 <= A[i], B[i] <= 6
 2 <= A.length == B.length <= 20000
 
 ### Example
-A = [2,1,2,4,2,2],
-B = [5,2,6,2,3,2]
-->  2
+A = [2,1,2,4,2,2], B = [5,2,6,2,3,2] ->  2
 The first figure represents the dominoes as given by A and B: before we do any rotations.
 If rotate the second and fourth dominoes, we can make every value in the top row equal to 2,
 as indicated by the second figure.
 
-A = [3,5,1,2,3],
-B = [3,6,3,3,4]
--> -1
+A = [3,5,1,2,3], B = [3,6,3,3,4] -> -1
 impossible to rotate the dominoes to make one row of values equal.
 
 */
@@ -100,16 +97,15 @@ public class M_Greedy_Array_1007 {
     // Time: O(N)
     // 6ms
     public static int minDominoRotations(int[] A, int[] B) {
-        int N = A.length;
-        int SIZE = 6; //  value ∈ [1,6]
+        final int SIZE = A.length;
 
         // !!! since we need to count value ∈ [1,6], use array is better than Map
-        int[] counterA = new int[SIZE];
-        int[] counterB = new int[SIZE];
-        int[] counterCommon = new int[SIZE];
+        int[] counterA = new int[6];
+        int[] counterB = new int[6];
+        int[] counterCommon = new int[6];
 
         // count occurrence for each value
-        for (int i = 0; i < N; ++i) {
+        for (int i = 0; i < SIZE; ++i) {
             counterA[A[i] - 1]++;
             counterB[B[i] - 1]++;
 
@@ -118,12 +114,12 @@ public class M_Greedy_Array_1007 {
             }
         }
 
-        // N - counterCommon[i] : number of slots that have different value (dismiss slots that have identical value)
+        // SIZE + counterCommon[i] : number of slots that have different value (dismiss slots that have identical value)
         // this is the minimal occurrence for a value to make either A or B have the same value
-        for (int i = 0; i < SIZE; ++i) {
-            if (counterA[i] + counterB[i] >= N - counterCommon[i]) {
+        for (int i = 0; i < 6; ++i) {
+            if (counterA[i] + counterB[i] - counterCommon[i] * 2 >= SIZE - counterCommon[i]) {
                 // the more the value occurs, the less the rotation is required
-                return N - Math.max(counterA[i], counterB[i]);
+                return SIZE - Math.max(counterA[i], counterB[i]);
             }
         }
 
@@ -132,15 +128,15 @@ public class M_Greedy_Array_1007 {
 
     // 4ms
     public static int minDominoRotations1(int[] A, int[] B) {
-        int minimumRotationCount = Integer.MAX_VALUE;
+        int rotationCount = Integer.MAX_VALUE;
 
         // inspect each possible value
         for (int target = 1; target <= 6; ++target) {
-            minimumRotationCount = Math.min(minimumRotationCount, getRotationCount(A, B, target));
-            minimumRotationCount = Math.min(minimumRotationCount, getRotationCount(B, A, target));
+            rotationCount = Math.min(rotationCount, getRotationCount(A, B, target));
+            rotationCount = Math.min(rotationCount, getRotationCount(B, A, target));
         }
 
-        return minimumRotationCount == Integer.MAX_VALUE ? -1 : minimumRotationCount;
+        return rotationCount == Integer.MAX_VALUE ? -1 : rotationCount;
     }
 
     // make all item in base identical

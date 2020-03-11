@@ -13,16 +13,23 @@ find the minimum number of conference rooms required..
 */
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-public class M_Greedy_Array_253 {
+public class M_Greedy_Heap_Array_253 {
 
     public static void main(String... args) {
+        long before = System.currentTimeMillis();
+        minMeetingRooms1(new int[][]{{0, 30}, {5, 10}, {15, 20}});
+        long after = System.currentTimeMillis();
+        System.out.println("time : " + (after - before) + " ms");
+
         System.out.println(minMeetingRooms(new int[][]{{1, 2}, {2, 4}}));  // 1
         System.out.println(minMeetingRooms(new int[][]{{7, 10}, {2, 4}}));  // 1
-        System.out.println(minMeetingRooms(new int[][]{{0, 30}, {5, 10}})); // 2
+        System.out.println(minMeetingRooms(new int[][]{{0, 30}, {5, 10}, {15, 20}})); // 2
     }
 
-    // ms
+    // 1ms
     public static int minMeetingRooms(int[][] intervals) {
         int roomCount = 0;
 
@@ -41,15 +48,41 @@ public class M_Greedy_Array_253 {
         Arrays.sort(starts);
         Arrays.sort(ends);
 
-        for (int start = 0, end = 0; start < intervals.length; ++start) {
+        int start = 0;
+        int end = 0;
+
+        while (start < intervals.length) {
             if (starts[start] < ends[end]) {
                 roomCount++;
             } else {
                 end++;
             }
+
+            start++;
         }
 
         return roomCount;
+    }
+
+    // 50 ms
+    public static int minMeetingRooms1(int[][] intervals) {
+        Arrays.sort(intervals, (interval1, interval2) -> interval1[0] - interval2[0]);
+
+        //Add the current Ongoing Meeting
+        PriorityQueue<Integer> meetings = new PriorityQueue<>(intervals.length);
+
+        for (int[] interval : intervals) {
+            int startTime = interval[0];
+            int endTime = interval[1];
+
+            if (!meetings.isEmpty() && startTime >= meetings.peek()) {
+                meetings.poll();
+            }
+
+            meetings.offer(endTime);
+        }
+
+        return meetings.size();
     }
 
 }

@@ -25,16 +25,18 @@ import java.util.*;
 public class M_Greedy_Array_621 {
 
     public static void main(String... args) {
-        System.out.println(leastInterval(new char[]{'A', 'A', 'A', 'B', 'B', 'B'}, 2));  // 8
-        System.out.println(leastInterval(new char[]{'A', 'A', 'B', 'B', 'C', 'C', 'D'}, 5));  // 9
-        System.out.println(leastInterval(new char[]{'A', 'A', 'B', 'B', 'B', 'B', 'C', 'D', 'D', 'D'}, 3));  // 9
+        System.out.println(leastInterval(new char[]{'A', 'A', 'A'}, 2));  // 7
+//        System.out.println(leastInterval(new char[]{'A', 'A', 'A', 'B', 'B', 'B'}, 2));  // 8
+//        System.out.println(leastInterval(new char[]{'A', 'A', 'B', 'B', 'C', 'C', 'D'}, 5));  // 9
+//        System.out.println(leastInterval(new char[]{'A', 'A', 'B', 'B', 'B', 'B', 'C', 'D', 'D', 'D'}, 3));  // 9
     }
 
     // Time: O(N),
+    //  if there is idle interval, leastIntervalCount = idleCount + tasksCount;
+    //  if there is no idle interval, leastIntervalCount = tasksCount;
     public static int leastInterval(char[] tasks, int n) {
         // sort the count since we need to arrange task with most occurrence first (Greedy)
         // the most frequent tasks get scheduled first, since they need the most idles than any other tasks
-        // leastIntervalCount = idleCount + tasksCount
 
         // This is like partitioning tasks, in each partition, the same type of task can occur only once
         // pick the most frequent task, the count is the partition count
@@ -46,17 +48,20 @@ public class M_Greedy_Array_621 {
         Arrays.sort(taskCounter);
 
         int mostFrequentTaskFrequency = taskCounter[25];
-
         int mostFrequentTaskCount = 0;
+
         for (int i = 25; i >= 0; --i) {
             if (taskCounter[i] == mostFrequentTaskFrequency) {
                 mostFrequentTaskCount++;
             }
         }
 
-        int availableIntervalCount = (mostFrequentTaskFrequency - 1) * (n + 1 - mostFrequentTaskCount);
-        int remainingTaskCount = tasks.length - mostFrequentTaskCount * mostFrequentTaskFrequency;
-        int idleIntervalCount = Math.max(0, availableIntervalCount - remainingTaskCount);
+        int intervalBetweenMostFrequentTaskCount = (mostFrequentTaskFrequency - 1) * (n - (mostFrequentTaskCount - 1));
+
+        // task count that excludes the most frequent task
+        int NonMostFrequentTaskCount = tasks.length - mostFrequentTaskCount * mostFrequentTaskFrequency;
+
+        int idleIntervalCount = Math.max(0, intervalBetweenMostFrequentTaskCount - NonMostFrequentTaskCount);
 
         return tasks.length + idleIntervalCount;
     }

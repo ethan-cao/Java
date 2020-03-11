@@ -7,6 +7,8 @@ package algorithm.dataStructure;
  * Max Binary Heap:  heap-ordered is  parent's key >= children's key, largest key is the root
  * Min Binary Heap:  heap-ordered is  parent's key <= children's key, smallest key is the root
  *
+ * there is no constraint between left child and right child
+ *
  * Given array implementation,
  *  a[0] is set as empty, store element from index 1, since it will be easy to calculate key of parent and children
  *  Parent of node at k is at k/2.
