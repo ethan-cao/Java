@@ -13,8 +13,7 @@ Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
 Explanation: always arrive at index 3. Its maximum jump length is 0, which makes it impossible to reach the last index.
 */
 
-
-public class M_DP_Greedy_Array_55 {
+public class M_Greedy_DP_Array_55 {
 
     public static void main(String... args) {
         System.out.println(canJump(new int[]{2, 3, 1, 1, 4})); // T
@@ -24,15 +23,15 @@ public class M_DP_Greedy_Array_55 {
 
     // Greedy, 1ms
     public static boolean canJump(int[] nums) {
-        int maxJumpIdx = 0;
+        int currentIdx = 0;
 
         for (int i = 0; i < nums.length; ++i) {
-            if (maxJumpIdx < i) {
+            if (currentIdx < i) {
                 // if the max jump index cannot reach index i, not possible to proceed
                 return false;
             }
 
-            maxJumpIdx = Math.max(maxJumpIdx, i + nums[i]); // greedy
+            currentIdx = Math.max(currentIdx, i + nums[i]); // greedy
         }
         // possible to reach index nums.length -1
 

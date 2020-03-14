@@ -24,7 +24,7 @@ Explanation: There are several subsequences that achieve this length. One is [1,
 [1,2,3,4,5,6,7,8,9] -> 2
 */
 
-public class M_DP_Greedy_Array_376 {
+public class M_Greedy_DP_Array_376 {
 
     public static void main(String... args) {
         System.out.println(wiggleMaxLength2(new int[]{0, 0}));                               // 1, corner case
@@ -35,6 +35,47 @@ public class M_DP_Greedy_Array_376 {
         System.out.println(wiggleMaxLength2(new int[]{1, 7, 4, 9, 2, 5}));                   // 6
         System.out.println(wiggleMaxLength2(new int[]{1, 17, 5, 10, 13, 15, 10, 5, 16, 8})); // 7
         System.out.println(wiggleMaxLength2(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9}));          // 2
+    }
+
+    // Greedy
+    public static int wiggleMaxLength2(int[] nums) {
+        if (nums.length <= 1) {
+            return nums.length;
+        }
+
+        int positiveWiggleLength = 1;
+        int negativeWiggleLength = 1;
+
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] > nums[i - 1]) {
+                positiveWiggleLength = negativeWiggleLength + 1;
+            } else if (nums[i] < nums[i - 1]) {
+                negativeWiggleLength = positiveWiggleLength + 1;
+            }
+        }
+
+        return Math.max(positiveWiggleLength, negativeWiggleLength);
+    }
+
+    // Greedy
+    public int wiggleMaxLength3(int[] nums) {
+        if (nums.length <= 1) {
+            return nums.length;
+        }
+
+        int wiggleSequenceLength = 1;
+        int previousDiff = 0;
+
+        for (int i = 1; i < nums.length; i++) {
+            int diff = nums[i] - nums[i - 1];
+
+            if ((diff > 0 && previousDiff <= 0) || (diff < 0 && previousDiff >= 0)) {
+                wiggleSequenceLength++;
+                previousDiff = diff;
+            }
+        }
+
+        return wiggleSequenceLength;
     }
 
     // DP
@@ -103,40 +144,5 @@ public class M_DP_Greedy_Array_376 {
         return Math.max(positiveWiggleLength[nums.length - 1], negativeWiggleLength[nums.length - 1]);
     }
 
-    // Greedy
-    public static int wiggleMaxLength2(int[] nums) {
-        if (nums.length <= 1) {
-            return nums.length;
-        }
-
-        int positiveWiggleLength = 1;
-        int negativeWiggleLength = 1;
-
-        for (int i = 1; i < nums.length; ++i) {
-            if (nums[i] > nums[i - 1]) {
-                positiveWiggleLength = negativeWiggleLength + 1;
-            } else if (nums[i] < nums[i - 1]) {
-                negativeWiggleLength = positiveWiggleLength + 1;
-            }
-        }
-
-        return Math.max(positiveWiggleLength, negativeWiggleLength);
-    }
-
-    // Greedy
-    public int wiggleMaxLength3(int[] nums) {
-        if (nums.length == 0) return 0;
-        int count = 1;
-        int prevDiff = 0;
-        for (int i = 1; i < nums.length; i++) {
-            int diff = nums[i] - nums[i - 1];
-            if ((diff > 0 && prevDiff <= 0) ||
-                    (diff < 0 && prevDiff >= 0)) {
-                count++;
-                prevDiff = diff;
-            }
-        }
-        return count;
-    }
 
 }

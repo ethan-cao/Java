@@ -12,9 +12,7 @@ find the minimum number of conference rooms required..
 
 */
 
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class M_Greedy_Heap_Array_253 {
 
@@ -29,7 +27,7 @@ public class M_Greedy_Heap_Array_253 {
         System.out.println(minMeetingRooms(new int[][]{{0, 30}, {5, 10}, {15, 20}})); // 2
     }
 
-    // 1ms
+    // 1ms, Greedy
     public static int minMeetingRooms(int[][] intervals) {
         int roomCount = 0;
 
@@ -48,23 +46,23 @@ public class M_Greedy_Heap_Array_253 {
         Arrays.sort(starts);
         Arrays.sort(ends);
 
-        int start = 0;
-        int end = 0;
+        int startIdx = 0;
+        int endIdx = 0;
 
-        while (start < intervals.length) {
-            if (starts[start] < ends[end]) {
+        while (startIdx < starts.length) {
+            if (starts[startIdx] < ends[endIdx]) {
                 roomCount++;
             } else {
-                end++;
+                endIdx++;
             }
 
-            start++;
+            startIdx++;
         }
 
         return roomCount;
     }
 
-    // 50 ms
+    // 50 ms, Heap
     public static int minMeetingRooms1(int[][] intervals) {
         Arrays.sort(intervals, (interval1, interval2) -> interval1[0] - interval2[0]);
 

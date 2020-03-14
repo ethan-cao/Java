@@ -20,6 +20,7 @@ public class M_Greedy_Stack_Array_56 {
         System.out.println(Arrays.deepToString(merge(new int[][]{{1, 4}, {4, 5}})));
     }
 
+    // Greedy
     // Time: O(NlogN)
     public static int[][] merge(int[][] intervals) {
         if (intervals.length < 2) {
