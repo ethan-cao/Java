@@ -26,7 +26,7 @@ The root node's value is 5 but its right child's value is 4.
 
 import java.util.*;
 
-public class M_Stack_Tree_98 {
+public class M_DFS_Tree_98 {
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);

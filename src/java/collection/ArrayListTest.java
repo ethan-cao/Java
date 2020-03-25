@@ -14,13 +14,17 @@ public class ArrayListTest {
 		//index starts from 0
 		List<Integer> al = new ArrayList<> (3);
 
-		al.get(0); // this causes runtime exception IndexOutOfBoundsException
+//		al.get(0); // this causes runtime exception IndexOutOfBoundsException
 		
 		System.out.println(al.size()); // 0
 		
 		al.add(1);
 		al.add(2);
 		al.add(3);  // add in the end  al= 1, 2, 3
+
+		// also works with nested ArrayList
+		System.out.println("print ArrayList: " + al); // [1, 2, 3]
+
 
 		Integer[] array = al.toArray(new Integer[al.size()]);  // convert arrayList to array
 
@@ -39,10 +43,6 @@ public class ArrayListTest {
 		//if x is object, Removes the first!!! occurrence of the Object and shifts later elements toward the beginning one space
 		
 		al.clear();    // Removes all the elements from the ArrayList
-		System.out.println("after clear");
-		for(Integer i: al) {
-			System.out.print(i);
-		}
 
 		// print entire ArrayList
 		System.out.println(Arrays.toString(al.toArray()));

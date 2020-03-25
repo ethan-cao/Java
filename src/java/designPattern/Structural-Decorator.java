@@ -5,7 +5,6 @@ package designPattern;
  *
  *
  * It wraps an object as the same type and make it behave differently at runtime
- *
  * without changing it type to avoid affecting the behavior of other objects from the same class
  */
 

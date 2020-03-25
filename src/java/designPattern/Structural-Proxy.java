@@ -4,7 +4,6 @@ package designPattern;
  * Proxy Pattern
  *
  * It wraps an object as the same Type but control the creation and access of the wrapped object
- *
  * It is used to lazy-instantiate an object,  control access to the object.
  */
 
@@ -18,12 +17,13 @@ class ProxyPattern {
 
 }
 
-class EngineerProxy {
+class EngineerProxy extends Engineer {
     private Engineer engineer;
     private String workObject = "";
 
     public EngineerProxy(String name) {
-        // object creation happens inside proxy, however creation happens outside decorator
+        // object creation happens inside proxy
+        // however creation happens outside decorator in Engineer(name)
         this.engineer = new Engineer(name);
     }
 

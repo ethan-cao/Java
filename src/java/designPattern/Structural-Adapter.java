@@ -16,8 +16,8 @@ package designPattern;
 class AdapterPattern {
     public static void main(String... args) {
         ChinesePlug chinesePlug = new ChinesePlug();
-
         EUSocket euSocket = new NLSocket();
+
         ChineseSocket chineseSocket = ChinaToEUAdapter.adapt(euSocket);
 
         chinesePlug.connect(chineseSocket);

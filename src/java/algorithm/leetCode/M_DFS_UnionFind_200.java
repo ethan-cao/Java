@@ -16,8 +16,6 @@ You may assume all four edges of the grid are all surrounded by water.
 00100
 00011 -> 3
 
-### Review:
-
 */
 
 public class M_DFS_UnionFind_200 {
@@ -55,7 +53,6 @@ public class M_DFS_UnionFind_200 {
 
     // DFS ~1ms
     // Time:  O(MN), M = grid.length, N = grid[0].length
-    // !!! modify input, possible to solve without modify input ?
     public static int numIslands2(char[][] grid) {
         int islandCount = 0;
 

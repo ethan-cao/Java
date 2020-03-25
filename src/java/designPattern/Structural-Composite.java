@@ -41,6 +41,8 @@ abstract class Employee {
 
 // component
 class Engineer extends Employee {
+    public Engineer() { }
+
     public Engineer(String name) {
         this.name = name;
     }
