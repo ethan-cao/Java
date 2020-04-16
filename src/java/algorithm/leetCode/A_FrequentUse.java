@@ -134,10 +134,12 @@ public class A_FrequentUse {
         Arrays.binarySearch(ints, 3);
 
         // iterate
-        for (String s : strings)
+        for (String s : strings) {
+            System.out.println(s);
+        }
 
-            // print
-            System.out.println(Arrays.toString(strings));
+        // print
+        System.out.println(Arrays.toString(strings));
 
         // get max value in array
         int startIndex = 0;
@@ -162,6 +164,10 @@ public class A_FrequentUse {
 
         // reverse array
         Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
+
+        // create array as param on the fly
+        System.out.println(new int[]{1,2,3,});
+        System.out.println(new int[][]{new int[]{1,2,3}});
     }
 
     static void list() {

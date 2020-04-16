@@ -10,8 +10,11 @@ public class Number {
         System.out.println(Integer.MIN_VALUE / Integer.MAX_VALUE); //   -1
         System.out.println(Integer.divideUnsigned(Integer.MIN_VALUE, Integer.MAX_VALUE)); // 1
 
-        Integer.parseInt("2147483648");  // runtime exception, Integer.MAX_VALUE + 1
+//        Integer.parseInt("2147483648");  // runtime exception, Integer.MAX_VALUE + 1
         Integer.parseUnsignedInt("2147483648"); // works
+
+        // scientific notation: 3.30 x 10ˆ23
+        double d  = 3.30e23;
 
     }
 
