@@ -26,23 +26,9 @@ import java.util.Arrays;
 public class M_DP_Array_416 {
 
     public static void main(String... args) {
-        int[] nums1 = {1, 5, 11, 5};
-        System.out.println(canPartition2(nums1));  // t
-
-        int[] nums2 = {1, 2, 3, 5};
-        System.out.println(canPartition2(nums2));  // f
-
-        int[] nums3 = {1, 3, 6, 1};
-        System.out.println(canPartition2(nums3));  // f
-
-        int[] nums4 = {5, 1, 4};
-        System.out.println(canPartition2(nums4));  // t
-
-        int[] nums5 = {3, 3, 3, 4, 5};
-        System.out.println(canPartition2(nums5));  // t
-
-        int[] nums6 = {1, 5, 11, 5};
-        System.out.println(canPartition2(nums6));  // t
+        System.out.println(canPartition2(new int[]{1,5,11,5}));  // t
+        System.out.println(canPartition2(new int[]{1,2,3,5}));  // f
+        System.out.println(canPartition2(new int[]{3,3,3,4,5}));  // t
     }
 
     //DP iterative

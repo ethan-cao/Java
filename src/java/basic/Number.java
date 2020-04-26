@@ -16,6 +16,9 @@ public class Number {
         // scientific notation: 3.30 x 10ˆ23
         double d  = 3.30e23;
 
+        // 10^9 + 7
+        int i = (int) 1e9 + 7;
+
     }
 
 }

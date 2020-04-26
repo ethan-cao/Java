@@ -13,14 +13,12 @@ Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3)
 
 This is 0-1 knapsack problem
 
-Related : 416
-
 */
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class M_Backtrack_BitManipulation_Array_698 {
+public class M_DFS_DP_698 {
 
     public static void main(String... args) {
         System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
@@ -36,48 +34,50 @@ public class M_Backtrack_BitManipulation_Array_698 {
     // So T = 2^n + 2^n + 2^n + ... = k * 2^n.
     // Space complexity : O(n)
     public static boolean canPartitionKSubsets(int[] nums, int k) {
-        int sum = IntStream.of(nums).sum();
+        int sum = 0;
+        for (int n : nums) {
+            sum += n;
+        }
+
         int targetSum = sum / k;
 
         if (nums.length < k || sum % k != 0) {
             return false;
         }
 
-        return canPartition(nums, 0, new boolean[nums.length], k, 0, targetSum);
+        return canPartition(nums, 0, 0, targetSum, k, new boolean[nums.length]);
     }
 
-    private static boolean canPartition(int[] nums, int startIdx, boolean[] used, int k, int currentSum, int targetSum) {
+    private static boolean canPartition(int[] nums, int idx, int sum, int targetSum, int k, boolean[] used) {
         // if there is only 1 bucket left, since all the rest reaches target, the last one reaches targetSum for sure
         if (k == 1) {
             return true;
         }
 
         // if the current bucket reaches target sum, try next bucket
-        if (currentSum == targetSum) {
-            return canPartition(nums, 0, used, k - 1, 0, targetSum);
-        }
-
-        // optimization
-        if (currentSum > targetSum) {
+        if (sum == targetSum) {
+            return canPartition(nums, 0, 0, targetSum, k - 1, used);
+        } else if (sum > targetSum) {
             return false;
-        }
-
-        // examine each used num
-        for (int i = startIdx; i < nums.length; ++i) {
-            if (!used[i]) {
-
+        } else {
+            // examine each used num
+            for (int i = idx; i < nums.length; ++i) {
+                if (used[i]) {
+                    continue;
+                }
                 // try
                 used[i] = true;
-                if (canPartition(nums, i + 1, used, k, currentSum + nums[i], targetSum)) {
+
+                if (canPartition(nums, i + 1, sum + nums[i], targetSum, k, used)) {
                     return true;
                 }
 
                 // if not work, backtrack
                 used[i] = false;
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 
     // DP, Bit Masking

@@ -24,7 +24,7 @@ Explanation: There are a total of 2 courses to take.
              also have finished course 1. So it is impossible.
 */
 
-public class M_DFS_207 {
+public class M_Graph_DFS_207 {
 
     public static void main(String[] args) {
         System.out.println(canFinish(2, new int[][]{new int[]{1,0}}));

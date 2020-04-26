@@ -30,7 +30,7 @@ public class M_DFS_473 {
 
     // DFS, ms
     public static boolean makesquare(int[] nums) {
-        if (nums == null || nums.length <= 3) {
+        if (nums == null || nums.length < 4) {
             return false;
         }
 
@@ -43,35 +43,48 @@ public class M_DFS_473 {
             return false;
         }
 
+        // pick the maximum element that is not used
+        // trying a longer matchstick first will get to negative conclusion earlier
         Arrays.sort(nums);
 
-        return visit(nums, 0, nums.length - 1, 0, sum / 4, new boolean[nums.length]);
+        boolean[] used = new boolean[nums.length];
+
+        return canMakeSquare(nums, nums.length - 1, 0, sum / 4, 0, used);
     }
 
-    private static boolean visit(int[] nums, int part, int idx, int curr, int target, boolean[] used) {
-        if (part == 3) {
+    // side: there are 4 side of a square to be filled
+    private static boolean canMakeSquare(int[] nums, int idx, int sum, int targetSum, int side, boolean[] used) {
+        // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
+        if (side == 3) {
             return true;
         }
 
-        if (curr > target) {
+        if (sum == targetSum) {
+            return canMakeSquare(nums, nums.length - 1, 0, targetSum, side + 1, used);
+        } else if (sum > targetSum) {
             return false;
-        } else if (curr == target) {
-            return visit(nums, part + 1, nums.length - 1, 0, target, used);
-        }
+        } else {
+            for (int i = idx; i >= 0; --i) {
+                if (used[i]) {
+                    continue;
+                }
 
-        for (int i = idx; i >= 0; i--) {
-            if (!used[i] && curr + nums[i] <= target) {
                 used[i] = true;
-                if (visit(nums, part, i - 1, curr + nums[i], target, used)) return true;
+
+                if (canMakeSquare(nums, i - 1, sum + nums[i], targetSum, side, used)) {
+                    return true;
+                }
+
                 used[i] = false;
 
-                while (i > 0 && nums[i] == nums[i - 1]) i--;
-                if (curr == 0) return false;
-                if (curr + nums[i] == target) return false;
+                // dedup
+                while (i > 0 && nums[i] == nums[i - 1]) {
+                    i--;
+                }
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 
 }
