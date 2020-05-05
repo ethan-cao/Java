@@ -8,8 +8,6 @@ calculate the number of 1's in their binary representation and return them as an
 2 -> [0,1,1]
 5- > [0,1,1,2,1,2]
 
-Sub problem
-
 */
 
 

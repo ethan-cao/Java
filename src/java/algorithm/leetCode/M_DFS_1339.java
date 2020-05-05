@@ -19,47 +19,73 @@ https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/
 
 */
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class M_DFS_1339 {
 
-    public static void main(String[] args) {
-//        System.out.println(maxProduct(new int[]{1, 1, 2, 2, 2})); // true
-//        System.out.println(maxProduct(new int[]{3, 3, 3, 3, 4})); // false
-    }
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
-    // DFS, ms
+    // DFS, 7ms
     public static int maxProduct(TreeNode root) {
         final int MOD = (int) 1e9 + 7;
 
-        Set<Long> sums = new HashSet<>();
+        // Alternatively, create mutable Long class to just contain the value
+        long[] maxProduct = new long[]{0};
 
-        int sum = getSum(root, sums);
+        long totalSum = getSum(root);
 
-        return 1;
+        getMaxProduct(root, totalSum, maxProduct);
+
+        return (int) (maxProduct[0] % MOD);
     }
 
-    private static int getSum(TreeNode node, Set<Long> sums) {
+    private static long getSum(TreeNode node) {
         if (node == null) {
             return 0;
         }
 
-        int sum = node.val + getSum(node.left, sums) + getSum(node.right, sums);
-
-        return 1;
+        return node.val + getSum(node.left) + getSum(node.right);
     }
 
+    private static long getMaxProduct(TreeNode node, long totalSum, long[] maxProduct) {
+        if (node == null) {
+            return 0;
+        }
+
+        long leftSum = getMaxProduct(node.left, totalSum, maxProduct);
+        long rightSum = getMaxProduct(node.right, totalSum, maxProduct);
+        long sum = node.val + leftSum + rightSum;
+
+        maxProduct[0] = Math.max(maxProduct[0], (totalSum - sum) * sum);
+
+        return sum;
+    }
+
+
+    // DFS, 21ms
+    public static int maxProduct1(TreeNode root) {
+        final int MOD = (int) 1e9 + 7;
+
+        Set<Long> sums = new HashSet<>();
+        long maxProduct = 0;
+
+        long totalSum = getSum(root, sums);
+
+        for (long sum : sums) {
+            maxProduct = Math.max(maxProduct, sum * (totalSum - sum));
+        }
+
+        return (int) (maxProduct % MOD);
+    }
+
+    private static long getSum(TreeNode node, Set<Long> sums) {
+        if (node == null) {
+            return 0;
+        }
+
+        long sum = node.val + getSum(node.left, sums) + getSum(node.right, sums);
+
+        sums.add(sum);
+
+        return sum;
+    }
 
 }
