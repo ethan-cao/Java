@@ -28,7 +28,7 @@ Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
 
 */
 
-public class M_DFS_337_Tree {
+public class M_DFS_Tree_337 {
 
     // DFS, 0ms
     public int rob(TreeNode root) {

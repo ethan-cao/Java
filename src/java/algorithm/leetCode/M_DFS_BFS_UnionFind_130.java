@@ -23,7 +23,7 @@ Two cells are connected if they are adjacent cells connected horizontally or ver
 
 import java.util.Arrays;
 
-public class M_DFS_UnionFind_130 {
+public class M_DFS_BFS_UnionFind_130 {
 
     public static void main(String[] args) {
         char[][] board = {

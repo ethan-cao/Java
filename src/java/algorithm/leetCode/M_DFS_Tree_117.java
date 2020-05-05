@@ -17,7 +17,7 @@ https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
 
 */
 
-public class M_DFS_117_Tree {
+public class M_DFS_Tree_117 {
 
     static class Node {
         public int val;
