@@ -31,9 +31,9 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 
 */
 
-import java.util.List;
+import java.util.*;
 
-public class M_BFS_Tree_127 {
+public class M_BFS_Array_127 {
 
     // BFS
     // Time O(), Space: O()

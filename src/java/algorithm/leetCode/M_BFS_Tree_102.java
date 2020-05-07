@@ -19,13 +19,6 @@ import java.util.*;
 
 public class M_BFS_Tree_102 {
 
-    public static void main(String... args) {
-        TreeNode n1 = new TreeNode(1);
-        TreeNode n2 = new TreeNode(2);
-        TreeNode n3 = new TreeNode(3);
-        TreeNode n4 = new TreeNode(4);
-    }
-
     static class TreeNode {
         int val;
         TreeNode left;
@@ -50,9 +43,9 @@ public class M_BFS_Tree_102 {
 
         while (!queue.isEmpty()) {
             List<Integer> levelTraversal = new ArrayList<>();
-            int size = queue.size();
+            int levelNodeCount = queue.size();
 
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < levelNodeCount; ++i) {
                 TreeNode currentNode = queue.poll();
                 levelTraversal.add(currentNode.val);
 

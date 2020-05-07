@@ -298,25 +298,25 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         queue.offer(node.key);
     }
 
-    // traversal result is in visited queue, FIFO
-    private void BFS(Node root, Deque<Node> queue) {
+    // traversal result is in visited traversal, FIFO
+    private void BFS(Node root, Deque<Node> traversal) {
         if (root == null) {
             return;
         }
 
-        Deque<Node> visited = new ArrayDeque<>();
-        visited.offer(root);
+        Deque<Node> queue = new ArrayDeque<>();
+        queue.offer(root);
 
-        while (!queue.isEmpty()) {
-            Node node = visited.poll();
-            queue.offer(node);
+        while (!traversal.isEmpty()) {
+            Node node = queue.poll();
+            traversal.offer(node);
 
             if (node.left != null) {
-                visited.offer(node.left);
+                queue.offer(node.left);
             }
 
             if (node.right != null) {
-                visited.offer(node.right);
+                queue.offer(node.right);
             }
         }
     }
