@@ -64,25 +64,28 @@ public class M_BFS_Tree_102 {
         return traversal;
     }
 
+    // 0ms
     // DFS, using DFS preorder to implement BFS
-    public static List<List<Integer>> levelOrder1(TreeNode root) {
+    public List<List<Integer>> levelOrder1(TreeNode root) {
         List<List<Integer>> traversal = new ArrayList<>();
-        preorderVisit(root, 0, traversal);
+
+        visit(root, 0, traversal);
+
         return traversal;
     }
 
-    private static void preorderVisit(TreeNode node, int depth, List<List<Integer>> traversal) {
+    public void visit(TreeNode node, int depth, List<List<Integer>> traversal) {
         if (node == null) {
             return;
         }
 
-        if (depth >= traversal.size()) {
+        if (depth == traversal.size()) {
             traversal.add(new ArrayList<>());
         }
 
         traversal.get(depth).add(node.val);
-        preorderVisit(node.left, depth + 1, traversal);
-        preorderVisit(node.right, depth + 1, traversal);
+        visit(node.left, depth + 1, traversal);
+        visit(node.right, depth + 1, traversal);
     }
 
 }

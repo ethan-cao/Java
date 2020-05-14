@@ -29,7 +29,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
     }
 
-    private class Node {
+    class Node {
         private Key key;
         private Value value;
         private Node left;
@@ -299,17 +299,18 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     }
 
     // traversal result is in visited traversal, FIFO
-    private void BFS(Node root, Deque<Node> traversal) {
-        if (root == null) {
-            return;
-        }
+    private List<Node> BFS(Node root) {
+        List<Node> traversal = new ArrayList<>();
 
+        if (root == null) {
+            return traversal;
+        }
         Deque<Node> queue = new ArrayDeque<>();
         queue.offer(root);
 
-        while (!traversal.isEmpty()) {
+        while (!queue.isEmpty()) {
             Node node = queue.poll();
-            traversal.offer(node);
+            traversal.add(node);
 
             if (node.left != null) {
                 queue.offer(node.left);
@@ -319,28 +320,25 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
                 queue.offer(node.right);
             }
         }
+
+        return traversal;
     }
 
     // DFS, using DFS preorder to implement BFS, leetcode102
-    public List<List<Node>> BFS1(Node root) {
-        List<List<Node>> traversal = new ArrayList<>();
+    public List<Node> BFS1(Node root) {
+        List<Node> traversal = new ArrayList<>();
         preorderVisit(root, 0, traversal);
         return traversal;
     }
 
-    private void preorderVisit(Node node, int depth, List<List<Node>> traversal) {
+    private void preorderVisit(Node node, int depth, List<Node> traversal) {
         if (node == null) {
             return;
         }
 
-        if (depth >= traversal.size()) {
-            traversal.add(new ArrayList<>());
-        }
-
-        traversal.get(depth).add(node);
+        traversal.add(node);
         preorderVisit(node.left, depth + 1, traversal);
         preorderVisit(node.right, depth + 1, traversal);
-
     }
 
     // verify BST: algorithm.leetCode.M_Stack_Tree_98.isValidBST

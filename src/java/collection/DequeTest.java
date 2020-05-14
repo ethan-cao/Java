@@ -23,7 +23,7 @@ public class DequeTest {
 
         // use ArrayDeque as Queue (FIFO)
         Deque<Integer> queue = new ArrayDeque<>();
-        queue.offer(1);
+        queue.offer(1);   // offer() cannot take null, throws exception
         queue.offer(2);
         queue.offer(3);
         queue.offer(4);

@@ -28,10 +28,60 @@ import java.util.*;
 
 public class M_BFS_Tree_1091 {
 
-    // BFS
-    // Time O(), Space: O()
-    public int shortestPathBinaryMatrix(int[][] grid) {
-        return 1;
+    public static void main(String... args) {
+        System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 1}, {1, 0}}));  // 2
+        System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 0, 0}, {1, 1, 0}, {1, 1, 0}})); // 4
     }
+
+    // BFS, 16ms
+    // Time O(), Space: O()
+    public static int shortestPathBinaryMatrix(int[][] grid) {
+        int N = grid.length;
+        int START = grid[0][0];
+        int END = grid[N - 1][N - 1];
+
+        if (START == 1 || END == 1) {
+            return -1;
+        }
+
+        int shortestPath = 0;
+        int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, -1}, {-1, 1}, {-1, -1}, {1, 1}};
+        boolean[][] visited = new boolean[N][N];
+        Deque<int[]> queue = new ArrayDeque<>();
+
+        queue.offer(new int[]{0, 0});  // start (0, 0)
+        visited[0][0] = true;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for (int i = 0; i < size; ++i) {
+                int[] current = queue.poll();
+                int x = current[0];
+                int y = current[1];
+
+                if (x == N - 1 && y == N - 1) {
+                    return shortestPath + 1;
+                }
+
+                for (int[] direction : directions) {
+                    int nextX = x + direction[0];
+                    int nextY = y + direction[1];
+
+                    if (nextX < 0 || nextX >= N || nextY < 0 || nextY >= N || visited[nextX][nextY] || grid[nextX][nextY] == 1) {
+                        continue;
+                    }
+
+                    queue.offer(new int[]{nextX, nextY});
+                    visited[nextX][nextY] = true;
+                }
+            }
+
+            shortestPath++;
+        }
+
+        return -1;
+    }
+
 
 }
