@@ -26,12 +26,19 @@ https://leetcode.com/problems/shortest-path-in-binary-matrix/
 
 import java.util.*;
 
-public class M_BFS_Tree_1091 {
+public class M_DP_BFS_Array_1091 {
 
     public static void main(String... args) {
         System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 1}, {1, 0}}));  // 2
         System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 0, 0}, {1, 1, 0}, {1, 1, 0}})); // 4
     }
+
+
+    // DFS requires trying every possible path to the end
+    // which needs to mark a cell as unvisited after recurring the neighbors (after the for-loop)
+    // doing this in this problem would lead to TLE.
+    // 'shortest' in path problem, dfs should be out of consideration.
+    // Think about what djkstra's algo solves and remind yourself whether it is bfs or dfs
 
     // BFS, 16ms
     // Time O(), Space: O()

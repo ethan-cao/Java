@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+// https://coursera.cs.princeton.edu/algs4/assignments/8puzzle/specification.php
+// Write a program to solve the 8-puzzle problem (and its natural generalizations) using the A* search algorithm.
 final public class Board {
     private int emptyBlockI;
     private int emptyBlockJ;
