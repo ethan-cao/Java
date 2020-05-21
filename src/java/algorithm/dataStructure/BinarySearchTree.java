@@ -324,10 +324,12 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return traversal;
     }
 
-    // DFS, using DFS preorder to implement BFS, leetcode102
+    // DFS, using DFS preorder to implement BFS
     public List<Node> BFS1(Node root) {
         List<Node> traversal = new ArrayList<>();
+
         preorderVisit(root, 0, traversal);
+
         return traversal;
     }
 

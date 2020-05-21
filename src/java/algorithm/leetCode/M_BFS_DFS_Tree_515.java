@@ -35,8 +35,62 @@ public class M_BFS_DFS_Tree_515 {
         }
     }
 
+    // BFS, 5ms
     public List<Integer> largestValues(TreeNode root) {
-        return null;
+        List<Integer> largestValues = new ArrayList<>();
+
+        if (root == null) {
+            return largestValues;
+        }
+
+        Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int largestValueInLevel = Integer.MIN_VALUE;
+
+            for (int i = 0; i < size; ++i) {
+                TreeNode current = queue.poll();
+                largestValueInLevel = Math.max(largestValueInLevel, current.val);
+
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
+
+                if (current.right != null) {
+                    queue.offer(current.right);
+                }
+            }
+
+            largestValues.add(largestValueInLevel);
+        }
+
+        return largestValues;
     }
 
+    // 1ms
+    // BFS, recursive
+    public List<Integer> largestValues1(TreeNode root) {
+        List<Integer> largestValues = new ArrayList<>();
+
+        visit(root, 0, largestValues);
+
+        return largestValues;
+    }
+
+    private void visit(TreeNode node, int depth, List<Integer> largestValues) {
+        if (node == null) {
+            return;
+        }
+
+        if (depth == largestValues.size()) {
+            largestValues.add(node.val); // 1st enter new level
+        } else {
+            largestValues.set(depth, Math.max(largestValues.get(depth), node.val));
+        }
+
+        visit(node.left, depth + 1, largestValues);
+        visit(node.right, depth + 1, largestValues);
+    }
 }
