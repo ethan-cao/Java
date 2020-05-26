@@ -23,7 +23,7 @@ Two cells are connected if they are adjacent cells connected horizontally or ver
 
 import java.util.Arrays;
 
-public class M_DFS_BFS_UnionFind_130 {
+public class M_DFS_UnionFind_130 {
 
     public static void main(String[] args) {
         char[][] board = {
@@ -38,7 +38,7 @@ public class M_DFS_BFS_UnionFind_130 {
         System.out.println(Arrays.deepToString(board));
     }
 
-    // DFS
+    // DFS, 1ms
     public static void solve(char[][] board) {
         final int M = board.length;
         final int N = M == 0 ? 0 : board[0].length;
@@ -49,8 +49,8 @@ public class M_DFS_BFS_UnionFind_130 {
         }
 
         // check the four border of the matrix.
-        // If there is a element is 'O', alter it and all its neighbor 'O' elements to '1'.
-        for (int i = 0; i < M; i++) {
+        // If there is a element is 'O', update it and all its connected neighbor 'O' to '1'.
+        for (int i = 0; i < M; ++i) {
             if (board[i][0] == 'O') {
                 visit(board, i, 0);
             }
@@ -61,7 +61,7 @@ public class M_DFS_BFS_UnionFind_130 {
         }
 
         // optimization: [1, N-1]
-        for (int j = 1; j < N - 1; j++) {
+        for (int j = 1; j < N - 1; ++j) {
             if (board[0][j] == 'O') {
                 visit(board, 0, j);
             }
@@ -71,10 +71,9 @@ public class M_DFS_BFS_UnionFind_130 {
             }
         }
 
-        //Then ,alter all the 'O' to 'X'
-        //At last,alter all the '1' to 'O'
-        for (int i = 0; i < M; i++) {
-            for (int j = 0; j < N; j++) {
+        // update all the 'O' to 'X', and restore '1' to 'O';
+        for (int i = 0; i < M; ++i) {
+            for (int j = 0; j < N; ++j) {
                 if (board[i][j] == 'O') {
                     board[i][j] = 'X';
                 }
@@ -91,11 +90,13 @@ public class M_DFS_BFS_UnionFind_130 {
             return;
         }
 
-        if (board[x][y] != 'O') {
+        if (board[x][y] == 'X' || board[x][y] == '1') {
             return;
         }
 
-        board[x][y] = '1';
+        if (board[x][y] == 'O') {
+            board[x][y] = '1';
+        }
 
         visit(board, x + 1, y);
         visit(board, x - 1, y);
@@ -103,4 +104,8 @@ public class M_DFS_BFS_UnionFind_130 {
         visit(board, x, y - 1);
     }
 
+    // UnionFind
+    public static void solve0(char[][] board) {
+
+    }
 }

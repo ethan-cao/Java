@@ -7,12 +7,12 @@ import java.util.Arrays;
 /**
  * QuickSort (partition-exchange sort),  a divide and conquer algorithm
  *
- * 1) pick an element partitionKey(pivot) from the array,
+ * 1) pick an element partitionKey(pivot) from the array
  *
  * 2) put elements that are smaller than partitionKey before partitionKey
- * elements that are larger than partitionKey after partitionKey
- * elements that are equal to partitionKey to partitionKey's either side
- * Then partitionKey is in the right position
+ *        elements that are larger than partitionKey after partitionKey
+ *        elements that are equal to partitionKey to partitionKey's either side
+ * Then partitionKey is in the desired position
  *
  * 3) repeat step 1 and 2 to sub-array before and after partitionKey
  *
@@ -22,10 +22,12 @@ import java.util.Arrays;
  */
 
 public class QuickSort {
+
     private static final int CUTOFF = 5;
 
     public static void main(String[] args) {
-        int[] data = new int[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
+//        int[] data = {2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
+        int[] data = {2, 4, 5, 3, 1};
 
         sort(data);
 //        sortWith3Partition(data, 0, data.length - 1);
@@ -55,39 +57,38 @@ public class QuickSort {
         sort(array, partitionKeyIndex + 1, high);
     }
 
-    public static int partition(int[] data, int low, int high) {
-        int partitionKey = data[low];
+    public static int partition(int[] data, int start, int end) {
+        int partitionKey = data[start];
 
-        int idx1 = low + 1; // since we don't care equal element, start from the next one
-        int idx2 = high;
+        int idx1 = start + 1; // since we don't care equal element, start from the next one
 
         // if j <= i, then getPartitionKey finishes
-        while (idx1 < idx2) {
+        while (idx1 < end) {
             // look for one that is not smaller than partitionKey
             while (data[idx1] <= partitionKey) {
                 idx1++;
             }
 
             // look for one that is not larger than partitionKey
-            while (data[idx2] > partitionKey) {
-                idx2--;
+            while (data[end] > partitionKey) {
+                end--;
             }
 
             // swap (the 1st element that is larger than partitionKey before partitionKey) with
             //      (the 1st element that is smaller than partitionKey after partitionKey)
-            exchange(data, idx1, idx2);
+            exchange(data, idx1, end);
         }
         // after this iteration, data[partition+1]...data[j] are all <= partitionKey
-        //                       data[j+1]...data[high] are all > partitionKey
+        //                       data[j+1]...data[end] are all > partitionKey
 
         // put partitionKey to its sorted position j
-        exchange(data, low, idx2);
+        exchange(data, start, end);
 
-        return idx2;
+        return end;
     }
 
     // 3-way partitioning QuickSort is most effective when there are lots duplicate elements
-    // application : Dutch national flag problem
+    // application: Dutch national flag problem
     public static void sortWith3Partition(int[] data, int low, int high) {
         if (low >= high) {
             return;
@@ -121,4 +122,5 @@ public class QuickSort {
         array[index1] = array[index2];
         array[index2] = swap;
     }
+
 }

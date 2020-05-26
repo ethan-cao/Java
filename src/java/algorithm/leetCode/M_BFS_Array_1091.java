@@ -26,7 +26,7 @@ https://leetcode.com/problems/shortest-path-in-binary-matrix/
 
 import java.util.*;
 
-public class M_DP_BFS_Array_1091 {
+public class M_BFS_Array_1091 {
 
     public static void main(String... args) {
         System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 1}, {1, 0}}));  // 2
@@ -89,6 +89,5 @@ public class M_DP_BFS_Array_1091 {
 
         return -1;
     }
-
 
 }

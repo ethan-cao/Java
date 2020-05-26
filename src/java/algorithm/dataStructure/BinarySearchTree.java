@@ -12,8 +12,7 @@ import java.util.*;
  *
  * use TreeMap as Java native Rea Black Tree, which is also BST
  */
-
-public class BinarySearchTree<Key extends Comparable<Key>, Value> {
+class BST_Test {
 
     public static void main(String[] args) {
         BinarySearchTree<Integer, String> bst = new BinarySearchTree<>();
@@ -27,7 +26,13 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         for (Integer i : bst.keys()) {
             System.out.println(i);
         }
+
+//        List<BinarySearchTree.Node> bsfTraversal = bst.BFS1(bst.root);
     }
+
+}
+
+public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
     class Node {
         private Key key;
@@ -42,7 +47,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         }
     }
 
-    private Node root;
+    public Node root;
 
     public int size() {
         return this.size(this.root);
@@ -325,20 +330,24 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     }
 
     // DFS, using DFS preorder to implement BFS
-    public List<Node> BFS1(Node root) {
-        List<Node> traversal = new ArrayList<>();
+    public List<List<Node>> BFS1(Node root) {
+        List<List<Node>> traversal = new ArrayList<>();
 
         preorderVisit(root, 0, traversal);
 
         return traversal;
     }
 
-    private void preorderVisit(Node node, int depth, List<Node> traversal) {
+    private void preorderVisit(Node node, int depth, List<List<Node>> traversal) {
         if (node == null) {
             return;
         }
 
-        traversal.add(node);
+        if (depth == traversal.size()) {
+            traversal.add(new ArrayList<>());
+        }
+
+        traversal.get(depth).add(node);
         preorderVisit(node.left, depth + 1, traversal);
         preorderVisit(node.right, depth + 1, traversal);
     }

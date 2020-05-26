@@ -14,7 +14,7 @@ package algorithm.dataStructure;
  *  Parent of node at k is at k/2.
  *  Children of node at k are at 2k(left) and 2k+1(right)
  *
- * use java.util.PriorityQueue as native Java heap
+ * use java.util.PriorityQueue as native Java min heap
  */
 
 // Max Binary Heap

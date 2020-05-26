@@ -3,39 +3,40 @@ package algorithm.search;
 import algorithm.math.Shuffle;
 import algorithm.sort.QuickSort;
 
-/**
- * Given an array of N items, find a k-th smallest item
- */
 public class Selection {
+
     public static void main(String[] args) {
         int[] data = {2, 4, 5, 3, 1};
-
         int k = 2;
-        Comparable k_th_smallest = selectNthItem(data, k);
+
+        Comparable k_th_smallest = QuickSelect1(data, k);
 
         System.out.println(k_th_smallest);
     }
 
-    // based on quickSort, linear time selection
-    public static Comparable selectNthItem(int[] array, int k) {
-        Shuffle.knuthShuffle(array);
+    // Time: O(N)
+    // Quick Select, based on quickSort,
+    // Given an data of N items, find a targetIdx-th smallest item
+    public static Comparable QuickSelect1(int[] data, int targetIdx) {
+        Shuffle.knuthShuffle(data);
 
-        int low = 0;
-        int high = array.length - 1;
+        int start = 0;
+        int end = data.length - 1;
 
-        while (low < high) {
-            int partitionKeyIndex = QuickSort.partition(array, low, high);
+        while (start < end) {
+            int partitionKeyIndex = QuickSort.partition(data, start, end);
 
-            if (partitionKeyIndex > k) {
-                high = partitionKeyIndex - 1;
-            } else if (partitionKeyIndex < k) {
-                low = partitionKeyIndex + 1;
-            } else if (k == partitionKeyIndex) {
-               return array[k];
+            if (partitionKeyIndex > targetIdx) {
+                end = partitionKeyIndex - 1;
+            } else if (partitionKeyIndex < targetIdx) {
+                start = partitionKeyIndex + 1;
+            } else {
+                return data[partitionKeyIndex];
             }
         }
 
-        // now k == partitionKeyIndex
-        return array[k];
+        // now targetIdx == partitionKeyIndex
+        return data[targetIdx];
     }
+
 }
