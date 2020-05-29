@@ -49,28 +49,29 @@ public class M_Array_215 {
     public static int findKthLargest2(int[] nums, int k) {
         knuthShuffle(nums);
 
-        int targetIdx = nums.length - k;
-        int low = 0;
-        int high = nums.length - 1;
+        int targetIdx = nums.length - k; // when nums are in sorted order
+        int start = 0;
+        int end = nums.length - 1;
 
-        while (low < high) {
-            int partitionKeyIndex = partition(nums, low, high);
+        while (start < end) {
+            int partitionKeyIndex = partition(nums, start, end);
 
             if (partitionKeyIndex > targetIdx) {
-                high = partitionKeyIndex - 1;
+                end = partitionKeyIndex - 1;
             } else if (partitionKeyIndex < targetIdx) {
-                low = partitionKeyIndex + 1;
+                start = partitionKeyIndex + 1;
             } else {
                 return nums[partitionKeyIndex];
             }
         }
 
-        return nums[low];
+        // start === end == targetIndex
+        return nums[start];
     }
 
     private static int partition(int[] nums, int start, int end) {
         int partitionKeyIdx = start;
-        int temp;
+
 
         while (start <= end) {
             while (start <= end && nums[start] <= nums[partitionKeyIdx]) {

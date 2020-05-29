@@ -6,7 +6,7 @@ import algorithm.sort.QuickSort;
 public class Selection {
 
     public static void main(String[] args) {
-        int[] data = {2, 4, 5, 3, 1};
+        int[] data = {32, 43, 555, 33, 1};
         int k = 2;
 
         Comparable k_th_smallest = QuickSelect1(data, k);
