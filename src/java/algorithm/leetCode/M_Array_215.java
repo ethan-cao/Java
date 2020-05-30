@@ -18,6 +18,7 @@ public class M_Array_215 {
     public static void main(String... args) {
         System.out.println(findKthLargest2(new int[]{3, 2, 1, 5, 6, 4}, 2)); // 5
         System.out.println(findKthLargest2(new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4)); // 4
+        System.out.println(findKthLargest2(new int[]{5, 4, 3, 2, 1}, 2)); // 4
     }
 
     // 1ms
@@ -47,7 +48,7 @@ public class M_Array_215 {
     // Time: O(N^2), Space:O(K)
     // ref: algorithm.search.Selection.QuickSelect
     public static int findKthLargest2(int[] nums, int k) {
-        knuthShuffle(nums);
+//        knuthShuffle(nums);
 
         int targetIdx = nums.length - k; // when nums are in sorted order
         int start = 0;
@@ -71,7 +72,6 @@ public class M_Array_215 {
 
     private static int partition(int[] nums, int start, int end) {
         int partitionKeyIdx = start;
-
 
         while (start <= end) {
             while (start <= end && nums[start] <= nums[partitionKeyIdx]) {
@@ -104,10 +104,10 @@ public class M_Array_215 {
         }
     }
 
-    private static void swap(int[] array, int index1, int index2) {
-        int swap = array[index1];
-        array[index1] = array[index2];
-        array[index2] = swap;
+    private static void swap(int[] data, int idx1, int idx2) {
+        int swap = data[idx1];
+        data[idx1] = data[idx2];
+        data[idx2] = swap;
     }
 
     // QuickSelect using 1st element as partitionKey, 0ms

@@ -7,12 +7,12 @@ import java.util.Arrays;
 /**
  * QuickSort (partition-exchange sort),  a divide and conquer algorithm
  *
- * 1) pick an element partitionKey(pivot) from the array
+ * 1) pick an element partitionKey(pivot) from the array,
  *
  * 2) put elements that are smaller than partitionKey before partitionKey
  * elements that are larger than partitionKey after partitionKey
  * elements that are equal to partitionKey to partitionKey's either side
- * Then partitionKey is in the desired position
+ * Then partitionKey is in the right position
  *
  * 3) repeat step 1 and 2 to sub-array before and after partitionKey
  *
@@ -22,12 +22,11 @@ import java.util.Arrays;
  */
 
 public class QuickSort {
-
     private static final int CUTOFF = 5;
 
     public static void main(String[] args) {
-        int[] data = {2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
-//        int[] data = {2, 4, 5, 3, 1};
+//        int[] data = new int[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
+        int[] data = new int[]{5, 4, 3, 2, 1};
 
         sort(data);
 //        sortWith3Partition(data, 0, data.length - 1);
@@ -37,62 +36,60 @@ public class QuickSort {
 
     public static void sort(int[] array) {
         // shuffling is needed for performance guarantee
-        Shuffle.knuthShuffle(array);
+//        Shuffle.knuthShuffle(array);
         sort(array, 0, array.length - 1);
     }
 
-    private static void sort(int[] array, int start, int end) {
+    private static void sort(int[] array, int low, int high) {
         // optimization: it costs more on sorting small array, using insertion for small array instead
-        if (start + CUTOFF - 1 >= end) {
-            InsertionSort.sort(array);
-        }
+//        if (low + CUTOFF - 1 >= high) {
+//            InsertionSort.sort(array);
+//            return;
+//        }
 
-        if (start >= end) {
+        if (low >= high) {
             return;
         }
 
-        int partitionKeyIndex = partition(array, start, end);
+        int partitionKeyIndex = partition(array, low, high);
 
-        sort(array, start, partitionKeyIndex - 1);
-        sort(array, partitionKeyIndex + 1, end);
+        sort(array, low, partitionKeyIndex - 1);
+        sort(array, partitionKeyIndex + 1, high);
     }
 
     public static int partition(int[] data, int start, int end) {
-        int partitionKeyIdx = start;
-        int idx1 = start + 1; // since we don't care equal elements, start from the next one
+        int partitionKey = data[start];
 
-        while (idx1 < end) {
+        int idx1 = start + 1; // since we don't care equal element, start from the next one
+        int idx2 = end;
+
+        // if j <= i, then getPartitionKey finishes
+        while (idx1 < idx2) {
             // look for one that is not smaller than partitionKey
-            while (idx1 <= end && data[idx1] <= data[partitionKeyIdx]) {
+            while (data[idx1] <= partitionKey) {
                 idx1++;
             }
 
             // look for one that is not larger than partitionKey
-            while (idx1 <= end && data[end] > data[partitionKeyIdx]) {
-                end--;
-            }
-
-            if (idx1 > end) {
-                break;
+            while (data[idx2] > partitionKey) {
+                idx2--;
             }
 
             // swap (the 1st element that is larger than partitionKey before partitionKey) with
             //      (the 1st element that is smaller than partitionKey after partitionKey)
-            exchange(data, idx1, end);
+            exchange(data, idx1, idx2);
         }
-
-        // now idx1 == end
-        // data[start+1]...data[idx1] are all <= partitionKey
-        // data[idx1+1]...data[end] are all > partitionKey
+        // after this iteration, data[partition+1]...data[j] are all <= partitionKey
+        //                       data[j+1]...data[end] are all > partitionKey
 
         // put partitionKey to its sorted position j
-        exchange(data, start, end);
+        exchange(data, start, idx2);
 
-        return end;
+        return idx2;
     }
 
     // 3-way partitioning QuickSort is most effective when there are lots duplicate elements
-    // application: Dutch national flag problem
+    // application : Dutch national flag problem
     public static void sortWith3Partition(int[] data, int low, int high) {
         if (low >= high) {
             return;
@@ -126,5 +123,4 @@ public class QuickSort {
         array[index1] = array[index2];
         array[index2] = swap;
     }
-
 }
