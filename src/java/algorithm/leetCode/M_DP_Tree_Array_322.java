@@ -7,6 +7,7 @@ Write a function to compute the fewest number of coins that you need to make up 
 If that amount of money cannot be made up by any combination of the coins, return -1.
 
 You may assume that you have an infinite number of each kind of coin.
+coins is not sorted
 
 ### Example
 Input: coins = [1, 2, 5], amount = 11
@@ -15,8 +16,6 @@ Explanation: 11 = 5 + 5 + 1
 
 Input: coins = [2], amount = 3
 Output: -1
-
-coins is not sorted
 
 Related :  377
 */

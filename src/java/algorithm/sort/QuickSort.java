@@ -25,8 +25,9 @@ public class QuickSort {
     private static final int CUTOFF = 5;
 
     public static void main(String[] args) {
-//        int[] data = new int[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
-        int[] data = new int[]{5, 4, 3, 2, 1};
+        int[] data = new int[]{2, 2, 333, 333, 1, 442, 3, 122, 2, 21, 2, 333, 2, 1, 3};
+//        int[] data = new int[]{3, 2, 1, 5, 6, 4};
+//        int[] data = new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6};
 
         sort(data);
 //        sortWith3Partition(data, 0, data.length - 1);
@@ -58,34 +59,38 @@ public class QuickSort {
     }
 
     public static int partition(int[] data, int start, int end) {
-        int partitionKey = data[start];
+        int partitionKeyIdx = start;
 
-        int idx1 = start + 1; // since we don't care equal element, start from the next one
-        int idx2 = end;
-
-        // if j <= i, then getPartitionKey finishes
-        while (idx1 < idx2) {
-            // look for one that is not smaller than partitionKey
-            while (data[idx1] <= partitionKey) {
-                idx1++;
+        // examine all include start and end
+        while (start <= end) {
+            // find one from start, that is > data[partitionIdxKey]
+            while (start <= end && data[start] <= data[partitionKeyIdx]) {
+                start++;
             }
 
-            // look for one that is not larger than partitionKey
-            while (data[idx2] > partitionKey) {
-                idx2--;
+            // find one from end, that is <= data[partitionIdxKey]
+            while (start <= end && data[end] > data[partitionKeyIdx]) {
+                end--;
             }
 
-            // swap (the 1st element that is larger than partitionKey before partitionKey) with
-            //      (the 1st element that is smaller than partitionKey after partitionKey)
-            exchange(data, idx1, idx2);
+            if (start > end) {
+                break;
+            }
+
+            // swap
+            // the 1st one that is larger than partitionKeyIdx before partitionKeyIdx
+            // with
+            // the 1st one that is smaller than partitionKeyIdx after partitionKeyIdx
+            exchange(data, start, end);
         }
-        // after this iteration, data[partition+1]...data[j] are all <= partitionKey
-        //                       data[j+1]...data[end] are all > partitionKey
 
-        // put partitionKey to its sorted position j
-        exchange(data, start, idx2);
+        // data[partitionKeyIdx + 1]...data[end] are all <= data[partitionKeyIdx]
+        // data[start] til the rest are all > partitionKeyIdx
 
-        return idx2;
+        // put partitionKeyIdx to its sorted position
+        exchange(data, partitionKeyIdx, end);
+
+        return end;
     }
 
     // 3-way partitioning QuickSort is most effective when there are lots duplicate elements

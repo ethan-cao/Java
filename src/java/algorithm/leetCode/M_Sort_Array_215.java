@@ -13,7 +13,7 @@ You may assume k is always valid, 1 ≤ k ≤ array's length.
 
 import java.util.*;
 
-public class M_Array_215 {
+public class M_Sort_Array_215 {
 
     public static void main(String... args) {
         System.out.println(findKthLargest2(new int[]{3, 2, 1, 5, 6, 4}, 2)); // 5
@@ -99,7 +99,7 @@ public class M_Array_215 {
         final Random random = new Random();
 
         for (int i = 1; i < data.length; i++) {
-            final int j = random.nextInt(i);
+            int j = random.nextInt(i);
             swap(data, i, j);
         }
     }
@@ -112,33 +112,31 @@ public class M_Array_215 {
 
     // QuickSelect using 1st element as partitionKey, 0ms
     public int findKthLargest3(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-
         return find(nums, 0, nums.length - 1, k);
     }
 
     private int find(int[] nums, int start, int end, int k) {
         int partitionKeyIdx = start + (end - start) / 2;
-        int partitionKey = nums[partitionKeyIdx];
+
         int i = start;
         int j = end;
 
         while (i <= j) {
-            while (i <= j && nums[i] > partitionKey) {
+            while (i <= j && nums[i] > nums[partitionKeyIdx]) {
                 i++;
             }
 
-            while (i <= j && nums[j] < partitionKey) {
+            while (i <= j && nums[j] < nums[partitionKeyIdx]) {
                 j--;
             }
 
-            if (i <= j) {
-                swap(nums, i, j);
-                i++;
-                j--;
+            if (i > j)  {
+                break;
             }
+
+            swap(nums, i, j);
+            i++;
+            j--;
         }
 
         if (start + k - 1 <= j) {
