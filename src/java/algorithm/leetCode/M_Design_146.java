@@ -1,6 +1,5 @@
 package algorithm.leetCode;
 
-
 /*
 Design and implement a data structure for Least Recently Used (LRU) cache.
 It should support the following operations: get and put.
@@ -28,7 +27,7 @@ cache.get(3);       // returns 3
 cache.get(4);       // returns 4
 */
 
-public class M_Design_146_TODO {
+public class M_Design_146 {
 
     public static void main(String... args) {
 

@@ -8,17 +8,11 @@ Each of the array element will not exceed 100.
 The array size will not exceed 200.
 
 ### Example
-Input: [1, 5, 11, 5]
-Output: true
+[1, 5, 11, 5] -> true
 Explanation: The array can be partitioned as [1, 5, 5] and [11]
 
-Input: [1, 2, 3, 5]
-Output: false
+[1, 2, 3, 5] -> false
 Explanation: The array cannot be partitioned into equal sum subsets.
-
-Related : 518, 698
-
-This is 0-1 knapsack problem
 */
 
 import java.util.Arrays;
