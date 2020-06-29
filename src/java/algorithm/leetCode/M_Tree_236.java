@@ -27,7 +27,28 @@ public class M_Tree_236 {
         }
     }
 
+    // https://www.youtube.com/watch?v=13m9ZCB8gjw
+    // Time: O(N), Space: O(N), 4ms
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        
+        if (root == null) {
+            return null;
+        }
+
+        if (root == p || root == q) {
+            return root;
+        }
+
+        // start from root, and looks for p,
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        // p and q exist on each side of the root, then root is LCA
+        if (left != null && right != null) {
+            return root;
+        }
+
+        // since we know p and q exist in root, either in left or right, so return the non-null one
+        return left != null ? left : right;
     }
+
 }

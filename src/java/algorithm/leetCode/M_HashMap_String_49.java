@@ -4,18 +4,15 @@ import java.util.*;
 
 /*
 Given an array of strings, group anagrams together.
-
 All inputs will be in lowercase.
 The order of your output does not matter.
 
 ### Example
  ["eat", "tea", "tan", "ate", "nat", "bat"],
 ->
-[
-  ["ate","eat","tea"],
+[ ["ate","eat","tea"],
   ["nat","tan"],
-  ["bat"]
-]
+  ["bat"] ]
 
 */
 public class M_HashMap_String_49 {
