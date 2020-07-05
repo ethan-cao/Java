@@ -3,7 +3,6 @@ package algorithm.leetCode;
 /*
 Given a singly linked list, group all odd nodes together followed by the even nodes.
 Please note here we are talking about the node number and not the value in the nodes.
-
 do it in place, with time: O(N) and space: O(1)
 
 The relative order inside both the even and odd groups should remain as it was in the input.
