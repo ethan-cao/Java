@@ -12,10 +12,6 @@ Follow up: Could you improve it to O(n log n) time complexity?
 [10,9,2,5,3,7,101,18] -> 4
 Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
 
-### sub problem
-
-length of longest increasing subsequence for {a1}, {a1, a2}, {a1, a2} ...
-
 */
 
 import java.util.Arrays;
@@ -36,7 +32,7 @@ public class M_DP_Array_300 {
         System.out.println(lengthOfLIS(nums4)); // 5 = 2,3,5,6,80
     }
 
-    // // https://youtu.be/fV-TF4OvZpk
+    // https://youtu.be/fV-TF4OvZpk
     public static int lengthOfLIS(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;

@@ -8,10 +8,7 @@ If there is no such window in S that covers all characters in T, return the empt
 If there is such window, you are guaranteed that there will always be only one unique minimum window in S.
 
 ### Example
-Input: S = "ADOBECODEBANC", T = "ABC"
-Output: "BANC"
-
-### Review:
+S = "ADOBECODEBANC", T = "ABC" -> "BANC"
 
 */
 
@@ -25,12 +22,6 @@ public class H_2Pointer_SlidingWindow_String_76 {
         System.out.println(minWindow2("ADOBECODEBANC", "ABC"));  // BANC
     }
 
-    /*    General approach to search substring
-        1. Use two pointers: start and end to represent a window.
-        2. Move end to find a valid window.
-        3. When a valid window is found, move start to find a smaller window.
-     */
-
     // Two pointer, sliding window
     // Time: O(N) 2ms
     public static String minWindow2(String s, String t) {
@@ -38,17 +29,16 @@ public class H_2Pointer_SlidingWindow_String_76 {
             return "";
         }
 
+        int left = 0;
+        int right = 0;
+
         // Strings are encoded as UTF-16. In UTF-16, the ASCII character set is encoded as values [0 - 127]
         int[] counter = new int[128];
         for (char c : t.toCharArray()) {
             counter[c]++;
         }
 
-        int left = 0;
-        int right = 0;
-
         int requiredCharCount = t.length();
-
         int minLeft = 0;
         int minLength = Integer.MAX_VALUE;
 

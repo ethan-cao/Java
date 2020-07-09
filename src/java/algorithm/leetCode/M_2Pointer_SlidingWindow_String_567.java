@@ -9,11 +9,7 @@ The length of both given strings is in range [1, 10,000].
 
 ### Example
 s1 = "ab" s2 = "eidbaooo" -> True
-Explanation: s2 contains one permutation of s1 ("ba").
-
-s1= "ab" s2 = "eidboaoo" -> False
-
-### Review:
+s1 = "ab" s2 = "eidboaoo" -> False
 
 */
 

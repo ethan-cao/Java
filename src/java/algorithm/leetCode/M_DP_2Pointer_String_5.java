@@ -6,7 +6,6 @@ You may assume that the maximum length of s is 1000.
 
 ### Example
 "babad" -> "bab",  "aba" is also a valid answer.
-
 "cbbd"-> "bb", The answer is "b", with the length of 1.
 
 */

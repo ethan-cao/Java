@@ -9,11 +9,8 @@ It's guaranteed that the answer is unique, in other words the set of the top k f
 You can return the answer in any order.
 
 ### Example
-Input: nums = [1,1,1,2,2,3], k = 2
-Output: [1,2]
-
-Input: nums = [1], k = 1
-Output: [1]
+nums = [1,1,1,2,2,3], k = 2 -> [1,2]
+nums = [1], k = 1 -> [1]
 
 */
 
