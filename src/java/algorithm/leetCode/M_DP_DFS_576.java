@@ -7,17 +7,13 @@ However, you can at most move N times. Find out the number of paths to move the 
 The answer may be very large, return it after mod 10^9 + 7.
 
 Once you move the ball out of boundary, you cannot move it back.
-The length and height of the grid is in range [1,50].
-N is in range [0,50].
+The length and height of the grid is in range [1,50]. N is in range [0,50].
 
 ### Example
-Input: m = 2, n = 2, N = 2, i = 0, j = 0
-Output: 6
+m = 2, n = 2, N = 2, i = 0, j = 0 -> 6
+m = 1, n = 3, N = 3, i = 0, j = 1 -> 12
 
-Input: m = 1, n = 3, N = 3, i = 0, j = 1
-Output: 12
-
- */
+*/
 
 public class M_DP_DFS_576 {
 
@@ -26,10 +22,17 @@ public class M_DP_DFS_576 {
         System.out.println(findPaths(1, 3, 3, 0, 1));  // 12
     }
 
-    // DFS, ms
     private static int[][] directions = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
     private static int MOD = 1000000007;
 
+    // DP, ms
+    public static int findPaths1(int m, int n, int N, int i, int j) {
+        int pathCount = 0;
+
+        return pathCount;
+    }
+
+    // DFS, ms
     public static int findPaths(int m, int n, int N, int i, int j) {
         Long[][][] cache = new Long[m][n][N + 1];
         long pathCount = visit(m, n, N, i, j, cache) % MOD;
@@ -64,10 +67,4 @@ public class M_DP_DFS_576 {
         return cache[i][j][N];
     }
 
-    // DFS, ms
-    public static int findPaths1(int m, int n, int N, int i, int j) {
-        int pathCount = 0;
-
-        return pathCount;
-    }
 }

@@ -38,7 +38,7 @@ public class H_2Pointer_SlidingWindow_String_340 {
                 distinctCharCount++;
             }
 
-            while (distinctCharCount > k) {
+            while (distinctCharCount > k && left <= right) {
                 char leftChar = s.charAt(left);
                 frequencies[leftChar]--;
 

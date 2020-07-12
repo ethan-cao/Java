@@ -13,7 +13,7 @@ You may assume no duplicate exists in the array.
 
 */
 
-public class M_Array_153 {
+public class M_BinarySearch_Array_153 {
 
     public static void main(String... args) {
         System.out.println(findMin(new int[]{3, 4, 5, 1, 2}));      // 1

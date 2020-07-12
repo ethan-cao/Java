@@ -21,7 +21,7 @@ Given target = 20, return false.
 
 import java.util.Arrays;
 
-public class M_Array_240 {
+public class M_BinarySearch_Array_240 {
 
     public static void main(String... args) {
         int[][] nums = {{1, 4, 7, 11, 15},

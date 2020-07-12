@@ -1,27 +1,19 @@
 package algorithm.leetCode;
 
 /*
-Shifted Array Search
-
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
 You are given a target value to search. If found in the array return its index, otherwise return -1.
-
 assume no duplicate exists in the array.
 time complexity <= O(log n)
 
 ### Example
-Input: nums = [4,5,6,7,0,1,2], target = 0
-Output: 4
-
-Input: nums = [4,5,6,7,0,1,2], target = 3
-Output: -1
-
-Review : 1
+nums = [4,5,6,7,0,1,2], target = 0 -> 4
+nums = [4,5,6,7,0,1,2], target = 3 -> -1
 
 */
 
-public class M_Array_33 {
+public class M_BinarySearch_Array_33 {
 
     public static void main(String... args) {
         System.out.println(search(new int[]{4, 5, 6, 7, 0, 1, 2}, 0)); // 4

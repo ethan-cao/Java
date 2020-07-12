@@ -17,7 +17,7 @@ Output: 2
 import java.util.HashMap;
 import java.util.Map;
 
-public class M_Array_560 {
+public class M_2Pointer_Array_560 {
 
     public static void main(String... args) {
         System.out.println(subarraySum1(new int[]{1, 1, 1, 1}, 2)); // 3

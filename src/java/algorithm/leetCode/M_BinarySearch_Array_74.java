@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class M_Array_74 {
+public class M_BinarySearch_Array_74 {
 
     public static void main(String... args) {
         int[][] matrix = {

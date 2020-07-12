@@ -15,7 +15,6 @@ import java.util.*;
 public class E_Array_1 {
 
     public static void main(String[] args) {
-        // TDD
         int[] result = twoSum2(new int[]{2, 7, 11, 15}, 9);
         assert result.length == 2;
         assert Arrays.stream(result).anyMatch(x -> x == 3) == true;

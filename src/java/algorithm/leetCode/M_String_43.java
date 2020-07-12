@@ -9,11 +9,8 @@ Both num1 and num2 contain only digits 0-9.
 Both num1 and num2 do not contain any leading zero, except the number 0 itself.
 
 ### Example
-Input: num1 = "2", num2 = "3"
-Output: "6"
-
-Input: num1 = "123", num2 = "456"
-Output: "56088"
+num1 = "2", num2 = "3" -> "6"
+num1 = "123", num2 = "456" -> "56088"
 
 */
 

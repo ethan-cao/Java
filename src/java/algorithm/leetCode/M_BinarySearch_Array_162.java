@@ -17,7 +17,7 @@ Explanation: Your function can return either index number 1 where the peak eleme
 
 */
 
-public class M_Array_162 {
+public class M_BinarySearch_Array_162 {
 
     public static void main(String... args) {
         System.out.println(findPeakElement(new int[]{3, 2, 1}));              // 0

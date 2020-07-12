@@ -14,7 +14,7 @@ Related : 33
 
 */
 
-public class M_Array_81 {
+public class M_BinarySearch_Array_81 {
 
     public static void main(String... args) {
         System.out.println(search(new int[]{2, 5, 6, 0, 0, 1, 2}, 0)); // T

@@ -33,26 +33,25 @@ public class H_2Pointer_SlidingWindow_String_76 {
         int right = 0;
 
         // Strings are encoded as UTF-16. In UTF-16, the ASCII character set is encoded as values [0 - 127]
-        int[] counter = new int[128];
+        int requiredCharCount = t.length();
+        int[] requiredCharCounter = new int[128];
         for (char c : t.toCharArray()) {
-            counter[c]++;
+            requiredCharCounter[c]++;
         }
 
-        int requiredCharCount = t.length();
         int minLeft = 0;
         int minLength = Integer.MAX_VALUE;
 
         while (right < s.length()) {
             char rightChar = s.charAt(right);
-            counter[rightChar]--;
+            requiredCharCounter[rightChar]--;
 
-            if (counter[rightChar] >= 0) {
+            if (requiredCharCounter[rightChar] >= 0) {
                 requiredCharCount--;
             }
 
             // trying to minimize window while requiredCharCount is 0
             while (requiredCharCount == 0 && left <= right) {
-
                 // capture the moment when there is a minLength
                 if (right - left + 1 < minLength) {
                     minLength = right - left + 1;
@@ -61,9 +60,9 @@ public class H_2Pointer_SlidingWindow_String_76 {
 
                 // try to move window left towards right
                 char leftChar = s.charAt(left);
-                counter[leftChar]++;
+                requiredCharCounter[leftChar]++;
 
-                if (counter[leftChar] > 0) {
+                if (requiredCharCounter[leftChar] > 0) {
                     requiredCharCount++;  // break the loop
                 }
 

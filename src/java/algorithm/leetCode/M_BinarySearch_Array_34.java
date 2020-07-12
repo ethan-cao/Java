@@ -18,7 +18,7 @@ Output: [-1,-1]
 
 import java.util.Arrays;
 
-public class M_Array_34 {
+public class M_BinarySearch_Array_34 {
 
     public static void main(String... args) {
         System.out.println(Arrays.toString(searchRange1(new int[]{5, 7, 7, 8, 8, 10}, 8))); //[3,4]
