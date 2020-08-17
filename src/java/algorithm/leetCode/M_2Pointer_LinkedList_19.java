@@ -48,6 +48,31 @@ public class M_2Pointer_LinkedList_19 {
         }
     }
 
+    // Two Pointer
+    // Time: O(N), Space: O(1), 0ms
+    public static ListNode removeNthFromEnd1(ListNode head, int n) {
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+
+        ListNode left = dummyHead;
+        ListNode right = dummyHead;
+
+        // make distance between 2 pointers to n
+        for (int i = 0; i <= n; ++i) {
+            right = right.next;
+        }
+
+        // when rightPointer moves behind the last one, left.next is the one to drop
+        while (right != null) {
+            left = left.next;
+            right = right.next;
+        }
+
+        left.next = left.next.next;
+
+        return dummyHead.next;
+    }
+
     private static int idx = 0;
 
     // Time: , Space:
@@ -77,29 +102,5 @@ public class M_2Pointer_LinkedList_19 {
         }
     }
 
-    // Two Pointer
-    // Time: O(N), Space: O(1)
-    public static ListNode removeNthFromEnd1(ListNode head, int n) {
-        ListNode virtualHead = new ListNode(0);
-        virtualHead.next = head;
-
-        ListNode left = virtualHead;
-        ListNode right = virtualHead;
-
-        // make distance between 2 pointers to n
-        for (int i = 0; i <= n; ++i) {
-            right = right.next;
-        }
-
-        // when rightPointer moves behind the last one, left.next is the one to drop
-        while (right != null) {
-            left = left.next;
-            right = right.next;
-        }
-
-        left.next = left.next.next;
-
-        return virtualHead.next;
-    }
 
 }

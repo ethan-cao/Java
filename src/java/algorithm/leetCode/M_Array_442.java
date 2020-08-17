@@ -10,8 +10,7 @@ Find all the elements that appear twice in this array.
 
 */
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class M_Array_442 {
 

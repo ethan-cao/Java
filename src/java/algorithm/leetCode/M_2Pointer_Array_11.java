@@ -16,12 +16,40 @@ Note: You may not slant the container and n is at least 2.
 public class M_2Pointer_Array_11 {
 
     public static void main(String... args) {
-        System.out.println(maxArea1(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7})); //49
-        System.out.println(maxArea1(new int[]{10, 5, 4, 48, 3, 37, 0, 1, 231, 3, 211})); //422
+        System.out.println(maxArea(new int[]{1, 8, 6, 2, 5, 4, 8, 3, 7})); //49
+        System.out.println(maxArea(new int[]{10, 5, 4, 48, 3, 37, 0, 1, 231, 3, 211})); //422
+    }
+
+    // 2 Pointer, Time O(N), 2ms
+    public static int maxArea(int[] height) {
+        int maxArea = 0;
+
+        if (height == null || height.length == 0) {
+            return maxArea;
+        }
+
+        int left = 0;
+        int right = height.length - 1;
+
+        while (left < right) {
+            int area = Math.min(height[left], height[right]) * (right - left);
+            maxArea = Math.max(maxArea, area);
+
+            // the smaller height determines the rectangle height
+            // there is no point in moving the larger height forward, since the area is only getting smaller
+            // just try moving the smaller height forward, see if could get a bigger area
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;
     }
 
     // brute force
-    public static int maxArea(int[] height) {
+    public static int maxArea1(int[] height) {
         int maxArea = 0;
 
         if (height == null || height.length == 0) {
@@ -35,34 +63,6 @@ public class M_2Pointer_Array_11 {
                 maxArea = Math.max(area, maxArea);
             }
 
-        }
-
-        return maxArea;
-    }
-
-    // O(N)
-    public static int maxArea1(int[] height) {
-        int maxArea = 0;
-
-        if (height == null || height.length == 0) {
-            return maxArea;
-        }
-
-        int left = 0;
-        int right = height.length - 1;
-
-        while (left < right) {
-            int area = Math.min(height[left], height[right]) * (right - left);
-            maxArea = Math.max(area, maxArea);
-
-            // the smaller height determines the rectangle height
-            // there is no point in moving the larger height forward, since the area is only getting smaller
-            // just try moving the smaller height forward, see if could get a bigger area
-            if (height[left] < height[right]) {
-                left++;
-            } else {
-                right--;
-            }
         }
 
         return maxArea;

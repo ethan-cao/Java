@@ -45,23 +45,22 @@ public class E_2Pointer_LinkedList_141 {
     // cycle detection: Floyd’s algorithm
     // Space: O(1)
     public static boolean hasCycle(ListNode head) {
-        if (head == null || head.next == null) {
+        if (head == null) {
             return false;
         }
 
-        ListNode slowPointer = head.next;
-        ListNode fastPointer = head.next.next;
+        ListNode slowPointer = head;
+        ListNode fastPointer = head.next;
 
-        while (slowPointer != fastPointer) {
-            if (slowPointer == null || fastPointer == null || fastPointer.next == null) {
-                return false;
-            }
-
+        while (slowPointer != null && fastPointer != null) {
             slowPointer = slowPointer.next;
-            fastPointer = fastPointer.next.next;
+            fastPointer = fastPointer.next == null ? null : fastPointer.next.next;
+
+            if (slowPointer == fastPointer) {
+                return true;
+            }
         }
 
-        // if slowPointer == fastPointer, they meet and there is a cycle
-        return true;
+        return false;
     }
 }

@@ -15,7 +15,6 @@ head = [1,2], pos = 0 --> tail connects to node index 0
 Explanation: There is a cycle in the linked list, where tail connects to the first node.
 
 head = [1], pos = -1 --> no cycle
-Explanation: There is no cycle in the linked list.
 
 */
 
@@ -30,7 +29,6 @@ public class M_2Pointer_LinkedList_142 {
         }
     }
 
-    // https://leetcode.com/problems/linked-list-cycle-ii/discuss/44774/Java-O(1)-space-solution-with-detailed-explanation.
     public ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null) {
             return null;

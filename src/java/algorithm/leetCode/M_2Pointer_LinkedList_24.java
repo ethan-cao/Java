@@ -50,16 +50,14 @@ public class M_2Pointer_LinkedList_24 {
         }
     }
 
-    // Time: O(N), Space: O(1)
-    // Two Pointer, 0ms
+    // Two Pointer
+    // Time: O(N), Space: O(1), 0ms
     public static ListNode swapPairs(ListNode head) {
-        ListNode newHead = null;
-
-        if (head == null) {
-            return newHead;
+        if (head == null || head.next == null) {
+            return null;
         }
 
-        newHead = head.next == null ? head : head.next;
+        ListNode newHead = head.next == null ? head : head.next;
 
         ListNode current = head;
         ListNode next = current.next;
@@ -77,14 +75,13 @@ public class M_2Pointer_LinkedList_24 {
         return newHead;
     }
 
-    // 0ms
+    // Two Pointer, 0ms
     public ListNode swapPairs1(ListNode head) {
-        if (head == null || head.next == null ) {
+        if (head == null || head.next == null) {
             return head;
         }
 
-        ListNode virtualHead = new ListNode(0);
-        virtualHead.next = head.next;
+        ListNode newHead = head.next;
 
         ListNode odd = head;
         ListNode even = head.next;
@@ -100,20 +97,8 @@ public class M_2Pointer_LinkedList_24 {
             even = nextEven;
         }
 
-        return virtualHead.next;
+        return newHead;
     }
-
-    // Time:   Space: O(N)
-    private ListNode swap (ListNode odd, ListNode even) {
-        if (odd == null || even == null) {
-            return odd;
-        }
-
-        odd.next = swap(even.next, even.next == null ? null : even.next.next);
-        even.next = odd;
-
-        return even;
-    };
 
     public ListNode swapPairs2(ListNode head) {
         if (head == null || head.next == null) {
@@ -121,6 +106,18 @@ public class M_2Pointer_LinkedList_24 {
         }
 
         return swap(head, head.next);
-    };
+    }
+
+    // Time:   Space: O(N), 0ms
+    private ListNode swap(ListNode current, ListNode next) {
+        if (current == null || next == null) {
+            return current;
+        }
+
+        current.next = swap(next.next, next.next == null ? null : next.next.next);
+        next.next = current;
+
+        return next;
+    }
 
 }

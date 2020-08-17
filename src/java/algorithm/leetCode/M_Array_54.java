@@ -5,26 +5,20 @@ Given a matrix of m x n elements (m rows, n columns), return all elements of the
 
 ### Example
 Input:
-[
- [ 1, 2, 3 ],
- [ 4, 5, 6 ],
- [ 7, 8, 9 ]
-]
+[ [ 1, 2, 3 ],
+  [ 4, 5, 6 ],
+  [ 7, 8, 9 ] ]
 Output: [1,2,3,6,9,8,7,4,5]
 
 Input:
-[
-  [1, 2, 3, 4],
+[ [1, 2, 3, 4],
   [5, 6, 7, 8],
-  [9,10,11,12]
-]
+  [9,10,11,12] ]
 Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Array_54 {
 
@@ -88,6 +82,7 @@ public class M_Array_54 {
         return order;
     }
 
+    // 0ms
     public static List<Integer> spiralOrder1(int[][] matrix) {
         List<Integer> order = new ArrayList<>();
         if (matrix == null || matrix.length == 0) return order;
@@ -134,6 +129,7 @@ public class M_Array_54 {
         return order;
     }
 
+    // 0ms
     public static List<Integer> spiralOrder2(int[][] matrix) {
         List<Integer> order = new ArrayList<>();
         if (matrix == null || matrix.length == 0) return order;
