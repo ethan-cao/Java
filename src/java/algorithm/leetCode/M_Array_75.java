@@ -8,7 +8,7 @@ with the colors in the order red(0), white(1) and blue(2)
 ### Example
 [2,0,2,1,1,0] ->  [0,0,1,1,2,2]
 
-]*/
+*/
 
 import java.util.Arrays;
 

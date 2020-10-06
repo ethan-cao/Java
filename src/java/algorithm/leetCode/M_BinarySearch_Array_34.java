@@ -8,11 +8,8 @@ runtime complexity must be in the order of O(log n).
 If the target is not found in the array, return [-1, -1]
 
 ### Example
-Input: nums = [5,7,7,8,8,10], target = 8
-Output: [3,4]
-
-Input: nums = [5,7,7,8,8,10], target = 6
-Output: [-1,-1]
+nums = [5,7,7,8,8,10], target = 8 -> [3,4]
+nums = [5,7,7,8,8,10], target = 6 -> [-1,-1]
 
 */
 
@@ -29,109 +26,73 @@ public class M_BinarySearch_Array_34 {
         System.out.println(Arrays.toString(searchRange1(new int[]{1, 2, 3}, 1)));           //[0,0]
     }
 
-    // O(log n), Binary search
-    public static int[] searchRange(int[] nums, int target) {
-        int[] result = {-1, -1};
-
+    // BinarySearch O(NlogN), 0ms
+    public static int[] searchRange1(int[] nums, int target) {
         if (nums == null || nums.length == 0) {
-            return result;
+            return new int[]{-1, -1};
         }
 
-        // seek left boundary from 0 to length-1
-        int start = 0;
-        int end = nums.length - 1;
+        int leftBoundary = findLeftBoundary(nums, target);
+        if (leftBoundary == -1) {
+            return new int[]{-1, -1};
+        }
+        int rightBoundary = findRightBoundary(nums, target);
 
-        while (start < end) {
-            int middle = start + (end - start) / 2;  // biased towards left
+        return new int[]{leftBoundary, rightBoundary};
+    }
+
+    private static int findLeftBoundary(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
 
             if (nums[middle] < target) {
-                start = middle + 1;
-            } else {
-                end = middle;
-            }
-        }
-
-        // if we could not find left boundary, no result
-        if (nums[start] != target) {
-            return result;
-        }
-
-        // seek right boundary from left boundary to length-1
-        end = nums.length - 1;
-        while (start < end) {
-            int middle = start + (end - start) / 2 + 1; // biased towards right
-
-            if (nums[middle] > target) {
-                end = middle - 1; // this is like middle + 1 if middle = start + (end - start) / 2
-            } else
-                start = middle;
-        }
-
-        result[0] = start;
-        result[1] = end;
-
-        return result;
-    }
-
-    public static int[] searchRange1(int[] nums, int target) {
-        int[] result = {-1, -1};
-
-        if (nums == null || nums.length == 0) {
-            return result;
-        }
-
-        int start = getStart(nums, target);
-        if (start == -1) return result;
-        int end = getEnd(nums, target);
-
-        result[0] = start;
-        result[1] = end;
-
-        return result;
-    }
-
-    private static int getStart(int[] nums, int target) {
-        int idx = -1;
-        int left = 0;
-        int right = nums.length - 1;
-
-        // !!! =, iterate all
-        while (left <= right) {
-            int middle = left + (right - left) / 2;
-
-            if (target <= nums[middle]) {
-                right = middle - 1; // move towards left
-            } else {
                 left = middle + 1;
-            }
-
-            // update idx when found match
-            idx = nums[middle] == target ? middle : idx;
-        }
-
-        return idx;
-    }
-
-    private static int getEnd(int[] nums, int target) {
-        int idx = -1;
-        int left = 0;
-        int right = nums.length - 1;
-
-        // !!! =, iterate all
-        while (left <= right) {
-            int middle = left + (right - left) / 2;
-
-            if (target >= nums[middle]) {
-                left = middle + 1;  // move towards right
+            } else if (nums[middle] > target) {
+                right = middle - 1;
             } else {
+                // when nums[middle] == target, target exists in nums
+                // since looking for left boundary, move the right boundary towards left to narrow the range
+                // in the end right = left - 1, if nums[left] == target, then left is the boundary
                 right = middle - 1;
             }
-
-            // update idx when found match
-            idx = nums[middle] == target ? middle : idx;
         }
 
-        return idx;
+        // as long as left is still within range and nums[left] == target, found
+        if (left < nums.length && nums[left] == target) {
+            return left;
+        }
+
+        return -1;
+    }
+
+    private static int findRightBoundary(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] < target) {
+                left = middle + 1;
+            } else if (nums[middle] > target) {
+                right = middle - 1;
+            } else {
+                // when nums[middle] == target, target exists in nums
+                // since looking for right boundary, move the left boundary towards right to narrow the range
+                // in the end left = right + 1, if nums[right] == target, then right is the boundary
+                left = middle + 1;
+            }
+        }
+
+        // as long as right is still in range and nums[right] == target, found
+        if (right >= 0 && nums[right] == target) {
+            return right;
+        }
+
+        return -1;
     }
 
     public static int[] searchRange2(int[] nums, int target) {

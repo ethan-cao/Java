@@ -56,7 +56,6 @@ public class M_2Pointer_BinarySearch_Array_209 {
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
-
     // Binary Search, Time O(N), 5ms
     public static int minSubArrayLen(int s, int[] nums) {
         if (nums == null || nums.length == 0) {
@@ -64,16 +63,16 @@ public class M_2Pointer_BinarySearch_Array_209 {
         }
 
         // sum[i] is sum til to nums[i-1] (inclusive)
-        // since nums only contains positive, sums[] is strictly increasing (sorted), suitable for binary search
+        // since nums contains positive, sums[] is strictly increasing (sorted), suitable for binary search
 
         // we need left and right for sub-array
-        // sums[left] + t = sums[right],  t = sums[left+1] + ... + sums[right]
+        // sums[left] + t = sums[right], t = sums[left+1] + ... + sums[right]
         // looking for the smallest length for t, so t >= s
         // length for t is from left + 1 til right: right - (left + 1) + 1 = right - left
-        // left+1 could be 0, basically t = sums[right]
-        // thus, add 1 more in beginning of sums[], sum[0] is 0, sum[1] is nums[1]
 
-        // O(N)
+        // why sums.length = nums.length + 1;
+        // left+1 can be 0, basically t is the sum of all num in nums, namely sums[right]
+        // thus, add 1 more in beginning of sums[], sum[0] is 0, sum[1] is nums[1]
         int[] sums = new int[nums.length + 1];
         for (int i = 1; i < sums.length; ++i) {
             sums[i] = sums[i - 1] + nums[i - 1];
@@ -95,7 +94,7 @@ public class M_2Pointer_BinarySearch_Array_209 {
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
-    // Binary search
+    // Binary search, search for right boundary
     private static int search(int[] sums, int left, int right, int target) {
         int targetIdx = -1;
 

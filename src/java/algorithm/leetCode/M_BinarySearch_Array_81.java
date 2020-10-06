@@ -10,8 +10,6 @@ You are given a target value to search. If found in the array return true, other
 nums = [2,5,6,0,0,1,2], target = 0 -> true
 nums = [2,5,6,0,0,1,2], target = 3 -> false
 
-Related : 33
-
 */
 
 public class M_BinarySearch_Array_81 {
@@ -22,7 +20,7 @@ public class M_BinarySearch_Array_81 {
     }
 
     // binary search, same as M_Array_33.search
-    // Time: O(logN)
+    // Time: O(logN), 0ms
     public static boolean search(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
@@ -39,14 +37,14 @@ public class M_BinarySearch_Array_81 {
 
             if (nums[left] < nums[middle]) {
                 // the left part is sorted
-                if (target >= nums[left] && target <= nums[middle]) {
+                if (nums[left] <= target && target < nums[middle]) {
                     right = middle - 1;
                 } else {
                     left = middle + 1;
                 }
             } else if (nums[left] > nums[middle]) {
                 // the right part is sorted
-                if (target >= nums[middle] && target <= nums[right]) {
+                if (nums[middle] < target && target <= nums[right]) {
                     left = middle + 1;
                 } else {
                     right = middle - 1;

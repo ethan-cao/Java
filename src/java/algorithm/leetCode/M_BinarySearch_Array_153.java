@@ -2,8 +2,7 @@ package algorithm.leetCode;
 
 /*
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-(i.e.,  [0,1,2,4,5,6,7] might become  [4,5,6,7,0,1,2]).
-
+(i.e.,  [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
 Find the minimum element.
 You may assume no duplicate exists in the array.
 
@@ -21,7 +20,7 @@ public class M_BinarySearch_Array_153 {
     }
 
     // binary search
-    // Time: O(n)
+    // Time: O(NlogN), 0ms
     public static int findMin0(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
@@ -29,27 +28,29 @@ public class M_BinarySearch_Array_153 {
         while (left <= right) {
             int middle = left + (right - left) / 2;
 
-            //middle is biased towards left, middle will not equal to right, middle could equal to left
-            // in this case, there are only 2 elements to check [left, right]. left === middle
+            // middle is biased towards left, middle will not equal to right, middle could equal to left
+            // in this case, there are only 2 elements left [left, right] and left === middle
             if (left == middle) {
                 return Math.min(nums[left], nums[right]);
             }
 
-            if (nums[middle] > nums[right]) {
-                // pivot is in right half
-                left = middle + 1;
-            } else {
+            // since middle is not be the same as right, compare middle and right
+            if (nums[middle] < nums[right]) {
                 // pivot is in left half
+                // since nums[middle] < nums[right], right = middle
                 right = middle;
+            } else {
+                // pivot is in right half
+                // since nums[middle] > nums[right], left = middle + 1
+                left = middle + 1;
             }
         }
 
         return nums[left];
     }
 
-
     // binary search
-    // Time: O(n)
+    // Time: O(NlogN)
     public static int findMin(int[] nums) {
         int left = 0;
         int right = nums.length - 1;

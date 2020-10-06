@@ -25,6 +25,7 @@ public class M_2Pointer_BinarySearch_Array_287 {
         System.out.println(findDuplicate2(new int[]{3, 1, 3, 4, 2})); // 3
     }
 
+    // List, Cycle
     // Time: O(N), Space: O(1), 1ms
     public static int findDuplicate2(int[] nums) {
         if (nums.length == 2) {
@@ -76,21 +77,17 @@ public class M_2Pointer_BinarySearch_Array_287 {
         return fastPointer;
     }
 
-
     // Binary Search, this works iff there is only 1 duplicate
     // Time: O(NlogN), Space: O(1), 2ms
     public static int findDuplicate1(int[] nums) {
         // !!! forget about array, do binary search for the value, given we know there is only 1 duplicate number
-        // left <= num <= right
+        // left <= num[i] <= right
         int left = 1;
         int right = nums.length - 1;
 
-        while (left <= right) {
-            if (left == right) {
-                return left;
-            }
-
+        while (left < right) {
             int middle = left + (right - left) / 2;
+
 
             int count = 0; // number of elements that are <= middle value
             for (int num : nums) {
@@ -114,7 +111,7 @@ public class M_2Pointer_BinarySearch_Array_287 {
             }
         }
 
-        return -1;
+        return left;
     }
 
     // Time: O(N), Space: O(N), 4ms

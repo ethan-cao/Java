@@ -35,7 +35,9 @@ public class M_3Pointer_Array_16 {
         for (int left = 0; left < nums.length - 2; ++left) { // leave room for at least 1 left and 1 middle
 
             // skip duplicates
-            if (left > 0 && nums[left] == nums[left - 1]) continue;
+            while (left - 1 >= 0 && nums[left] == nums[left-1] && left < nums.length - 2) {
+                left++;
+            }
 
             for (int middle = left + 1, right = nums.length - 1; middle < right; ) {
                 int sum = nums[left] + nums[middle] + nums[right];

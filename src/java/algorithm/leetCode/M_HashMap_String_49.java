@@ -1,11 +1,7 @@
 package algorithm.leetCode;
-
-import java.util.*;
-
 /*
 Given an array of strings, group anagrams together.
-All inputs will be in lowercase.
-The order of your output does not matter.
+All inputs will be in lowercase. The order of your output does not matter.
 
 ### Example
  ["eat", "tea", "tan", "ate", "nat", "bat"],
@@ -15,6 +11,9 @@ The order of your output does not matter.
   ["bat"] ]
 
 */
+
+import java.util.*;
+
 public class M_HashMap_String_49 {
 
     public static void main(String... args) {
@@ -31,23 +30,17 @@ public class M_HashMap_String_49 {
     public static List<List<String>> groupAnagrams(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
 
-        for (String string : strs) {
-            String key = getAnagramKey(string);
+        for (String str: strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String key = String.valueOf(chars);
 
             List<String> anagrams = map.getOrDefault(key, new ArrayList<>());
-            anagrams.add(string);
+            anagrams.add(str);
             map.put(key, anagrams);
         }
 
         return new ArrayList<>(map.values());
-    }
-
-    private static String getAnagramKey(String string){
-        char[] chars = string.toCharArray();
-
-        Arrays.sort(chars);
-
-        return String.valueOf(chars);
     }
 
 }

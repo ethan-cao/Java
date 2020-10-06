@@ -38,20 +38,79 @@ public class M_3Pointer_Array_18 {
         System.out.println(System.lineSeparator());
     }
 
-    // Four Pointer, initial position: a = 0, b = 1, c = 2, d = L -1
+    // 4Pointer, initial position: a = 0, b = 1, c = 2, d = L -1
+    // O(N^4): 40ms
+    public List<List<Integer>> fourSum0(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        if (nums.length < 4 || 4 * nums[0] > target || 4 * nums[nums.length - 1] < target) {
+            return result;
+        }
+
+        for (int a = 0; a < nums.length - 3; ++a) {
+            while (a - 1 >= 0 && nums[a] == nums[a-1]) a++;
+
+            if (nums[a] * 4 > target) break;
+
+            if (nums[a] + nums[nums.length-1] * 3 < target) continue;
+
+            for (int b = a + 1; b < nums.length - 2; ++b) {
+                while (b - 1 > a && nums[b] == nums[b-1]) b++;
+
+                if (nums[a] + nums[b] * 3 > target) break;
+
+                if (nums[a] + nums[b] + nums[nums.length-1] * 2 < target) continue;
+
+                for (int c = b + 1; c < nums.length -1; ++c) {
+                    while (c - 1 > b && c < nums.length - 1 && nums[c] == nums[c-1]) c++;
+
+                    for (int d = nums.length - 1; d > c; ) {
+                        int sum = nums[a] + nums[b] + nums[c] + nums[d];
+
+                        if (sum == target) {
+                            result.add(Arrays.asList(nums[a], nums[b], nums[c], nums[d]));
+
+                            while (d > c && nums[d] == nums[d-1]) d--;
+                            d--;
+                            while (c < d && nums[c] == nums[c+1] && c < nums.length - 1) c++;
+                            c++;
+
+                        } else if (sum > target) {
+                            while (d > c && nums[d] == nums[d-1]) d--;
+                            d--;
+                        } else {
+                            while (c < d && nums[c] == nums[c+1] && c < nums.length - 1) c++;
+                            c++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // 4Pointer simplified verison
+    // O(N^3): 3ms
     public static List<List<Integer>> fourSum(int[] nums, int target) {
-        List<List<Integer>> quadruplets = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
 
         if (nums == null || nums.length < 4) {
-            return quadruplets;
+            return result;
         }
 
         Arrays.sort(nums);
 
+        if (4 * nums[0] > target || 4 * nums[nums.length - 1] < target) {
+            return result;
+        }
+
         for (int a = 0; a < nums.length - 3; ++a) { // !!! nums.length - 3: leave room for another b, c, d
 
             // skip duplicates
-            if (a > 0 && nums[a] == nums[a - 1]) continue;
+            while (a - 1 >= 0 && nums[a] == nums[a-1]) a++;
 
             // if the smallest sum is larger than target, not possible
             if (nums[a] * 4 > target) break;
@@ -60,40 +119,36 @@ public class M_3Pointer_Array_18 {
             if (nums[a] + nums[nums.length - 1] * 3 < target) continue;
 
             for (int b = a + 1; b < nums.length - 2; ++b) { //  !!! nums.length - 2 : leave room the c, d
-
-                if (b > a + 1 && nums[b] == nums[b - 1]) continue; // !!! b > a+ 1, do it at least when b is a + 1
+                while (b - 1 > a && nums[b] == nums[b-1]) b++; // !!! b - 1> a, do it at least when b -1 is larger than
 
                 if (nums[a] + nums[b] * 3 > target) break;
 
                 if (nums[a] + nums[b] + nums[nums.length - 1] * 2 < target) continue;
 
                 // now, it is 2 sum
-                int c = b + 1;
-                int d = nums.length - 1;
-
-                while (c < d) {
+                for (int c = b + 1, d = nums.length -1; c < d;) {
                     int sum = nums[a] + nums[b] + nums[c] + nums[d];
 
                     if (sum == target) {
-                        quadruplets.add(Arrays.asList(nums[a], nums[b], nums[c], nums[d]));
+                        result.add(Arrays.asList(nums[a], nums[b], nums[c], nums[d]));
 
-                        // skip duplicate
                         while (c < d && nums[c] == nums[c + 1]) c++;
                         c++;
 
-                        // skip duplicate
                         while (c < d && nums[d] == nums[d - 1]) d--;
                         d--;
                     } else if (sum < target) {
+                        while (c < d && nums[c] == nums[c + 1]) c++;
                         c++;
                     } else {
+                        while (c < d && nums[d] == nums[d - 1]) d--;
                         d--;
                     }
                 }
             }
         }
 
-        return quadruplets;
+        return result;
     }
 }
 

@@ -21,34 +21,34 @@ public class E_Array_1 {
         assert Arrays.stream(result).anyMatch(x -> x == 1) == true;
 
         System.out.println(Arrays.toString(twoSum2(new int[]{2, 7, 11, 15}, 9))); // 1, 0
-        System.out.println(Arrays.toString(twoSum2(new int[]{3, 2, 4}, 6)));      // 2, 1
+        System.out.println(Arrays.toString(twoSum2(new int[]{3, 2, 4}, 6)));      // 2, 1;
         System.out.println(Arrays.toString(twoSum2(new int[]{3, 3,}, 6)));        // 1, 0
     }
 
     // Time: O(N), Space: O(N)
     public static int[] twoSum1(int[] nums, int target) {
-        int[] result = new int[2];
+        int[] indices = new int[2];
 
         // number -> its index
-        Map<Integer, Integer> tally = new HashMap<>();
+        Map<Integer, Integer> locationRecorder = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
             int num = nums[i];
             int requiredNum = target - num;
 
-            // first check the required number is in existing tally
-            if (tally.containsKey(requiredNum)) {
-                result[0] = i;
-                result[1] = tally.get(requiredNum);
+            // first check the required number is in existing locationRecorder
+            if (locationRecorder.containsKey(requiredNum)) {
+                indices[0] = i;
+                indices[1] = locationRecorder.get(requiredNum);
                 break;
             }
 
             // if the required number is not there, record it
             // this must happen in the end, otherwise, the latter duplicate value overrides index, e.g.{3,3} 6
-            tally.put(num, i);
+            locationRecorder.put(num, i);
         }
 
-        return result;
+        return indices;
     }
 
     // Time: O(N), Space: O(N)
@@ -56,19 +56,19 @@ public class E_Array_1 {
         int[] result = new int[2];
 
         // number -> its counterpart's index (number + counterpart = target)
-        Map<Integer, Integer> tally = new HashMap<>();
+        Map<Integer, Integer> locationRecorder = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
             int num = nums[i];
             int requiredNum = target - num;
 
-            if (tally.containsKey(num)) {
+            if (locationRecorder.containsKey(num)) {
                 result[0] = i;
-                result[1] = tally.get(num);
+                result[1] = locationRecorder.get(num);
                 break;
             }
 
-            tally.put(requiredNum, i);
+            locationRecorder.put(requiredNum, i);
         }
 
         return result;

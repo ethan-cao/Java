@@ -28,7 +28,6 @@ public class M_3Pointer_Array_15 {
         solutions1.forEach(System.out::println); // [[-2,0,2]]
         System.out.println();
 
-
 //        Arrays.sort(nums);
 //        solutions = K_Sum.kSum(nums, 0, 3, 0);
 //        solutions.forEach(System.out::println); //  [[-1, 0, 1] [-1, -1, 2]]
@@ -40,7 +39,7 @@ public class M_3Pointer_Array_15 {
 //        System.out.println();
     }
 
-    // Time: O(N^2)
+    // Time: O(N^2), 19ms
     // Three Pointer, initial position: left = 0, middle = left+1, right = L -1
     public static List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> solutions = new ArrayList<>();
@@ -49,29 +48,24 @@ public class M_3Pointer_Array_15 {
 
         for (int left = 0; left < nums.length - 2; ++left) {
             // skip duplicates
-            if (left > 0 && nums[left] == nums[left - 1]) continue;
+            if (left > 0 && nums[left] == nums[left - 1]) {
+                continue;
+            }
 
             // if smallest possible sum is larger than target, not possible
-            if (nums[left] * 3 > 0) break;
+            if (nums[left] * 3 > 0) {
+                break;
+            }
 
             // if largest possible sum is smaller than target, try next one
-            if (nums[left] + nums[nums.length - 1] * 2 < 0) continue;
+            if (nums[left] + nums[nums.length - 1] * 2 < 0) {
+                continue;
+            }
 
-            int middle = left + 1;
-            int right = nums.length - 1;
-
-            while (middle < right) {
+            for (int middle = left + 1, right = nums.length - 1; middle < right; ) {
                 int sum = nums[left] + nums[middle] + nums[right];
 
-                if (sum < 0) {
-                    // skip duplicates, assures the next combination is different
-                    while (middle < nums.length - 1 && nums[middle] == nums[middle + 1]) middle++;
-                    middle++;
-                } else if (sum > 0) {
-                    // skip duplicates, assures the next combination is different
-                    while (right > 1 && nums[right] == nums[right - 1]) right--;
-                    right--;
-                } else {
+                if (sum == 0) {
                     solutions.add(Arrays.asList(nums[left], nums[middle], nums[right]));  // list view on array, fixed size
 
                     // move either middle or right to get a different combination
@@ -80,6 +74,14 @@ public class M_3Pointer_Array_15 {
 //                    middle++;
 
                     while (right > 1 && nums[right] == nums[right - 1]) right--;
+                    right--;
+                } else if (sum < 0) {
+                    // skip duplicates, assures the next combination is different
+                    while (middle + 1 < nums.length - 1 && nums[middle] == nums[middle + 1]) middle ++;
+                    middle++;
+                } else {
+                    // skip duplicates, assures the next combination is different
+                    while (right - 1 > middle && nums[right] == nums[right-1]) right--;
                     right--;
                 }
             }

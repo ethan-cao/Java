@@ -6,11 +6,10 @@ Given a positive integer n, generate a square matrix filled with elements from 1
 ### Example
 Input: 3
 Output:
-[
- [ 1, 2, 3 ],
- [ 8, 9, 4 ],
- [ 7, 6, 5 ]
-]
+[ [ 1, 2, 3 ],
+  [ 8, 9, 4 ],
+  [ 7, 6, 5 ]  ]
+
 */
 
 import java.util.Arrays;
@@ -37,31 +36,33 @@ public class M_Array_59 {
 
     public static int[][] generateMatrix(int n) {
         int[][] matrix = new int[n][n];
-        int counter = 0;
 
-        int[][] vectors = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        int direction = 0;
-
+        int i = 1;
         int row = 0;
-        int column = 0;
+        int col = 0;
 
-        while (counter < n * n) {
-            matrix[row][column] = counter + 1;
-            counter++;
+        // left, bottom, right, top
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int directionIdx = 0;
 
-            int[] vector = vectors[direction];
-            int nextRow = row + vector[0];
-            int nextColumn = column + vector[1];
+        while (i <= n * n) {
+            matrix[row][col] = i;
 
-            if (nextRow >= 0 && nextRow < n && nextColumn >= 0 && nextColumn < n && matrix[nextRow][nextColumn] == 0) {
+            int[] direction = directions[directionIdx];
+            int nextRow = row + direction[0];
+            int nextCol = col + direction[1];
+
+            if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n && matrix[nextRow][nextCol] == 0) {
                 row = nextRow;
-                column = nextColumn;
+                col = nextCol;
             } else {
-                direction = (direction + 1) % 4;
-                vector = vectors[direction];
-                row = row + vector[0];
-                column = column + vector[1];
+                directionIdx = (directionIdx + 1) % 4;
+                direction = directions[directionIdx];
+                row = row + direction[0];
+                col = col + direction[1];
             }
+
+            i++;
         }
 
         return matrix;

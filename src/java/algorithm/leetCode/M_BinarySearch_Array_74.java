@@ -28,10 +28,7 @@ Output: false
 
 ]*/
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class M_BinarySearch_Array_74 {
 
@@ -54,19 +51,19 @@ public class M_BinarySearch_Array_74 {
         int M = matrix.length;
         int N = matrix[0].length;
 
-        int start = 0;
-        int end = M * N - 1;
+        int left = 0;
+        int right = M * N - 1;
 
-        while (start <= end) {
-            int middle = start + (end - start) / 2;
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
             int middleRow = middle / N;
             int middleColumn = middle % N;
             int middleValue = matrix[middleRow][middleColumn];
 
             if (middleValue < target) {
-                start = middle +1;
+                left = middle +1;
             } else if (middleValue > target) {
-                end = middle - 1;
+                right = middle - 1;
             } else {
                 return true;
             }

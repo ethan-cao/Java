@@ -10,7 +10,6 @@ The order of output does not matter.
 
 ### Example
 s: "cbaebabacd" p: "abc"  -> [0, 6]
-Explanation:
 The substring with start index = 0 is "cba", which is an anagram of "abc".
 The substring with start index = 6 is "bac", which is an anagram of "abc".
 
@@ -20,12 +19,10 @@ The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
 
 */
+
 public class M_HashMap_438 {
 
-    public static void main(String... args) {
-    }
-
-    // Sliding window, Time O(n)
+    // Sliding window, Time O(n), 7ms
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> list = new ArrayList<>();
 
@@ -33,42 +30,43 @@ public class M_HashMap_438 {
             return list;
         }
 
-        int[] counter = new int[256];
+        int requiredCharsCount = p.length();
+        int[] requiredChars = new int[256];
         for (char c : p.toCharArray()) {
-            counter[c]++;
+            requiredChars[c]++;
         }
 
         int left = 0;
         int right = 0;
-        int count = p.length();
 
         while (right < s.length()) {
-            //move right everytime, if the character exists in p's counter, decrease the count
-            //current counter value >= 1 means the character is existing in p
-            if (counter[s.charAt(right)] >= 1) {
-                count--;
+            //move right everytime, if the character exists in p's requiredChars, decrease the requiredCharsCount
+            //current requiredChars value >= 1 means the character is existing in p
+            if (requiredChars[s.charAt(right)] >= 1) {
+                requiredCharsCount--;
             }
-            counter[s.charAt(right)]--;
-            right++;
 
-            //when the count is down to 0, means we found the right anagram
-            //then add window's left to result list
-            if (count == 0) {
+            requiredChars[s.charAt(right)]--;
+
+            //when the requiredCharsCount is down to 0, means we found the right anagram
+            if (requiredCharsCount == 0) {
                 list.add(left);
             }
 
-            //if window's size == p, then move left (narrow the window) to find the new match window
-            //++ to reset the counter because we kicked out the left
-            if (right - left == p.length()) {
-                //only increase the count if the character is in p
-                //the count >= 0 indicate it was original in the counter, cuz it won't go below 0
-                if (counter[s.charAt(left)] >= 0) {
-                    count++;
+            // once window size > required size, narrow the window
+            if (right - left + 2 > p.length()) {
+                //only increase the requiredCharsCount if the character is in p
+                //the requiredCharsCount >= 0 indicate it was original in the requiredChars, cuz it won't go below 0
+                if (requiredChars[s.charAt(left)] >= 0) {
+                    //++ to reset the requiredChars because we kicked out the left
+                    requiredCharsCount++;
                 }
 
-                counter[s.charAt(left)]++;
+                requiredChars[s.charAt(left)]++;
                 left++;
             }
+
+            right++;
         }
 
         return list;

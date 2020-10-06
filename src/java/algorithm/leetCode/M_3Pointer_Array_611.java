@@ -11,7 +11,6 @@ The integers in the given array are in the range of [0, 1000].
 ### Example
 [2,2,3,4] -> 3
 Explanation:
-Valid combinations are:
 2,3,4 (using the first 2)
 2,2,3
 2,3,4 (using the second 2)
@@ -62,9 +61,7 @@ public class M_3Pointer_Array_611 {
         return side1 + side2 > side3 && side2 + side3 > side1 && side1 + side3 > side2;
     }
 
-    // Three Pointer, Time: O(N^2)
-    // initial position: left = 0, middle = L-2, right = L-1
-    // in this way, when nums[left] + nums[middle] < nums[right], the only option is to move left 1 position left
+    // Three Pointer, Time: O(N^2), 4ms
     public static int triangleNumber1(int[] nums) {
         int tripletCount = 0;
 
@@ -78,17 +75,18 @@ public class M_3Pointer_Array_611 {
         // after sorting nums, as long as we can ensure the left + middle > right, they are valid triplet
 
         // use right as driver
-        for (int right = nums.length - 1; right > 1; --right) { // leave room for at least 1 left and 1 middle
-            int left = 0;
-            int middle = right - 1;
+        for (int a = nums.length - 1; a >= 2; --a) { // leave room for at least 1 c and 1 b
+            int b = a - 1;
+            int c = 0;
 
-            while (left < middle) {
-                if (nums[left] + nums[middle] > nums[right]) {
-                    // all value that is larger than left til middle is applicable
-                    tripletCount += (middle - left);
-                    middle--;
+            while (c < b) {
+                // when nums[c] + nums[b] < nums[c], the only option is to move b 1 position left
+                if (nums[c] + nums[b] > nums[a]) {
+                    // all value that is larger than c til b is applicable
+                    tripletCount += (b - c);
+                    b--;
                 } else {
-                    left++;
+                    c++;
                 }
             }
         }

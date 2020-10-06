@@ -24,7 +24,7 @@ public class M_BinarySearch_Array_33 {
     }
 
     // binary search, same as M_Array_81.search
-    // Time: O(logN)
+    // Time: O(logN), 0ms
     public static int search(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;

@@ -27,6 +27,8 @@ public class M_BinarySearch_Array_162 {
         System.out.println(findPeakElement(new int[]{1, 2, 1, 3, 5, 6, 4}));  // 1 or 5
     }
 
+    // binary search
+    // Time: O(NlogN) 0ms
     public static int findPeakElement0(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
