@@ -25,8 +25,11 @@ Output: [1,2]
 
 public class E_BinarySearch_167 {
 
+    // just use the idea binary search, not exactly binary search
+    // Time: O(N), 0ms
     public int[] twoSum(int[] numbers, int target) {
         int[] result = new int[2];
+
         int left = 0;
         int right = numbers.length - 1;
 

@@ -20,29 +20,25 @@ public class M_BinarySearch_Array_153 {
     }
 
     // binary search
-    // Time: O(NlogN), 0ms
+    // Time: O(logN), 0ms
     public static int findMin0(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
 
         while (left <= right) {
-            int middle = left + (right - left) / 2;
 
-            // middle is biased towards left, middle will not equal to right, middle could equal to left
-            // in this case, there are only 2 elements left [left, right] and left === middle
-            if (left == middle) {
-                return Math.min(nums[left], nums[right]);
+            // there is no rotation
+            // equal case is when there is 1 element left
+            if (nums[left] <= nums[right]) {
+                break;
             }
 
-            // since middle is not be the same as right, compare middle and right
-            if (nums[middle] < nums[right]) {
-                // pivot is in left half
-                // since nums[middle] < nums[right], right = middle
-                right = middle;
+            int middle = left + (right - left) / 2;
+
+            if (nums[left] <= nums[middle]) {
+                left = middle + 1; // nums[middle] cannot be the minimal one
             } else {
-                // pivot is in right half
-                // since nums[middle] > nums[right], left = middle + 1
-                left = middle + 1;
+                right = middle;  // nums[middle] could be the minimal one
             }
         }
 

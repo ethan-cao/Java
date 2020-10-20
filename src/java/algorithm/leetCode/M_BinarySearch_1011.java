@@ -39,12 +39,96 @@ Explanation:
 4th day: 1, 1
 */
 
+import java.util.Arrays;
+
 public class M_BinarySearch_1011 {
 
     // Time:
     public int shipWithinDays(int[] weights, int D) {
-        return 1;
+        int[] bounds = getBounds(weights);
+        int left = bounds[0];
+        int right = bounds[1];
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+            boolean isShippable = canShip(weights, middle, D);
+
+            if (isShippable) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+        }
+
+        return left;
     }
 
+    private boolean canShip(int[] weights, int capacity, int daysLimit) {
+        int daysRequired = 0;
+        int load = 0;
+
+        for (int weight : weights) {
+            if (weight > capacity || daysRequired > daysLimit) {
+                return false;
+            }
+
+            if (load + weight <= capacity) {
+                load += weight;
+            } else {
+                daysRequired++;
+                load = weight;
+            }
+        }
+
+        return (daysRequired + 1) <= daysLimit;
+    }
+
+    private int[] getBounds(int[] weights) {
+        int sum = 0;
+        int max = 0;
+
+        for (int weight : weights) {
+            sum += weight;
+            max = Math.max(max, weight);
+        }
+
+        return new int[]{max, sum};
+    }
+
+    // Time:
+    public int shipWithinDays1(int[] weights, int D) {
+        int[] bounds = getBounds(weights);
+        int left = bounds[0];
+        int right = bounds[1];
+
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+            int daysRequired = getDaysRequired(weights, middle);
+
+            if (daysRequired > D) {
+                left = middle + 1;
+            } else {
+                right = middle;
+            }
+        }
+
+        return left;
+    }
+
+    private int getDaysRequired(int[] weights, int maxCapacity) {
+        int daysRequired = 0;
+        int load = 0;
+
+        for (int weight : weights) {
+            load += weight;
+
+            if (load > maxCapacity) {
+                daysRequired++;
+                load = weight;
+            }
+        }
+
+        return daysRequired + 1;
+    }
 
 }

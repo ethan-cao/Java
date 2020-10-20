@@ -13,35 +13,13 @@ piles.length <= H <= 10^9
 1 <= piles[i] <= 10^9
 
 ### Example
-Input: piles = [3,6,7,11], H = 8
-Output: 4
-
-Input: piles = [30,11,23,4,20], H = 5
-Output: 30
-
-Input: piles = [30,11,23,4,20], H = 6
-Output: 23
+piles = [3,6,7,11], H = 8 -> 4
+piles = [30,11,23,4,20], H = 5 -> 30
+piles = [30,11,23,4,20], H = 6 -> 23
 
 */
 
 public class M_BinarySearch_875 {
-
-    // Time: O(N), 3ms
-    // time wise, it is faster than binary search, but use binary search for interview
-    public int minEatingSpeed0(int[] piles, int H) {
-        int[] bounds = getBounds(piles, H);
-        int left = bounds[0];
-        int right = bounds[1];
-
-        for (int K = left; K <= right; K++) {
-            if (canEatAll(piles, H, K)) {
-                return K;
-            }
-        }
-
-        // Can't reach this
-        return -1;
-    }
 
     // lower-bound Binary Search
     // Time: O(logN), 33ms
@@ -64,7 +42,7 @@ public class M_BinarySearch_875 {
     }
 
     private int[] getBounds(int[] piles, int H) {
-        double sum = 0.0;
+        double sum = 0.0;  // !!!
         int upperBound = Integer.MIN_VALUE;
 
         for (int val : piles) {
@@ -80,11 +58,28 @@ public class M_BinarySearch_875 {
     private boolean canEatAll(int[] piles, int H, int K) {
         int requiredH = 0;
 
-        for (int count: piles) {
-            requiredH += Math.ceil(count / (double)K);
+        for (int count : piles) {
+            requiredH += Math.ceil(count / (double) K);
         }
 
         return requiredH <= H;
+    }
+
+    // Time: O(N), 3ms
+    // time wise, it is faster than binary search, but use binary search for interview
+    public int minEatingSpeed0(int[] piles, int H) {
+        int[] bounds = getBounds(piles, H);
+        int left = bounds[0];
+        int right = bounds[1];
+
+        for (int K = left; K <= right; K++) {
+            if (canEatAll(piles, H, K)) {
+                return K;
+            }
+        }
+
+        // Can't reach this
+        return -1;
     }
 
 }

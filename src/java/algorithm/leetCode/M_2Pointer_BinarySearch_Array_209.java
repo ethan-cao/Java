@@ -23,7 +23,7 @@ public class M_2Pointer_BinarySearch_Array_209 {
 
     // 2 pointer, Time: O(N), 1ms
     // in the worst case, pointer right moves forward n times and pointer left also moves forward n times.
-    public static int minSubArrayLen1(int s, int[] nums) {
+    public static int minSubArrayLen0(int s, int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
@@ -56,7 +56,49 @@ public class M_2Pointer_BinarySearch_Array_209 {
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
-    // Binary Search, Time O(N), 5ms
+    public static int minSubArrayLen1(int s, int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        int[] sums = new int[nums.length + 1];
+        for (int i = 0; i < nums.length; ++i) {
+            sums[i + 1] = sums[i] + nums[i];
+        }
+
+        int minLength = Integer.MAX_VALUE;
+
+        for (int i = 0; i < sums.length; ++i) {
+            int right = search(sums, i + 1, sums.length - 1, s + sums[i]);
+
+            if (right != sums.length) {
+                minLength = Math.min(minLength, right - i);
+            }
+
+            // optimization
+            if (minLength == 1) {
+                return 1;
+            }
+        }
+
+        return minLength == Integer.MAX_VALUE ? 0 : minLength;
+    }
+
+    private static int search1(int[] sums, int left, int right, int target) {
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+
+            if (sums[middle] >= target) {
+                right = middle - 1;
+            } else {
+                left = middle + 1;
+            }
+        }
+
+        return left;
+    }
+
+    // Binary Search, Time O(NlogN), 5ms
     public static int minSubArrayLen(int s, int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
@@ -91,17 +133,16 @@ public class M_2Pointer_BinarySearch_Array_209 {
             }
         }
 
+        // !!!check if minLength is Integer.MAX_VALUE
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
     // Binary search, search for right boundary
     private static int search(int[] sums, int left, int right, int target) {
-        int targetIdx = -1;
-
         while (left <= right) {
             int middle = left + (right - left) / 2;
 
-            // find the smallest one that is just larger than target
+            // find the smallest one that is >= target
             if (sums[middle] >= target && middle - 1 >= 0 && sums[middle - 1] < target) {
                 return middle;
             }
@@ -113,7 +154,7 @@ public class M_2Pointer_BinarySearch_Array_209 {
             }
         }
 
-        return targetIdx;
+        return -1;
     }
 
 }

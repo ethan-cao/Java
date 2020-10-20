@@ -28,14 +28,15 @@ public class M_BinarySearch_Array_162 {
     }
 
     // binary search
-    // Time: O(NlogN) 0ms
+    // Time: O(logN) 0ms
     public static int findPeakElement0(int[] nums) {
         int left = 0;
         int right = nums.length - 1;
 
         while (left <= right) {
+
             if (right - left <= 1) {
-                return nums[left] > nums[right] ? left : right;
+                break;
             }
 
             int middle = left + (right - left) / 2;
@@ -44,14 +45,14 @@ public class M_BinarySearch_Array_162 {
                 return middle;
             }
 
-            if (nums[middle] > nums[middle - 1]) {
+            if (nums[middle] < nums[middle + 1]) {
                 left = middle + 1;
-            } else {
+            } else if (nums[middle] < nums[middle - 1]) {
                 right = middle - 1;
             }
         }
 
-        return -1;
+        return nums[left] > nums[right] ? left : right;
     }
 
     // binary search

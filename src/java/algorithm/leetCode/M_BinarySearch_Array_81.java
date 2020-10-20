@@ -19,6 +19,42 @@ public class M_BinarySearch_Array_81 {
         System.out.println(search(new int[]{2, 5, 6, 0, 0, 1, 2}, 3)); // F
     }
 
+    // 0ms
+    public static boolean search1(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+
+            // dismiss duplicates on both sides, turn it to Q33
+            while (nums[left] == nums[right] && left < right) {
+                left++;
+            }
+
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] == target) {
+                return true;
+            }
+
+            if (nums[left] <= nums[middle]) {
+                if (target >= nums[left] && target < nums[middle]) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                }
+            } else {
+                if (target > nums[middle] && target <= nums[right]) {
+                    left = middle + 1;
+                } else {
+                    right = middle - 1;
+                }
+            }
+        }
+
+        return false;
+    }
+
     // binary search, same as M_Array_33.search
     // Time: O(logN), 0ms
     public static boolean search(int[] nums, int target) {
@@ -76,41 +112,5 @@ public class M_BinarySearch_Array_81 {
         return false;
     }
 
-    public static boolean search1(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-
-        while (left <= right) {
-            // skip duplicates, for case like [1,3,1,1,1]
-            while (nums[left] == nums[right] && left < right) {
-                left++;
-            }
-
-            int middle = left + (right - left) / 2;
-
-            if (target == nums[middle]) {
-                return true;
-            }
-
-            if (nums[middle] >= nums[left]) {
-                // the left part is sorted
-                if (target >= nums[left] && target < nums[middle]) {
-                    // target is in sorted part
-                    right = middle - 1;
-                } else {
-                    left = middle + 1;
-                }
-            } else {
-                // the right part is sorted
-                if (target <= nums[right] && target > nums[middle]) {
-                    left = middle + 1;
-                } else {
-                    right = middle - 1;
-                }
-            }
-        }
-
-        return false;
-    }
 
 }

@@ -36,10 +36,11 @@ public class M_BinarySearch_Array_33 {
                 return middle;
             }
 
-            // !!! including equal case
+            // !!! including equal case, since, middle is biased towards left
             if (nums[left] <= nums[middle]) {
                 // the left half is sorted
                 if (target >= nums[left] && target < nums[middle]) {
+                // >= : possible for target == nums[left], includes this case
                     right = middle - 1;
                 } else {
                     left = middle + 1;

@@ -43,6 +43,7 @@ public class M_BinarySearch_Array_74 {
     }
 
     // Binary search
+    // 0ms, O(logN)
     public static boolean searchMatrix(int[][] matrix, int target) {
         if (matrix == null || matrix.length == 0 || matrix[0].length ==0){
             return false;
@@ -56,16 +57,17 @@ public class M_BinarySearch_Array_74 {
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
-            int middleRow = middle / N;
-            int middleColumn = middle % N;
-            int middleValue = matrix[middleRow][middleColumn];
+            int row = middle / N ;
+            int col = middle % N;
 
-            if (middleValue < target) {
-                left = middle +1;
-            } else if (middleValue > target) {
-                right = middle - 1;
-            } else {
+            if (matrix[row][col] == target) {
                 return true;
+            }
+
+            if (target > matrix[row][col]) {
+                left = middle + 1;
+            } else {
+                right = middle - 1;
             }
         }
 
