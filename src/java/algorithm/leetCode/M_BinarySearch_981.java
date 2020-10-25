@@ -10,8 +10,7 @@ Create a timebased key-value store class TimeMap, that supports two operations.
     If there are multiple such values, it returns the one with the largest timestamp_prev.
     If there are no values, it returns the empty string ("").
 
-All key/value strings are lowercase.
-All key/value strings have length in the range [1, 100]
+All key/value strings are lowercase, and have length in the range [1, 100]
 !!!! The timestamps for all TimeMap.set operations are strictly increasing.
 1 <= timestamp <= 10^7
 TimeMap.set and TimeMap.get functions will be called a total of 120000 times (combined) per test case.

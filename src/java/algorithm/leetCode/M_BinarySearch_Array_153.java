@@ -27,8 +27,10 @@ public class M_BinarySearch_Array_153 {
 
         while (left <= right) {
 
-            // there is no rotation
+            // when there is no rotation
             // equal case is when there is 1 element left
+            // see findMin1 for simplification
+            // basically loop until from left to right is sorted, then return nums[left]
             if (nums[left] <= nums[right]) {
                 break;
             }
@@ -39,6 +41,24 @@ public class M_BinarySearch_Array_153 {
                 left = middle + 1; // nums[middle] cannot be the minimal one
             } else {
                 right = middle;  // nums[middle] could be the minimal one
+            }
+        }
+
+        return nums[left];
+    }
+
+    public static int findMin1(int[] nums) {
+        int left = 0;
+        int right = nums.length - 1;
+
+
+        while (nums[left] > nums[right]) {
+            int middle = left + (right - left) / 2;
+
+            if (nums[left] <= nums[middle]) {
+                left = middle + 1;
+            } else {
+                right = middle;
             }
         }
 

@@ -31,7 +31,7 @@ public class E_BinarySearch_704 {
     }
 
     private static int getTargetIndex(int[] nums, int left, int right, int target) {
-        while (left < right) {
+        while (left <= right) {
             int middle = left + (right - left) / 2;
 
             if (nums[middle] == target) {
@@ -41,10 +41,6 @@ public class E_BinarySearch_704 {
             } else if (nums[middle] < target) {
                 left = middle + 1;
             }
-        }
-
-        if (nums[left] == target) {
-            return left;
         }
 
         return -1;

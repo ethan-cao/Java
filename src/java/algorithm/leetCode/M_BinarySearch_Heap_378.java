@@ -10,9 +10,9 @@ You may assume k is always valid, 1 ≤ k ≤ n^2.
 matrix =
 [  [ 1,  5,  9],
    [10, 11, 13],
-   [12, 13, 15] ] ,
-k = 8,
-return 13.
+   [12, 13, 15]  ] ,
+k = 8
+return 13
 
 */
 
@@ -20,42 +20,49 @@ import java.util.PriorityQueue;
 
 public class M_BinarySearch_Heap_378 {
 
-    // binary search
-    // 0ms
+    // Binary search, 1ms
+    // the kth smallest element on value range to find the kth smallest element
     public int kthSmallest(int[][] matrix, int k) {
-        final int N = matrix.length;
+        int N = matrix.length;
         int left = matrix[0][0];
         int right = matrix[N-1][N-1];
 
-        while (left < right) {
-            int middle = left + (right - left) / 2;
-            int smallEqualValueCount = count(matrix, middle);
+        // search in value range [left, right]
 
-            if (smallEqualValueCount < k) {
+        while (left <= right) {
+            int middle = left + (right - left) / 2;
+            int smallEqualElementCount = count(matrix, middle);
+
+            if (smallEqualElementCount < k) {
+                // when there is less then k elements that is smaller than middle, not enough
                 left = middle + 1;
             } else {
-                right = middle;
+                right = middle - 1;
             }
         }
 
         return left;
     }
 
-    private int count(int[][] matrix, int middle) {
+    private int count(int[][] matrix, int target) {
         int count = 0;
-        final int N = matrix.length;
+        int N = matrix.length;
 
-        for(int row = 0, col = N -1; row < N; ++row){
-
-            while(col >= 0 && matrix[row][col] > middle) {
-                col--;
+        // start from top right
+        for (int row = 0; row < N; ) {
+            for (int col = N - 1; col >= 0;) {
+                if (matrix[row][col] <= target) {
+                    count += (col + 1);
+                    break;
+                } else {
+                    col--;
+                }
             }
 
-            count += col + 1;
+            row++;
         }
 
         return count;
-
     }
 
 

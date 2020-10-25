@@ -6,26 +6,16 @@ return the index if the target is found.
 If not, return the index where it would be if it were inserted in order
 
 ### Example
-Input: nums = [1,3,5,6], target = 5
-Output: 2
-
-Input: nums = [1,3,5,6], target = 2
-Output: 1
-
-Input: nums = [1,3,5,6], target = 7
-Output: 4
-
-Input: nums = [1,3,5,6], target = 0
-Output: 0
+Input: nums = [1,3,5,6], target = 5  -> 2
+Input: nums = [1,3,5,6], target = 2  -> 1
+Input: nums = [1,3,5,6], target = 7  -> 4
+Input: nums = [1,3,5,6], target = 0  -> 0
 
 */
 
 public class E_BinarySearch_35 {
 
-    public static void main(String[] args) {
-    }
-
-    // search for boundary, the largest one that is <= target
+    // search for boundary, the left boundary that is >= target
     public int searchInsert(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
@@ -44,6 +34,7 @@ public class E_BinarySearch_35 {
             }
         }
 
+        // no need to check if left > nums.length
         return left;
     }
 

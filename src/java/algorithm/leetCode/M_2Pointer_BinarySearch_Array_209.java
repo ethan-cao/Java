@@ -56,6 +56,7 @@ public class M_2Pointer_BinarySearch_Array_209 {
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
     }
 
+    // Binary Search, Time O(NlogN), 5ms
     public static int minSubArrayLen1(int s, int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;

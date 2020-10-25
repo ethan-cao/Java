@@ -3,8 +3,7 @@ package algorithm.leetCode;
 /*
 Implement int sqrt(int x).
 Compute and return the square root of x, where x is guaranteed to be a non-negative integer.
-Since the return type is an integer, the decimal digits are truncated
-and only the integer part of the result is returned.
+Since the return type is an integer, the decimal digits are truncated, only the integer part of the result is returned.
 
 ### Example
 4 -> 2
@@ -24,9 +23,11 @@ public class E_BinarySearch_69 {
         int left = 1;
         int right = x;
 
+        // find the right boundary that makes right > x /middle
         while (left <= right) {
             int middle = left + (right - left) / 2;
 
+            // !!! use (x / middle) to prevent overflow
             if (middle == x / middle) {
                 return middle;
             } else if (middle > x / middle) {

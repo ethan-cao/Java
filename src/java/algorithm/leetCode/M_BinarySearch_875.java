@@ -30,8 +30,9 @@ public class M_BinarySearch_875 {
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
+            boolean canEatAll = canEatAll(piles, H, middle);
 
-            if (canEatAll(piles, H, middle)) {
+            if (canEatAll) {
                 right = middle - 1;
             } else {
                 left = middle + 1;

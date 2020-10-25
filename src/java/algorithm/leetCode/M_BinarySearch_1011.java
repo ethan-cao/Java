@@ -43,17 +43,17 @@ import java.util.Arrays;
 
 public class M_BinarySearch_1011 {
 
-    // Time:
+    // Time: O(logN). 9ms
     public int shipWithinDays(int[] weights, int D) {
-        int[] bounds = getBounds(weights);
-        int left = bounds[0];
-        int right = bounds[1];
+        int[] boundaries = getBoundaries(weights);
+        int left = boundaries[0];
+        int right = boundaries[1];
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
-            boolean isShippable = canShip(weights, middle, D);
+            boolean canShip = canShip(weights, middle, D);
 
-            if (isShippable) {
+            if (canShip) {
                 right = middle - 1;
             } else {
                 left = middle + 1;
@@ -63,14 +63,12 @@ public class M_BinarySearch_1011 {
         return left;
     }
 
-    private boolean canShip(int[] weights, int capacity, int daysLimit) {
+    private boolean canShip(int[] weights, int capacity, int days) {
         int daysRequired = 0;
         int load = 0;
 
-        for (int weight : weights) {
-            if (weight > capacity || daysRequired > daysLimit) {
-                return false;
-            }
+        for (int i = 0; i < weights.length; ++i) {
+            int weight = weights[i];
 
             if (load + weight <= capacity) {
                 load += weight;
@@ -78,18 +76,26 @@ public class M_BinarySearch_1011 {
                 daysRequired++;
                 load = weight;
             }
+
+            if (daysRequired > days) {
+                return false;
+            }
         }
 
-        return (daysRequired + 1) <= daysLimit;
+        if (load > 0) {
+            daysRequired++;
+        }
+
+        return daysRequired > days ? false : true;
     }
 
-    private int[] getBounds(int[] weights) {
+    private int[] getBoundaries(int[] weights) {
         int sum = 0;
         int max = 0;
 
-        for (int weight : weights) {
-            sum += weight;
-            max = Math.max(max, weight);
+        for (int i = 0; i < weights.length; ++i) {
+            sum += weights[i];
+            max = Math.max(max, weights[i]);
         }
 
         return new int[]{max, sum};
@@ -97,9 +103,9 @@ public class M_BinarySearch_1011 {
 
     // Time:
     public int shipWithinDays1(int[] weights, int D) {
-        int[] bounds = getBounds(weights);
-        int left = bounds[0];
-        int right = bounds[1];
+        int[] boundaries = getBoundaries(weights);
+        int left = boundaries[0];
+        int right = boundaries[1];
 
         while (left <= right) {
             int middle = left + (right - left) / 2;

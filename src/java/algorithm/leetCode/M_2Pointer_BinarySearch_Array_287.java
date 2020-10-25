@@ -78,40 +78,43 @@ public class M_2Pointer_BinarySearch_Array_287 {
     }
 
     // Binary Search, this works iff there is only 1 duplicate
-    // Time: O(NlogN), Space: O(1), 2ms
+    // Time: O(NlogN), Space: O(1), 1ms
     public static int findDuplicate1(int[] nums) {
         // !!! forget about array, do binary search for the value, given we know there is only 1 duplicate number
         // left <= num[i] <= right
-        int left = 1;
+        int left = 0;
         int right = nums.length - 1;
 
-        while (left < right) {
+        while (left <= right) {
             int middle = left + (right - left) / 2;
-
-
-            int count = 0; // number of elements that are <= middle value
-            for (int num : nums) {
-                if (num <= middle) {
-                    count++;
-                }
-            }
+            int smallEqualCount = count(nums, middle);
 
             // if there is no duplicate, values are evenly distributed
             // since we know this is 1 duplicate, the duplicate one is either <= middle or > middle
 
             // there are count elements in value range [1, middle], (n+1-count) elements in value range [middle+1, n]
             // that means count elements in middle spots, and (n+1-count) elements in (n-middle) spots
-            //  if count > middle, more elements than spots on left side, there must be a duplicate in [1, middle]
-            //  if count <= middle, n+1-count>n-middle, more elements than spots on right side
 
-            if (count > middle) {
-                right = middle;
+            if (smallEqualCount > middle) {
+                //  more elements than spots on left side, duplicate in [left, middle]
+                right = middle - 1;
             } else {
-                left = middle + 1;  //middle is biased towards left
+                //  more elements than spots on right side, duplicates in [middle+1, right]
+                left = middle + 1;
             }
         }
 
         return left;
+    }
+
+    private static int count(int[] nums, int target) {
+        int counter = 0;
+        for (int num : nums) {
+            if (num <= target) {
+                counter++;
+            }
+        }
+        return counter;
     }
 
     // Time: O(N), Space: O(N), 4ms

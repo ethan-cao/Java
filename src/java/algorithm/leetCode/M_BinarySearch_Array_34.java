@@ -33,9 +33,11 @@ public class M_BinarySearch_Array_34 {
         }
 
         int leftBoundary = findLeftBoundary(nums, target);
+
         if (leftBoundary == -1) {
             return new int[]{-1, -1};
         }
+
         int rightBoundary = findRightBoundary(nums, target);
 
         return new int[]{leftBoundary, rightBoundary};
