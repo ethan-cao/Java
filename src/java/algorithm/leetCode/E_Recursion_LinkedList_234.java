@@ -8,13 +8,10 @@ Given a singly linked list, determine if it is a palindrome.
 1->2->2->1 --> true
 1->2->3->2->1 --> true
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 // Also 252 anagram
 public class E_Recursion_LinkedList_234 {
@@ -56,8 +53,38 @@ public class E_Recursion_LinkedList_234 {
         }
     }
 
+    // Stack
+    // Time: O(N), 3ms, Space: O(N)
+    public static boolean isPalindrome0(ListNode head) {
+        if (head == null) {
+            return true;
+        }
+
+        Deque<ListNode> stack = new ArrayDeque<>();
+        ListNode current = head;
+        while (current != null) {
+            stack.push(current);
+            current = current.next;
+        }
+
+        ListNode pointer1 = head;
+        ListNode pointer2 = stack.pop();
+
+        while (pointer1 != pointer2) {
+            if (pointer1.val != pointer2.val) {
+                return false;
+            }
+
+            pointer1 = pointer1.next;
+            pointer2 = stack.isEmpty() ? null : stack.pop();
+        }
+
+        return true;
+    }
+
     // Recursive approach, need the instance member root
     // recursive algorithm always takes O(n) space
+    // 1ms
     static ListNode root;
 
     public static boolean isPalindrome(ListNode head) {
@@ -69,12 +96,12 @@ public class E_Recursion_LinkedList_234 {
             root = head;
         }
 
-        boolean result = isPalindrome(head.next);
-        result &= (root.val == head.val);
+        boolean isPalindrome = isPalindrome(head.next);
+        isPalindrome &= (root.val == head.val);
 
         root = root.next;
 
-        return result;
+        return isPalindrome;
     }
 
     // reversing the 2nd half and compare the two halves

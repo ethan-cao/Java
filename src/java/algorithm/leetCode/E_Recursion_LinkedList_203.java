@@ -4,18 +4,11 @@ package algorithm.leetCode;
 Remove all elements from a linked list of integers that have value val.
 
 ### Example
-
 1->2->3, val=4 ---> 1->2->3
 1->2->3, val=1 ---> 2->3
 1->2->3, val=2 ---> 1->3
 1->2->3, val=3 ---> 1->2
 1->2->6->3->4->5->6, val = 6  --->  1->2->3->4->5
-
-### Condition
-
-### Essential problem
-
-### Corner case
 
 */
 
@@ -45,6 +38,24 @@ public class E_Recursion_LinkedList_203 {
         }
     }
 
+    // 1ms
+    public static ListNode removeElements(ListNode head, int val) {
+        ListNode virtualHead = new ListNode(0);
+        virtualHead.next = head;
+
+        ListNode node = virtualHead;
+
+        while (node.next != null) {
+            if (node.next.val == val) {
+                node.next = node.next.next;
+            } else {
+                node = node.next;
+            }
+        }
+
+        return virtualHead.next;
+    }
+
     /*
     It basically goes down to the last null node, and rebuilds the linked list,
     by adding only the nodes which are not equal to val to this null,
@@ -66,35 +77,5 @@ public class E_Recursion_LinkedList_203 {
         return head.val == val ? head.next : head;
     }
 
-    public static ListNode removeElements2(ListNode head, int val) {
-        ListNode dummyHead = new ListNode(0);
-        dummyHead.next = head;
 
-        ListNode node = dummyHead;
-
-        while (node.next != null) {
-            if (node.next.val == val) {
-                node.next = node.next.next;
-            } else {
-                node = node.next;
-            }
-        }
-
-        return dummyHead.next;
-    }
-
-    public static ListNode removeElements3(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        ListNode pointer = head;
-
-        while (pointer.next != null) {
-            if (pointer.next.val == val) pointer.next = pointer.next.next;
-            else pointer = pointer.next;
-        }
-
-        // this line checks head, so not necessary to have dummy head
-        return head.val == val ? head.next : head;
-    }
 }

@@ -3,38 +3,18 @@ package algorithm.leetCode;
 /*
 Write a program to find the node at which the intersection of two singly linked lists begins.
 
-
 ### Example
-
-a1->a2->c1->c2->c3
-b1->b2->c1->c2->c3
+a1->a2->c1->c2->c3 , b1->b2->c1->c2->c3
 ---> Reference of the node with value = C1
 
-
-   4->1->8->4->5
-5->0->1->8->4->5
+   4->1->8->4->5 , 5->0->1->8->4->5
 ---> Reference of the node with value = 8
 
-
-0->9->1->2->4
-      3->2->4
+0->9->1->2->4 ,       3->2->4
 ---> Reference of the node with value = 2
 
-2->6->4
-1->5
+2->6->4, 1->5
 ---> null
-
-
-### Condition
-If the two linked lists have no intersection at all, return null.
-The linked lists must retain their original structure after the function returns.
-You may assume there are no cycles anywhere in the entire linked structure.
-Your code should preferably run in O(n) time and use only O(1) memory.
-
-
-### Essential problem
-
-### Corner case
 
 */
 
@@ -77,49 +57,21 @@ public class E_LinkedList_160 {
         }
     }
 
-    // works but very slow
-    public static ListNode getIntersectionNode0(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) {
-            return null;
-        }
-
-        ListNode nodeA = headA;
-        while (nodeA != null) {
-
-            ListNode nodeB = headB;
-            while (nodeB != null) {
-
-                if (nodeA == nodeB) {
-                    return nodeA;
-                }
-
-                nodeB = nodeB.next;
-            }
-            nodeA = nodeA.next;
-        }
-
-        return null;
-    }
-
+    // Time: O(N), 1ms
     public static ListNode getIntersectionNode1(ListNode headA, ListNode headB) {
-        if (headA == null || headB == null) {
-            return null;
-        }
+        /*
+            Suppose length of list A is a + c, length of list B is a + c
+            c is the length of intersection
 
+            start 2 pointers pointerA in listA and pointerB in listB, they move towards the end
+            once reach they end, switch the pointer to another list
+
+            eventually, pointerA moves a + c + b, pointerB moves b + c + a
+            since a + c + b = b + c + a, 2 pointers meet in the beginning of intersection
+         */
         ListNode nodeA = headA;
         ListNode nodeB = headB;
 
-        /*
-            this results in 2 iterations
-            Suppose lenght list A is a + c, lenght list B is a + c
-            c is the length of intersection
-
-            in 1st iteration, pinterA moves a + c, pointerB moves b + c,
-            after switching pointer, pointerA moves b + c , pointerB moves a + c
-
-            eventually, pointerA moves a + c + b + c, pointerB moves b + c + a + c
-            since a + c + b = b + c + a, 2 pinters meets in the beginning of intersection
-         */
         while (nodeA != nodeB) {
             nodeA = nodeA == null ? headB : nodeA.next;
             nodeB = nodeB == null ? headA : nodeB.next;
@@ -168,6 +120,30 @@ public class E_LinkedList_160 {
         }
 
         return length;
+    }
+
+    // works but very slow
+    public static ListNode getIntersectionNode0(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+
+        ListNode nodeA = headA;
+        while (nodeA != null) {
+
+            ListNode nodeB = headB;
+            while (nodeB != null) {
+
+                if (nodeA == nodeB) {
+                    return nodeA;
+                }
+
+                nodeB = nodeB.next;
+            }
+            nodeA = nodeA.next;
+        }
+
+        return null;
     }
 
 }

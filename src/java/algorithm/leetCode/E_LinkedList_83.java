@@ -7,12 +7,6 @@ Given a sorted linked list, delete all duplicates such that each element appear 
 1->1->2         -->  1->2
 1->1->2->3->3   -->  1->2->3
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
 
@@ -41,7 +35,6 @@ public class E_LinkedList_83 {
         printList(node1);
     }
 
-
     public static class ListNode {
         int val;
         ListNode next;
@@ -52,17 +45,17 @@ public class E_LinkedList_83 {
     }
 
     public static ListNode deleteDuplicates0(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode node = head;
+        ListNode current = head;
+        ListNode next = current == null ? null : current.next;
 
-        while (node.next != null) {
-            if (node.val == node.next.val) {
-                node.next = node.next.next;
+        while (next != null) {
+            if (current.val == next.val) {
+                current.next = next.next;
             } else {
-                node = node.next;
+                current = next;
             }
+
+            next = current.next;
         }
 
         return head;

@@ -43,7 +43,7 @@ public class E_2Pointer_LinkedList_141 {
     }
 
     // cycle detection: Floyd’s algorithm
-    // Space: O(1)
+    // Space: O(1), 0ms
     public static boolean hasCycle(ListNode head) {
         if (head == null) {
             return false;
