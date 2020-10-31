@@ -29,6 +29,7 @@ public class M_2Pointer_LinkedList_142 {
         }
     }
 
+    // Space: O(1), 0ms
     public ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null) {
             return null;
@@ -37,21 +38,22 @@ public class M_2Pointer_LinkedList_142 {
         ListNode slowPointer = head;
         ListNode fastPointer = head;
 
-        while (fastPointer != null && fastPointer.next != null) {
+        while (slowPointer != null && fastPointer!= null ) {
             slowPointer = slowPointer.next;
-            fastPointer = fastPointer.next.next;
+            fastPointer = fastPointer.next == null ? null : fastPointer.next.next ;
 
+            // if meet, there is cycle
             if (slowPointer == fastPointer) {
-                // if meet, there is cycle
                 ListNode current = head;
 
                 while (current != slowPointer) {
-                    slowPointer = slowPointer.next;
                     current = current.next;
+                    slowPointer = slowPointer.next;
                 }
 
                 return current;
             }
+
         }
 
         return null;

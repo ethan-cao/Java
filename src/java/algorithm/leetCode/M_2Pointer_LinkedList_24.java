@@ -50,29 +50,30 @@ public class M_2Pointer_LinkedList_24 {
         }
     }
 
-    // Two Pointer
     // Time: O(N), Space: O(1), 0ms
     public static ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null) {
-            return null;
+            return head;
         }
 
-        ListNode newHead = head.next == null ? head : head.next;
+        ListNode virtualHead = new ListNode(0);
 
+        ListNode previous = virtualHead;
         ListNode current = head;
-        ListNode next = current.next;
+        ListNode next = head.next;
 
         while (current != null && next != null) {
-            ListNode nextNext = next.next;
+            previous.next = next;
+            next = next.next;
 
-            next.next = current;
-            current.next = (nextNext != null && nextNext.next != null) ? nextNext.next : nextNext;
-
-            current = nextNext;
+            previous.next.next = current;
+            current.next = next;
+            previous = current;
+            current = next;
             next = current == null ? null : current.next;
         }
 
-        return newHead;
+        return virtualHead.next;
     }
 
     // Two Pointer, 0ms
@@ -100,6 +101,7 @@ public class M_2Pointer_LinkedList_24 {
         return newHead;
     }
 
+    // Recursion
     public ListNode swapPairs2(ListNode head) {
         if (head == null || head.next == null) {
             return head;

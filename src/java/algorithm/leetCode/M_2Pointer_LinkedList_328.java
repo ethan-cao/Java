@@ -49,7 +49,7 @@ public class M_2Pointer_LinkedList_328 {
         }
     }
 
-    // Time: O(N), Space: O(1)
+    // Time: O(N), 0ms, Space: O(1)
     public static ListNode oddEvenList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -58,14 +58,14 @@ public class M_2Pointer_LinkedList_328 {
         ListNode evenHead = head.next;
 
         ListNode odd = head;
-        ListNode evevn = head.next;
+        ListNode even = head.next;
 
-        while (odd.next != null && evevn.next != null) {
-            odd.next = odd.next.next;
-            evevn.next = evevn.next.next;
+        while (odd.next != null && even.next != null) {
+            odd.next = even.next;
+            even.next = odd.next.next;
 
             odd = odd.next;
-            evevn = evevn.next;
+            even = even.next;
         }
 
         odd.next = evenHead;

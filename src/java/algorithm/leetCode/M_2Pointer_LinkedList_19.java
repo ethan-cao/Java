@@ -28,7 +28,7 @@ public class M_2Pointer_LinkedList_19 {
 //        node3.next = node4;
 //        node4.next = node5;
 
-        ListNode head = removeNthFromEnd(node1, 1);
+        ListNode head = removeNthFromEnd1(node1, 1);
 
         printList(head);
     }
@@ -36,6 +36,8 @@ public class M_2Pointer_LinkedList_19 {
     static class ListNode {
         int val;
         ListNode next;
+
+        ListNode() {}
 
         ListNode(int x) {
             val = x;
@@ -52,56 +54,51 @@ public class M_2Pointer_LinkedList_19 {
     // Two Pointer
     // Time: O(N), Space: O(1), 0ms
     public static ListNode removeNthFromEnd1(ListNode head, int n) {
-        ListNode dummyHead = new ListNode(0);
-        dummyHead.next = head;
+        ListNode virtualHead = new ListNode();
+        virtualHead.next = head;
 
-        ListNode left = dummyHead;
-        ListNode right = dummyHead;
+        ListNode frontPointer = virtualHead;
+        ListNode backPointer = virtualHead;
 
-        // make distance between 2 pointers to n
         for (int i = 0; i <= n; ++i) {
-            right = right.next;
+            backPointer = backPointer.next;
         }
 
-        // when rightPointer moves behind the last one, left.next is the one to drop
-        while (right != null) {
-            left = left.next;
-            right = right.next;
+        while (backPointer != null) {
+            frontPointer = frontPointer.next;
+            backPointer = backPointer.next;
         }
 
-        left.next = left.next.next;
+        frontPointer.next = frontPointer.next.next;
 
-        return dummyHead.next;
+        return virtualHead.next;
     }
 
     private static int idx = 0;
 
-    // Time: , Space:
     // Recursion
-    public static ListNode removeNthFromEnd(ListNode head, int n) {
-        int headVal = head.val;
+    // Time: , Space:
+    private int distance = 0;
 
-        visitNext(null, head, n);
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode virtualHead = new ListNode(0);
+        virtualHead.next = head;
 
-        return head.val != headVal ? head.next : head;
+        visitNext(virtualHead, head, n);
+
+        return virtualHead.next;
     }
 
-    private static void visitNext(ListNode previousNode, ListNode currentNode, int n) {
-        if (currentNode == null) {
+    private void visitNext(ListNode previous, ListNode current, int n) {
+        if (current == null) {
             return;
         }
 
-        visitNext(currentNode, currentNode.next, n);
-        idx++; // idx is the index of currentNode
+        visitNext(current, current.next, n);
+        this.distance++; // start counting after reaching the end
 
-        if (idx == n) {
-            if (previousNode == null) {
-                currentNode.val++;
-            } else {
-                previousNode.next = currentNode.next;
-            }
+        if (distance == n) {
+            previous.next = current.next;
         }
     }
-
-
 }

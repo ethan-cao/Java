@@ -48,34 +48,31 @@ public class M_LinkedList_2 {
         }
     }
 
+    // 1ms
     public static ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
-        ListNode virtualHead = new ListNode(0);
+        ListNode sumHead = new ListNode(0);
 
-        ListNode node = virtualHead;
-        ListNode node1 = l1;
-        ListNode node2 = l2;
+        ListNode sum = sumHead;
+        int nextVal = 0;
 
-        int sum = 0;
-        int carry = 0;
+        while (l1 != null || l2 != null) {
+            int val1 = l1 == null ? 0 : l1.val;
+            int val2 = l2 == null ? 0 : l2.val;
 
-        while (node1 != null || node2 != null) {
-            int value1 = node1 == null ? 0 : node1.val;
-            int value2 = node2 == null ? 0 : node2.val;
+            int val = (val1 + val2 + nextVal) % 10;
+            nextVal = (val1 + val2 + nextVal) / 10;
 
-            sum = (value1 + value2 + carry) % 10;
-            carry = (value1 + value2 + carry) / 10;
+            sum.next = new ListNode(val);
 
-            node.next = new ListNode(sum);
-
-            node1 = node1 == null ? null : node1.next;
-            node2 = node2 == null ? null : node2.next;
-            node = node.next;
+            l1 = l1 == null ? null : l1.next;
+            l2 = l2 == null ? null : l2.next;
+            sum = sum.next;
         }
 
-        if (carry != 0) {
-            node.next = new ListNode(carry);
+        if (nextVal != 0) {
+            sum.next = new ListNode(nextVal);
         }
 
-        return virtualHead.next;
+        return sumHead.next;
     }
 }
