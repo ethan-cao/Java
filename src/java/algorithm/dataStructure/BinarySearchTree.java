@@ -12,6 +12,7 @@ import java.util.*;
  *
  * use TreeMap as Java native Rea Black Tree, which is also BST
  */
+
 class BST_Test {
 
     public static void main(String[] args) {

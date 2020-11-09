@@ -6,28 +6,9 @@ such that every key of the original BinarySearchTree is changed to
 the original key plus sum of all keys greater than the original key in BinarySearchTree.
 
 ### Example
-Input: The root of a Binary Search Tree like this:
-              5
-            /   \
-           2     13
-
-Output: The root of a Greater Tree like this:
-             18
-            /   \
-          20     13
-[5, 2, 13] --> [18,20,13]
-
-18 = 5 + 13
-20 = 2 + 18
-
-[13,11,14] --> [27,38,14]
-[5,2,13,1,3,11,14] --> [43,48,27,49,46,38,14]
-
-### Condition
-
-### Essential problem
-
-### Corner case
+      5         ->        18
+    /   \               /   \
+   2     13           20      13
 
 */
 public class E_Recursion_Tree_538 {
@@ -43,6 +24,17 @@ public class E_Recursion_Tree_538 {
         System.out.println(n1);
     }
 
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
+    // 0ms
     public static TreeNode convertBST(TreeNode root) {
         updateValue(root, 0);
         return root;
@@ -62,12 +54,3 @@ public class E_Recursion_Tree_538 {
     }
 }
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        val = x;
-    }
-}

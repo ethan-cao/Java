@@ -6,33 +6,37 @@ Two binary trees are considered the same if they are structurally identical
 and the nodes have the same value.
 
 ### Example
-
 Input:     1         1
           / \       / \
          2   3     2   3
-
-        [1,2,3],   [1,2,3]
-
 Output: true
-
-Input:     1         1
-          /           \
-         2             2
-
-        [1,2],     [1,null,2]
-Output: true
-
 
 Input:     1         1
           / \       / \
          2   1     1   2
-
-        [1,2,1],   [1,1,2]
 Output: false
-
 
 */
 public class E_Tree_100 {
+
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
 
     public static void main(String... args) {
         TreeNode n1 = new TreeNode(1);
@@ -43,7 +47,7 @@ public class E_Tree_100 {
         n1.right = n3;
     }
 
-    // BFS
+    // 0ms
     public static boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null || q == null) {
             return p == q;

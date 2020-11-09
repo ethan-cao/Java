@@ -23,7 +23,7 @@ root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
 
 import java.util.HashMap;
 
-public class E_Recursion_Tree_437 {
+public class M_Recursion_Tree_437 {
 
     // Time: O(N), 2ms
     // Recursion, prefix sum,  https://en.wikipedia.org/wiki/Prefix_sum

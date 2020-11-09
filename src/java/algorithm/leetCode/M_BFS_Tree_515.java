@@ -14,7 +14,7 @@ You need to find the largest value in each row of a binary tree.
 
 import java.util.*;
 
-public class M_BFS_DFS_Tree_515 {
+public class M_BFS_Tree_515 {
 
     public class TreeNode {
         int val;
@@ -35,7 +35,7 @@ public class M_BFS_DFS_Tree_515 {
         }
     }
 
-    // BFS, 5ms
+    // BFS, 2ms
     public List<Integer> largestValues(TreeNode root) {
         List<Integer> largestValues = new ArrayList<>();
 
