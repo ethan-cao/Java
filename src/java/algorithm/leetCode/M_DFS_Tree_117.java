@@ -2,10 +2,8 @@ package algorithm.leetCode;
 
 /*
 Given a binary tree
-
 Populate each next pointer to point to its next right node.
 If there is no next right node, the next pointer should be set to NULL.
-
 Initially, all next pointers are set to NULL.
 
 The number of nodes in the given tree is less than 6000.
@@ -16,6 +14,9 @@ https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii/
 [1,2,3,4,5,null,7] -> [1,#,2,3,#,4,5,7,#]
 
 */
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class M_DFS_Tree_117 {
 
@@ -40,9 +41,8 @@ public class M_DFS_Tree_117 {
         }
     }
 
-    // DFS, iterative, 0ms
+    // DFS, iterative, 0m,  level-order traversal
     // Time: O(N)   Space: O(1)
-    //  level-order traversal
     public Node connect(Node root) {
         Node previous = null;
         Node current = null;
@@ -82,4 +82,38 @@ public class M_DFS_Tree_117 {
         return root;
     }
 
+    // BFS 1ms, not O(1) space
+    public M_DFS_Tree_116.Node connect2(M_DFS_Tree_116.Node root) {
+        if (root == null) {
+            return root;
+        }
+
+        Deque<M_DFS_Tree_116.Node> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            M_DFS_Tree_116.Node previous = queue.peekFirst();
+
+            for (int i = 0; i < size; ++i) {
+                M_DFS_Tree_116.Node node = queue.poll();
+
+                if (i != 0) {
+                    previous.next = node;
+                    previous = node;
+                }
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+
+        return root;
+    }
 }

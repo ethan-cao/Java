@@ -98,7 +98,6 @@ public class M_Sort_LinkedList_148 {
         return current;
     }
 
-
     // 3-6ms
     public ListNode sortList1(ListNode head) {
         if (head == null || head.next == null) {

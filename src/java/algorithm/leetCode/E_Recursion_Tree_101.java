@@ -1,39 +1,27 @@
 package algorithm.leetCode;
-
-import java.util.Stack;
-
 /*
 Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
-
 Bonus points if you could solve it both recursively and iteratively.
 
 ### Example
-[1,2,2,3,4,4,3] is symmetric:
     1
    / \
   2   2
  / \ / \
-3  4 4  3
+3  4 4  3  -> true
 
-[1,2,2,null,3,null,3] is not symmetric
     1
    / \
   2   2
    \   \
-   3    3
-
-### Condition
-
-### Essential problem
-
-### Corner case
-
+   3    3  -> false
 */
+
+import java.util.Stack;
+
 public class E_Recursion_Tree_101 {
 
-    public static void main(String... args) {
-    }
-
+    // Recursive, 0ms
     public static boolean isSymmetric(TreeNode root) {
         return root == null ? true : isMirror(root.left, root.right);
     }
@@ -50,8 +38,7 @@ public class E_Recursion_Tree_101 {
         return isMirror(left.left, right.right) && isMirror(left.right, right.left);
     }
 
-
-    // Non-recursive
+    // Iterative, use stack to mimic  call stack
     public static boolean isSymmetric1(TreeNode root) {
         if (root == null) {
             return true;
@@ -63,21 +50,21 @@ public class E_Recursion_Tree_101 {
         stack.push(root.right);
 
         while (!stack.isEmpty()) {
-            TreeNode node1 = stack.pop();
-            TreeNode node2 = stack.pop();
+            TreeNode left = stack.pop();
+            TreeNode right = stack.pop();
 
-            if (node1 == null && node2 == null) {
+            if (left == null && right == null) {
                 continue;
             }
 
-            if (node2 == null || node1 == null || node2.val != node1.val) {
+            if (right == null || left == null || right.val != left.val) {
                 return false;
             }
 
-            stack.push(node1.left);
-            stack.push(node2.right);
-            stack.push(node2.left);
-            stack.push(node1.right);
+            stack.push(left.left);
+            stack.push(right.right);
+            stack.push(right.left);
+            stack.push(left.right);
         }
 
         return true;

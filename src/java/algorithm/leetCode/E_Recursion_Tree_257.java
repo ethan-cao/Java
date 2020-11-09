@@ -1,13 +1,7 @@
 package algorithm.leetCode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
-
 /*
 Given a binary tree, return all root-to-leaf paths.
-
 Note: A leaf is a node with no children.
 
 ### Example
@@ -16,18 +10,13 @@ Note: A leaf is a node with no children.
 2     3
  \
   5
-
 Output: ["1->2->5", "1->3"]
 Explanation: All root-to-leaf paths are: 1->2->5, 1->3
 
-
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
+
+import java.util.*;
+
 public class E_Recursion_Tree_257 {
 
     public static void main(String... args) {
@@ -41,38 +30,36 @@ public class E_Recursion_Tree_257 {
         n2.right = n4;
     }
 
+    // 1ms
     public static List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
 
-        reachLeaf(root, paths, new StringBuilder());
+        reachLeaf(root, paths, sb);
 
         return paths;
     }
 
-    // Recursive, DFS, fastest
-    private static void reachLeaf(TreeNode node, List<String> path, StringBuilder sb) {
+    private static void reachLeaf(TreeNode node, List<String> paths, StringBuilder sb) {
         if (node == null) {
             return;
         }
 
-        if (node.left == null && node.right == null) {
+        if (sb.length() == 0) {
             sb.append(node.val);
-            path.add(sb.toString());
+        } else {
+            sb.append("->").append(node.val);
+        }
+
+        if (node.left == null && node.right == null) {
+            paths.add(sb.toString());
             return;
         }
 
-        if (node.left != null) {
-            StringBuilder current = new StringBuilder(sb);
-            reachLeaf(node.left, path, sb.append(node.val).append("->"));
-            sb = current;  // restore the sb for right node
-        }
-
-        if (node.right != null) {
-            reachLeaf(node.right, path, sb.append(node.val).append("->"));
-        }
+        reachLeaf(node.left, paths, new StringBuilder(sb));
+        reachLeaf(node.right, paths, new StringBuilder(sb));
     }
 
-    // BFS
     private static List<String> binaryTreePaths1(TreeNode root) {
         List<String> paths = new ArrayList<>();
 
@@ -83,25 +70,25 @@ public class E_Recursion_Tree_257 {
         Deque<TreeNode> queue = new ArrayDeque<>();
         queue.offer(root);
 
-        Deque<String> strings = new ArrayDeque<>();
-        strings.offer("");
+        Deque<String> path = new ArrayDeque<>();
+        path.offer("");
 
         while (!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            String string = strings.poll();
+            String pathNode = path.poll();
 
             if (node.left == null && node.right == null) {
-                paths.add(string + node.val);
+                paths.add(pathNode + node.val);
             }
 
             if (node.left != null) {
                 queue.offer(node.left);
-                strings.offer(string + node.val + "->");
+                path.offer(pathNode + node.val + "->");
             }
 
             if (node.right != null) {
                 queue.offer(node.right);
-                strings.offer(string + node.val + "->");
+                path.offer(pathNode + node.val + "->");
             }
         }
 

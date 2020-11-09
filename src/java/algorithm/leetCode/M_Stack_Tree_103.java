@@ -40,7 +40,7 @@ public class M_Stack_Tree_103 {
         }
     }
 
-    // BFS
+    // BFS, 1ms
     // Time O(), Space: O()
     public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> traversal = new ArrayList<>();
@@ -52,7 +52,7 @@ public class M_Stack_Tree_103 {
         Deque<TreeNode> queue = new ArrayDeque<>();
         queue.offer(root);
 
-        boolean toggle = true;
+        boolean isTowardsRight = true;
 
         while (!queue.isEmpty()) {
             List<Integer> levelTraversal = new ArrayList<>();
@@ -61,11 +61,9 @@ public class M_Stack_Tree_103 {
             for (int i = 0; i < size; ++i) {
                 TreeNode currentNode = queue.poll();
 
-                if (toggle) {
-                    // left to right
+                if (isTowardsRight) {
                     levelTraversal.add(currentNode.val);
                 } else {
-                    // right to left
                     levelTraversal.add(0, currentNode.val);
                 }
 
@@ -80,7 +78,7 @@ public class M_Stack_Tree_103 {
 
             traversal.add(levelTraversal);
 
-            toggle = !toggle;
+            isTowardsRight = !isTowardsRight;
         }
 
         return traversal;

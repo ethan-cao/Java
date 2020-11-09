@@ -22,11 +22,7 @@ The given list has length in the range [0, 10000].
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Deque;
-import java.util.ArrayDeque;
+import java.util.*;
 
 public class M_Stack_LinkedList_1019 {
 

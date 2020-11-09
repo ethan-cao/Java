@@ -310,6 +310,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (root == null) {
             return traversal;
         }
+
         Deque<Node> queue = new ArrayDeque<>();
         queue.offer(root);
 

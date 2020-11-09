@@ -3,7 +3,6 @@ package algorithm.leetCode;
 /*
 You are given a binary tree in which each node contains an integer value.
 Find the number of paths that sum to a given value.
-
 The path does not need to start or end at the root or a leaf,
 but it must go downwards (traveling only from parent nodes to child nodes).
 
@@ -18,96 +17,83 @@ root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
   3   2   11
  / \   \
 3  -2   1
-
-Return 3. The paths that sum to 8 are:
-
-path 1:   5 -> 3
-path 2:   5 -> 2 -> 1
-path 3:   -3 -> 11
-
-### Condition
-
-### Essential problem
-
-### Corner case
+3 paths: 5 -> 3, 5 -> 2 -> 1, -3 -> 11
 
 */
 
 import java.util.HashMap;
 
 public class E_Recursion_Tree_437 {
-    public static void main(String... args) {
 
-    }
-
-    // O(N^2) for the worst case
-    // O(NlogN) for balanced binary Tree.
-    // count path from the given root
-    public static int pathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return 0;
-        }
-
-        return getPathSumFrom(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
-    }
-
-    // count prefix sum,  https://en.wikipedia.org/wiki/Prefix_sum
-    private static int getPathSumFrom(TreeNode node, int target) {
-        int pathSum = 0;
-
-        if (node == null) {
-            return pathSum;
-        }
-
-        if (node.val == target) {
-            pathSum++;
-        }
-
-        pathSum += getPathSumFrom(node.left, target - node.val) + getPathSumFrom(node.right, target - node.val);
-
-        return pathSum;
-    }
-
+    // Time: O(N), 2ms
+    // Recursion, prefix sum,  https://en.wikipedia.org/wiki/Prefix_sum
     public static int pathSum1(TreeNode root, int sum) {
-        // prefixSum stores the
-        // prefixSum from the root to the current node in the recursion
-        //  and
-        // how many times the sum occurs
-        // <sum, frequency>, https://en.wikipedia.org/wiki/Prefix_sum
-        HashMap<Integer, Integer> prefixSum = new HashMap<>();
-        prefixSum.put(0, 1);  // prefix sum 0 occurs once
+        // map: prefix sum from the root to the current node in recursion -> how many times the sum occurs
+        HashMap<Integer, Integer> prefixSums = new HashMap<>();
+        prefixSums.put(0, 1);  // prefix sum 0 occurs once before the root
 
-        return count(root, 0, sum, prefixSum);
+        return count(root, 0, sum, prefixSums);
     }
 
     // prefix is counted from the top(root) to the bottom(leaves), the count for path is calculated from the bottom to the top
-    private static int count(TreeNode node, int currentSum, int target, HashMap<Integer, Integer> prefixSum) {
+    private static int count(TreeNode node, int sum, int target, HashMap<Integer, Integer> prefixSums) {
         if (node == null) {
             return 0;
         }
 
-        currentSum += node.val;
+        // sum from the root to the current node
+        sum += node.val;
 
         // The sum from any node in the path to the current node
         // equals to
         // the difference between (the sum from the root to the current node) and (the prefix sum of the node in the path)
 
-        // assume there is a node in the path and target equals to the sum from the node to the current node
-        // so currentSum - target is the prefix sum of the node in the path
-        // if key currentSum - target exists, then this node does exist and the frequency is the count of path
+        // assume there is a node in the path, from which (exclusive) to the current node the sum is target
+        // so sum - target is the prefix sum of the node from root
+        // if key for (sum - target) exists, then this node does exist and the count is the count of path
 
-        int pathSum = prefixSum.getOrDefault(currentSum - target, 0);
+        // the number of valid paths ended by the current node
+        int count = prefixSums.getOrDefault(sum - target, 0);
 
-        prefixSum.put(currentSum, prefixSum.getOrDefault(currentSum, 0) + 1);
+        prefixSums.put(sum, prefixSums.getOrDefault(sum, 0) + 1);
 
-        pathSum += count(node.left, currentSum, target, prefixSum) + count(node.right, currentSum, target, prefixSum);
+        // the number of valid paths in the subtree rooted at the current node's left child
+        // the number of valid paths in the subtree rooted at the current node's right child
+        count += count(node.left, sum, target, prefixSums) + count(node.right, sum, target, prefixSums);
 
-        // Since we count from leave in recursion, after each recursion,
-        // we just need to delete the current pathsum in the preSum, and leave all other prefix sum in it.
+        // when reach here for the first time, the node is a leaf
+        // Since recursion counts from leaf, need to delete the current pathSum in the preSum
         // Then, in higher layers, we can forget everything about this node (and its descendants).
-        prefixSum.put(currentSum, prefixSum.get(currentSum) - 1);
+        prefixSums.put(sum, prefixSums.get(sum) - 1);
 
-        return pathSum;
+        return count;
     }
 
+    // 20ms, dual recursion, O(N^2) for the worst case, O(NlogN) for balanced binary Tree.
+    // count path from the given node, excluding the node
+    public static int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+
+        // count starting from the node + count starting from its left child + count starting from its right child
+        return getPathSumFrom(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+
+    // count path from the given node, including the node
+    private static int getPathSumFrom(TreeNode node, int target) {
+        int pathCount = 0;
+
+        if (node == null) {
+            return pathCount;
+        }
+
+        if (node.val == target) {
+            pathCount++;
+        }
+
+        pathCount += getPathSumFrom(node.left, target - node.val) + getPathSumFrom(node.right, target - node.val);
+
+        return pathCount;
+    }
 }

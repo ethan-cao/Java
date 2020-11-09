@@ -49,7 +49,8 @@ public class M_DFS_Tree_98 {
         }
     }
 
-    // Time O(logN), Space: O(). fastest
+    // Time O(logN), Space: O().
+    // Recursion 0ms
     public static boolean isValidBST(TreeNode root) {
         return verifyBST(root, null, null);
     }
@@ -99,7 +100,7 @@ public class M_DFS_Tree_98 {
         return true;
     }
 
-    // inorder traversal, recursive
+    // inorder traversal, recursive, 0ms
     private static TreeNode previousNode = null;
 
     public static boolean isValidBST2(TreeNode root) {
@@ -108,8 +109,10 @@ public class M_DFS_Tree_98 {
         }
 
         boolean isValidLeftBST = isValidBST2(root.left);
+
         boolean isValidNode = (previousNode != null && root.val <= previousNode.val) ? false : true;
         previousNode = root;
+
         boolean isValidRightBST = isValidBST2(root.right);
 
         return isValidLeftBST && isValidNode && isValidRightBST;

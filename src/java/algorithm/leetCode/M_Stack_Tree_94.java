@@ -10,8 +10,8 @@ Input: [1,null,2,3]
      2
     /
    3
-
 Output: [1,3,2]
+
 */
 
 import java.util.*;
@@ -40,7 +40,7 @@ public class M_Stack_Tree_94 {
         }
     }
 
-    // Recursive
+    // Recursive 0ms
     // Time O(n), Space: O(n)
     public static List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();

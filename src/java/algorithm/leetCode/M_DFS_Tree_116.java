@@ -3,7 +3,6 @@ package algorithm.leetCode;
 /*
 You are given a perfect binary tree where all leaves are on the same level
 and every parent has two children. The binary tree has the following definition:
-
 Populate each next pointer to point to its next right node.
 If there is no next right node, the next pointer should be set to NULL.
 
@@ -16,6 +15,9 @@ https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 [1,2,3,4,5,6,7] -> [1,#,2,3,#,4,5,6,7,#]
 
 */
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class M_DFS_Tree_116 {
 
@@ -40,7 +42,7 @@ public class M_DFS_Tree_116 {
         }
     }
 
-    // DFS, Recursive, 0ms
+    // DFS, iterative, 0ms
     // Time: O(N)   Space: O(1)
     public Node connect(Node root) {
         if (root == null) {
@@ -64,8 +66,8 @@ public class M_DFS_Tree_116 {
         return root;
     }
 
-    // DFS, Iterative, 0ms
-    // Time: O(N)   Space: O(1)
+    // DFS, preorder, recursive, 0ms
+    // Time: O(N)
     public Node connect1(Node root) {
         if (root == null) {
             return root;
@@ -81,6 +83,41 @@ public class M_DFS_Tree_116 {
 
         connect1(root.left);
         connect1(root.right);
+
+        return root;
+    }
+
+    // BFS 2ms, not O(1) space
+    public Node connect2(Node root) {
+        if (root == null) {
+            return root;
+        }
+
+        Deque<Node> queue = new ArrayDeque<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            Node previous = queue.peekFirst();
+
+            for (int i = 0; i < size; ++i) {
+                Node node = queue.poll();
+
+                if (i != 0) {
+                    previous.next = node;
+                    previous = node;
+                }
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
 
         return root;
     }
