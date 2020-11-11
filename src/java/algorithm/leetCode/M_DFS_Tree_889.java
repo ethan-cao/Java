@@ -1,24 +1,22 @@
 package algorithm.leetCode;
 
 /*
-Given preorder and inorder traversal of a tree, construct the binary tree.
-You may assume that duplicates do not exist in the tree.
+Return any binary tree that matches the given preorder and postorder traversals.
+Values in the traversals pre and post are distinct positive integers.
+
+1 <= pre.length == post.length <= 30
+pre[] and post[] are both permutations of 1, 2, ..., pre.length.
+It is guaranteed an answer exists. If there exists multiple answers, you can return any of them.
 
 ### Example
-preorder = [3,9,20,15,7]
-inorder = [9,3,15,20,7]
-->
-    3
-   / \
-  9  20
-    /  \
-   15   7
+Input: pre = [1,2,4,5,3,6,7], post = [4,5,2,6,7,3,1]
+Output: [1,2,3,4,5,6,7]
 
 */
 
 import java.util.*;
 
-public class M_DFS_Tree_105 {
+public class M_DFS_Tree_889 {
 
     static class TreeNode {
         int val;
@@ -36,13 +34,11 @@ public class M_DFS_Tree_105 {
         }
     }
 
-    // 3ms
-    // https://www.youtube.com/watch?v=S1wNG5hx-30
     public static TreeNode build(int[] preorder, int[] inorder) {
         return build(0, 0, inorder.length - 1, preorder, inorder);
     }
 
-    // build by pre-order
+    // build in pre-order
     public static TreeNode build(int preorderIdx, int inorderStartIdx, int inorderEndIdx, int[] preorder, int[] inorder) {
         if (preorderIdx > preorder.length - 1 || inorderStartIdx > inorderEndIdx) {
             return null;

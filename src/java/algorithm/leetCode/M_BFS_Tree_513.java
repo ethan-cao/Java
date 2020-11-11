@@ -44,8 +44,7 @@ public class M_BFS_Tree_513 {
         }
     }
 
-    // 3ms
-    // BFS, in addition remember the first element of each level.
+    // BFS, 3ms, in addition remember the first element of each level.
     public int findBottomLeftValue(TreeNode root) {
         int leftMostValue = root.val;
 
@@ -75,26 +74,26 @@ public class M_BFS_Tree_513 {
         return leftMostValue;
     }
 
-    // 0ms
-    // BFS, recursive
+    // DFS, pre-order, 0ms
     public int findBottomLeftValue1(TreeNode root) {
-        int[] result = new int[]{0, 0};  // [leftMostValueInLevel, depth]
+        // [depth, leftMostValue]
+        // use -1 as the initial depth since we start from 0
+        int[] result = new int[]{-1, -1};
 
-        findBottomLeftValue(root, 1, result);
+        findBottomLeftValue(root, 0, result);
 
-        return result[0];
+        return result[1];
     }
-
 
     public void findBottomLeftValue(TreeNode node, int depth, int[] result) {
         if (node == null) {
             return;
         }
 
-        // 1st time enter a new level
-        if (depth > result[1]) {
-            result[0] = node.val;
-            result[1] = depth;
+        // 1st time enter a new level, it is the left most node
+        if (depth > result[0]) {
+            result[0] = depth;
+            result[1] = node.val;
         }
 
         findBottomLeftValue(node.left, depth + 1, result);
