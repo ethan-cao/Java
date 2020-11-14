@@ -34,29 +34,38 @@ public class M_DFS_Tree_889 {
         }
     }
 
-    public static TreeNode build(int[] preorder, int[] inorder) {
-        return build(0, 0, inorder.length - 1, preorder, inorder);
+    // Time: O(N), 1ms
+    public static TreeNode constructFromPrePost(int[] preorder, int[] postorder) {
+        // node value -> postorder idx, since value is unique. for O(N) lookup later
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < postorder.length; ++i) {
+            map.put(postorder[i], i);
+        }
+
+        return build(0, preorder.length - 1, preorder, 0, postorder.length - 1, postorder, map);
     }
 
-    // build in pre-order
-    public static TreeNode build(int preorderIdx, int inorderStartIdx, int inorderEndIdx, int[] preorder, int[] inorder) {
-        if (preorderIdx > preorder.length - 1 || inorderStartIdx > inorderEndIdx) {
+    // build by preorder
+    // [root][......left......][...right..]  ---pre
+    // [......left......][...right..][root]  ---post
+    private static TreeNode build(int preStart, int preEnd, int[] preorder, int postStart, int postEnd, int[] postorder, Map<Integer, Integer> map) {
+        if (preStart > preEnd || postStart > postEnd) {
             return null;
         }
 
-        TreeNode node = new TreeNode(preorder[preorderIdx]);
+        TreeNode node = new TreeNode(preorder[preStart]);
 
-        // find inorderIdx of current node in inorder
-        int inorderIdx = 0;
-        for (int i = inorderStartIdx; i <= inorderEndIdx; i++) {
-            if (inorder[i] == node.val) { // no duplicates
-                inorderIdx = i;
-                break;
-            }
+        // need this check, since we reply on node.left, which is preorder[preStart + 1], to narrow the scope
+        // once preStart == preEnd, node is the leaf, stop recursion
+        if (preStart == preEnd || postStart == postEnd) {
+            return node;
         }
 
-        node.left = build(preorderIdx + 1, inorderStartIdx, inorderIdx - 1, preorder, inorder);
-        node.right = build(preorderIdx + inorderIdx - inorderStartIdx + 1, inorderIdx + 1, inorderEndIdx, preorder, inorder);
+        int leftPostIdx = map.get(preorder[preStart + 1]); // find where left (of node) is located in postorder[]
+        int length = leftPostIdx - postStart; // length is the same for both preorder and inorder
+
+        node.left = build(preStart + 1, preStart + 1 + length, preorder, postStart, postStart + length, postorder, map);
+        node.right = build(preStart + 1 + length + 1, preEnd, preorder, postStart + length + 1, postEnd - 1, postorder, map);
 
         return node;
     }
@@ -69,24 +78,6 @@ public class M_DFS_Tree_889 {
 
         TreeNode root = new TreeNode(preorder[0]);
 
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        TreeNode current = root;
-
-        for (int i = 1, j = 0; i < preorder.length; i++) {
-            if (current.val != inorder[j]) {
-                current.left = new TreeNode(preorder[i]);
-                stack.push(current);
-                current = current.left;
-            } else {
-                j++;
-                while (!stack.isEmpty() && stack.peek().val == inorder[j]) {
-                    current = stack.pop();
-                    j++;
-                }
-
-                current = current.right = new TreeNode(preorder[i]);
-            }
-        }
 
         return root;
     }

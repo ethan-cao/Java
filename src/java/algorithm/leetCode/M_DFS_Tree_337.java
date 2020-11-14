@@ -30,6 +30,22 @@ Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
 
 public class M_DFS_Tree_337 {
 
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     // DFS, 0ms
     public int rob(TreeNode root) {
         int[] value = visit(root);

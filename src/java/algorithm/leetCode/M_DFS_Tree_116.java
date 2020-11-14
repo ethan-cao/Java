@@ -16,8 +16,7 @@ https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 
 */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class M_DFS_Tree_116 {
 

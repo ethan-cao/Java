@@ -36,31 +36,38 @@ public class M_DFS_Tree_105 {
         }
     }
 
-    // 3ms
+    // Time: O(N), 1ms
     // https://www.youtube.com/watch?v=S1wNG5hx-30
     public static TreeNode build(int[] preorder, int[] inorder) {
-        return build(0, 0, inorder.length - 1, preorder, inorder);
+        // value -> idx in inorder[], since value is unique, for O(N) lookup
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < inorder.length; ++i) {
+            map.put(inorder[i], i);
+        }
+
+        return build(0, preorder.length - 1, preorder, 0, inorder.length - 1, inorder, map);
     }
 
     // build by pre-order
-    public static TreeNode build(int preorderIdx, int inorderStartIdx, int inorderEndIdx, int[] preorder, int[] inorder) {
-        if (preorderIdx > preorder.length - 1 || inorderStartIdx > inorderEndIdx) {
+    // [root][......left......][...right..]  ---pre
+    // [......left......][root][...right..]  ---in
+    public static TreeNode build(int preStart, int preEnd, int[] preorder, int inStart, int inEnd, int[] inorder, Map<Integer, Integer> map) {
+        if (preStart > preEnd || inStart > inEnd) {
             return null;
         }
 
-        TreeNode node = new TreeNode(preorder[preorderIdx]);
+        TreeNode node = new TreeNode(preorder[preStart]);
 
-        // find inorderIdx of current node in inorder
-        int inorderIdx = 0;
-        for (int i = inorderStartIdx; i <= inorderEndIdx; i++) {
-            if (inorder[i] == node.val) { // no duplicates
-                inorderIdx = i;
-                break;
-            }
+        // this check is not necessary, since we only reply on node
+        if (preStart == preEnd || inStart == inEnd) {
+            return node;
         }
 
-        node.left = build(preorderIdx + 1, inorderStartIdx, inorderIdx - 1, preorder, inorder);
-        node.right = build(preorderIdx + inorderIdx - inorderStartIdx + 1, inorderIdx + 1, inorderEndIdx, preorder, inorder);
+        int inIdx = map.get(node.val); // find where node is located in inorder[]
+        int length = inIdx - inStart; // length is the same for both preorder and inorder
+
+        node.left =  build(preStart + 1, preStart + length, preorder, inStart, inIdx - 1, inorder, map);
+        node.right = build(preStart + length + 1, preEnd, preorder, inIdx + 1, inEnd, inorder, map);
 
         return node;
     }
