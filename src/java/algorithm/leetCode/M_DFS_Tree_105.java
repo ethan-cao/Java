@@ -37,21 +37,21 @@ public class M_DFS_Tree_105 {
     }
 
     // Time: O(N), 1ms
-    // https://www.youtube.com/watch?v=S1wNG5hx-30
+    // Recursive, https://www.youtube.com/watch?v=S1wNG5hx-30
     public static TreeNode build(int[] preorder, int[] inorder) {
         // value -> idx in inorder[], since value is unique, for O(N) lookup
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> inorderPositions = new HashMap<>();
         for (int i = 0; i < inorder.length; ++i) {
-            map.put(inorder[i], i);
+            inorderPositions.put(inorder[i], i);
         }
 
-        return build(0, preorder.length - 1, preorder, 0, inorder.length - 1, inorder, map);
+        return build(0, preorder.length - 1, preorder, 0, inorder.length - 1, inorder, inorderPositions);
     }
 
     // build by pre-order
-    // [root][......left......][...right..]  ---pre
-    // [......left......][root][...right..]  ---in
-    public static TreeNode build(int preStart, int preEnd, int[] preorder, int inStart, int inEnd, int[] inorder, Map<Integer, Integer> map) {
+    // [root][left...][right...]  ---pre
+    // [...left...][root][...right...]  ---in
+    public static TreeNode build(int preStart, int preEnd, int[] preorder, int inStart, int inEnd, int[] inorder, Map<Integer, Integer> inorderPositions) {
         if (preStart > preEnd || inStart > inEnd) {
             return null;
         }
@@ -63,40 +63,55 @@ public class M_DFS_Tree_105 {
             return node;
         }
 
-        int inIdx = map.get(node.val); // find where node is located in inorder[]
+        int inIdx = inorderPositions.get(node.val); // find where node is located in inorder[]
         int length = inIdx - inStart; // length is the same for both preorder and inorder
 
-        node.left =  build(preStart + 1, preStart + length, preorder, inStart, inIdx - 1, inorder, map);
-        node.right = build(preStart + length + 1, preEnd, preorder, inIdx + 1, inEnd, inorder, map);
+        node.left = build(preStart + 1, preStart + length, preorder, inStart, inIdx - 1, inorder, inorderPositions);
+        node.right = build(preStart + length + 1, preEnd, preorder, inIdx + 1, inEnd, inorder, inorderPositions);
 
         return node;
     }
 
-    // 1ms
+    // 2ms
+    // Iterative
     public TreeNode buildTree1(int[] preorder, int[] inorder) {
-        if (preorder.length == 0) {
+        if (preorder.length == 0 || inorder.length == 0) {
             return null;
         }
 
         TreeNode root = new TreeNode(preorder[0]);
 
         Deque<TreeNode> stack = new ArrayDeque<>();
-        TreeNode current = root;
+        stack.push(root);
 
-        for (int i = 1, j = 0; i < preorder.length; i++) {
-            if (current.val != inorder[j]) {
-                current.left = new TreeNode(preorder[i]);
-                stack.push(current);
-                current = current.left;
+        Map<Integer, Integer> inorderPositions = new HashMap<>();
+        for (int i = 0; i < inorder.length; ++i) {
+            inorderPositions.put(inorder[i], i);
+        }
+
+        // go through the rest nodes in preorder, except the root
+        for (int i = 1; i < preorder.length; ++i) {
+            TreeNode node = new TreeNode(preorder[i]);
+            TreeNode previousNode = stack.peek();
+
+            if (inorderPositions.get(node.val) < inorderPositions.get(previousNode.val)) {
+                // node is on left side of previous node in inorder[]
+                // given we are iterating preorder, node is the left child of previousNode
+                previousNode.left = node;
             } else {
-                j++;
-                while (!stack.isEmpty() && stack.peek().val == inorder[j]) {
-                    current = stack.pop();
-                    j++;
+                // node is on right side of previous node in inorder[]
+                // node is the right child of (the first node that is before node in inorder[])
+                TreeNode parent = null;
+
+                while (!stack.isEmpty() && inorderPositions.get(node.val) > inorderPositions.get(previousNode.val)) {
+                    parent = stack.pop();
+                    previousNode = stack.peek();
                 }
 
-                current = current.right = new TreeNode(preorder[i]);
+                parent.right = node;
             }
+
+            stack.push(node);
         }
 
         return root;
