@@ -3,8 +3,6 @@ package algorithm.leetCode;
 /*
 Given a binary tree, flatten it to a linked list in-place.
 
-binary tree -> in-place preorder
-
 ### Example
     1
    / \
@@ -49,29 +47,29 @@ public class M_DFS_Tree_114 {
         }
     }
 
+    // Morris Traversal
+    // DFS, essentially flatten a tree to in-place preorder
+    // Time O(N), 0ms
     public static void flatten(TreeNode root) {
         flattenTree(root, null);
     }
 
-    // 0ms
-    // nextNode is the next node for node in a pre-order traversal
-    // https://www.bilibili.com/video/av49260017?from=search&seid=1709576483152248579
-    private static TreeNode flattenTree(TreeNode node, TreeNode nextNode) {
+    // next is the next node for node in a pre-order traversal
+    private static TreeNode flattenTree(TreeNode node, TreeNode next) {
         if (node == null) {
-            return nextNode;
+            return next;
         }
 
-        // flatten right sub tree first
-        // since each node's right child points to the next node in a pre-order traversal
-        nextNode = flattenTree(node.right, nextNode);
-        nextNode = flattenTree(node.left, nextNode);
+        // flatten right tree first, since each node's right child points to next in pre-order traversal
+        next = flattenTree(node.right, next);
+        next = flattenTree(node.left, next);
 
-        node.right = nextNode;
+        node.right = next;
         node.left = null;
 
-        nextNode = node;
+        next = node;
 
-        return nextNode;
+        return next;
     }
 
     // 0ms
@@ -81,13 +79,13 @@ public class M_DFS_Tree_114 {
         while (node != null) {
 
             if (node.left != null) {
-                TreeNode last = node.left;
+                TreeNode left = node.left;
 
-                while (last.right != null) {
-                    last = last.right;
+                while (left.right != null) {
+                    left = left.right;
                 }
 
-                last.right = node.right;
+                left.right = node.right;
 
                 node.right = node.left;
                 node.left = null;

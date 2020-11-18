@@ -16,19 +16,10 @@ Note that an empty string is also considered valid.
 "([)]" -> F
 "{[]}" -> T
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class E_Stack_20 {
     public static void main(String... args) {

@@ -273,6 +273,8 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         Node currentNode = root;
 
         while (currentNode != null || !stack.isEmpty()) {
+
+            // push all left nodes to stack
             while (currentNode != null) {
                 stack.push(currentNode);
                 currentNode = currentNode.left;
@@ -280,6 +282,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
             currentNode = stack.pop();
             queue.offer(currentNode.key);
+
             currentNode = currentNode.right;
         }
     }

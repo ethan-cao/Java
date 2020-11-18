@@ -15,77 +15,69 @@ N is less than 1000 and guaranteened to be a power of 2.
 ### Example
 https://leetcode.com/problems/construct-quad-tree/
 
-### Review:
- */
-
-
-import java.util.*;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
+*/
 
 public class M_Tree_427 {
 
+    class Node {
+        public boolean val;
+        public boolean isLeaf;
+        public Node topLeft;
+        public Node topRight;
+        public Node bottomLeft;
+        public Node bottomRight;
+
+        public Node(boolean _val, boolean _isLeaf, Node _topLeft, Node _topRight, Node _bottomLeft, Node _bottomRight) {
+            val = _val;
+            isLeaf = _isLeaf;
+            topLeft = _topLeft;
+            topRight = _topRight;
+            bottomLeft = _bottomLeft;
+            bottomRight = _bottomRight;
+        }
+    }
+
+    // Time: O(N^2), 0ms
     public Node construct(int[][] grid) {
         return constructSubTree(0, 0, grid.length, grid);
     }
 
-    // Time: O(N^2)
-    private Node constructSubTree(int originX, int originY, int N, int[][] grid) {
-        Boolean value = FALSE;
-        Boolean isLeft = FALSE;
+    private Node constructSubTree(int x, int y, int N, int[][] grid) {
+        boolean value = false;
+        boolean isLeft = false;
         Node topLeft = null;
         Node topRight = null;
         Node bottomLeft = null;
         Node bottomRight = null;
 
-        Boolean identicalValue = getIdenticalValue(originX, originY, N, grid);
+        int identicalValue = getIdenticalValue(x, y, N, grid);
 
-        if (identicalValue == null) {
-            topLeft = constructSubTree(originX, originY, N / 2, grid);
-            topRight = constructSubTree(originX, originY + N / 2, N / 2, grid);
-            bottomLeft = constructSubTree(originX + N / 2, originY, N / 2, grid);
-            bottomRight = constructSubTree(originX + N / 2, originY + N / 2, N / 2, grid);
+        if (identicalValue == -1) {
+            topLeft = constructSubTree(x, y, N / 2, grid);
+            topRight = constructSubTree(x, y + N / 2, N / 2, grid);
+            bottomLeft = constructSubTree(x + N / 2, y, N / 2, grid);
+            bottomRight = constructSubTree(x + N / 2, y + N / 2, N / 2, grid);
         } else {
-            isLeft = TRUE;
-            value = identicalValue;
+            isLeft = true;
+            value = identicalValue == 1;
         }
 
         return new Node(value, isLeft, topLeft, topRight, bottomLeft, bottomRight);
     }
 
-    // null :  no identical
-    // T or F : the identical value
-    private Boolean getIdenticalValue(int originX, int originY, int N, int[][] grid) {
-        int identicalValue = grid[originX][originY];
+    private int getIdenticalValue(int x, int y, int N, int[][] grid) {
+        int identicalValue = grid[x][y];
 
-        for (int x = originX; x < originX + N; ++x) {
-            for (int y = originY; y < originY + N; ++y) {
-                if (grid[x][y] != identicalValue) {
-                    return null;
+        for (int i = x; i < x + N; ++i) {
+            for (int j = y; j < y + N; ++j) {
+                if (grid[i][j] != identicalValue) {
+                    return -1; // since grid contains only 1 and 0, return -1 if there is different value
                 }
             }
         }
 
-        return identicalValue == 1;
+        return identicalValue;
     }
 
 }
 
-class Node {
-    public boolean val;
-    public boolean isLeaf;
-    public Node topLeft;
-    public Node topRight;
-    public Node bottomLeft;
-    public Node bottomRight;
-
-    public Node(boolean _val, boolean _isLeaf, Node _topLeft, Node _topRight, Node _bottomLeft, Node _bottomRight) {
-        val = _val;
-        isLeaf = _isLeaf;
-        topLeft = _topLeft;
-        topRight = _topRight;
-        bottomLeft = _bottomLeft;
-        bottomRight = _bottomRight;
-    }
-}

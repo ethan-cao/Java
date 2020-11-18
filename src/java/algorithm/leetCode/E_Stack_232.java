@@ -1,9 +1,7 @@
 package algorithm.leetCode;
 
-
 /*
 Implement Queue using Stacks
-
 Implement the following operations of a queue using stacks, You must use only standard operations of a stack
 
 ### Example
@@ -15,14 +13,7 @@ queue.peek();  // returns 1
 queue.pop();   // returns 1
 queue.empty(); // returns false
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
-
 
 import java.util.ArrayDeque;
 import java.util.Deque;

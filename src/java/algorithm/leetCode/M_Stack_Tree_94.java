@@ -40,7 +40,7 @@ public class M_Stack_Tree_94 {
         }
     }
 
-    // Recursive 0ms
+    // DFS, Recursive 0ms
     // Time O(n), Space: O(n)
     public static List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();
@@ -67,6 +67,7 @@ public class M_Stack_Tree_94 {
         TreeNode currentNode = root;
 
         while (currentNode != null || !stack.isEmpty()) {
+
             while (currentNode != null) {
                 stack.push(currentNode);
                 currentNode = currentNode.left;
@@ -74,13 +75,14 @@ public class M_Stack_Tree_94 {
 
             currentNode = stack.pop();
             traversal.add(currentNode.val);
+
             currentNode = currentNode.right;
         }
 
         return traversal;
     }
 
-    // Morris traversal: O(n) time and O(1) space.
+    // Morris traversal: O(n) time and O(1) space.    114 also use Morris traversal
     public List<Integer> inorderTraversal2(TreeNode root) {
         return null;
     }

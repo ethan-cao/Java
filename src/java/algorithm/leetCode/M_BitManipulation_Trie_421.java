@@ -10,16 +10,9 @@ Could you do this in O(n) runtime?
 [3, 10, 5, 25, 2, 8] -> 28
 Explanation: The maximum result is 5 ^(XOR) 25 = 28.
 
-### Condition
-
-### Essential problem
-
-### Corner case
-
 */
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class M_BitManipulation_Trie_421 {
 

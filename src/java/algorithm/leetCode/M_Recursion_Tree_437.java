@@ -25,6 +25,22 @@ import java.util.HashMap;
 
 public class M_Recursion_Tree_437 {
 
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     // Time: O(N), 2ms
     // Recursion, prefix sum,  https://en.wikipedia.org/wiki/Prefix_sum
     public static int pathSum1(TreeNode root, int sum) {

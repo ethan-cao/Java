@@ -19,11 +19,10 @@ Return the board when no more squares will be revealed.
 ### Example
 https://leetcode.com/problems/minesweeper/
 
-### Review:
 
  */
 
-public class M_Tree_529 {
+public class M_Array_529 {
 
     private final char UNREVEALED_MINE = 'M';
     private final char UNREVEALED_EMPTY = 'E';

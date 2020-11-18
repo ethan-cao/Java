@@ -4,31 +4,21 @@ package algorithm.leetCode;
 Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
 
 ### Example
-Given binary tree [3,9,20,null,null,15,7],
-
-Given binary tree [3,9,20,null,null,15,7],
     3
    / \
   9  20
     /  \
    15   7
-
-return its level order traversal as:
+->
 [ [3],
   [20, 9],
   [15,7] ]
 
 */
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 public class M_Stack_Tree_103 {
-
-    public static void main(String... args) {
-    }
 
     static class TreeNode {
         int val;

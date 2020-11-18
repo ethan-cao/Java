@@ -60,15 +60,13 @@ public class M_DFS_Tree_337 {
 
         int[] valueLeft = visit(node.left);
         int[] valueRight = visit(node.right);
-        int[] value = new int[2]; // Alternatively, create a class to hold value
 
-        // value[0] is the max value while rob this node, then don't rob its children
-        value[0] = node.val + valueLeft[1] + valueRight[1];
+        // rob this node, then don't rob its children
+        int robCurrent = node.val + valueLeft[1] + valueRight[1];
+        // skip this node, then either rob or dont rob its children !!!
+        int skipCurrent = Math.max(valueLeft[0], valueLeft[1]) + Math.max(valueRight[0], valueRight[1]);
 
-        // value[1] is the max value while not rob this node, then either rob or dont rob its children
-        value[1] = Math.max(valueLeft[0], valueLeft[1]) + Math.max(valueRight[0], valueRight[1]);
-
-        return value;
+        return new int[]{robCurrent, skipCurrent};
     }
 
 }
