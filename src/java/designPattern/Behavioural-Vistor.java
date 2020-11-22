@@ -55,12 +55,12 @@ class PartnerVisitor implements Visitor {
 }
 
 
-// Visitee remains the same
-interface Visitee {
+// Host remains the same
+interface Host {
     void accept(Visitor visitor);
 }
 
-class Home implements Visitee {
+class Home implements Host {
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);

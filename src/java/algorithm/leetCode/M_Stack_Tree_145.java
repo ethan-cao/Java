@@ -1,12 +1,12 @@
 package algorithm.leetCode;
 
 /*
-Given the root of a binary tree, return the preorder traversal of its nodes' values.
+Given the root of a binary tree, return the postorder traversal of its nodes' values.
 */
 
 import java.util.*;
 
-public class M_Stack_Tree_144 {
+public class M_Stack_Tree_145 {
 
     static class TreeNode {
         int val;
@@ -33,9 +33,9 @@ public class M_Stack_Tree_144 {
             return;
         }
 
-        traversal.add(node.val);
         visit(node.left, traversal);
         visit(node.right, traversal);
+        traversal.add(node.val);
     }
 
     // Iterative, Stack
@@ -48,19 +48,24 @@ public class M_Stack_Tree_144 {
 
         while (current != null || !stack.isEmpty()) {
 
+            // visit until the leaf
             while (current != null) {
-                // current is the left child in previous iteration
-                // current is also the parent in this iteration
-                traversal.add(current.val);
                 stack.push(current);
 
-                current = current.left;
+                // visit left right, then right, as in post-order
+                if (current.left != null) {
+                    current = current.left;
+                } else {
+                    current = current.right;
+                }
             }
 
-            // current.left is null now, finished visiting parent and its left child
+            TreeNode node = stack.pop(); // node is a leaf
+            traversal.add(node.val);
 
-            current = stack.pop();
-            current = current.right;
+            if (!stack.isEmpty() && stack.peek().left == node) {
+                current = stack.peek().right;
+            }
         }
 
         return traversal;

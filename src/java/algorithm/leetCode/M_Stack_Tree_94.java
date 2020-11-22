@@ -2,16 +2,6 @@ package algorithm.leetCode;
 
 /*
 Given a binary tree, return the inorder traversal of its nodes' values.
-
-### Example
-Input: [1,null,2,3]
-   1
-    \
-     2
-    /
-   3
-Output: [1,3,2]
-
 */
 
 import java.util.*;
@@ -59,7 +49,7 @@ public class M_Stack_Tree_94 {
     }
 
     // Iterative, Stack, reuse call stack
-    // Time O(n), Space: O(n)
+    // Time O(n), Space: O(n), 0ms
     public List<Integer> inorderTraversal1(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();
         Deque<TreeNode> stack = new ArrayDeque<>();
