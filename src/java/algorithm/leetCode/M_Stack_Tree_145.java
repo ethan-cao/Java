@@ -20,7 +20,7 @@ public class M_Stack_Tree_145 {
 
     // DFS, Recursive 0ms
     // Time O(n), Space: O(n)
-    public List<Integer> preorderTraversal(TreeNode root) {
+    public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();
 
         visit(root, traversal);
@@ -40,7 +40,7 @@ public class M_Stack_Tree_145 {
 
     // Iterative, Stack
     // Time O(n), Space: O(n), 0ms
-    public List<Integer> preorderTraversal1(TreeNode root) {
+    public List<Integer> postorderTraversal1(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();
         Deque<TreeNode> stack = new ArrayDeque<>();
 
@@ -57,12 +57,18 @@ public class M_Stack_Tree_145 {
                     current = current.left;
                 } else {
                     current = current.right;
+                    // check in the end is to sure right is always visited
                 }
             }
 
-            TreeNode node = stack.pop(); // node is a leaf
-            traversal.add(node.val);
+            // node as parent, its left and right child are both null
+            TreeNode node = stack.pop();
+            traversal.add(node.val); // node is added after both its children are visited
 
+            // visit node's right sibling if it exists
+            //         stack.peek()
+            //         /         \
+            //       node        to be visited
             if (!stack.isEmpty() && stack.peek().left == node) {
                 current = stack.peek().right;
             }

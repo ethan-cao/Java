@@ -22,6 +22,15 @@ https://leetcode.com/problems/maximum-product-of-splitted-binary-tree/
 import java.util.*;
 
 public class M_DFS_1339 {
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 
     // DFS, 7ms
     public static int maxProduct(TreeNode root) {

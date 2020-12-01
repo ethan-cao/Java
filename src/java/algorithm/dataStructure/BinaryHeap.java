@@ -43,6 +43,7 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         return isEmpty() ? null : this.nodes[1]; // root
     }
 
+    // add a new one, equivalent as PriorityQueue.offer()
     // O(logN)
     public void insert(Key key) {
         // since index 0 is empty, maximal value for size is initialCapacity, which is length - 1
@@ -57,7 +58,7 @@ public class BinaryHeap<Key extends Comparable<Key>> {
         this.swim(newIndex);
     }
 
-    // delete the root, the max one
+    // delete the root, the max one. equivalent as PriorityQueue.poll()
     // O(logN)
     public Key delete() {
         Key max = max();

@@ -1,7 +1,6 @@
 package algorithm.dataStructure;
 
-
-// https://leetcode.com/articles/implement-trie-prefix-tree/?orderBy=most_votes
+// LC 208
 public class Trie {
     private TrieNode root; // root is an empty node
 
@@ -18,7 +17,7 @@ public class Trie {
         TrieNode current = this.root;
 
         for (char character : word.toCharArray()) {
-            if (!current.containsKey(character)) {
+            if (!current.contains(character)) {
                 current.put(character, new TrieNode());
             }
 
@@ -37,7 +36,7 @@ public class Trie {
         TrieNode current = this.root;
 
         for (char character : word.toCharArray()) {
-            if (!current.containsKey(character)) {
+            if (!current.contains(character)) {
                 return false;
             }
 
@@ -55,7 +54,7 @@ public class Trie {
         TrieNode current = this.root;
 
         for (char character : prefix.toCharArray()) {
-            if (!current.containsKey(character)) {
+            if (!current.contains(character)) {
                 return false;
             }
 
@@ -66,13 +65,11 @@ public class Trie {
     }
 
     public static class TrieNode {
-        private boolean isWord;  // True : from root until this node, it is a word
+        private TrieNode[] children = new TrieNode[26]; // hold 26 chars
+        private boolean isWord;  // true: from root until this node, it is a word
+        private String word; //  alternatively, instead of isWord, set the word
 
-        public static final int SIZE = 26;
-        private TrieNode[] children = new TrieNode[SIZE]; // each slot store each character a...z
-        // the position this node occupies implies what value it has
-
-        public boolean containsKey(char ch) {
+        public boolean contains(char ch) {
             return this.children[ch - 'a'] != null;
         }
 

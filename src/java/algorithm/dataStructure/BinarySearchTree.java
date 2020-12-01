@@ -1,5 +1,7 @@
 package algorithm.dataStructure;
 
+import algorithm.leetCode.M_Stack_Tree_144;
+
 import java.util.*;
 
 /**
@@ -265,8 +267,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         this.inOrder(node.right, queue);
     }
 
-    // Iterative, Stack, reuse call stack
-    // Time O(n), Space: O(n)
+    // LC 94
     public void inOrder1(Node root, Deque<Key> queue) {
         Deque<Node> stack = new ArrayDeque<>();
 
@@ -297,6 +298,33 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         this.inOrder(node.right, queue);
     }
 
+    // LC 144
+    public List<Value> preorder1(Node root) {
+        List<Value> traversal = new ArrayList<>();
+        Deque<Node> stack = new ArrayDeque<>();
+
+        Node current = root;
+
+        while (current != null || !stack.isEmpty()) {
+
+            while (current != null) {
+                // current is the left child in previous iteration
+                // current is also the parent in this iteration
+                traversal.add(current.value);
+                stack.push(current);
+
+                current = current.left;
+            }
+
+            // current.left is null now, finished visiting parent and its left child
+
+            current = stack.pop();
+            current = current.right;
+        }
+
+        return traversal;
+    }
+
     private void postOrder(Node node, Deque<Key> queue) {
         if (node == null) {
             return;
@@ -305,6 +333,44 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         this.inOrder(node.left, queue);
         this.inOrder(node.right, queue);
         queue.offer(node.key);
+    }
+
+    // LC 145
+    public List<Value> postOrder1(Node root) {
+        List<Value> traversal = new ArrayList<>();
+        Deque<Node> stack = new ArrayDeque<>();
+
+        Node current = root;
+
+        while (current != null || !stack.isEmpty()) {
+
+            // visit until the leaf
+            while (current != null) {
+                stack.push(current);
+
+                // visit left right, then right, as in post-order
+                if (current.left != null) {
+                    current = current.left;
+                } else {
+                    current = current.right;
+                    // check in the end is to sure right is always visited
+                }
+            }
+
+            // node as parent, its left and right child are both null
+            Node node = stack.pop();
+            traversal.add(node.value);
+
+            // visit node's right sibling if it exists
+            //         stack.peek()
+            //         /         \
+            //       node        to be visited
+            if (!stack.isEmpty() && stack.peek().left == node) {
+                current = stack.peek().right;
+            }
+        }
+
+        return traversal;
     }
 
     // traversal result is in visited traversal, FIFO

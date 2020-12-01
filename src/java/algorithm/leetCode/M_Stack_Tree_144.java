@@ -51,7 +51,7 @@ public class M_Stack_Tree_144 {
             while (current != null) {
                 // current is the left child in previous iteration
                 // current is also the parent in this iteration
-                traversal.add(current.val);
+                traversal.add(current.val);   // !!! node is added when it is visited before it children
                 stack.push(current);
 
                 current = current.left;

@@ -50,6 +50,7 @@ public class M_Stack_Tree_94 {
 
     // Iterative, Stack, reuse call stack
     // Time O(n), Space: O(n), 0ms
+    // similar to 173
     public List<Integer> inorderTraversal1(TreeNode root) {
         List<Integer> traversal = new ArrayList<>();
         Deque<TreeNode> stack = new ArrayDeque<>();
@@ -63,8 +64,11 @@ public class M_Stack_Tree_94 {
                 currentNode = currentNode.left;
             }
 
+            // current.left is null now, finished visiting parent and its left child
+
             currentNode = stack.pop();
-            traversal.add(currentNode.val);
+
+            traversal.add(currentNode.val);  // node is added after its left is visited before its right is visited
 
             currentNode = currentNode.right;
         }

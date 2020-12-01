@@ -20,6 +20,15 @@ Bonus points if you could solve it both recursively and iteratively.
 import java.util.Stack;
 
 public class E_Recursion_Tree_101 {
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 
     // Recursive, 0ms
     public static boolean isSymmetric(TreeNode root) {

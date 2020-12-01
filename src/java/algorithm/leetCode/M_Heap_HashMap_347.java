@@ -99,25 +99,22 @@ public class M_Heap_HashMap_347 {
 
     // Heap, 9ms
     public static int[] topKFrequent2(int[] nums, int k) {
-        int[] result = new int[k];
-        Map<Integer, Integer> frequencies = new HashMap<>();
-        TreeMap<Integer, List<Integer>> sortedFrequency = new TreeMap<>();
-
+        Map<Integer, Integer> counter = new HashMap<>();
         for (int num : nums) {
-            int count = frequencies.getOrDefault(num, 0);
-            frequencies.put(num, count + 1);
+            counter.put(num, counter.getOrDefault(num, 0) + 1);
         }
 
-        PriorityQueue<Map.Entry<Integer, Integer>> maxHeap = new PriorityQueue<>((a, b) -> (b.getValue() - a.getValue()));
-        for (Map.Entry<Integer, Integer> entry : frequencies.entrySet()) {
-            maxHeap.add(entry);
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap = new PriorityQueue<>(
+                (a, b) -> b.getValue() - a.getValue()
+        );
+
+        for (Map.Entry<Integer, Integer> entry: counter.entrySet()) {
+            minHeap.offer(entry);
         }
 
-        int count = 0;
-        while (count < k) {
-            Map.Entry<Integer, Integer> entry = maxHeap.poll();
-            result[count] = entry.getKey();
-            count++;
+        int[] result = new int[k];
+        for(int i = 0; i < k; ++i) {
+            result[i] = minHeap.poll().getKey();
         }
 
         return result;

@@ -268,7 +268,8 @@ public class A_FrequentUse {
     }
 
     static void heap() {
-        // use add() and remove()
+        // offer()
+        // poll()
     }
 
     static void set() {

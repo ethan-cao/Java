@@ -18,7 +18,7 @@ Given a binary tree, return the zigzag level order traversal of its nodes' value
 
 import java.util.*;
 
-public class M_Stack_Tree_103 {
+public class M_Tree_BFS_103 {
 
     static class TreeNode {
         int val;
@@ -74,7 +74,8 @@ public class M_Stack_Tree_103 {
         return traversal;
     }
 
-    // Stack
+    // 1ms
+    // BFS without boolean flag
     public static List<List<Integer>> zigzagLevelOrder1(TreeNode root) {
         List<List<Integer>> traversal = new ArrayList<>();
 
@@ -95,17 +96,19 @@ public class M_Stack_Tree_103 {
                 TreeNode currentNode = currentLevelStack.pop();
                 levelTraversal.add(currentNode.val);
 
+                // left -> right
                 if (currentNode.left != null) nextLevelStack.push(currentNode.left);
                 if (currentNode.right != null) nextLevelStack.push(currentNode.right);
             }
             // it is certain that levelTraversal is not empty
             traversal.add(levelTraversal);
 
-            levelTraversal = new ArrayList<>();
+            levelTraversal = new ArrayList<>(); // cannot use .clear(); the list still points to the same reference
             while (!nextLevelStack.isEmpty()) {
                 TreeNode currentNode = nextLevelStack.pop();
                 levelTraversal.add(currentNode.val);
 
+                // right -> left
                 if (currentNode.right != null) currentLevelStack.push(currentNode.right);
                 if (currentNode.left != null) currentLevelStack.push(currentNode.left);
             }

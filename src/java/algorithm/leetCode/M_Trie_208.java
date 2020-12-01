@@ -7,19 +7,12 @@ All inputs are guaranteed to be non-empty strings.
 
 ### Example
 Trie trie = new Trie();
-
 trie.insert("apple");
 trie.contains("apple");   // returns true
 trie.contains("app");     // returns false
 trie.startsWith("app"); // returns true
 trie.insert("app");
 trie.contains("app");     // returns true
-
-### Condition
-
-### Essential problem
-
-### Corner case
 
 */
 

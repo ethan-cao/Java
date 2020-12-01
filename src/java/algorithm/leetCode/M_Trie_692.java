@@ -38,36 +38,72 @@ public class M_Trie_692 {
         System.out.println(Arrays.toString(topKFrequent(words3, 2).toArray())); // ["a", "aa"]
     }
 
+    private static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        String word;
+    }
+
+    // Heap, 5ms - 6ms
+    // Time: O(N log K), Space: O(N)
     public static List<String> topKFrequent(String[] words, int k) {
-        // Count frequency
-        Map<String, Integer> frequency = new HashMap<>();
+        Map<String, Integer> counter = new HashMap<>();
         for (String word : words) {
-            frequency.put(word, frequency.getOrDefault(word, 0) + 1);
+            counter.put(word, counter.getOrDefault(word, 0) + 1);
         }
 
-        // Trie here is essentially similar to radix sort.
-        TrieNode[] tally = new TrieNode[words.length + 1]; // the max possible position is word.length
-        for (Map.Entry<String, Integer> entry : frequency.entrySet()) {
+        PriorityQueue<Map.Entry<String, Integer>> maxHeap = new PriorityQueue<>(
+            (a, b) -> Objects.equals(a.getValue(), b.getValue()) ? a.getKey().compareTo(b.getKey()) : b.getValue() - a.getValue()
+        );
 
-            TrieNode root = tally[entry.getValue()];
-            if (root == null) {
-                root = new TrieNode();
-                tally[entry.getValue()] = root;
-            }
-
-            insertWord(root, entry.getKey());
+        for (Map.Entry<String, Integer> entry : counter.entrySet()) {
+             maxHeap.offer(entry);
         }
 
-        // collect result
-        List<String> result = new LinkedList<>();
-        for (int i = tally.length - 1; i >= 0; --i) {
-            getWord(tally[i], result, k);
+        List<String> result = new ArrayList<>();
+
+        for (int i = 0; i < k; i++) {
+            result.add( maxHeap.poll().getKey());
         }
 
         return result;
     }
 
-    private static void insertWord(TrieNode root, String word) {
+    // Trie & HashMap, 5ms - 12ms
+    public static List<String> topKFrequent1(String[] words, int k) {
+        Map<String, Integer> counter = new HashMap<>();
+        int maxFrequency = Integer.MIN_VALUE;
+        for (String word : words) {
+            counter.put(word, counter.getOrDefault(word, 0) + 1);
+            maxFrequency = Math.max(maxFrequency, counter.get(word));
+        }
+
+        // Trie here is essentially similar to radix sort.
+        TrieNode[] bucket = new TrieNode[maxFrequency + 1];
+
+        for (Map.Entry<String, Integer> entry : counter.entrySet()) {
+            String word = entry.getKey();
+            int frequency = entry.getValue();
+
+            if (bucket[frequency] == null) {
+                bucket[frequency] = new TrieNode();
+            }
+
+            TrieNode node = bucket[frequency];
+
+            buildTrie(node, word);
+        }
+
+        // collect result
+        List<String> result = new ArrayList<>();
+        for (int i = bucket.length - 1; i >= 0; --i) {
+            getWord(bucket[i], result, k);
+            // since bucket[i] is trie, search string in it outperform other structure
+        }
+
+        return result;
+    }
+
+    private static void buildTrie(TrieNode root, String word) {
         TrieNode current = root;
 
         for (char c : word.toCharArray()) {
@@ -81,13 +117,15 @@ public class M_Trie_692 {
         current.word = word;
     }
 
-    private static void getWord(TrieNode root, List<String> result, int k) {
-        if (root == null || result.size() >= k) {
+    private static void getWord(TrieNode node, List<String> result, int k) {
+        if (node == null || result.size() >= k) {
             return;
         }
 
-        for (int i = 0; i < 26; ++i) {
-            TrieNode child = root.children[i];
+        for (TrieNode child : node.children) {
+            if (result.size() >= k) {
+                return;
+            }
 
             if (child == null) {
                 continue;
@@ -101,10 +139,6 @@ public class M_Trie_692 {
         }
     }
 
-    private static class TrieNode {
-        private TrieNode[] children = new TrieNode[26];
-        private String word;
-    }
 }
 
 

@@ -19,15 +19,14 @@ import java.util.*;
 
 public class E_Recursion_Tree_257 {
 
-    public static void main(String... args) {
-        TreeNode n1 = new TreeNode(1);
-        TreeNode n2 = new TreeNode(2);
-        TreeNode n3 = new TreeNode(3);
-        TreeNode n4 = new TreeNode(5);
+    static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
 
-        n1.left = n2;
-        n1.right = n3;
-        n2.right = n4;
+        TreeNode(int x) {
+            val = x;
+        }
     }
 
     // 1ms

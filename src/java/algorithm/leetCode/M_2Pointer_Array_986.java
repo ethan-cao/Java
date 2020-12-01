@@ -18,8 +18,6 @@ Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
 Reminder: The inputs and the desired output are lists of Interval objects, and not arrays or lists.
 see the picture https://leetcode.com/problems/interval-list-intersections/
 
-### Review:
-
 */
 
 import java.util.*;

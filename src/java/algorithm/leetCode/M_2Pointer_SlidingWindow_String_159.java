@@ -31,6 +31,7 @@ public class M_2Pointer_SlidingWindow_String_159 {
         int left = 0;
         int right = 0;
 
+        // Strings are encoded as UTF-16. In UTF-16, the ASCII character set is encoded as values [0 - 127]
         int[] frequencies = new int[128];
         int distinctCharCount = 0;
 
