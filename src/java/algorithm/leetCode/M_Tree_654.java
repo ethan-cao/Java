@@ -39,8 +39,9 @@ public class M_Tree_654 {
         }
     }
 
-    // 6ms
-    // Time: O(N)
+    // monotonic stack 6ms
+    // Time: O(N), each node just enter and pop only one time
+    // https://en.wikipedia.org/wiki/Cartesian_tree
     public TreeNode constructMaximumBinaryTree(int[] nums) {
         Deque<TreeNode> stack = new ArrayDeque<>();
 
@@ -53,11 +54,14 @@ public class M_Tree_654 {
                 current.left = stack.pop();
             }
 
-            // the larger one if exists is parent of current,
+            // ATM, all left node of the current in stack is larger than current
+            // if the larger one exists, it is parent of current,
             // the larger one is on current's left side, so current becomes its right child
             if (!stack.isEmpty()) {
                 stack.peek().right = current;
             }
+
+            // current is placed in desired position
 
             stack.push(current);
         }
