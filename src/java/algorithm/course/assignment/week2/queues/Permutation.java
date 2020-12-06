@@ -1,3 +1,5 @@
+package algorithm.course.assignment.week2.queues;
+
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 

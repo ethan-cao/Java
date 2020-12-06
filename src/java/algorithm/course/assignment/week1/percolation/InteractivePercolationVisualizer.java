@@ -1,3 +1,5 @@
+package algorithm.course.assignment.week1.percolation;
+
 /******************************************************************************
  *  Compilation:  javac InteractivePercolationVisualizer.java
  *  Execution:    java InteractivePercolationVisualizer n

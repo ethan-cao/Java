@@ -1,3 +1,5 @@
+package algorithm.course.assignment.week1.percolation;
+
 /******************************************************************************
  *  Compilation:  javac PercolationVisualizer.java
  *  Execution:    java PercolationVisualizer input.txt

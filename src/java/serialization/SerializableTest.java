@@ -1,7 +1,5 @@
 package serialization;
 
-import jdk.nashorn.internal.runtime.ECMAException;
-
 import java.io.*;
 import java.util.Date;
 
@@ -10,7 +8,7 @@ public class SerializableTest {
     public static void main(String[] args) throws Exception {
         test1();
 
-//        test2();
+        // test2();
     }
 
     static void test1() throws Exception {
@@ -55,10 +53,9 @@ public class SerializableTest {
     }
 }
 
-
-
 abstract class Employee {
-    // Neither of the 2 instance property get serialized as Employee does not implement Serializable
+    // Neither of the 2 instance property get serialized as Employee does not
+    // implement Serializable
     String name;
     transient String companyName;
     static String city; // Static variables are not serialized.
@@ -66,19 +63,13 @@ abstract class Employee {
 
 class Manager extends Employee implements Serializable {
     String mgrId; // serialized
-    transient String level;  // this one does not get serialized as it is transient
+    transient String level; // this one does not get serialized as it is transient
 
     @Override
     public String toString() {
         return mgrId + " " + level + " " + name + " " + companyName;
     }
 }
-
-
-
-
-
-
 
 class Hostelite implements Serializable {
     int roomNo;

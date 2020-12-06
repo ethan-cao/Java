@@ -26,7 +26,7 @@ class Android extends Phone {
 }
 
 
-class phoneFactory {
+class PhoneFactory {
 
     public Phone createPhone(String phoneType) {
         if ("iPhone".equalsIgnoreCase(phoneType)) {

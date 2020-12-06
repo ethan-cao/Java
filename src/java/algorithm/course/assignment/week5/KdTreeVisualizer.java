@@ -1,3 +1,4 @@
+package algorithm.course.assignment.week5;
 
 /******************************************************************************
  *  Compilation:  javac KdTreeVisualizer.java
