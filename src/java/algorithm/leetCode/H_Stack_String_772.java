@@ -2,9 +2,7 @@ package algorithm.leetCode;
 
 /*
 implement a basic calculator to evaluate a simple expression string.
-
 The expression string contains non-negative integers, +, -, *, /, (, ) and empty spaces.
-
 The integer division should truncate toward zero.
 You may assume that the given expression is always valid.
 All intermediate results will be in the range of [-2147483648, 2147483647].
@@ -17,8 +15,7 @@ All intermediate results will be in the range of [-2147483648, 2147483647].
 
 */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class H_Stack_String_772 {
 

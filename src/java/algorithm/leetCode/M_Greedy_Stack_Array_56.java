@@ -1,7 +1,12 @@
 package algorithm.leetCode;
 
 /*
-Given a collection of intervals, merge all overlapping intervals
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, 
+and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+1 <= intervals.length <= 10^4
+intervals[i].length == 2
+0 <= start(i) <= end(i) <= 10^4
 
 ### Example
 [[1,3],[2,6],[8,10],[15,18]] --> [[1,6],[8,10],[15,18]]
@@ -20,7 +25,7 @@ public class M_Greedy_Stack_Array_56 {
         System.out.println(Arrays.deepToString(merge(new int[][]{{1, 4}, {4, 5}})));
     }
 
-    // Greedy
+    // Greedy, 5ms
     // Time: O(NlogN)
     public static int[][] merge(int[][] intervals) {
         if (intervals.length < 2) {
@@ -55,18 +60,23 @@ public class M_Greedy_Stack_Array_56 {
         return mergedIntervals.toArray(new int[0][0]);
     }
 
-    // Stack
+    // Stack, 6ms
+    // Time: O(N)
     public int[][] merge1(int[][] intervals) {
-        Deque<int[]> mergedIntervals = new ArrayDeque();
+        Deque<int[]> mergedIntervals = new ArrayDeque<>();
 
         // sort by start
         Arrays.sort(intervals, (i1, i2) -> i1[0] - i2[0]);
 
         for (int[] interval : intervals) {
-            if (mergedIntervals.isEmpty() || interval[0] > mergedIntervals.peek()[1]) {
-                mergedIntervals.push(interval);
+            if (mergedIntervals.isEmpty()) {
+                mergedIntervals.push(new int[]{interval[0], interval[1]});
             } else {
-                mergedIntervals.peek()[1] = Math.max(interval[1], mergedIntervals.peek()[1]);
+                if (mergedIntervals.peek()[1] >= interval[0]) {
+                    mergedIntervals.peek()[1] = Math.max(mergedIntervals.peek()[1], interval[1]);
+                } else {
+                    mergedIntervals.push(new int[]{interval[0], interval[1]});
+                }
             }
         }
 

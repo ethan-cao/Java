@@ -2,11 +2,9 @@ package algorithm.leetCode;
 
 /*
 Given a balanced parentheses string S, compute the score of the string based on the following rule:
-
-() has score 1
-AB has score A + B, where A and B are balanced parentheses strings.
-(A) has score 2 * A, where A is a balanced parentheses string.
-
+    () has score 1
+    AB has score A + B, where A and B are balanced parentheses strings.
+    (A) has score 2 * A, where A is a balanced parentheses string.
 S is a balanced parentheses string, containing only ( and ).
 2 <= S.length <= 50
 
@@ -18,8 +16,7 @@ S is a balanced parentheses string, containing only ( and ).
 
 */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class M_Stack_String_856 {
 
@@ -45,10 +42,13 @@ public class M_Stack_String_856 {
                 stack.push(score);
                 score = 0;
             } else {
-                int previousLevelScore = stack.pop();
-                int currentLevelScore = Math.max(score * 2, 1);
+                int previousScore = stack.pop();
+                int currentScore = score  == 0 ? 1 : score * 2;
+                // if score is 0, then we have (), so the score is 1
+                // if score is not 0, then we have (()), so the score is score * 2
 
-                score = currentLevelScore + previousLevelScore;
+
+                score = currentScore + previousScore;
             }
         }
 

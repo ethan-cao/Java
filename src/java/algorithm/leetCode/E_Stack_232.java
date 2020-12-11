@@ -15,30 +15,39 @@ queue.empty(); // returns false
 
 */
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Stack;
+import java.util.*;
 
 public class E_Stack_232 {
 }
 
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue obj = new MyQueue();
- * obj.push(x);
- * int param_2 = obj.pop();
- * int param_3 = obj.peek();
- * boolean param_4 = obj.empty();
+/*
+    Why 2 stack to implement 1 queue?
+
+    It is to separate read & write of a queue in multi-processing. 
+    one for read, and another is for write. They only interfere each other when the former one is full or latter is empty.
+
+    When there's only one thread doing the read/write operation to the stack, there will always 1 stack empty. 
+    However, in a multi-thread application, if there is only 1 queue, for thread-safety, either read or write will lock the whole queue. 
+    In the two stack implementation, as long as the second stack is not empty, push operation will not lock the stack for pop.
  */
-class MyQueue1 {
-    private Stack<Integer> input = new Stack();
-    private Stack<Integer> output = new Stack();
+
+ // overall amortized cost for each operation is O(1)
+class MyQueue {
+    private Deque<Integer> input = new ArrayDeque<>(); // for write, push()
+    private Deque<Integer> output = new ArrayDeque<>(); // for read(), peek()/pop()
+
+    /**
+     * Returns whether the queue is empty.
+     */
+    public boolean empty() {
+        return this.input.isEmpty() && this.output.isEmpty();
+    }
 
     /**
      * Push element x to the back of queue.
      */
     public void push(int x) {
-        input.push(x);
+        this.input.push(x);
     }
 
     /**
@@ -53,56 +62,13 @@ class MyQueue1 {
      * Get the front element.
      */
     public int peek() {
-        if (this.output.empty()) {
-            while (!this.input.empty()) {
+        // move elements from input stack to output stack when needed
+        if (this.output.isEmpty()) {
+            while (!this.input.isEmpty()) {
                 this.output.push(this.input.pop());
             }
         }
 
         return this.output.peek();
     }
-
-    /**
-     * Returns whether the queue is empty.
-     */
-    public boolean empty() {
-        return this.input.empty() && this.output.empty();
-    }
-
 }
-
-class MyQueue {
-    private Deque list = new ArrayDeque();
-
-    public MyQueue() {
-    }
-
-    /**
-     * Push element x to the back of queue.
-     */
-    public void push(int x) {
-        this.list.offer(x);
-    }
-
-    /**
-     * Removes the element from in front of queue and returns that element.
-     */
-    public int pop() {
-        return (int) this.list.poll();
-    }
-
-    /**
-     * Get the front element.
-     */
-    public int peek() {
-        return (int) this.list.getFirst();
-    }
-
-    /**
-     * Returns whether the queue is empty.
-     */
-    public boolean empty() {
-        return this.list.isEmpty();
-    }
-}
-

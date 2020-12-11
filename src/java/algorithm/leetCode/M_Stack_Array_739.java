@@ -21,6 +21,28 @@ public class M_Stack_Array_739 {
         System.out.println(Arrays.toString(dailyTemperatures1(new int[]{73, 74, 75, 71, 69, 72, 76, 73}))); // 1, 1, 4, 2, 1, 1, 0, 0
     }
 
+    // Stack, 12ms
+    // Time: O(N), Space: O(N)
+    public static int[] dailyTemperatures1(int[] T) {
+        int[] waitingDays = new int[T.length];
+
+        // stack contains which day, and tempeature in these days are descreasing
+        Deque<Integer> stack = new ArrayDeque<>();  // monotonic descreasing
+
+        for (int i = 0; i < T.length; ++i) {
+
+            while (!stack.isEmpty() && T[stack.peek()] < T[i]) {
+                int day = stack.pop();
+                waitingDays[day] = i - day;
+            }
+
+            // each item is pushed or popped at most once
+            stack.push(i);
+        }
+
+        return waitingDays;
+    }
+
     static class Pair<T> {
         private T day;
         private T temperature;
@@ -54,7 +76,7 @@ public class M_Stack_Array_739 {
         }
     }
 
-    // Monotonic Stack
+    // Monotonic Stack with Pair
     // Time: O(N), Space: O(N)
     public static int[] dailyTemperatures(int[] T) {
         int[] waitingDays = new int[T.length];
@@ -74,24 +96,4 @@ public class M_Stack_Array_739 {
         return waitingDays;
     }
 
-    // Monotonic Stack without Pair
-    // Time: O(N), Space: O(N)
-    public static int[] dailyTemperatures1(int[] T) {
-        int[] waitingDays = new int[T.length];
-
-        Deque<Integer> stack = new ArrayDeque<>();
-
-        // each item is pushed or popped at most once : O(N)
-        for (int i = 0; i < T.length; ++i) {
-
-            while (!stack.isEmpty() && T[stack.peekFirst()] < T[i]) {
-                int day = stack.pop();
-                waitingDays[day] = i - day;
-            }
-
-            stack.push(i);
-        }
-
-        return waitingDays;
-    }
 }

@@ -35,69 +35,40 @@ public class M_Stack_DFS_String_678 {
         System.out.println(checkValidString1("(())((())()()(*)(*()(())())())()()((()())((()))(*")); // F
     }
 
-    // Stack
+    // Stack, 0ms
     // Time: O(N), Space: O(N)
     public static boolean checkValidString(String s) {
         // !!! store the index
-        Deque<Integer> leftIdxStack = new ArrayDeque<>();
-        Deque<Integer> starIdxStack = new ArrayDeque<>();
+        Deque<Integer> leftIndices = new ArrayDeque<>();
+        Deque<Integer> starIndices = new ArrayDeque<>();
 
         for (int i = 0; i < s.length(); ++i) {
 
             char c = s.charAt(i);
 
             if (c == '(') {
-                leftIdxStack.push(i) ;
+                leftIndices.push(i) ;
             } else if (c == ')') {
-                if (!leftIdxStack.isEmpty()) {
-                    leftIdxStack.pop();
-                } else if (!starIdxStack.isEmpty()) {
-                    starIdxStack.pop();
+                if (!leftIndices.isEmpty()) {
+                    leftIndices.pop();
+                } else if (!starIndices.isEmpty()) {
+                    starIndices.pop();
                 } else {
                     return false;
                 }
             } else {
-                starIdxStack.push(i);
+                starIndices.push(i);
             }
         }
 
         // if star is on right side of leftParenthesis, pair them
-        while (!leftIdxStack.isEmpty() && !starIdxStack.isEmpty()) {
-            if ( leftIdxStack.pop() > starIdxStack.pop()) {
+        while (!leftIndices.isEmpty() && !starIndices.isEmpty()) {
+            if ( leftIndices.pop() > starIndices.pop()) {
                 return false;
             }
         }
 
-        return leftIdxStack.isEmpty();
-    }
-
-    // DFS
-    // Time: O(N^3), when all char is *
-    // we could use cache to improve
-    public static boolean checkValidString1(String s) {
-        return check(s, 0, 0);
-    }
-
-    private static boolean check(String s, int index, int unpairedLeftCount) {
-        if (unpairedLeftCount < 0) {
-            return false;
-        }
-
-        if (index >= s.length()) {
-            return unpairedLeftCount == 0;
-        }
-
-        char c = s.charAt(index);
-
-        if (c == '(') {
-            return check(s, index + 1, unpairedLeftCount + 1);
-        } else if (c == ')') {
-            return check(s, index + 1, unpairedLeftCount - 1);
-        } else {
-            return check(s, index + 1, unpairedLeftCount + 1) ||
-                    check(s, index + 1, unpairedLeftCount) ||
-                    check(s, index + 1, unpairedLeftCount - 1);
-        }
+        return leftIndices.isEmpty();
     }
 
     // Time: O(N), Space O(1)
@@ -141,6 +112,35 @@ public class M_Stack_DFS_String_678 {
 
         // if the min possible is 0, that means it could possibly pair all ( and )
         return minPossibleUnpairedLeftCount == 0;
+    }
+
+    // DFS
+    // Time: O(N^3), when all char is *
+    // we could use cache to improve
+    public static boolean checkValidString1(String s) {
+        return check(s, 0, 0);
+    }
+
+    private static boolean check(String s, int index, int unpairedLeftCount) {
+        if (unpairedLeftCount < 0) {
+            return false;
+        }
+
+        if (index >= s.length()) {
+            return unpairedLeftCount == 0;
+        }
+
+        char c = s.charAt(index);
+
+        if (c == '(') {
+            return check(s, index + 1, unpairedLeftCount + 1);
+        } else if (c == ')') {
+            return check(s, index + 1, unpairedLeftCount - 1);
+        } else {
+            return check(s, index + 1, unpairedLeftCount + 1) ||
+                    check(s, index + 1, unpairedLeftCount) ||
+                    check(s, index + 1, unpairedLeftCount - 1);
+        }
     }
 
 }

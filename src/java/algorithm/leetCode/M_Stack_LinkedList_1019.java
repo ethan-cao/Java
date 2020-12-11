@@ -57,8 +57,71 @@ public class M_Stack_LinkedList_1019 {
         }
     }
 
+    // Stack, 11ms
+    // Time: O(N) Space: O(N)
+    public static int[] nextLargerNodes1(ListNode head) {
+        int size = getSize(head);
+        int[] nextLarger = new int[size];
+
+        // tuple: [idx, node.val]
+        Deque<int[]> stack = new ArrayDeque<>(); // monotonic decreasing
+
+        int idx = 0;
+        ListNode current = head;
+
+        while (current != null) {
+
+            while (!stack.isEmpty() && stack.peek()[1] < current.val) {
+                int[] node = stack.pop();
+                nextLarger[node[0]] = current.val;
+            }
+
+            stack.push(new int[] { idx, current.val });
+
+            idx++;
+            current = current.next;
+        }
+
+        return nextLarger;
+    }
+
+    private static int getSize(ListNode head) {
+        int size = 0;
+
+        ListNode current = head;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+
+        return size;
+    }
+
+    // use array to mimic stack
+    public static int[] nextLargerNodes2(ListNode head) {
+        List<Integer> nodes = new ArrayList<>();
+        for (ListNode currentNode = head; currentNode != null; currentNode = currentNode.next) {
+            nodes.add(currentNode.val);
+        }
+
+        int[] solution = new int[nodes.size()];
+        int[] stack = new int[nodes.size()];
+        int top = -1;
+
+        for (int i = 0; i < nodes.size(); ++i) {
+
+            while (top != -1 && nodes.get(i) > nodes.get(stack[top])) {
+                solution[stack[top--]] = nodes.get(i);
+            }
+
+            stack[++top] = i;
+        }
+
+        return solution;
+    }
+
     // Time: O(N^2), Space: O(N)
-    public static int[] nextLargerNodes(ListNode head) {
+    public static int[] nextLargerNodes3(ListNode head) {
         List<Integer> answer = new ArrayList<>();
 
         ListNode currentNode = head;
@@ -93,54 +156,5 @@ public class M_Stack_LinkedList_1019 {
 
         // even slower
         // return answer.stream().mapToInt(Integer::intValue).toArray();
-    }
-
-    // Stack
-    // Time: O(N) Space: O(N)
-    public static int[] nextLargerNodes1(ListNode head) {
-        // Store node.val to ArrayList
-        List<Integer> nodes = new ArrayList<>();
-        for (ListNode currentNode = head; currentNode != null; currentNode = currentNode.next) {
-            nodes.add(currentNode.val);
-        }
-
-        int[] solution = new int[nodes.size()];  // default value is 0
-
-        // stack stores index that needs to find next larger node
-        Deque<Integer> stack = new ArrayDeque<>();
-
-        for (int i = 0; i < nodes.size(); ++i) {
-
-            while (!stack.isEmpty() && nodes.get(i) > nodes.get(stack.peekFirst())) {
-                solution[stack.pop()] = nodes.get(i);
-            }
-
-            stack.push(i);
-        }
-
-        return solution;
-    }
-
-    // use array to mimic stack, fastest
-    public static int[] nextLargerNodes2(ListNode head) {
-        List<Integer> nodes = new ArrayList<>();
-        for (ListNode currentNode = head; currentNode != null; currentNode = currentNode.next) {
-            nodes.add(currentNode.val);
-        }
-
-        int[] solution = new int[nodes.size()];
-        int[] stack = new int[nodes.size()];
-        int top = -1;
-
-        for (int i = 0; i < nodes.size(); ++i) {
-
-            while (top != -1 && nodes.get(i) > nodes.get(stack[top])) {
-                solution[stack[top--]] = nodes.get(i);
-            }
-
-            stack[++top] = i;
-        }
-
-        return solution;
     }
 }

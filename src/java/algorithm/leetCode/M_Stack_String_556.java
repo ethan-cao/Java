@@ -11,10 +11,7 @@ If no such positive 32-bit integer exists, you need to return -1.
 
 */
 
-import java.lang.reflect.Array;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
+import java.util.*;
 
 public class M_Stack_String_556 {
 
@@ -27,38 +24,40 @@ public class M_Stack_String_556 {
         System.out.println(nextGreaterElement1(1999999999)); // -1
     }
 
-    // Stack
+    // Stack, 1ms
+    // Time: O(N)
     public static int nextGreaterElement(int n) {
         char[] digits = String.valueOf(n).toCharArray();
-        Deque<Integer> idxStack = new ArrayDeque<>();
-        int rightMostLargerDigitIdx = -1;
 
-        // look for a digit larger than  digits[i], on the right most position
+        // check each digit from right to left, find its right-most larger digit
+        int rightMostLargerIdx = -1;
+        // monotonic increasing from right to left, but decreasing from left to right
+        Deque<Integer> stack = new ArrayDeque<>(); 
+
         for (int i = digits.length - 1; i >= 0; --i) {
 
-            while (!idxStack.isEmpty() && digits[i] < digits[idxStack.peekFirst()]) {
-                rightMostLargerDigitIdx = idxStack.pop();
+            while (!stack.isEmpty() && digits[stack.peek()] > digits[i] ) {
+                rightMostLargerIdx = stack.pop();
             }
 
-            if (rightMostLargerDigitIdx != -1) {
-                // once found, swap them
-                swap(digits, rightMostLargerDigitIdx, i);
-                // sort digits on the right part of i
+            if (rightMostLargerIdx != -1) {
+                swap(digits, rightMostLargerIdx, i);
                 Arrays.sort(digits, i + 1, digits.length);
                 break;
             }
 
-            idxStack.push(i);
+            stack.push(i);
         }
 
-        if (rightMostLargerDigitIdx == -1) {
+        if (rightMostLargerIdx == -1) {
             return -1;
         }
 
-        String s = "";
-        for (int i = 0; i < digits.length; ++i) {
-            s += digits[i];
+        StringBuilder sb = new StringBuilder();
+        for (char digit: digits) {
+            sb.append(digit);
         }
+        String s = sb.toString();
 
         // !!! 32 bit integer
         return Long.valueOf(s) > Integer.MAX_VALUE ? -1 : Integer.valueOf(s);

@@ -193,12 +193,10 @@ public class A_FrequentUse {
         // sum
         int sum = list.stream().mapToInt(Integer::intValue).sum();
 
-        // List<Integer> -> Integer[]
-        Integer[] IArray = list.toArray(new Integer[3]);
-
         // List<Integer> -> int[]
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         // this is slow, use iterate and convert manually
+        // cannot use list.toArry(new int[])
 
         //List<int[]> -> int[][], since int[] is object, List<T> -> T[]
         List<int[]> newList = new ArrayList<>();
@@ -206,6 +204,9 @@ public class A_FrequentUse {
         newList.add(new int[]{3, 4});
         newList.add(new int[]{5, 6});
         int[][] newArray = newList.toArray(new int[newList.size()][2]);
+
+        // List<Integer> -> Integer[]
+        Integer[] IArray = list.toArray(new Integer[3]);
 
         // slice list
         list.subList(0, 2);

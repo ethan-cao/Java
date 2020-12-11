@@ -18,88 +18,51 @@ Note that an empty string is also considered valid.
 
 */
 
-
 import java.util.*;
 
 public class E_Stack_20 {
+
     public static void main(String... args) {
-        System.out.println(isValid1("()"));   // T
-        System.out.println(isValid1("()[]{}"));  // T
-        System.out.println(isValid1("(]"));  //F
-        System.out.println(isValid1("([)]")); //F
-        System.out.println(isValid1("{[]}")); // R
+        System.out.println(isValid("()")); // T
+        System.out.println(isValid("()[]{}")); // T
+        System.out.println(isValid("(]")); // F
+        System.out.println(isValid("([)]")); // F
+        System.out.println(isValid("{[]}")); // R
     }
 
+    // 2ms
     public static boolean isValid(String s) {
-        if (s.length() % 2 != 0) {
-            return false;
-        }
-
-        if ("".equals(s)) {
-            return true;
-        }
-
         Deque<Character> stack = new ArrayDeque<>();
-        stack.push(s.charAt(0));
-
-        for (int i = 1; i < s.length(); ++i) {
-            char c1 = s.charAt(i);
-            char c2 = stack.isEmpty() ? '-' : stack.peekFirst();
-
-            if (isMatch(c1, c2)) {
-                stack.pop();
-            } else {
-                stack.push(c1);
-            }
-        }
-
-        return stack.isEmpty();
-    }
-
-    private static boolean isMatch(char c1, char c2) {
-        // it is better to use HashMap
-
-        if (c1 == '(') {
-            return c2 == ')';
-        } else if (c1 == ')') {
-            return c2 == '(';
-        } else if (c1 == '[') {
-            return c2 == ']';
-        } else if (c1 == ']') {
-            return c2 == '[';
-        } else if (c1 == '{') {
-            return c2 == '}';
-        } else if (c1 == '}') {
-            return c2 == '{';
-        }
-
-        return false;
-    }
-
-    public static boolean isValid1(String s) {
-        Deque<Character> stack = new ArrayDeque<>();
-
-        // better maintainbility and extensibility
-        Map<Character, Character> match = new HashMap<>();
-        match.put('(', ')');
-        match.put('[', ']');
-        match.put('{', '}');
+        // use map for better maintainbility and extensibility
+        Map<Character, Character> mapping = buildMapping();
 
         for (char c : s.toCharArray()) {
-            if (!match.keySet().contains(c) && !match.values().contains(c)) {
-                return false;
-            }
+            if (mapping.keySet().contains(c)) {
+                stack.push(c);
+            } else if (mapping.values().contains(c)) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
 
-            Character counterpart = match.get(c);
-
-            if (match.keySet().contains(c)) {
-                stack.push(counterpart);
-            } else if (stack.isEmpty() || stack.pop() != c) {
+                char bracket = stack.pop();
+                if (mapping.get(bracket) != c) {
+                    return false;
+                }
+            } else {
                 return false;
             }
         }
 
         return stack.isEmpty();
     }
-}
 
+    private static Map<Character, Character> buildMapping() {
+        Map<Character, Character> mapping = new HashMap<>();
+
+        mapping.put('(', ')');
+        mapping.put('[', ']');
+        mapping.put('{', '}');
+
+        return mapping;
+    }
+}

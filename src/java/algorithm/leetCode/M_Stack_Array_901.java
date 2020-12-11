@@ -42,7 +42,7 @@ class StockSpanner {
     private Deque<Integer> prices = new ArrayDeque<>();
     private Deque<Integer> spans = new ArrayDeque<>(); // cache span
 
-    // Monotonic increasing stack, 2 stack
+    // Monotonic increasing stack, 2 stack, 23ms
     // Time:O(n)
     public int next(int price) {
         int span = 1;
@@ -59,7 +59,7 @@ class StockSpanner {
     }
 
 
-    // Monotonic increasing stack, 1 stack
+    // Monotonic increasing stack, 1 stack, 21ms
     Stack<int[]> stack = new Stack<>();
 
     public int next1(int price) {

@@ -73,7 +73,7 @@ public class M_Tree_1008 {
     }
 
     private TreeNode buildBST(int[] preorder, int left, int right) {
-        if (idx == preorder.length || preorder[idx] < left || preorder[idx] > right) {
+        if (idx >= preorder.length || preorder[idx] < left || preorder[idx] > right) {
             return null;
         }
 
@@ -88,25 +88,49 @@ public class M_Tree_1008 {
         return node;
     }
 
+    // use array to dismiss global variable
+    public TreeNode bstFromPreorder3(int[] preorder) {
+        return bstFromPreorder(preorder, new int[] { 0 }, Integer.MAX_VALUE);
+    }
+
+    public TreeNode bstFromPreorder(int[] preorder, int[] i, int bound) {
+        if (i[0] >= preorder.length || preorder[i[0]] > bound) {
+            return null;
+        }
+
+        TreeNode root = new TreeNode(preorder[i[0]]);
+        i[0]++;
+
+        root.left = bstFromPreorder(preorder, i, root.val);
+        root.right = bstFromPreorder(preorder, i, bound);
+
+        return root;
+    }
+
     // Stack
     // Time: O(N)
     public TreeNode bstFromPreorder2(int[] preorder) {
-        Deque<TreeNode> stack = new ArrayDeque<>();
         TreeNode root = new TreeNode(preorder[0]);
 
+        Deque<TreeNode> stack = new ArrayDeque<>();
         stack.push(root);
-        for (int i = 1; i < preorder.length; i++) {
-            TreeNode node = new TreeNode(preorder[i]);
 
-            if (preorder[i] < stack.peek().val) {
+        for (int i = 1; i < preorder.length; i++) {
+            int val = preorder[i];
+            TreeNode node = new TreeNode(val);
+
+            if (val < stack.peek().val) {
                 stack.peek().left = node;
             } else {
                 TreeNode parent = stack.peek();
-                while (!stack.isEmpty() && preorder[i] > stack.peek().val) {
+
+                while (!stack.isEmpty() && val > stack.peek().val) {
                     parent = stack.pop();
                 }
+
                 parent.right = node;
             }
+
             stack.push(node);
         }
 

@@ -40,92 +40,40 @@ public class E_Stack_155 {
     }
 }
 
-class MinStackLinkedList {
-
-    class Node {
-        private int value;
-        private Node previous;
-        // private int minUtilThisNode // even better
-
-        Node(int x) {
-            this.value = x;
-        }
-    }
-
-    private Node head;
-
-    private int min = Integer.MAX_VALUE;
-
-    public void push(int x) {
-        Node node = new Node(x);
-
-        node.previous = this.head;
-
-        this.head = node;
-
-        if (x < this.min) {
-            this.min = x;
-        }
-    }
-
-    public void pop() {
-        this.head = this.head.previous;
-        this.min = Integer.MAX_VALUE;
-
-        Node node = this.head;
-
-        while (node != null) {
-            if (node.value < this.min) {
-                this.min = node.value;
-            }
-
-            node = node.previous;
-        }
-    }
-
-    public int top() {
-        return this.head.value;
-    }
-
-    public int getMin() {
-        return this.min;
-    }
-}
-
 class MinStack {
-    private int min = Integer.MAX_VALUE;
-    private Deque<Integer> deque = new ArrayDeque<>();
-
-    public void push(int x) {
-        if (x < this.min) {
-            this.min = x;
+    private class Node {
+        int val;
+        int min;
+        Node next;
+        
+        private Node(int val, int min, Node next) {
+            this.val = val;
+            this.min = min;
+            this.next = next;
         }
-
-        this.deque.push(x);
     }
-
-    public void pop() {
-        this.deque.pop();
-
-        this.min = Integer.MAX_VALUE;
-
-        if (this.deque.isEmpty()) {
-            return;
-        }
-
-        for (Integer element : this.deque) {
-            if (element < this.min) {
-                this.min = element;
-            }
+    
+    private Node head = null;
+    
+    public void push(int x) {
+        if(this.head == null) {
+            this.head = new Node(x, x, null);
+        } else {
+            int min = Math.min(this.head.min, x);
+            this.head = new Node(x, min, this.head);
         }
     }
 
     public int top() {
-        return this.deque.peek();
+        return head.val;
+    }
+        
+    public void pop() {
+        head = head.next;
     }
 
     public int getMin() {
-        return this.min;
+        return head.min;
     }
 }
 

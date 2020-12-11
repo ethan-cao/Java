@@ -33,7 +33,7 @@ public class M_Stack_String_394 {
         System.out.println(decodeString("2[abc]3[cd]ef")); // abcabccdcdcdef
     }
 
-    // 0ms
+    // Stack, 0ms
     public static String decodeString(String s) {
         StringBuilder decodedString = new StringBuilder();
         int k = 0;
@@ -65,7 +65,7 @@ public class M_Stack_String_394 {
         return decodedString.toString();
     }
 
-    // 0ms
+    // Recursive 0ms
     public String decodeString1(String s) {
         Deque<Character> queue = new ArrayDeque<>();
 

@@ -11,15 +11,10 @@ The length of given array won't exceed 10000.
 
 ### Example
 [1,2,1] -> [2,-1,2]
-Explanation: The first 1's next greater number is 2;
-The number 2 can't find next greater number;
-The second 1's next greater number needs to search circularly, which is also 2.
 
 */
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
+import java.util.*;
 
 public class M_Stack_Array_503 {
 
@@ -28,59 +23,30 @@ public class M_Stack_Array_503 {
         System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 14, 2, 1, 0}))); // 2, 14, -1, 14, 2, 1
     }
 
-    // Time: O(N^2), Space: O(N)
-    public static int[] nextGreaterElements0(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return new int[]{};
-        }
-
-        int[] nextGreaterElements = new int[nums.length];
-        Arrays.fill(nextGreaterElements, -1);
-
-        for (int i = 0; i < nums.length; ++i) {
-            for (int j = i + 1; j < i + nums.length; ++j) {
-                int currentElement = nums[i];
-                int nextElement = nums[j % nums.length];
-
-                if (nextElement > currentElement) {
-                    nextGreaterElements[i] = nextElement;
-                    break;
-                }
-            }
-        }
-
-        return nextGreaterElements;
-    }
-
-    // Stack
+    // Stack, 4ms
     // Time: O(N), Space: O(N)
     public static int[] nextGreaterElements(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return new int[]{};
-        }
+        int[] nextGreater = new int[nums.length];
+        Arrays.fill(nextGreater, -1);
 
-        // default value is 0, not good. use -1, assume no larger element by default
-        int[] nextGreaterElements = new int[nums.length];
-        Arrays.fill(nextGreaterElements, -1);
+        Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
 
-        // store indexes of decreasing subsequence
-        Deque<Integer> decreasingElementIndices = new ArrayDeque<>();
-
-        // !!! extend the array to handle circular array, typically solution
+        // !!! extend the array to handle circular array
         for (int i = 0; i < nums.length * 2; ++i) {
             int num = nums[i % nums.length];
 
-            while (!decreasingElementIndices.isEmpty() && nums[decreasingElementIndices.peekFirst()] < num) {
-                nextGreaterElements[decreasingElementIndices.pop()] = num;
+            while (!stack.isEmpty() && nums[stack.peek()] < num) {
+                int smallerIdx = stack.pop();
+                nextGreater[smallerIdx] = num;
             }
 
             // store index only once
             if (i < nums.length) {
-                decreasingElementIndices.push(i);
+                stack.push(i);
             }
         }
 
-        return nextGreaterElements;
+        return nextGreater;
     }
 
     // Stack
@@ -113,6 +79,30 @@ public class M_Stack_Array_503 {
 
             // put the processed element to stack top, since it is circular array
             stack.push(nums[i]);
+        }
+
+        return nextGreaterElements;
+    }
+
+    // Time: O(N^2), Space: O(N)
+    public static int[] nextGreaterElements0(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[]{};
+        }
+
+        int[] nextGreaterElements = new int[nums.length];
+        Arrays.fill(nextGreaterElements, -1);
+
+        for (int i = 0; i < nums.length; ++i) {
+            for (int j = i + 1; j < i + nums.length; ++j) {
+                int currentElement = nums[i];
+                int nextElement = nums[j % nums.length];
+
+                if (nextElement > currentElement) {
+                    nextGreaterElements[i] = nextElement;
+                    break;
+                }
+            }
         }
 
         return nextGreaterElements;
