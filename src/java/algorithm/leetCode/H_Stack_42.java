@@ -6,6 +6,7 @@ compute how much water it can trap after raining.
 
 ### Example
 https://leetcode.com/problems/trapping-rain-water/
+[4,2,0,3,2,5] -> 9
 
 */
 

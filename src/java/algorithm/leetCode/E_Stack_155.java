@@ -20,14 +20,10 @@ minStack.getMin();   --> Returns -2.
 
 */
 
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 public class E_Stack_155 {
     public static void main(String... args) {
 //        MinStack minStack = new MinStack();
-        MinStackLinkedList minStack = new MinStackLinkedList();
+        MinStack minStack = new MinStack();
 
         minStack.push(-2);
         minStack.push(0);
@@ -36,7 +32,6 @@ public class E_Stack_155 {
         minStack.pop();
         minStack.top();
         minStack.getMin();
-
     }
 }
 

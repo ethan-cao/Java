@@ -3,7 +3,6 @@ package algorithm.leetCode;
 /*
 Given an array of integers A, find the sum of min(B), where B ranges over every (contiguous) subarray of A.
 Since the answer may be large, return the answer modulo 10^9 + 7.
-
 1 <= A.length <= 30000
 1 <= A[i] <= 30000
 
@@ -20,37 +19,36 @@ import java.util.*;
 public class M_Stack_Array_907 {
 
     public static void main(String... args) {
-        System.out.println(sumSubarrayMins1(new int[] { 3, 1, 2, 4 })); // 17
+        System.out.println(sumSubarrayMins2(new int[] { 3, 1, 2, 4 })); // 17
         // System.out.println(sumSubarrayMins(new int[]{1, 2, 2, 2})); // 16
         // System.out.println(sumSubarrayMins(new int[]{3, 9, 1, 2, 4, 8})); // 49
         // System.out.println(sumSubarrayMins(new int[]{2, 9, 7, 8, 3, 4, 6, 1})); // 117
     }
 
     // Stack, 28ms
+    // Time: O(N), Space: O(N)
     /*
-    Time: O(N), Space: O(N)
-    sumOfMinimums = ∑ ( A[i] * subarrayCount[i] )
-    where subarrayCount[i] is count of subarray that contains A[i] as the minimum
-    
-    given subarrayCount[i] = continuousLeftLargerItemCount[i] *
-    continuousRightLargerItemCount[i]
-    thus sumOfMinimums = ∑ ( A[i] * continuousLeftLargerItemCount[i] *
-    continuousRightLargerItemCount[i] )
-    
-    why subarrayCount[i] = continuousLeftLargerItemCount[i] *
-    continuousRightLargerItemCount[i] ?
-    
-    let's say A = [2, 9, 7, 8, 3, 4, 6, 1], and we are inspecting A[4], which is 3.
-    continuousLeftLargerItemCount.length = [9, 7, 8, 3].length, which is 4
-    continuousRightLargerItemCount.length = [3, 4, 6].length, which is 3
-    
-    As long as a subarray picks its start item from [9, 7, 8, 3] and end item
-    from [3, 4, 6], it is guaranteed that 3 is the minimum
-    count for subarray that picks its start item from [9, 7, 8, 3] and end item
-    from [3, 4, 6] is [9, 7, 8, 3].length * [3, 4, 6].length
-    For these 12 subarrays, it is guaranteed that 3 is the minimum.
-    */
-    public int sumSubarrayMins00(int[] A) {
+     * sumOfMinimums = ∑ ( A[i] * subarrayCount[i] ) where subarrayCount[i] is count
+     * of subarray that contains A[i] as the minimum
+     * 
+     * given subarrayCount[i] = continuousLeftLargerItemCount[i] *
+     * continuousRightLargerItemCount[i] thus sumOfMinimums = ∑ ( A[i] *
+     * continuousLeftLargerItemCount[i] * continuousRightLargerItemCount[i] )
+     * 
+     * why subarrayCount[i] = continuousLeftLargerItemCount[i] *
+     * continuousRightLargerItemCount[i] ?
+     * 
+     * let's say A = [2, 9, 7, 8, 3, 4, 6, 1], and we are inspecting A[4], which is
+     * 3. continuousLeftLargerItemCount.length = [9, 7, 8, 3].length, which is 4
+     * continuousRightLargerItemCount.length = [3, 4, 6].length, which is 3
+     * 
+     * As long as a subarray picks its start item from [9, 7, 8, 3] and end item
+     * from [3, 4, 6], it is guaranteed that 3 is the minimum count for subarray
+     * that picks its start item from [9, 7, 8, 3] and end item from [3, 4, 6] is
+     * [9, 7, 8, 3].length * [3, 4, 6].length For these 12 subarrays, it is
+     * guaranteed that 3 is the minimum.
+     */
+    public static int sumSubarrayMins1(int[] A) {
         long sumOfMinimums = 0; // use long to hold int
         final long MOD = (long) (1e9 + 7); // or just 1000000007
         final int L = A.length;
@@ -89,38 +87,43 @@ public class M_Stack_Array_907 {
         return (int) sumOfMinimums;
     }
 
-    // Simplified with 1 stack and 1 iteration, 23ms
+    // Stack, Extrame, 23ms
     // Time: O(N), Space: O(N)
-    public static int sumSubarrayMins1(int[] A) {
-        int sumOfMinimums = 0;
+    public static int sumSubarrayMins2(int[] A) {
+        long sumOfMinimums = 0;
         final long MOD = (long) (1e9 + 7); // or just 1000000007
 
-        Deque<Integer> stack = new ArrayDeque<>();  // monotonic increasing
+        Deque<Integer> stack = new ArrayDeque<>(); // monotonic increasing
 
         for (int rightIdx = 0; rightIdx <= A.length; ++rightIdx) {
-            int item = rightIdx == A.length ? 0 : A[rightIdx];
+            int right = rightIdx == A.length ? 0 : A[rightIdx];
 
-            while (!stack.isEmpty() && A[stack.peek()] > item) {
-                int currentIdx = stack.pop();
+            while (!stack.isEmpty() && A[stack.peek()] > right) {
+                // middle is local maximum, middle > right && middle > left
+                int middleIdx = stack.pop();
                 int leftIdx = stack.isEmpty() ? -1 : stack.peek();
 
-                // since stack is monotonic increasing
-                // leftIdx points to the 1st smaller item on currentIdx's left
-                // rightIdx points to the 1st smaller item on currentIdx's right
+                int min = A[middleIdx];
+                // find the convex 凸 (concave 凹)
+                // right points to the 1st smaller one on middle's right
+                // left points to the 1st smaller one on middle's left
+                // (rightIdx - middleIdx) is the count for continuous right larger item
+                // (middleIdx - leftIdx) is the count for continuous left larger item
+                // middle points to the minimum value between [left + 1, right - 1]
 
-                sumOfMinimums += (rightIdx - currentIdx) * (currentIdx - leftIdx) % MOD * A[currentIdx] % MOD;
-                sumOfMinimums %= MOD;
+                long minSum = (min % MOD) * (middleIdx - leftIdx) * (rightIdx - middleIdx) % MOD;
+                sumOfMinimums = (sumOfMinimums + minSum) % MOD;
             }
 
             stack.push(rightIdx);
         }
 
-        return sumOfMinimums;
+        return (int) sumOfMinimums;
     }
 
     // Brute force, to slow to be accepted
     // Time: O(N^3), Space: O(1)
-    public static int sumSubarrayMins0(int[] A) {
+    public static int sumSubarrayMins3(int[] A) {
         long sumOfMinimums = 0;
 
         for (int startIdx = 0; startIdx < A.length; ++startIdx) {

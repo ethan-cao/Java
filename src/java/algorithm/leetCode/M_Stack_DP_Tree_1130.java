@@ -45,27 +45,29 @@ public class M_Stack_DP_Tree_1130 {
 
     // Stack, 1ms
     // Time: O(N), Space: O(N)
-    public static int mctFromLeafValues2(int[] arr) {
+    public static int mctFromLeafValues1(int[] arr) {
         int smallestSum = 0;
 
         Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
 
-        // since non-leaf_node = left_largest_leaf * right_largest_leaf
+        // non-leaf_node = left_largest_leaf * right_largest_leaf
         // we need smallet_left_largest_leaf and smallest_right_largest_leaf
         // so we have the smallest sum of all non-leaf nodes
-        for (int leaf : arr) {
-            while (!stack.isEmpty() && stack.peek() <= leaf) {
+        for (int rightIdx = 0; rightIdx < arr.length; ++rightIdx) {
+            int right = arr[rightIdx];
+
+            while (!stack.isEmpty() && stack.peek() <= right) {
                 int middle = stack.pop();
-                int left = stack.isEmpty() ? leaf : stack.peek();
+                int left = stack.isEmpty() ? right : stack.peek();
 
                 // left is on middle's left, leaf is on middle's right
                 // left > middle && middle <= leaf
                 // middle is the smallest leaf, just need to find the smaller on amount left and leaf
                 // smallest non-leaf node sum = left_largest_leaf * right_largest_leaf
-                smallestSum += middle * Math.min(left, leaf);
+                smallestSum += middle * Math.min(left, right);
             }
 
-            stack.push(leaf);
+            stack.push(right);
         }
 
         while (stack.size() > 1) { // > 1 because we have a peek() after pop() below
@@ -77,7 +79,7 @@ public class M_Stack_DP_Tree_1130 {
 
     // DP
     // Time O(N^3), Space: O(N^2)
-    public static int mctFromLeafValues(int[] arr) {
+    public static int mctFromLeafValues2(int[] arr) {
         // maxValues[i][j]: max value between arr[i] and arr[j]
         int[][] maxValues = new int[arr.length][arr.length];
 
@@ -125,7 +127,7 @@ public class M_Stack_DP_Tree_1130 {
 
     // Greedy
     // Time: O(N^2)
-    public static int mctFromLeafValues1(int[] arr) {
+    public static int mctFromLeafValues3(int[] arr) {
         int smallestSum = 0;
 
         // LinkedList is faster to remove elements
