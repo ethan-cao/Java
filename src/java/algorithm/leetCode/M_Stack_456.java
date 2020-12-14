@@ -32,7 +32,8 @@ public class M_Stack_456 {
         // stack stores possible values for nums[k]
         Deque<Integer> stack = new ArrayDeque<>();  // monotonic decreasing
 
-        for (int j = nums.length - 1; j >= 0; --j) {
+        // scan from right to left, no need to check j == 0
+        for (int j = nums.length - 1; j > 0; --j) {
             int num = nums[j];  // nums[j]
             int min = mins[j];
 
@@ -43,6 +44,7 @@ public class M_Stack_456 {
 
             // now, there is a i < j, that nums[i] < nums[j]
 
+            // pop until stack.peek() > min, find an element on the right of j that is > min and < num   
             while (!stack.isEmpty() && stack.peek() <= min) {
                 stack.pop();
             }
