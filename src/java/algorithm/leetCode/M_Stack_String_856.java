@@ -31,7 +31,7 @@ public class M_Stack_String_856 {
         System.out.println(scoreOfParentheses1("()(())()(((()(()())))(((())(()))()))(((())))"));  // 88
     }
 
-    // Stack
+    // Stack, 0ms
     // Time: O(N), Space: O(N)
     public static int scoreOfParentheses(String s) {
         int score = 0;
@@ -40,15 +40,15 @@ public class M_Stack_String_856 {
         for (char c : s.toCharArray()) {
             if (c == '(') {
                 stack.push(score);
-                score = 0;
+                score = 0; // start counting score for this parenthesis '(' c
             } else {
-                int previousScore = stack.pop();
-                int currentScore = score  == 0 ? 1 : score * 2;
+                // since S is a balanced, there are 2 possible cases: () or (A)
                 // if score is 0, then we have (), so the score is 1
-                // if score is not 0, then we have (()), so the score is score * 2
+                // if score is not 0, then we have (A), so the score is score * 2
+                int newScore = score == 0 ? 1 : score * 2;
+                int currentScore = stack.pop();
 
-
-                score = currentScore + previousScore;
+                score = newScore + currentScore; // case AB
             }
         }
 

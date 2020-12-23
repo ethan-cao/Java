@@ -43,7 +43,7 @@ public class M_Stack_DP_Tree_1130 {
         }
     }
 
-    // Stack, 1ms
+    // Stack, Extrema, 1ms
     // Time: O(N), Space: O(N)
     public static int mctFromLeafValues1(int[] arr) {
         int smallestSum = 0;
@@ -51,24 +51,26 @@ public class M_Stack_DP_Tree_1130 {
         Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
 
         // non-leaf_node = left_largest_leaf * right_largest_leaf
-        // we need smallet_left_largest_leaf and smallest_right_largest_leaf
+        // we need smallest_left_largest_leaf and smallest_right_largest_leaf
         // so we have the smallest sum of all non-leaf nodes
         for (int rightIdx = 0; rightIdx < arr.length; ++rightIdx) {
-            int right = arr[rightIdx];
+            int rightNum = arr[rightIdx];
 
-            while (!stack.isEmpty() && stack.peek() <= right) {
-                int middle = stack.pop();
-                int left = stack.isEmpty() ? right : stack.peek();
+            while (!stack.isEmpty() && stack.peek() <= rightNum) {
+                // find the concave 凹 (convex 凸)
+                // middleNum is a local minima
+                int middleNum = stack.pop();
+                int leftNum = stack.isEmpty() ? rightNum : stack.peek();
 
-                // left is on middle's left, leaf is on middle's right
-                // left > middle && middle <= leaf
-                // middle is the smallest leaf, just need to find the smaller on amount left and leaf
+                // middleNum is the smallest, just need to find the smaller among leftNum and rightNum
                 // smallest non-leaf node sum = left_largest_leaf * right_largest_leaf
-                smallestSum += middle * Math.min(left, right);
+                smallestSum += middleNum * Math.min(leftNum, rightNum);
             }
 
-            stack.push(right);
+            stack.push(rightNum);
         }
+
+        // now, we sum all local minima leaf, still need to go through the rest leaf
 
         while (stack.size() > 1) { // > 1 because we have a peek() after pop() below
             smallestSum += stack.pop() * stack.peek();

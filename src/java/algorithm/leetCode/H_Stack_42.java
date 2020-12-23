@@ -5,7 +5,6 @@ Given n non-negative integers representing an elevation map where the width of e
 compute how much water it can trap after raining.
 
 ### Example
-https://leetcode.com/problems/trapping-rain-water/
 [4,2,0,3,2,5] -> 9
 
 */
@@ -14,34 +13,35 @@ import java.util.*;
 
 public class H_Stack_42 {
 
+    public static void main(String[] args) {
+        System.out.println(trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
+    }
+
     // Stack, 1ms
     // Time: O(N)
-    public int trap(int[] height) {
+    public static int trap(int[] height) {
         int water = 0;
 
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic descreasing
+        Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
 
-        for (int i = 0; i < height.length; i++) {
-            int right = height[i];
+        for (int rightIdx = 0; rightIdx < height.length; ++rightIdx) {
+            int rightElevation = height[rightIdx];
 
-            while (!stack.isEmpty() && height[stack.peek()] < right) {
-                // find the concave 凹, (convex 凸)
-                // middle is local minimum, middle < right && middle < left
-                int middle = height[stack.pop()];
+            while (!stack.isEmpty() && height[stack.peek()] < rightElevation) {
+                // find the concave 凹 (convex 凸)
+                // middleElevation is a local minimum, middleElevation < rightElevation && middleElevation < leftElevation
+                int middleIdx = stack.pop();
+                int middleElevation = height[middleIdx];
 
-                if (stack.isEmpty()) {
-                    break;
-                }
+                int leftIdx = stack.isEmpty() ? -1 : stack.peek();
+                int leftElevation = leftIdx == -1 ? 0 : height[leftIdx];
 
-                int left = height[stack.peek()];
-
-                int elevation = Math.min(left, right) - middle;
-                int length = i - stack.peek() - 1;
-
+                int elevation = Math.min(leftElevation, rightElevation) - middleElevation;
+                int length = rightIdx - leftIdx - 1;
                 water += elevation * length;
             }
 
-            stack.push(i);
+            stack.push(rightIdx);
         }
 
         return water;

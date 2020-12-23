@@ -162,13 +162,14 @@ public class A_FrequentUse {
 
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
+        int[] newInts1 = Arrays.copyOf(ints, ints.length);
 
-        // reverse array
+        // reverse array or write a short method
         Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
 
         // create array as param on the fly
-        System.out.println(new int[]{1,2,3,});
-        System.out.println(new int[][]{new int[]{1,2,3}});
+        System.out.println(new int[]{1, 2, 3,});
+        System.out.println(new int[][]{new int[]{1, 2, 3}});
     }
 
     static void list() {

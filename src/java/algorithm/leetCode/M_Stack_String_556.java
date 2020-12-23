@@ -24,49 +24,58 @@ public class M_Stack_String_556 {
         System.out.println(nextGreaterElement1(1999999999)); // -1
     }
 
-    // Stack, 1ms
+    // Stack, 0ms, same as 31
     // Time: O(N)
     public static int nextGreaterElement(int n) {
-        char[] digits = String.valueOf(n).toCharArray();
-
-        // check each digit from right to left, find its right-most larger digit
+        char[] nums = String.valueOf(n).toCharArray();
+        int L = nums.length;
+        int leftOnLocalMaxIdx = -1;
         int rightMostLargerIdx = -1;
-        // monotonic increasing from right to left, but decreasing from left to right
-        Deque<Integer> stack = new ArrayDeque<>(); 
+        Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int i = digits.length - 1; i >= 0; --i) {
+        for (int i = L - 1; i >= 0; --i) {
 
-            while (!stack.isEmpty() && digits[stack.peek()] > digits[i] ) {
-                rightMostLargerIdx = stack.pop();
-            }
-
-            if (rightMostLargerIdx != -1) {
-                swap(digits, rightMostLargerIdx, i);
-                Arrays.sort(digits, i + 1, digits.length);
+            if (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+                leftOnLocalMaxIdx = i;
                 break;
             }
 
             stack.push(i);
         }
 
-        if (rightMostLargerIdx == -1) {
+        if (leftOnLocalMaxIdx == -1) {
             return -1;
-        }
+        } else {
+            while (!stack.isEmpty() && nums[stack.peek()] > nums[leftOnLocalMaxIdx]) {
+                rightMostLargerIdx = stack.pop();
+            }
 
-        StringBuilder sb = new StringBuilder();
-        for (char digit: digits) {
-            sb.append(digit);
-        }
-        String s = sb.toString();
+            swap(nums, leftOnLocalMaxIdx, rightMostLargerIdx);
+            reverse(nums, leftOnLocalMaxIdx + 1, L - 1);
 
-        // !!! 32 bit integer
-        return Long.valueOf(s) > Integer.MAX_VALUE ? -1 : Integer.valueOf(s);
+            StringBuilder sb = new StringBuilder();
+            for (char num : nums) {
+                sb.append(num);
+            }
+            String number = sb.toString();
+
+            // !!! 32 bit integer
+            return Long.parseLong(number) > Integer.MAX_VALUE ? -1 : Integer.parseInt(number);
+        }
     }
 
     private static void swap(char[] chars, int i, int j) {
         char temp = chars[i];
         chars[i] = chars[j];
         chars[j] = temp;
+    }
+
+    private static void reverse(char[] nums, int idx1, int idx2) {
+        while (idx1 < idx2) {
+            swap(nums, idx1, idx2);
+            idx1++;
+            idx2--;
+        }
     }
 
     // same as 31 next permutation
