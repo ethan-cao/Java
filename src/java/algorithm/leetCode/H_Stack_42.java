@@ -19,26 +19,44 @@ public class H_Stack_42 {
 
     // Stack, 1ms
     // Time: O(N)
-    public static int trap(int[] height) {
+    public static int trap(int[] heights) {
         int water = 0;
+        final int L = heights.length;
 
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
+        // since we need values just besides the local minima, use monotonic decreasing stack
+        final Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int rightIdx = 0; rightIdx < height.length; ++rightIdx) {
-            int rightElevation = height[rightIdx];
+        for (int rightIdx = 0; rightIdx < L; ++rightIdx) {
+            int rightHeight = heights[rightIdx];
 
-            while (!stack.isEmpty() && height[stack.peek()] < rightElevation) {
+            while (!stack.isEmpty() && heights[stack.peek()] < rightHeight) {
                 // find the concave 凹 (convex 凸)
-                // middleElevation is a local minimum, middleElevation < rightElevation && middleElevation < leftElevation
+                /* the most basic case is
+                             _
+                         _  | |
+                        | |_| |
+                        | | | |
+                      ------------
+                   idx   0 1 2
+                  height 2 1 3
+                  water = (Math.min(2, 3) - 1) * (2 - 0 - 1)
+                 */
                 int middleIdx = stack.pop();
-                int middleElevation = height[middleIdx];
+                int middleHeight = heights[middleIdx];
+                // middleHeight is a local minimum, middleHeight < rightHeight && middleHeight < leftHeight
 
-                int leftIdx = stack.isEmpty() ? -1 : stack.peek();
-                int leftElevation = leftIdx == -1 ? 0 : height[leftIdx];
+                if (stack.isEmpty()) {
+                    continue;
+                }
 
-                int elevation = Math.min(leftElevation, rightElevation) - middleElevation;
-                int length = rightIdx - leftIdx - 1;
-                water += elevation * length;
+                int leftIdx = stack.peek();
+                int leftHeight = heights[leftIdx];
+
+                int height = Math.min(leftHeight, rightHeight) - middleHeight;
+                int width = rightIdx - leftIdx - 1;
+                int area = height * width;
+
+                water += area;
             }
 
             stack.push(rightIdx);

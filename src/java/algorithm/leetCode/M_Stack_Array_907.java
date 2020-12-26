@@ -8,8 +8,8 @@ Since the answer may be large, return the answer modulo 10^9 + 7.
 
 ### Example
 [3,1,2,4] -> 17
-Subarrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4].
-Minimums are   3, 1, 2, 4, 1, 1, 2, 1, 1, 1.
+Sub-arrays are [3], [1], [2], [4], [3,1], [1,2], [2,4], [3,1,2], [1,2,4], [3,1,2,4].
+Minimums are   3,    1,  2,   4,   1,     1,     2,     1,       1,       1.
 Sum is 17
 
 */
@@ -27,30 +27,32 @@ public class M_Stack_Array_907 {
 
     // Stack, Extreme, 23ms
     // Time: O(N), Space: O(N)
-    public static int sumSubarrayMins2(int[] A) {
+    public static int sumSubarrayMins2(int[] nums) {
         long sumOfMinimums = 0;
         final long MOD = (long) (1e9 + 7); // or just 1000000007
+        final int L = nums.length;
 
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic increasing
+        // since we DON NOT need values just besides the local minima, but the local minima to derive the result, use monotonic decreasing stack
+        Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int rightIdx = 0; rightIdx <= A.length; ++rightIdx) {
-            int rightNum = rightIdx == A.length ? 0 : A[rightIdx];
+        for (int rightIdx = 0; rightIdx <= L; ++rightIdx) {
+            int rightNum = rightIdx == L ? 0 : nums[rightIdx];
 
-            while (!stack.isEmpty() && A[stack.peek()] > rightNum) {
-                // find the convex 凸 (concave 凹)
-                // middle is a local maxima, middle > rightNum && middle > left
+            while (!stack.isEmpty() && nums[stack.peek()] > rightNum) {
+                // find the concave 凹 (convex 凸)
                 int middleIdx = stack.pop();
-                int middleNum = A[middleIdx];
-
                 int leftIdx = stack.isEmpty() ? -1 : stack.peek();
 
-                // rightNum points to the 1st smaller one on middle's rightNum
-                // left points to the 1st smaller one on middle's left
-                // (rightIdx - middleIdx) is the count for continuous rightNum larger item
-                // (middleIdx - leftIdx) is the count for continuous left larger item
-                // middle points to the minimum value between [left + 1, rightNum - 1]
+                // rightIdx points to the 1st smaller one on middle's right
+                // leftIdx points to the 1st smaller one on middle's left
+                // (rightIdx - middleIdx) is the count for continuous num that >= middleNum
+                // (middleIdx - leftIdx) is the count for continuous num that >= middleNum
+                // middleIdx points to the minimum value between [leftIdx + 1, rightIdx - 1]
+                int middleNum = nums[middleIdx];
+                int possibleSubArrayFirstItemCount = middleIdx - leftIdx;
+                int possibleSubArrayLastItemCount = rightIdx - middleIdx;
 
-                long minSum = (middleNum % MOD) * (middleIdx - leftIdx) * (rightIdx - middleIdx) % MOD;
+                long minSum = (middleNum % MOD) * possibleSubArrayFirstItemCount * possibleSubArrayLastItemCount % MOD;
                 sumOfMinimums = (sumOfMinimums + minSum) % MOD;
             }
 

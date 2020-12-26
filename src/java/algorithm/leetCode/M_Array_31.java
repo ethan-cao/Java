@@ -21,19 +21,19 @@ import java.util.*;
 public class M_Array_31 {
 
     public static void main(String... args) {
-        int[] nums = { 1, 2, 3 };
+        int[] nums = {1, 2, 3};
         nextPermutation(nums);
         System.out.println(Arrays.toString(nums)); // 1 3 2
 
-        int[] nums1 = { 3, 2, 1 };
+        int[] nums1 = {3, 2, 1};
         nextPermutation(nums1);
         System.out.println(Arrays.toString(nums1)); // 1 2 3
 
-        int[] nums2 = { 2, 3, 1, 3, 3 };
+        int[] nums2 = {2, 3, 1, 3, 3};
         nextPermutation(nums2);
         System.out.println(Arrays.toString(nums2)); // 2,3,3,1,3
 
-        int[] nums3 = { 1, 4, 6, 66, 23, 21, 0 };
+        int[] nums3 = {1, 4, 6, 66, 23, 21, 0};
         nextPermutation(nums3);
         System.out.println(Arrays.toString(nums3)); // 1,4,21,0,6,23,66
     }
@@ -55,7 +55,9 @@ public class M_Array_31 {
 
         // from right to left, find the first local maximum's left idx
         for (int i = L - 1; i >= 0; --i) {
-            if (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+            int num = nums[i];
+
+            if (!stack.isEmpty() && nums[stack.peek()] > num) {
                 leftOnLocalMaxIdx = i;
                 break;
             }

@@ -34,8 +34,9 @@ public class M_Stack_String_556 {
         Deque<Integer> stack = new ArrayDeque<>();
 
         for (int i = L - 1; i >= 0; --i) {
+            int num = nums[i];
 
-            if (!stack.isEmpty() && nums[stack.peek()] > nums[i]) {
+            if (!stack.isEmpty() && nums[stack.peek()] > num) {
                 leftOnLocalMaxIdx = i;
                 break;
             }
