@@ -17,8 +17,6 @@ The order of elements can be changed. It doesn't matter what you leave beyond th
 with the first five elements of nums containing 0, 1, 3, 0, and 4.
 Note that the order of those five elements can be arbitrary.
 
-// R : 1
-
  */
 public class E_2Pointer_Array_27 {
 

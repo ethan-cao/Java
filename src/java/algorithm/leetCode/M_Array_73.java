@@ -40,44 +40,46 @@ public class M_Array_73 {
     }
 
     // 1ms
+    // Time: O(N^2)  Space: O(N)
     public static void setZeroes(int[][] matrix) {
         boolean isFirstRowClean = false;
         boolean isFirstColClean = false;
 
-        int ROW_SIZE = matrix.length;
-        int COL_SIZE = matrix[0].length;
+        int M = matrix.length;
+        int N = matrix[0].length;
 
-        for (int row = 0; row < ROW_SIZE; ++row) {
-            for (int col = 0; col < COL_SIZE; ++col) {
-                if (matrix[row][col] == 0) {
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (matrix[y][x] == 0) {
 
-                    isFirstRowClean = row == 0 ? true : isFirstRowClean;
-                    isFirstColClean = col == 0 ? true : isFirstColClean;
+                    isFirstRowClean = y == 0 || isFirstRowClean;
+                    isFirstColClean = x == 0 || isFirstColClean;
 
                     // use 1st row and 1st column to indicate the that row / column should be cleaned
-                    matrix[0][col] = 0;
-                    matrix[row][0] = 0;
+                    matrix[0][x] = 0;
+                    matrix[y][0] = 0;
                 }
             }
         }
+
         // set zero, except 1st row and 1st column
-        for (int row = 1; row < ROW_SIZE; ++row) {
-            for (int col = 1; col < COL_SIZE; ++col) {
-                if (matrix[row][0] == 0 || matrix[0][col] == 0) {
-                    matrix[row][col] = 0;
+        for (int y = 1; y < M; ++y) {
+            for (int x = 1; x < N; ++x) {
+                if (matrix[y][0] == 0 || matrix[0][x] == 0) {
+                    matrix[y][x] = 0;
                 }
             }
         }
 
         if (isFirstRowClean) {
-            for (int col = 0; col < COL_SIZE; ++col) {
-                matrix[0][col] = 0;
+            for (int x = 0; x < N; ++x) {
+                matrix[0][x] = 0;
             }
         }
 
         if (isFirstColClean) {
-            for (int row = 0; row < ROW_SIZE; ++row) {
-                matrix[row][0] = 0;
+            for (int y = 0; y < M; ++y) {
+                matrix[y][0] = 0;
             }
         }
     }

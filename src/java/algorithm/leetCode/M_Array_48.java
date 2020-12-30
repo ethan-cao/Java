@@ -30,7 +30,6 @@ rotate the input matrix in-place such that it becomes:
   [16, 7,10,11] ]
 */
 
-
 import java.util.Arrays;
 
 public class M_Array_48 {
@@ -49,33 +48,72 @@ public class M_Array_48 {
                 {15, 14, 12, 16}
         };
 
-        rotate1(matrix1);
+        rotate_antiClock(matrix1);
 
         for (int[] merge : matrix1) {
             System.out.println(Arrays.toString(merge));
         }
     }
 
-    // time : O(N^2)
-    public static void rotate(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return;
+    // Time: O(N^2), 0ms
+    public static void rotate1(int[][] matrix) {
+        final int N = matrix.length;
+
+        // rotate ring by ring
+        for (int i = 0; i < N / 2; ++i) {
+            for (int j = i; j < N - 1 - i; ++j) {
+                rotate(matrix, i, j);
+            }
         }
+    }
 
-        int L = matrix.length;
+    private static void rotate(int[][] matrix, int i, int j) {
+        final int N = matrix.length;
 
-        // transpose matrix : A[i][j] = A[j][i]
-        for (int i = 0; i < L; ++i) {
-            for (int j = 0; j <= i; ++j) {
+        // infer the 3 location based on [i, j]
+        int temp = matrix[i][j];
+        matrix[i][j] = matrix[N - 1 - j][i];
+        matrix[N - 1 - j][i] = matrix[N - 1 - i][N - 1 - j];
+        matrix[N - 1 - i][N - 1 - j] = matrix[j][N - 1 - i];
+        matrix[j][N - 1 - i] = temp;
+    }
+
+    // Time: O(N^2), 0ms
+    // works for N*N matrix
+    public static void rotate(int[][] matrix) {
+        final int N = matrix.length;
+
+        // transpose
+        for (int i = 0; i < N; ++i) {
+            for (int j = i; j < N; ++j) {
                 swap(matrix, i, j, j, i);
             }
         }
 
-        // flip matrix horizontally
-        // flip matrix vertically, for anticlockwise rotation,
-        for (int i = 0; i < L; ++i) {
-            for (int j = 0; j < L / 2; ++j) {
-                swap(matrix, i, j, i, L - 1 - j);
+        // reverse each row
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < N / 2; ++j) {
+                swap(matrix, i, j, i, N - j - 1);
+            }
+        }
+    }
+
+    // Time: O(N^2)
+    // works for N*N matrix
+    public static void rotate_antiClock(int[][] matrix) {
+        final int N = matrix.length;
+
+        // reverse each row
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < N / 2; ++j) {
+                swap(matrix, i, j, i, N - j - 1);
+            }
+        }
+
+        // transpose
+        for (int i = 0; i < N; ++i) {
+            for (int j = i; j < N; ++j) {
+                swap(matrix, i, j, j, i);
             }
         }
     }
@@ -84,34 +122,6 @@ public class M_Array_48 {
         int temp = matrix[x1][y1];
         matrix[x1][y1] = matrix[x2][y2];
         matrix[x2][y2] = temp;
-    }
-
-    // https://leetcode.com/problems/rotate-image/discuss/18895/Clear-Java-solution/152227
-    public static void rotate1(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return;
-        }
-
-        int L = matrix.length;
-
-        // iterate half row
-        for (int i = 0; i < L / 2; ++i) {
-            // iterate half column
-            for (int j = i; j < L - 1 - i; ++j) {
-                rotate(matrix, i, j);
-            }
-        }
-    }
-
-    // !!! Practice repeatedly to have better 2D array comprehension
-    private static void rotate(int[][] matrix, int i, int j) {
-        int L = matrix.length;
-
-        int temp = matrix[i][j];
-        matrix[i][j] = matrix[L - 1 - j][i];
-        matrix[L - 1 - j][i] = matrix[L - 1 - i][L - 1 - j];
-        matrix[L - 1 - i][L - 1 - j] = matrix[j][L - 1 - i];
-        matrix[j][L - 1 - i] = temp;
     }
 
 }

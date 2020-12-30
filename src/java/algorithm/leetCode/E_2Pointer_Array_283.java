@@ -4,26 +4,9 @@ package algorithm.leetCode;
 Given an array nums, write a function to move all 0's to
 the end of it while maintaining the relative order of the non-zero elements.
 
-### Input
-int[]
-
-### Output
-int[]
-
 ### Example
 [0,1,0,3,12] -> [1,3,12,0,0]
 
-### Condition
-You must do this in-place without making a copy of the array.
-Minimize the total number of operations.
-
-### Essential problem
-
-
-### Corner case
-input = null
-input = {}
-input = {0}
 */
 
 import java.util.Arrays;

@@ -22,7 +22,7 @@ Output: 6
 
 public class M_Stack_85 {
 
-    // 7ms
+    // 4ms
     public int maximalRectangle(char[][] matrix) {
         int maxArea = 0;
         
@@ -35,13 +35,15 @@ public class M_Stack_85 {
         
         int[] heights = new int[N]; 
         
-        for (int row = 0; row < M; ++row) {
-            for(int col = 0; col < N; ++col) {
-                char element = matrix[row][col];
-                heights[col] = element == '1' ? heights[col] + 1 : 0;
+        for (int y = 0; y < M; ++y) {
+            for(int x = 0; x < N; ++x) {
+                char cell = matrix[y][x];
+
+                heights[x] = cell == '1' ? heights[x] + 1 : 0;
             }
-      
-            maxArea = Math.max(maxArea, M_Stack_84.largestRectangleArea(heights));
+
+            int area = M_Stack_84.largestRectangleArea(heights);
+            maxArea = Math.max(maxArea, area);
         }
         
         return maxArea;

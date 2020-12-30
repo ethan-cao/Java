@@ -27,7 +27,6 @@ There are two ways to reach the bottom-right corner:
 1. Right -> Right -> Down -> Down
 2. Down -> Down -> Right -> Right
 
-Related :  64, 63
 */
 
 public class M_DP_63 {
@@ -52,7 +51,7 @@ public class M_DP_63 {
         System.out.println(uniquePathsWithObstacles1(obstacleGrid2)); // 1
     }
 
-    // DP, recursive, TLE
+    // DP, recursive, Too slow
     public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
         if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0][0] == 1) {
             return 0;
