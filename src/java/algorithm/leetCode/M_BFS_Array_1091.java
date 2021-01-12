@@ -33,54 +33,55 @@ public class M_BFS_Array_1091 {
         System.out.println(shortestPathBinaryMatrix(new int[][]{{0, 0, 0}, {1, 1, 0}, {1, 1, 0}})); // 4
     }
 
+    private static final int[][] DIRECTIONS = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, -1}, {-1, 1}, {-1, -1}, {1, 1}};
+    private static final int EMPTY = 0;
+    private static final int BLOCKED = 1;
 
-    // DFS requires trying every possible path to the end
-    // which needs to mark a cell as unvisited after recurring the neighbors (after the for-loop)
-    // doing this in this problem would lead to TLE.
-    // 'shortest' in path problem, dfs should be out of consideration.
-    // Think about what djkstra's algo solves and remind yourself whether it is bfs or dfs
-
-    // BFS, 16ms
-    // Time O(), Space: O()
+    // BFS, 15s
+    // Time O(N*N), Space: O(N^N)
     public static int shortestPathBinaryMatrix(int[][] grid) {
-        int N = grid.length;
-        int START = grid[0][0];
-        int END = grid[N - 1][N - 1];
+        final int N = grid.length;
+        final int start = 0;
+        final int end = N - 1;
 
-        if (START == 1 || END == 1) {
+        if (grid[start][start] == BLOCKED || grid[end][end] == BLOCKED) {
             return -1;
         }
 
-        int shortestPath = 0;
-        int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, -1}, {-1, 1}, {-1, -1}, {1, 1}};
-        boolean[][] visited = new boolean[N][N];
-        Deque<int[]> queue = new ArrayDeque<>();
+        int shortestPath = 0;  // !!! initialized with 0
 
-        queue.offer(new int[]{0, 0});  // start (0, 0)
-        visited[0][0] = true;
+        Deque<int[]> queue = new ArrayDeque<>();
+        boolean[][] visited = new boolean[N][N]; // alternative, use -1 to mark visited
+
+        queue.offer(new int[]{start, start});
+        visited[start][start] = true;
 
         while (!queue.isEmpty()) {
             int size = queue.size();
 
             for (int i = 0; i < size; ++i) {
-                int[] current = queue.poll();
-                int x = current[0];
-                int y = current[1];
+                int[] position = queue.poll();
+                int y = position[0];
+                int x = position[1];
 
-                if (x == N - 1 && y == N - 1) {
+                if (y == end && x == end) {
                     return shortestPath + 1;
                 }
 
-                for (int[] direction : directions) {
-                    int nextX = x + direction[0];
-                    int nextY = y + direction[1];
+                for (int[] direction : DIRECTIONS) {
+                    int nextY = y + direction[0];
+                    int nextX = x + direction[1];
 
-                    if (nextX < 0 || nextX >= N || nextY < 0 || nextY >= N || visited[nextX][nextY] || grid[nextX][nextY] == 1) {
+                    if (nextY < 0 || nextY >= N || nextX < 0 || nextX >= N ) {
                         continue;
                     }
 
-                    queue.offer(new int[]{nextX, nextY});
-                    visited[nextX][nextY] = true;
+                    if (grid[nextY][nextX] == BLOCKED || visited[nextY][nextX]) {
+                        continue;
+                    }
+
+                    queue.offer(new int[]{nextY, nextX});
+                    visited[nextY][nextX] = true;
                 }
             }
 
@@ -90,4 +91,13 @@ public class M_BFS_Array_1091 {
         return -1;
     }
 
+    // DFS requires trying every possible path to the end
+    // which needs to mark a cell as unvisited after recurring the neighbors (after the for-loop)
+    // doing this in this problem would lead to TLE.
+    // 'shortest' in path problem, dfs should be out of consideration.
+    // Think about what djkstra's algo solves and remind yourself whether it is bfs or dfs
+
+
+    // A* search
+    // https://leetcode.com/problems/shortest-path-in-binary-matrix/discuss/313347/A*-search-in-Python
 }

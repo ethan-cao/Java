@@ -10,7 +10,7 @@ isLeaf is true if and only if the node is a leaf node.
 The val attribute for a leaf node contains the value of the region it represents.
 
 Your task is to use a quad tree to represent a given grid.
-N is less than 1000 and guaranteened to be a power of 2.
+N is less than 1000 and guaranteed to be a power of 2.
 
 ### Example
 https://leetcode.com/problems/construct-quad-tree/
@@ -19,13 +19,22 @@ https://leetcode.com/problems/construct-quad-tree/
 
 public class M_Tree_427 {
 
-    class Node {
+    static class Node {
         public boolean val;
         public boolean isLeaf;
         public Node topLeft;
         public Node topRight;
         public Node bottomLeft;
         public Node bottomRight;
+
+        public Node() {
+            this.val = false;
+            this.isLeaf = false;
+            this.topLeft = null;
+            this.topRight = null;
+            this.bottomLeft = null;
+            this.bottomRight = null;
+        }
 
         public Node(boolean _val, boolean _isLeaf, Node _topLeft, Node _topRight, Node _bottomLeft, Node _bottomRight) {
             val = _val;
@@ -37,47 +46,52 @@ public class M_Tree_427 {
         }
     }
 
+    // DFS, 0ms
     // Time: O(N^2), 0ms
-    public Node construct(int[][] grid) {
-        return constructSubTree(0, 0, grid.length, grid);
+        public Node construct(int[][] grid) {
+        final int N = grid.length;
+        Node root = new Node();
+
+        build(root, grid, 0, N-1, 0, N-1);
+
+        return root;
     }
 
-    private Node constructSubTree(int x, int y, int N, int[][] grid) {
-        boolean value = false;
-        boolean isLeft = false;
-        Node topLeft = null;
-        Node topRight = null;
-        Node bottomLeft = null;
-        Node bottomRight = null;
-
-        int identicalValue = getIdenticalValue(x, y, N, grid);
-
-        if (identicalValue == -1) {
-            topLeft = constructSubTree(x, y, N / 2, grid);
-            topRight = constructSubTree(x, y + N / 2, N / 2, grid);
-            bottomLeft = constructSubTree(x + N / 2, y, N / 2, grid);
-            bottomRight = constructSubTree(x + N / 2, y + N / 2, N / 2, grid);
-        } else {
-            isLeft = true;
-            value = identicalValue == 1;
+    private void build(Node node, int[][] matrix, int startY, int endY, int startX, int endX) {
+        if (isLeaf(matrix, startY, endY, startX, endX)) {
+            node.isLeaf = true;
+            node.val = matrix[startY][startX] == 1;
+            return;
         }
 
-        return new Node(value, isLeft, topLeft, topRight, bottomLeft, bottomRight);
+        node.isLeaf = false;
+        node.val = false;
+        node.topLeft = new Node();
+        node.topRight = new Node();
+        node.bottomLeft = new Node();
+        node.bottomRight= new Node();
+
+        int verticalMiddle = startY + (endY - startY) / 2;
+        int horizontalMiddle = startX + (endX - startX) / 2;
+
+        build(node.topLeft, matrix, startY, verticalMiddle, startX, horizontalMiddle);
+        build(node.topRight, matrix, startY, verticalMiddle, horizontalMiddle + 1, endX);
+        build(node.bottomLeft, matrix, verticalMiddle + 1, endY, startX, horizontalMiddle);
+        build(node.bottomRight, matrix, verticalMiddle + 1, endY, horizontalMiddle + 1, endX);
     }
 
-    private int getIdenticalValue(int x, int y, int N, int[][] grid) {
-        int identicalValue = grid[x][y];
+    private boolean isLeaf(int[][] matrix, int startY, int endY, int startX, int endX) {
+        int val =  matrix[startY][startX];
 
-        for (int i = x; i < x + N; ++i) {
-            for (int j = y; j < y + N; ++j) {
-                if (grid[i][j] != identicalValue) {
-                    return -1; // since grid contains only 1 and 0, return -1 if there is different value
+        for (int y = startY; y <= endY; ++y ) {
+            for (int x = startX; x <= endX; ++x ) {
+                if (matrix[y][x] != val) {
+                    return false;
                 }
             }
         }
 
-        return identicalValue;
+        return true;
     }
-
 }
 

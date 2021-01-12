@@ -5,19 +5,12 @@ Given a 2D binary matrix filled with 0's and 1's,
 find the largest square containing only 1's and return its area.
 
 ### Example
-Input:
-
 1 0 1 0 0
 1 0 1 1 1
 1 1 1 1 1
-1 0 0 1 0
-
-Output: 4
-
-Related : 85
+1 0 0 1 0  -> 4
 
 */
-
 
 public class M_DP_Array_221 {
 
@@ -36,38 +29,37 @@ public class M_DP_Array_221 {
         System.out.println(maximalSquare(matrix1));  // 4
     }
 
-    // DP, https://youtu.be/vkFUB--OYy0?t=1110
+    // DP, 5ms
+    // Time: O(N^2)
     public static int maximalSquare(char[][] matrix) {
-        if (matrix.length == 0) {
-            return 0;
-        }
+        final int M = matrix.length;
+        final int N = matrix[0].length;
 
-        // localMaxSquareSideLength[i][j] represents edge side of max square that ends in matrix[i][j]
-        int[][] localMaxSquareSideLength = new int[matrix.length][matrix[0].length];
-        int maxEdge = 0;
+        // squareLength[i][j] : number of edge of square that ends in matrix[y][x]
+        int[][] squareLength = new int[M][N];
+        int maxSquareLength = 0;
 
         // TODO optimization
-        // Actually each time when we update localMaxSquareSideLength[i][j],
-        // we only need localMaxSquareSideLength[i-1][j-1], localMaxSquareSideLength[i-1][j] and localMaxSquareSideLength[i][j-1]
+        // Actually each time when we update squareLength[i][j],
+        // we only need squareLength[i-1][j-1], squareLength[i-1][j] and squareLength[i][j-1]
         // So we may just keep two rows, the current and the previous row
 
-        for (int i = 0; i < matrix.length; ++i) {
-            for (int j = 0; j < matrix[0].length; ++j) {
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
 
-                if (i == 0 || j == 0) {
-                    localMaxSquareSideLength[i][j] = matrix[i][j] == '1' ? 1 : 0;
-                } else if (matrix[i][j] == '0') {
-                    localMaxSquareSideLength[i][j] = 0;
+                if (y == 0 || x == 0) {
+                    squareLength[y][x] = matrix[y][x] == '1' ? 1 : 0;
+                } else if (matrix[y][x] == '0') {
+                    squareLength[y][x] = 0;
                 } else {
-                    localMaxSquareSideLength[i][j] = Math.min(localMaxSquareSideLength[i - 1][j - 1], Math.min(localMaxSquareSideLength[i - 1][j], localMaxSquareSideLength[i][j - 1])) + 1;
+                    squareLength[y][x] = Math.min(squareLength[y - 1][x - 1], Math.min(squareLength[y - 1][x], squareLength[y][x - 1])) + 1;
                 }
 
-                maxEdge = Math.max(localMaxSquareSideLength[i][j], maxEdge);
+                maxSquareLength = Math.max(squareLength[y][x], maxSquareLength);
             }
         }
 
-        return maxEdge * maxEdge;
+        return maxSquareLength * maxSquareLength;
     }
-
 
 }

@@ -56,14 +56,17 @@ public class M_DFS_UnionFind_200 {
     public static int numIslands2(char[][] grid) {
         int islandCount = 0;
 
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
+        final int M = grid.length;
+        final int N = grid[0].length;
 
-                if (grid[i][j] == WATER) {
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+
+                if (grid[y][x] == WATER) {
                     continue;
                 }
 
-                checkSurrounding(grid, i, j);
+                checkSurrounding(grid, y, x, M, N);
                 islandCount++;
             }
         }
@@ -71,19 +74,20 @@ public class M_DFS_UnionFind_200 {
         return islandCount;
     }
 
-    private static void checkSurrounding(char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
+    private static void checkSurrounding(char[][] grid, int y, int x, int M, int N) {
+        if (y < 0 || y >= M || x < 0 || x >= N) {
             return;
         }
 
-        if (grid[i][j] == WATER) {
+        if (grid[y][x] == WATER) {
             return;
         }
 
-        grid[i][j] = WATER;
+        // mark the visited one, so won't visit again
+        grid[y][x] = WATER;
 
         for (int[] direction : DIRECTIONS) {
-            checkSurrounding(grid, i + direction[0], j + direction[1]);
+            checkSurrounding(grid, y + direction[0], x + direction[1], M, N);
         }
     }
 
@@ -92,7 +96,7 @@ public class M_DFS_UnionFind_200 {
         return 1;
     }
 
-    // Union Find
+    // Union Find, 29ms
     public static int numIslands(char[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return 0;

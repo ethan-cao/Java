@@ -2,7 +2,7 @@ package algorithm.leetCode;
 
 /*
 Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
-The distance between two adjacent cells is 1.
+The distance between two adjacent cells is 1. (Manhattan distance)
 
 the number of elements of the given matrix will not exceed 10,000.
 There are at least one 0 in the given matrix.
@@ -36,13 +36,12 @@ public class M_BFS_Array_542 {
     public int[][] updateMatrix(int[][] matrix) {
         int M = matrix.length;
         int N = M == 0 ? 0 : matrix[0].length;
+
         int range = M * N;
         int[][] distances = new int[M][N];
 
-        for (int i = 0; i < distances.length; i++) {
-            for (int j = 0; j < distances[i].length; j++) {
-                distances[i][j] = Integer.MAX_VALUE;
-            }
+        for (int[] distance : distances) {
+            Arrays.fill(distance, Integer.MAX_VALUE);
         }
 
         // Left -> Right, Top down scan
@@ -70,43 +69,50 @@ public class M_BFS_Array_542 {
                 }
             }
         }
+
         return distances;
     }
 
     // BFS, 17ms
     // Time O(), Space: O()
     public int[][] updateMatrix1(int[][] matrix) {
-        int M = matrix.length;
-        int N = M == 0 ? 0 : matrix[0].length;
+        final int M = matrix.length;
+        final int N = M == 0 ? 0 : matrix[0].length;
         int[][] distances = new int[M][N];
-        boolean[][] visited = new boolean[M][N];
-        int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        Deque<int[]> queue = new ArrayDeque<>();
 
-        for (int i = 0; i < M; ++i) {
-            for (int j = 0; j < N; ++j) {
-                if (matrix[i][j] == 0) {
-                    queue.offer(new int[]{i, j});
-                    visited[i][j] = true;
+//        int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+        Deque<int[]> queue = new ArrayDeque<>();
+        boolean[][] hasDistance = new boolean[M][N];
+
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (matrix[y][x] == 0) {
+                    queue.offer(new int[]{y, x});
+                    hasDistance[y][x] = true;
                 }
             }
         }
 
-        // BFS starting from each 0 cell
         while (!queue.isEmpty()) {
-            int[] cell = queue.poll();
+            int[] position = queue.poll();
+            int y = position[0];
+            int x = position[1];
 
             for (int[] direction : directions) {
-                int newX = cell[0] + direction[0];
-                int newY = cell[1] + direction[1];
+                int nextY = y + direction[0];
+                int nextX = x + direction[1];
 
-                if (newX < 0 || newX >= M || newY < 0 || newY >= N || visited[newX][newY]) {
+                if (nextY < 0 || nextY >= M || nextX < 0 || nextX >= N || hasDistance[nextY][nextX]) {
                     continue;
                 }
 
-                visited[newX][newY] = true;
-                distances[newX][newY] = distances[cell[0]][cell[1]] + 1;
-                queue.offer(new int[]{newX, newY});
+                // calculate distance to any valid adjacent cells of a cell that already has distance
+                distances[nextY][nextX] = distances[y][x] + 1;
+
+                queue.offer(new int[]{nextY, nextX});
+                hasDistance[nextY][nextX] = true;
             }
         }
 

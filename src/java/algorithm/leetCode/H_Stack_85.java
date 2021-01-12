@@ -20,9 +20,9 @@ Output: 6
 [["0"]] -> 0
 */
 
-public class M_Stack_85 {
+public class H_Stack_85 {
 
-    // 4ms
+    // Stack, 4ms
     public int maximalRectangle(char[][] matrix) {
         int maxArea = 0;
         

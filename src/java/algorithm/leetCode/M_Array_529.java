@@ -19,8 +19,9 @@ Return the board when no more squares will be revealed.
 ### Example
 https://leetcode.com/problems/minesweeper/
 
-
  */
+
+import java.util.*;
 
 public class M_Array_529 {
 
@@ -29,57 +30,105 @@ public class M_Array_529 {
     private final char MINE = 'X';
     private final char BLANK = 'B';
 
-    private final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+    private final int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
 
+    // DFS, 0ms
     private char[][] updateBoard(char[][] board, int[] click) {
-        char toBeRevealed = board[click[0]][click[1]];
+        int y = click[0];
+        int x = click[1];
+        char cell = board[y][x];
 
-        if (toBeRevealed == UNREVEALED_MINE) {
-            board[click[0]][click[1]] = MINE;
-        } else if (toBeRevealed == UNREVEALED_EMPTY) {
-            checkSurroundings(board, click[0], click[1]);
+        if (cell == UNREVEALED_MINE) {
+            board[y][x] = MINE;
+        } else if (cell == UNREVEALED_EMPTY) {
+            revealAdjacentBlank(board, y, x);
         }
 
         return board;
     }
 
-    // check UNREVEALED_EMPTY block
-    private void checkSurroundings(char[][] board, int x, int y) {
-        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length || board[x][y] != UNREVEALED_EMPTY) {
+    private void revealAdjacentBlank(char[][] board, int y, int x) {
+        if (y < 0 || y >= board.length || x < 0 || x >= board[0].length) {
             return;
         }
 
-        int mineCount = countSurroundingMine(board, x, y);
+        if (board[y][x] != UNREVEALED_EMPTY) {
+            return;
+        }
 
-        if (mineCount > 0) {
-            board[x][y] = (char) ('0' + mineCount);  // !!! convert int to char
-        } else {
-            board[x][y] = BLANK;
+        int mineCount = countSurroundingMine(board, y, x);
 
-            for (int[] vector : DIRECTIONS) {
-                checkSurroundings(board, x + vector[0], y + vector[1]);
-            }
+        if (mineCount != 0) {
+            board[y][x] = (char) ('0' + mineCount);
+            return;
+        }
+
+        board[y][x] = BLANK;
+
+        for (int[] direction : directions) {
+            revealAdjacentBlank(board, y + direction[0], x + direction[1]);
         }
     }
 
-    private int countSurroundingMine(char[][] board, int x, int y) {
-        int mineCount = 0;
+    private int countSurroundingMine(char[][] board, int y, int x) {
+        int count = 0;
 
-        for (int i = x - 1; i <= x + 1; i++) {
-            for (int j = y - 1; j <= y + 1; j++) {
-                if (0 <= i && i < board.length && 0 <= j && j < board[0].length && board[i][j] == UNREVEALED_MINE)
-                    mineCount++;
+        for (int i = y - 1; i <= y + 1; i++) {
+            for (int j = x - 1; j <= x + 1; j++) {
+                if (0 <= i && i < board.length && 0 <= j && j < board[0].length && board[i][j] == UNREVEALED_MINE) {
+                    count++;
+                }
             }
         }
 
-        return mineCount;
+        return count;
     }
 
-    // BFS
-    // Time: O(N)
+    // BFS, 3ms
     private char[][] updateBoard1(char[][] board, int[] click) {
+        final int M = board.length;
+        final int N = board[0].length;
 
+        Deque<int[]> queue = new ArrayDeque<>();
+        queue.offer(click);
+
+        while (!queue.isEmpty()) {
+            int[] position = queue.poll();
+            int y = position[0];
+            int x = position[1];
+            char cell = board[y][x];
+
+            if (cell == UNREVEALED_MINE) {
+                board[y][x] = MINE;
+            } else if (cell == UNREVEALED_EMPTY) {
+                int mineCount = countSurroundingMine(board, y, x);
+
+                if (mineCount == 0) {
+                    board[y][x] = BLANK;
+
+                    for (int[] direction : directions) {
+                        int nextY = y + direction[0];
+                        int nextX = x + direction[1];
+
+                        if (nextY < 0 || nextY >= M || nextX < 0 || nextX >= N) {
+                            continue;
+                        }
+
+                        char nextCell = board[nextY][nextX];
+
+                        if (nextCell != UNREVEALED_EMPTY) {
+                            continue;
+                        }
+
+                        queue.offer(new int[]{nextY, nextX});
+                    }
+                } else {
+                    board[y][x] = (char) ('0' + mineCount);
+                }
+            }
+        }
 
         return board;
     }
+
 }
