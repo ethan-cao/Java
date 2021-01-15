@@ -1,8 +1,6 @@
 package algorithm.problem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * https://en.wikipedia.org/wiki/Knapsack_problem

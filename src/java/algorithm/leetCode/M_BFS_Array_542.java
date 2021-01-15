@@ -74,17 +74,16 @@ public class M_BFS_Array_542 {
     }
 
     // BFS, 17ms
-    // Time O(), Space: O()
+    // Time O(M*N), Space: O()
     public int[][] updateMatrix1(int[][] matrix) {
         final int M = matrix.length;
         final int N = M == 0 ? 0 : matrix[0].length;
-        int[][] distances = new int[M][N];
 
-//        int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         int[][] directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-        Deque<int[]> queue = new ArrayDeque<>();
+        int[][] distances = new int[M][N];
         boolean[][] hasDistance = new boolean[M][N];
+        Deque<int[]> queue = new ArrayDeque<>();
 
         for (int y = 0; y < M; ++y) {
             for (int x = 0; x < N; ++x) {
@@ -104,7 +103,11 @@ public class M_BFS_Array_542 {
                 int nextY = y + direction[0];
                 int nextX = x + direction[1];
 
-                if (nextY < 0 || nextY >= M || nextX < 0 || nextX >= N || hasDistance[nextY][nextX]) {
+                if (nextY < 0 || nextY >= M || nextX < 0 || nextX >= N) {
+                    continue;
+                }
+
+                if (hasDistance[nextY][nextX]) {
                     continue;
                 }
 

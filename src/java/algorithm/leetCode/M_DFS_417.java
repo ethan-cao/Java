@@ -11,14 +11,13 @@ The order of returned grid coordinates does not matter.
 Both m and n are less than 150.
 
 ### Example
-Given the following 5x5 matrix:
-  Pacific ~   ~   ~   ~   ~
-       ~  1   2   2   3  (5) *
-       ~  3   2   3  (4) (4) *
-       ~  2   4  (5)  3   1  *
-       ~ (6) (7)  1   4   5  *
-       ~ (5)  1   1   2   4  *
-          *   *   *   *   * Atlantic
+  Pacific  ~   ~   ~   ~   ~
+        ~  1   2   2   3  (5) *
+        ~  3   2   3  (4) (4) *
+        ~  2   4  (5)  3   1  *
+        ~ (6) (7)  1   4   5  *
+        ~ (5)  1   1   2   4  *
+           *   *   *   *   *  Atlantic
 Return: [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (positions with parentheses in above matrix).
 
 */
@@ -54,13 +53,13 @@ public class M_DFS_417 {
         boolean[][] canFlowToAtlantic = new boolean[M][N];
 
         for (int y = 0; y < M; ++y) {
-            flow(matrix, y, 0, Integer.MIN_VALUE, canFlowToPacific);       // first row
-            flow(matrix, y, N - 1, Integer.MIN_VALUE, canFlowToAtlantic);  // last row
+            flow(matrix, y, 0, Integer.MIN_VALUE, canFlowToPacific);       // first column
+            flow(matrix, y, N - 1, Integer.MIN_VALUE, canFlowToAtlantic);  // last column
         }
 
         for (int x = 0; x < N; ++x) {
-            flow(matrix, 0, x, Integer.MIN_VALUE, canFlowToPacific);       // first column
-            flow(matrix, M - 1, x, Integer.MIN_VALUE, canFlowToAtlantic);  // last column
+            flow(matrix, 0, x, Integer.MIN_VALUE, canFlowToPacific);       // first row
+            flow(matrix, M - 1, x, Integer.MIN_VALUE, canFlowToAtlantic);  // last row
         }
 
         for (int y = 0; y < M; ++y) {
@@ -81,7 +80,6 @@ public class M_DFS_417 {
             return;
         }
 
-
         int height = matrix[y][x];
 
         if (canFlow[y][x] || height < previousHeight) {
@@ -95,7 +93,7 @@ public class M_DFS_417 {
         }
     }
 
-    // BFS (Graph), 10ms
+    // BFS, 10ms
     public List<List<Integer>> pacificAtlantic2(int[][] matrix) {
         List<List<Integer>> result = new ArrayList<>();
 
@@ -107,35 +105,40 @@ public class M_DFS_417 {
         final int N = matrix[0].length;
 
         boolean[][] canFlowToPacific = new boolean[M][N];
-        boolean[][] canFlowToAtlantic = new boolean[M][N];
-
         Deque<int[]> pacificCells = new ArrayDeque<>();
+
+        boolean[][] canFlowToAtlantic = new boolean[M][N];
         Deque<int[]> AtlanticCells = new ArrayDeque<>();
 
         for (int y = 0; y < M; ++y) {
             canFlowToPacific[y][0] = true;
+            pacificCells.offer(new int[]{y, 0});
+
             canFlowToAtlantic[y][N - 1] = true;
-            pacificCells.add(new int[]{y, 0});
-            AtlanticCells.add(new int[]{y, N - 1});
+            AtlanticCells.offer(new int[]{y, N - 1});
         }
 
         for (int x = 1; x < N; ++x) {
             canFlowToPacific[0][x] = true;
+            pacificCells.offer(new int[]{0, x});
+
             canFlowToAtlantic[M - 1][x - 1] = true;
-            pacificCells.add(new int[]{0, x});
-            AtlanticCells.add(new int[]{M - 1, x - 1});
+            AtlanticCells.offer(new int[]{M - 1, x - 1});
         }
 
         while (pacificCells.size() > 0) {
             int[] cell = pacificCells.poll();
 
             for (int[] neighbour : getNeighbors(cell, matrix, M, N)) {
-                if (canFlowToPacific[neighbour[0]][neighbour[1]]) {
+                int y = neighbour[0];
+                int x = neighbour[1];
+
+                if (canFlowToPacific[y][x]) {
                     continue;
                 }
 
-                canFlowToPacific[neighbour[0]][neighbour[1]] = true;
-                pacificCells.add(new int[]{neighbour[0], neighbour[1]});
+                canFlowToPacific[y][x] = true;
+                pacificCells.offer(new int[]{y, x});
             }
         }
 
@@ -148,7 +151,7 @@ public class M_DFS_417 {
                 }
 
                 canFlowToAtlantic[neighbour[0]][neighbour[1]] = true;
-                AtlanticCells.add(new int[]{neighbour[0], neighbour[1]});
+                AtlanticCells.offer(new int[]{neighbour[0], neighbour[1]});
             }
         }
 
