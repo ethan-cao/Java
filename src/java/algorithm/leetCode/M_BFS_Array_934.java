@@ -99,7 +99,7 @@ public class M_BFS_Array_934 {
                     }
 
                     // when two islands connects, we have the bridgeCount
-                    if (matrix[nextY][nextX] == 1) {
+                    if (matrix[nextY][nextX] == LAND) {
                         return bridgeCount;
                     }
 
@@ -111,7 +111,7 @@ public class M_BFS_Array_934 {
             bridgeCount++;
         }
 
-        return bridgeCount;
+        return -1;
     }
 
 }

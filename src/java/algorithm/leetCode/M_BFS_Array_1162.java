@@ -15,7 +15,7 @@ grid[i][j] is 0 or 1
 
 ### Example
 [[1,0,1],[0,0,0],[1,0,1]] -> 2
- [[1,0,0],[0,0,0],[0,0,0]] -> 4
+[[1,0,0],[0,0,0],[0,0,0]] -> 4
 
 */
 
@@ -33,6 +33,7 @@ public class M_BFS_Array_1162 {
 
         boolean[][] visited = new boolean[N][N];
         Queue<int[]> queue = new ArrayDeque<>();
+
         for (int y = 0; y < N; ++y) {
             for (int x = 0; x < N; ++x) {
                 if (grid[y][x] == LAND) {
@@ -66,6 +67,7 @@ public class M_BFS_Array_1162 {
                     }
                 }
             }
+
             distance++;
         }
 
