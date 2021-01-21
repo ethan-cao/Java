@@ -69,7 +69,8 @@ public class M_Backtrack_DP_Array_39 {
         }
     }
 
-    // DP, 9ms
+    // DP, iterative, 6ms
+    // Time: O(N^3)
     public static List<List<Integer>> combinationSum1(int[] candidates, int target) {
         Arrays.sort(candidates);
 
@@ -77,12 +78,16 @@ public class M_Backtrack_DP_Array_39 {
             return new ArrayList<>();
         }
 
-        List<List<List<Integer>>> allCombinations = new ArrayList<>();
+        // idx (target) -> all combination that sums to target
+        List<List<Integer>>[] allCombinations = new ArrayList[target + 1];
+//        List<List<List<Integer>>> allCombinations = new ArrayList<>(); // Alternatively
 
-        for (int currentTarget = 0; currentTarget <= target; ++currentTarget) {
+        for (int currentTarget = 1; currentTarget <= target; ++currentTarget) {
             List<List<Integer>> combinations = new ArrayList<>();
 
-            for (int candidate : candidates) {
+            for (int i = 0; i < candidates.length; i++) {
+                int candidate = candidates[i];
+
                 if (candidate > currentTarget) {
                     break;
                 }
@@ -92,25 +97,28 @@ public class M_Backtrack_DP_Array_39 {
                     continue;
                 }
 
-                for (List<Integer> combination : allCombinations.get(currentTarget - candidate)) {
+                int difference = currentTarget - candidate;  // difference > 0
+                List<List<Integer>> combinationsSumsToDifference = allCombinations[difference];
+                for (List<Integer> combination : combinationsSumsToDifference) {
 
-                    // skip duplicate
-                    // candidates is sorted, if the current candidate is smaller than the last one
+                    // number in combination is sorted, if the current candidate is smaller than the last one
                     // that means it has been used
                     if (candidate < combination.get(combination.size() - 1)) {
                         continue;
                     }
 
+                    // sum in combination is difference, difference + candidate = currentTarget
                     List<Integer> newCombination = new ArrayList<>(combination);
                     newCombination.add(candidate);
+
                     combinations.add(newCombination);
                 }
             }
 
-            allCombinations.add(combinations);
+            allCombinations[currentTarget] = combinations;
         }
 
-        return allCombinations.get(target);
+        return allCombinations[target];
     }
 
 }

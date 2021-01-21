@@ -3,9 +3,8 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-        float f = 0.1F;
-        double d = 0.0D;
+        List<List<Integer>>[] a = new List[10];
 
-        System.out.println("here");
+        System.out.println("l " + a.length);
     }
 }
