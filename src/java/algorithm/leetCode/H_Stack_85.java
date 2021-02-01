@@ -27,18 +27,18 @@ public class H_Stack_85 {
     // Stack, 4ms
     public int maximalRectangle(char[][] matrix) {
         int maxArea = 0;
-        
+
         if (matrix == null || matrix.length == 0) {
             return maxArea;
         }
-        
+
         final int M = matrix.length;
         final int N = matrix[0].length;
-        
-        int[] heights = new int[N]; 
-        
+
+        int[] heights = new int[N];
+
         for (int y = 0; y < M; ++y) {
-            for(int x = 0; x < N; ++x) {
+            for (int x = 0; x < N; ++x) {
                 char cell = matrix[y][x];
 
                 heights[x] = cell == '1' ? heights[x] + 1 : 0;
@@ -47,16 +47,11 @@ public class H_Stack_85 {
             int area = M_Stack_84.largestRectangleArea(heights);
             maxArea = Math.max(maxArea, area);
         }
-        
+
         return maxArea;
     }
 
-    // DP
-    // https://leetcode.com/problems/maximal-rectangle/discuss/29054/share-my-dp-solution
-    // height[i] record the current number of continuous '1' in column i;
-    // left[i] record the left most index j which satisfies that for any index k from j to  i, height[k] >= height[i];
-    // right[i] record the right most index j which satisfies that for any index k from i to  j, height[k] >= height[i];
-    // then we need to update maxArea with value (height[i] * (right[i] - left[i] + 1));
+    // Array manipulation
     public int maximalRectangle1(char[][] matrix) {
         int maxArea = 0;
 
@@ -66,50 +61,74 @@ public class H_Stack_85 {
 
         final int M = matrix.length;
         final int N = matrix[0].length;
+        final char ZERO = '0';
+        final char ONE = '1';
 
-        int[] height = new int[N];
-        int[] left = new int[N];
-        int[] right = new int[N];
+        int[] heights = new int[N];// heights[i]: the current number of continuous '1' (from left) in column i
+        int[] left = new int[N];  // left[i]: the left most index j, that for any index k from j to i, heights[k] >= heights[i]
+        int[] right = new int[N]; // right[i]: the right most index j, that for any index k from i to j, heights[k] >= heights[i]
+        // heights[x] is the height for rectangle with right[x] - left[x]
 
-        Arrays.fill(height, 0);
+        Arrays.fill(heights, 0);
         Arrays.fill(left, 0);
-        Arrays.fill(right, N);
+        Arrays.fill(right, N);  // N-1?
 
-        for (int y = 0; y < M; y++) {
-            int cur_left = 0;
-            int cur_right = N;
+        /*
+        matrix = [
+            [0 0 0 1 0 0 0]
+            [0 0 1 1 1 0 0]
+            [0 1 1 1 1 1 0]
+        ]
 
-            for (int x = 0; x < N; x++) {
-                if (matrix[y][x] == '1') {
-                    height[x]++;
+        row 0:  0 0 0 1 0 0 0
+        height: 0 0 0 1 0 0 0
+        left:   0 0 0 3 0 0 0
+        right   7 7 7 4 7 7 7
+
+        row 1:  0 0 1 1 1 0 0
+        height: 0 0 1 2 1 0 0
+        left:   0 0 2 3 2 0 0
+        right:  7 7 5 4 5 7 7
+
+        row 2:  0 1 1 1 1 1 0
+        height: 0 1 2 3 2 1 0
+        left:   0 1 2 3 2 1 0
+        right:  7 6 5 4 5 6 7
+        */
+
+        for (int y = 0; y < M; ++y) {
+
+            for (int x = 0; x < N; ++x) {
+                if (matrix[y][x] == ONE) {
+                    heights[x]++;
                 } else {
-                    height[x] = 0;
+                    heights[x] = 0;
                 }
             }
 
-            // compute left (from left to right)
-            for (int x = 0; x < N; x++) {
-                if (matrix[y][x] == '1') {
-                    left[x] = Math.max(left[x], cur_left);
+            int currentLeft = 0;  // left most
+            for (int x = 0; x < N; ++x) {
+                if (matrix[y][x] == ONE) {
+                    left[x] = Math.max(left[x], currentLeft);
                 } else {
                     left[x] = 0;
-                    cur_left = x + 1;
+                    currentLeft = x + 1;
                 }
             }
 
-            // compute right (from right to left)
-            for (int x = N - 1; x >= 0; x--) {
-                if (matrix[y][x] == '1') {
-                    right[x] = Math.min(right[x], cur_right);
+            int currentRight = N; // right most  ??? N-1
+            for (int x = N - 1; x >= 0; --x) {
+                if (matrix[y][x] == ONE) {
+                    right[x] = Math.min(right[x], currentRight);
                 } else {
                     right[x] = N;
-                    cur_right = x;
+                    currentRight = x;
                 }
             }
 
-            // compute the area of rectangle (can do this from either side)
-            for (int x = 0; x < N; x++) {
-                maxArea = Math.max(maxArea, (right[x] - left[x]) * height[x]);
+            for (int x = 0; x < N; ++x) {
+                int area = (right[x] - left[x]) * heights[x];
+                maxArea = Math.max(maxArea, area);
             }
 
         }

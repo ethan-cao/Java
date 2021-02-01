@@ -56,8 +56,8 @@ public class KnapsackProblem {
      */
     static class KnapsackProblem01 {
 
-        // DP recursive, DFS, Top-down, O(2^n)
-        // return optimal total value
+        // DP recursive, DFS, Top-down,
+        // Time: O(2^n)
         public static int getSolution(List<Item> items, int capacity) {
             return getSolution(items, 0, capacity);
         }
@@ -79,49 +79,50 @@ public class KnapsackProblem {
             }
         }
 
-        // DP recursive, DFS, Top-down, with cache optimization
+        // DP recursive, DFS, Top-down, memoization
         private static int getSolution1(List<Item> items, int capacity) {
-            int[][] cache = new int[items.size() + 1][capacity + 1];
+            int[][] memo = new int[items.size() + 1][capacity + 1];
 
             // this leads to O(n^2), not recommended approach, just to illuminate memoization
             for (int i = 0; i <= items.size(); i++) {
                 for (int j = 0; j <= capacity; j++) {
-                    cache[i][j] = -1;
+                    memo[i][j] = -1;
                 }
             }
 
-            return getValue(items, 0, capacity, cache);
+            return getValue(items, 0, capacity, memo);
         }
 
         // O (n * C),  n : number of items, C : knapsack capacity
-        private static int getValue(List<Item> items, int idx, int remainingCapacity, int[][] cache) {
+        private static int getValue(List<Item> items, int idx, int remainingCapacity, int[][] memo) {
             if (idx >= items.size() || remainingCapacity <= 0) {
                 return 0;
             }
 
-            if (cache[idx][remainingCapacity] != -1) {
-                return cache[idx][remainingCapacity];
+            if (memo[idx][remainingCapacity] != -1) {
+                return memo[idx][remainingCapacity];
             }
 
             Item item = items.get(idx);
             int value;
 
             if (item.weight > remainingCapacity) {
-                value = getValue(items, idx + 1, remainingCapacity, cache);
+                value = getValue(items, idx + 1, remainingCapacity, memo);
             } else {
-                int valueWithoutItem = getValue(items, idx + 1, remainingCapacity, cache);
-                int valueWithItem = item.value + getValue(items, idx + 1, remainingCapacity - item.weight, cache);
+                int valueWithoutItem = getValue(items, idx + 1, remainingCapacity, memo);
+                int valueWithItem = item.value + getValue(items, idx + 1, remainingCapacity - item.weight, memo);
 
                 value = Math.max(valueWithoutItem, valueWithItem);
             }
 
-            // update cache
-            cache[idx][remainingCapacity] = value;
+            // update memo
+            memo[idx][remainingCapacity] = value;
 
             return value;
         }
 
-        // DP iterative, Bottom-up,  O( n * C ) , n : number of items, C : knapsack capacity
+        // DP iterative, Bottom-up,
+        // Time O( n * C ) , n : number of items, C : knapsack capacity
         // https://youtu.be/nLmhmB6NzcM
         private static int getSolution2(List<Item> items, int capacity) {
             // values[i][j]: maximal value with first i items and capacity limit j
@@ -146,7 +147,7 @@ public class KnapsackProblem {
             return values[items.size()][capacity];
         }
 
-        // DP iterative with 1d array
+        // DP, iterative, condensed space
         // By observation, draw table and observe from DP iterative approach
         // if (item.weight > j) {
         //  values[i][j] = values[i - 1][j];

@@ -8,9 +8,7 @@ Given a collection of distinct integers, return all possible permutations.
 
 */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_Backtrack_Array_46 {
 

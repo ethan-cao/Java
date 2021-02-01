@@ -23,6 +23,21 @@ public class M_Greedy_DP_Array_55 {
 
     // Greedy, 1ms
     public static boolean canJump(int[] nums) {
+        /*
+
+        public boolean canJump(int[] nums) {
+    int dis = 0;
+    for (int i = 0; i <= dis; i++) {
+        dis = Math.max(dis, i + nums[i]);
+        if (dis >= nums.length-1) {
+            return true;
+        }
+    }
+    return false;
+}
+         */
+
+
         int currentIdx = 0;
 
         for (int i = 0; i < nums.length; ++i) {
@@ -40,27 +55,30 @@ public class M_Greedy_DP_Array_55 {
 
     // DP, 200ms
     public static boolean canJump1(int[] nums) {
-        // if canJumpToEnd[i] is true; we can jump from index i to nums.length-1
-        // we need to get canJumpToEnd[0];
-        boolean[] canJump = new boolean[nums.length];
-        canJump[nums.length - 1] = true;
+        final int L = nums.length;
+        boolean[] canJumpToEnd = new boolean[L];
+        canJumpToEnd[L - 1] = true;
 
-        for (int idx = nums.length - 2; idx >= 0; --idx) {
-            for (int step = 0; step <= nums[idx]; ++step) {
+        // check from right to left
+        for (int position = L - 2; position >= 0; --position) {
+            int maxJumpDistance = nums[position];
 
-                if (idx + step >= nums.length - 1) {
-                    canJump[idx] = true;
+            for (int jumpDistance = 0; jumpDistance <= maxJumpDistance; ++jumpDistance) {
+
+                if (position + jumpDistance >= L - 1) {
+                    canJumpToEnd[position] = true;
                 } else {
-                    canJump[idx] = canJump[idx + step];
+                    // since we check from right to left, canJumpToEnd[position + jumpDistance] is known
+                    canJumpToEnd[position] = canJumpToEnd[position + jumpDistance];
                 }
 
-                if (canJump[idx]) {
+                if (canJumpToEnd[position]) {
                     break;
                 }
             }
         }
 
-        return canJump[0];
+        return canJumpToEnd[0];
     }
 
 }

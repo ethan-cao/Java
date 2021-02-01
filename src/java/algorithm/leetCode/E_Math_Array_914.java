@@ -28,16 +28,12 @@ Explanation: Possible getPartitionKey [1,1]
 [1,1,2,2,2,2] --> true
 Explanation: Possible getPartitionKey [1,1],[2,2],[2,2]
 
-### Condition
 groupCount * elementCount = deck.length
  deck.length >= elementCount >= 2
  deck.length > groupCount >= 1
 
 ### Essential problem
 GCD (Greatest Common Divisor)
-
-### Corner case
-
 
 */
 
