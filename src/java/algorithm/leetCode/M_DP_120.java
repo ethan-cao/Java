@@ -38,7 +38,7 @@ public class M_DP_120 {
     }
 
     // DP, Iterative, condensed space, 2ms
-    public int minimumTotal(List<List<Integer>> triangle) {
+    public int minimumTotal1(List<List<Integer>> triangle) {
         final int SIZE = triangle.size();
         int[] minSums = new int[SIZE];
 
@@ -55,5 +55,44 @@ public class M_DP_120 {
         return minSums[0];
     }
 
+    // DP, recursive, TLE
+    public int minimumTotal2(List<List<Integer>> triangle) {
+        return getPathSum(triangle, 0, 0);
+    }
+
+    private int getPathSum(List<List<Integer>> triangle, int y, int x) {
+        if (y >= triangle.size()) {
+            return 0;
+        }
+
+        int leftPathSum = getPathSum(triangle, y + 1, x);
+        int rightPathSum = getPathSum(triangle, y + 1, x + 1);
+
+        return Math.min(leftPathSum, rightPathSum) + triangle.get(y).get(x);
+    }
+
+    // DP, recursive, memo, 0ms
+    public int minimumTotal3(List<List<Integer>> triangle) {
+        final int SIZE = triangle.size();
+        int[][] memo = new int[SIZE][SIZE];
+        return getPathSum(triangle, 0, 0, memo);
+    }
+
+    private int getPathSum(List<List<Integer>> triangle, int y, int x, int[][] memo) {
+        if (y >= triangle.size()) {
+            return 0;
+        }
+
+        if (memo[y][x] != 0) {
+            return memo[y][x];
+        }
+
+        int leftPathSum = getPathSum(triangle, y + 1, x, memo);
+        int rightPathSum = getPathSum(triangle, y + 1, x + 1, memo);
+
+        memo[y][x] = Math.min(leftPathSum, rightPathSum) + triangle.get(y).get(x);
+
+        return memo[y][x];
+    }
 }
 

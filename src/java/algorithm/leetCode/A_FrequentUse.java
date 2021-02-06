@@ -179,6 +179,7 @@ public class A_FrequentUse {
         List<Integer> list = new ArrayList<>(2);
         System.out.println("size : " + list.size()); // 0
 
+
         list.addAll(Arrays.asList(1, 2, 3));
 
         list.add(4); // add to the end
@@ -197,7 +198,7 @@ public class A_FrequentUse {
         // List<Integer> -> int[]
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         // this is slow, use iterate and convert manually
-        // cannot use list.toArry(new int[])
+        // cannot use list.toArray(new int[])
 
         //List<int[]> -> int[][], since int[] is object, List<T> -> T[]
         List<int[]> newList = new ArrayList<>();
