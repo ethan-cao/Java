@@ -3,115 +3,154 @@ package algorithm.leetCode;
 /*
 Given a positive integer n (n > 0)
 find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n
+1 <= n <= 10^4
 
 ### Example
-Input: n = 12
-Output: 3
+n = 12 -> 3
 Explanation: 12 = 4 + 4 + 4.
 
-Input: n = 13
-Output: 2
+n = 13 -> 2
 Explanation: 13 = 4 + 9.
 */
-
-import java.util.Arrays;
-
-import static java.lang.Math.sqrt;
 
 public class M_DP_Math_279 {
 
     public static void main(String... args) {
-        System.out.println(numSquares4(2)); // 2
-        System.out.println(numSquares4(4)); // 1
-        System.out.println(numSquares4(9)); // 1
-        System.out.println(numSquares4(12)); // 3
-        System.out.println(numSquares4(13)); // 2
-        System.out.println(numSquares4(234)); // 2
+//        System.out.println(numSquares4(2)); // 2
+//        System.out.println(numSquares4(4)); // 1
+//        System.out.println(numSquares4(9)); // 1
+//        System.out.println(numSquares4(12)); // 3
+//        System.out.println(numSquares(13));    // 2
+//        System.out.println(numSquares(234));   // 2
+        System.out.println(numSquares2(7168));  // 4
     }
 
-    // DP, top-down, recursive, DFS
-    public static int numSquares(int n) {
-        int upperLimit = (int) sqrt(n);
-        int[] perfectSquareNumber = new int[upperLimit];
-
-        for (int i = 0; i < upperLimit; ++i) {
-            perfectSquareNumber[i] = (i + 1) * (i + 1);
-        }
-
-        return getNumber(perfectSquareNumber, 0, n);
-    }
-
-    private static int getNumber(int[] perfectSquareNumber, int idx, int n) {
-        if (n == 0) {
-            return 0;
-        }
-
-        int number = n + 1;  // USE INTEGER_MAX could cause overflow !!!!
-
-        for (int i = idx; i < perfectSquareNumber.length; ++i) {
-            int perfectSquare = perfectSquareNumber[i];
-
-            if (perfectSquare <= n) {
-                int numberWithCurrentSquare = 1 + getNumber(perfectSquareNumber, i, n - perfectSquare);
-                number = Math.min(number, numberWithCurrentSquare);
-            }
-        }
-
-        return number;
-    }
-
-    // DP, iterative, bottom-up
+    // DP, recursive, LTE
     public static int numSquares1(int n) {
-        int upperLimit = (int) sqrt(n);
-        int[] perfectSquareNumber = new int[upperLimit];
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
+        return count(n, largestPerfectSquareRoot);
+    }
 
-        for (int i = 0; i < upperLimit; ++i) {
-            perfectSquareNumber[i] = (i + 1) * (i + 1);
+    private static int count(int num, int perfectSquareRoot) {
+        if (num == 1) {
+            return 1;
         }
 
-        int[][] counts = new int[upperLimit + 1][n + 1];
-
-        for (int j = 1; j <= n; ++j) {
-            counts[0][j] = n + 1;
+        if (perfectSquareRoot == 1) {
+            return num;
         }
 
-        for (int i = 1; i <= upperLimit; ++i) {
-            for (int j = 1; j <= n; ++j) {
-                int perfectSquare = perfectSquareNumber[i - 1];
+        if (perfectSquareRoot <= 0) {
+            return Integer.MAX_VALUE;
+        }
 
-                if (perfectSquare <= j) {
-                    counts[i][j] = Math.min(counts[i - 1][j], 1 + counts[i][j - perfectSquare]);
+        int count = num + 1;  // USE INTEGER_MAX could cause overflow !!!!
+        int perfectSquare = perfectSquareRoot * perfectSquareRoot;
+
+        if (perfectSquare <= num) {
+            int countWithoutPerfectSquare = count(num, perfectSquareRoot - 1);
+            int countWithPerfectSquare = 1 + count(num - perfectSquare, perfectSquareRoot);
+
+            count = Math.min(countWithoutPerfectSquare, countWithPerfectSquare);
+        } else {
+            count = count(num, perfectSquareRoot - 1);
+        }
+
+        return count;
+    }
+
+
+    public static int numSquares2(int n) {
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
+        int[][] memo = new int[largestPerfectSquareRoot + 1][n + 1];
+
+        return count(largestPerfectSquareRoot, n, memo);
+    }
+
+    private static int count(int perfectSquareRoot, int num, int[][] memo) {
+        if (num == 1) {
+            return 1;
+        }
+
+        if (perfectSquareRoot == 1) {
+            return num;
+        }
+
+        if (memo[perfectSquareRoot][num] != 0) {
+            return memo[perfectSquareRoot][num];
+        }
+
+        int count = Integer.MAX_VALUE;
+        int perfectSquare = perfectSquareRoot * perfectSquareRoot;
+
+        if (perfectSquare <= num) {
+            int countWithoutPerfectSquare = count(perfectSquareRoot - 1, num, memo);
+            int countWithPerfectSquare = 1 + count(perfectSquareRoot, num - perfectSquare, memo);
+
+            count = Math.min(countWithoutPerfectSquare, countWithPerfectSquare);
+        } else {
+            count = count(perfectSquareRoot - 1, num, memo);
+        }
+
+        memo[perfectSquareRoot][num] = count;
+
+        return memo[perfectSquareRoot][num];
+    }
+
+    // DP, iterative, 73ms
+    public static int numSquares3(int n) {
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
+
+        int[] perfectSquares = new int[largestPerfectSquareRoot + 1];
+        for (int i = 0; i <= largestPerfectSquareRoot; ++i) {
+            perfectSquares[i] = i * i;
+        }
+
+        // count[i][j]: the least number of perfect square ranging from 1...i to that sum to num j
+        int[][] counts = new int[largestPerfectSquareRoot + 1][n + 1];
+        for (int i = 1; i <= n; ++i) {
+            counts[0][i] = Integer.MAX_VALUE;
+        }
+
+        for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
+            for (int num = 1; num <= n; ++num) {
+                int perfectSquare = perfectSquares[i];
+
+                if (perfectSquare <= num) {
+                    // since it always compare with the 1st row, counts[1][j] = Math.min(counts[0][j], ...)
+                    // so assign Integer.MAX to the 1st row counts[0]
+                    counts[i][num] = Math.min(counts[i - 1][num], 1 + counts[i][num - perfectSquare]);
                 } else {
-                    counts[i][j] = counts[i - 1][j];
+                    counts[i][num] = counts[i - 1][num];
                 }
             }
         }
 
-        return counts[upperLimit][n];
+        return counts[largestPerfectSquareRoot][n];
     }
 
-    // DP, iterative, bottom-up, with 1d array
-    public static int numSquares2(int n) {
-        int upperLimit = (int) sqrt(n);
-        int[] perfectSquareNumber = new int[upperLimit];
+    // DP, iterative, condensed space, 39ms
+    public static int numSquares4(int n) {
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
 
-        for (int i = 0; i < upperLimit; ++i) {
-            perfectSquareNumber[i] = (i + 1) * (i + 1);
+        int[] perfectSquares = new int[largestPerfectSquareRoot + 1];
+        for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
+            perfectSquares[i] = i * i;
         }
 
         int[] counts = new int[n + 1];
-
-        // important!  initialize value properly
-        for (int j = 1; j <= n; ++j) {
-            counts[j] = n + 1;
+        for (int num = 1; num <= n; ++num) {
+            counts[num] = Integer.MAX_VALUE;
         }
 
-        for (int i = 1; i <= upperLimit; ++i) {
-            for (int j = 1; j <= n; ++j) {
-                int perfectSquare = perfectSquareNumber[i - 1];
+        for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
+            for (int num = 1; num <= n; ++num) {
+                int perfectSquare = perfectSquares[i];
 
-                if (perfectSquare <= j) {
-                    counts[j] = Math.min(counts[j], 1 + counts[j - perfectSquare]);
+                if (perfectSquare <= num) {
+                    counts[num] = Math.min(counts[num], 1 + counts[num - perfectSquare]);
+                } else {
+                    counts[num] = counts[num];
                 }
             }
         }
@@ -119,25 +158,10 @@ public class M_DP_Math_279 {
         return counts[n];
     }
 
-    // optimization on numSquares2
-    public static int numSquares3(int n) {
-        int[] dp = new int[n + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = 0;
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j * j <= i; j++) {
-                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
-            }
-        }
-
-        return dp[n];
-    }
-
     // Based on Lagrange's Four Square theorem: natural number can be represented as the sum of four integer squares
     // https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem
     // so there are only 4 possible results: 1, 2, 3, 4
-    public static int numSquares4(int n) {
+    public static int numSquares5(int n) {
         // If n is a perfect square, return 1.
         int x = (int) Math.sqrt(n);
         if (x * x == n) {

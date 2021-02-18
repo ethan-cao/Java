@@ -18,14 +18,14 @@ Total amount you can rob = 1 + 3 = 4.
 Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
 Total amount you can rob = 2 + 9 + 1 = 12.
 
-### Review: 1
-
  */
+
+import java.util.Arrays;
 
 public class E_DP_Array_198 {
 
     public static void main(String[] args) {
-        System.out.println(rob(new int[]{1, 3, 20, 5, 10, 10, 6})); // 37
+        System.out.println(rob0(new int[]{1, 3, 20, 5, 10, 10, 6})); // 37
     }
 
     /*
@@ -39,38 +39,69 @@ public class E_DP_Array_198 {
     max(1) = Math.max(values[0], values[1])
     */
 
-    // DP
-    public static int rob(int[] values) {
-        if (values.length < 2) {
+    // DP, iterative, 0ms
+    public static int rob0(int[] values) {
+        final int L = values.length;
+
+        if (L == 0) {
+            return 0;
+        }
+
+        if (L == 1) {
             return values[0];
         }
 
-        int[] maxValues = new int[values.length];
-
+        int[] maxValues = new int[L];
         maxValues[0] = values[0];
         maxValues[1] = Math.max(values[0], values[1]);
 
-        for (int i = 2; i < values.length; ++i) {
-            int maxValueIfRob = values[i] + maxValues[i - 2];
-            int maxValueIfNotRob = maxValues[i - 1];
+        for (int i = 2; i < L; ++i) {
+            int valueIfRobbing = values[i] + maxValues[i - 2];
+            int valueIfNotRobbing = maxValues[i - 1];
 
-            maxValues[i] = Math.max(maxValueIfRob, maxValueIfNotRob);
+            maxValues[i] = Math.max(valueIfRobbing, valueIfNotRobbing);
         }
 
-        return maxValues[values.length - 1];
+        return maxValues[L - 1];
     }
 
-    // rob1 is much slower than rob
-    public static int rob1(int[] values) {
+    // DP, iterative, condensed space, 0ms
+    public int rob1(int[] values) {
+        final int L = values.length;
+
+        if (L == 0) {
+            return 0;
+        }
+
+        if (L == 1) {
+            return values[0];
+        }
+
+        int previousMaxValue = values[0];
+        int currentMaxValue = Math.max(values[0], values[1]);
+
+        for (int i = 2; i < L; ++i) {
+            int valueIfNotRobbing = currentMaxValue;
+            int valueIfRobbing = values[i] + previousMaxValue;
+
+            previousMaxValue = currentMaxValue;
+            currentMaxValue = Math.max(valueIfRobbing, valueIfNotRobbing);
+        }
+
+        return Math.max(currentMaxValue, previousMaxValue);
+    }
+
+    // DP, recursive, TLE
+    public static int rob2(int[] values) {
         return max(values, values.length - 1);
     }
 
     private static int max(int[] values, int n) {
-        if (0 == n) {
+        if (n == 0) {
             return values[0];
         }
 
-        if (1 == n) {
+        if (n == 1) {
             return Math.max(values[0], values[1]);
         }
 
@@ -78,6 +109,48 @@ public class E_DP_Array_198 {
         int maxIfNotRob = max(values, n - 1);
 
         return Math.max(maxIfRob, maxIfNotRob);
+    }
+
+    // DP, recursive, memo, 0ms
+    // Time: O(n), Space: O(n)
+    public int rob3(int[] values) {
+        final int L = values.length;
+
+        int[] memo = new int[L];
+        Arrays.fill(memo, -1);
+
+        return robHouse(values, L - 1, memo);
+    }
+
+    private int robHouse(int[] values, int i, int[] memo) {
+        if (i < 0) {
+            return 0;
+        }
+
+        if (i == 0) {
+            if (memo[0] == -1) {
+                memo[0] = values[0];
+            }
+
+            return memo[0];
+        }
+
+        if (i == 1) {
+            if (memo[1] == -1) {
+                memo[1] = Math.max(values[0], values[1]);
+            }
+
+            return memo[1];
+        }
+
+        if (memo[i] == -1) {
+            int valueIfRobbing = robHouse(values, i - 2, memo) + values[i];
+            int valueIfNotRobbing = robHouse(values, i - 1, memo);
+
+            memo[i] = Math.max(valueIfRobbing, valueIfNotRobbing);
+        }
+
+        return memo[i];
     }
 
 }

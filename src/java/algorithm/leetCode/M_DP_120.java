@@ -68,7 +68,7 @@ public class M_DP_120 {
         int leftPathSum = getPathSum(triangle, y + 1, x);
         int rightPathSum = getPathSum(triangle, y + 1, x + 1);
 
-        return Math.min(leftPathSum, rightPathSum) + triangle.get(y).get(x);
+        return triangle.get(y).get(x) + Math.min(leftPathSum, rightPathSum);
     }
 
     // DP, recursive, memo, 0ms
