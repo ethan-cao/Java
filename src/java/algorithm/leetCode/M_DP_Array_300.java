@@ -6,7 +6,8 @@ There may be more than one LIS combination, it is only necessary for you to retu
 
 ### Example
 [10,9,2,5,3,7,101,18] -> 4
-Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+[0,1,0,3,2,3] -> 4
+[7,7,7,7,7,7,7] -> 1
 
 */
 
@@ -21,23 +22,19 @@ public class M_DP_Array_300 {
         System.out.println(lengthOfLIS1(new int[]{2, 5, 3, 6, 5, 6, 80})); // 5
     }
 
-    // https://youtu.be/fV-TF4OvZpk
-    // Time: O(N^2), 11ms
+    // DP iterative, 91ms
+    // Time: O(N^2),
     public static int lengthOfLIS(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-
         int maxLength = 0;
 
-        // length[i]: length of longest increasing subsequence for num[0...i]
+        // length[i]: length of longest increasing subsequence from nums[0] to nums[i]
         int[] length = new int[nums.length];
         Arrays.fill(length, 1);
 
-        for (int i = 0; i < nums.length; ++i) {
-            for (int j = 0; j <= i; ++j) {
+        for (int i = 1; i < nums.length; ++i) {
+            for (int j = 0; j  < i; ++j) {
                 if (nums[j] < nums[i]) {
-                    length[i] = Math.max(length[j] + 1, length[i]);
+                    length[i] = Math.max(length[i], length[j] + 1);
                 }
             }
 
@@ -47,8 +44,8 @@ public class M_DP_Array_300 {
         return maxLength;
     }
 
-    // Greedy, Time: O(NlogN), 1ms
-    // Patience sort
+    // Greedy, Patience sort, 1ms
+    // Time: O(NlogN)
     // https://youtu.be/22s1xxRvy28
     // https://www.cs.princeton.edu/courses/archive/spring13/cos423/lectures/LongestIncreasingSubsequence.pdf
     public static int lengthOfLIS0(int[] nums) {

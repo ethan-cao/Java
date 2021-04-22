@@ -5,7 +5,6 @@ Given n non-negative integers representing an elevation map where the width of e
 compute how much water it can trap after raining.
 
 ### Example
-https://leetcode.com/problems/trapping-rain-water/
 [4,2,0,3,2,5] -> 9
 
 */
@@ -14,34 +13,53 @@ import java.util.*;
 
 public class H_Stack_42 {
 
+    public static void main(String[] args) {
+        System.out.println(trap(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
+    }
+
     // Stack, 1ms
     // Time: O(N)
-    public int trap(int[] height) {
+    public static int trap(int[] heights) {
         int water = 0;
+        final int L = heights.length;
 
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic descreasing
+        // since we need values just besides the local minima, use monotonic decreasing stack
+        final Deque<Integer> stack = new ArrayDeque<>();
 
-        for (int i = 0; i < height.length; i++) {
-            int right = height[i];
+        for (int rightIdx = 0; rightIdx < L; ++rightIdx) {
+            int rightHeight = heights[rightIdx];
 
-            while (!stack.isEmpty() && height[stack.peek()] < right) {
-                // find the concave 凹, (convex 凸)
-                // middle is local minimum, middle < right && middle < left
-                int middle = height[stack.pop()];
+            while (!stack.isEmpty() && heights[stack.peek()] < rightHeight) {
+                // find the concave 凹 (convex 凸)
+                /* the most basic case is
+                             _
+                         _  | |
+                        | |_| |
+                        | | | |
+                      ------------
+                   idx   0 1 2
+                  height 2 1 3
+                  water = (Math.min(2, 3) - 1) * (2 - 0 - 1)
+                 */
+                int middleIdx = stack.pop();
+                int middleHeight = heights[middleIdx];
+                // middleHeight is a local minimum, middleHeight < rightHeight && middleHeight < leftHeight
 
                 if (stack.isEmpty()) {
-                    break;
+                    continue;
                 }
 
-                int left = height[stack.peek()];
+                int leftIdx = stack.peek();
+                int leftHeight = heights[leftIdx];
 
-                int elevation = Math.min(left, right) - middle;
-                int length = i - stack.peek() - 1;
+                int height = Math.min(leftHeight, rightHeight) - middleHeight;
+                int width = rightIdx - leftIdx - 1;
+                int area = height * width;
 
-                water += elevation * length;
+                water += area;
             }
 
-            stack.push(i);
+            stack.push(rightIdx);
         }
 
         return water;

@@ -162,13 +162,14 @@ public class A_FrequentUse {
 
         // slice array
         int[] newInts = Arrays.copyOfRange(ints, 2, 3);
+        int[] newInts1 = Arrays.copyOf(ints, ints.length);
 
-        // reverse array
+        // reverse array or write a short method
         Arrays.stream(ints).map(i -> ints[ints.length - i]).toArray();
 
         // create array as param on the fly
-        System.out.println(new int[]{1,2,3,});
-        System.out.println(new int[][]{new int[]{1,2,3}});
+        System.out.println(new int[]{1, 2, 3,});
+        System.out.println(new int[][]{new int[]{1, 2, 3}});
     }
 
     static void list() {
@@ -177,6 +178,7 @@ public class A_FrequentUse {
 
         List<Integer> list = new ArrayList<>(2);
         System.out.println("size : " + list.size()); // 0
+
 
         list.addAll(Arrays.asList(1, 2, 3));
 
@@ -196,7 +198,7 @@ public class A_FrequentUse {
         // List<Integer> -> int[]
         int[] array = list.stream().mapToInt(Integer::intValue).toArray();
         // this is slow, use iterate and convert manually
-        // cannot use list.toArry(new int[])
+        // cannot use list.toArray(new int[])
 
         //List<int[]> -> int[][], since int[] is object, List<T> -> T[]
         List<int[]> newList = new ArrayList<>();

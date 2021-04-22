@@ -24,38 +24,39 @@ public class M_Stack_456 {
     // Time: O(N), Space: O(N)
     public boolean find132pattern0(int[] nums) {
         // min[i]: the minimum one in subarray nums[0, i)
-        int[] mins = Arrays.copyOf(nums, nums.length);
+        int[] mins = Arrays.copyOfRange(nums, 0, nums.length);
         for (int i = 1; i < nums.length; ++i) {
             mins[i] = Math.min(nums[i - 1], mins[i - 1]);
         }
 
-        // stack stores possible values for nums[k]
+        // stack stores possible values for rightNum
         Deque<Integer> stack = new ArrayDeque<>();  // monotonic decreasing
 
-        // scan from right to left, no need to check j == 0
-        for (int j = nums.length - 1; j > 0; --j) {
-            int num = nums[j];  // nums[j]
-            int min = mins[j];
+        // scan from right to left, no need to check middleIdx == 0
+        for (int middleIdx = nums.length - 1; middleIdx > 0; --middleIdx) {
+            int middleNum = nums[middleIdx];
+            int middleMin = mins[middleIdx];
 
-            // if num <= all values on it left, not possible
-            if (num <= min) {
+            // if middleNum <= all values on it left, not possible
+            if (middleNum <= middleMin) {
                 continue;
             }
 
-            // now, there is a i < j, that nums[i] < nums[j]
+            // now, there is a i < middleIdx, that nums[i] < nums[middleIdx]
 
-            // pop until stack.peek() > min, find an element on the right of j that is > min and < num   
-            while (!stack.isEmpty() && stack.peek() <= min) {
+            // find one on the right of middleNum that is > middleMin
+            while (!stack.isEmpty() && stack.peek() <= middleMin) {
                 stack.pop();
             }
 
-            // now, all value in stack > min, namely all possible nums[k] > nums[i]
-            // if there is k > j, that nums[k] < nums[j], found
-            if (!stack.isEmpty() && stack.peek() < num) {
+            // if there is one on the right of middleNum that is also < middleNum, call it rightNum
+            // since rightNum > middleMin, there is a one on middleNum's left, that < rightNum
+            // so we found left < middle < right && leftNum < rightNum < middleNum
+            if (!stack.isEmpty() && stack.peek() < middleNum) {
                 return true;
             }
 
-            stack.push(num);
+            stack.push(middleNum);
         }
 
         return false;
@@ -64,34 +65,36 @@ public class M_Stack_456 {
     // Stack, 6ms
     // Time: O(N), Space: O(N)
     public boolean find132pattern1(int[] nums) {
-        // search for a subsequence (nums[left], nums[middle], nums[right])
-        // such that left < middle < right and nums[i] < nums[right] < nums[middle]
+        // search for a subsequence (leftNum, middleNum, rightNum)
+        // that satisfies leftNum < rightNum < middleNum
 
-        // stack stores possible values for nums[right]
+        int rightNum = Integer.MIN_VALUE;  // set to min, since we need the largest possible one
         Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
 
-        // nums[middle]
-        int middle = Integer.MIN_VALUE;
+        for (int idx = nums.length - 1; idx >= 0; --idx) {
+            int num = nums[idx];
 
-        for (int leftIdx = nums.length - 1; leftIdx >= 0; --leftIdx) {
-            int left = nums[leftIdx];
+            // if there is one on num's right, that is < num,
+            // the one could be rightNum, num could be middleNum, so we have rightNum < middleNum
+            // all nums in stack is on num's right, to find the largest num in the stack as rightNum
+            // to make middleNum as large as possible so we can find possible numLeft,
+            // that is why rightNum is set to MIN_VALUE initially
+            // since the stack is decreasing, the last pop one is the largest middleNum
+            while (!stack.isEmpty() && stack.peek() < num) {
+                rightNum = stack.pop();
+            }
 
-            // if there is a value < middle, there is 231 pattern
-            // since
-            if (left < middle) {
+            if (num < rightNum) {
+                // in this case, rightNum was not updated in the above while loop
+                // and there is a one on rightNum's left, that is < rightNum, this one can be a leftNum, found leftNum < rightNum
+                // since rightNum is not the initial value, there is a valid pair rightNum < Middle,
+                // so found 231 pattern
                 return true;
+            } else {
+                // in this case, there is a valid pair rightNum < middleNum
+                // rightNum is recorded, middleNum is added to stack
+                stack.push(num);
             }
-
-            // if there is a value > possible nums[right], pop() it to middle
-            while (!stack.isEmpty() && stack.peek() < left) {
-                // since the stack is decreasing, the last pop one is the largest middle
-                // make middle as large as possbile so we can find possible left
-                middle = stack.pop();
-            }
-
-            // add the new possbible value for nums[right]
-            // all items in stack > middle
-            stack.push(left);
         }
 
         return false;

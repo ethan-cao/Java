@@ -2,10 +2,9 @@ package algorithm.leetCode;
 
 /*
 Given an array arr of positive integers, consider all binary trees such that:
-* Each node has either 0 or 2 children;  (full tree)
-* The values of arr correspond to the values of each leaf in an in-order traversal of the tree.
-* Value of each non-leaf node = the product of the largest leaf value in its left and right subtree.
-
+  * Each node has either 0 or 2 children;  (full tree)
+  * The values of arr correspond to the values of each leaf in an in-order traversal of the tree.
+  * Value of each non-leaf node = the product of the largest leaf value in its left and right subtree.
 Among all possible binary trees, return the smallest possible sum of the values of each non-leaf node.
 
 It is guaranteed this sum fits into a 32-bit integer.
@@ -28,9 +27,9 @@ import java.util.*;
 public class M_Stack_DP_Tree_1130 {
 
     public static void main(String... args) {
-        System.out.println(mctFromLeafValues2(new int[] { 6, 2, 4 })); // 32
-        System.out.println(mctFromLeafValues2(new int[] { 6, 2, 4, 3 })); // 44
-        System.out.println(mctFromLeafValues2(new int[] { 4, 5, 1, 2, 9 })); // 77
+        System.out.println(mctFromLeafValues2(new int[]{6, 2, 4})); // 32
+        System.out.println(mctFromLeafValues2(new int[]{6, 2, 4, 3})); // 44
+        System.out.println(mctFromLeafValues2(new int[]{4, 5, 1, 2, 9})); // 77
     }
 
     static class TreeNode {
@@ -43,32 +42,37 @@ public class M_Stack_DP_Tree_1130 {
         }
     }
 
-    // Stack, 1ms
+    // Stack, Extrema, 1ms
     // Time: O(N), Space: O(N)
-    public static int mctFromLeafValues1(int[] arr) {
+    public static int mctFromLeafValues1(int[] nums) {
         int smallestSum = 0;
+        final int L = nums.length;
 
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic decreasing
+        // since we need values just besides the local minima to derive the result, use monotonic decreasing stack
+        final Deque<Integer> stack = new ArrayDeque<>();
 
         // non-leaf_node = left_largest_leaf * right_largest_leaf
-        // we need smallet_left_largest_leaf and smallest_right_largest_leaf
+        // we need smallest_left_largest_leaf and smallest_right_largest_leaf
         // so we have the smallest sum of all non-leaf nodes
-        for (int rightIdx = 0; rightIdx < arr.length; ++rightIdx) {
-            int right = arr[rightIdx];
+        // find the concave 凹 (convex 凸)
+        for (int rightIdx = 0; rightIdx < L; ++rightIdx) {
+            int rightNum = nums[rightIdx];
 
-            while (!stack.isEmpty() && stack.peek() <= right) {
-                int middle = stack.pop();
-                int left = stack.isEmpty() ? right : stack.peek();
+            while (!stack.isEmpty() && stack.peek() <= rightNum) {
+                // find the concave 凹 (convex 凸)
+                // middleNum is a local minima
+                int middleNum = stack.pop();
+                int leftNum = stack.isEmpty() ? rightNum : stack.peek();
 
-                // left is on middle's left, leaf is on middle's right
-                // left > middle && middle <= leaf
-                // middle is the smallest leaf, just need to find the smaller on amount left and leaf
+                // middleNum is the smallest, then just find the smaller between leftNum and rightNum
                 // smallest non-leaf node sum = left_largest_leaf * right_largest_leaf
-                smallestSum += middle * Math.min(left, right);
+                smallestSum += middleNum * Math.min(leftNum, rightNum);
             }
 
-            stack.push(right);
+            stack.push(rightNum);
         }
+
+        // now, we sum all local minima leaf, still need to go through the rest leaf
 
         while (stack.size() > 1) { // > 1 because we have a peek() after pop() below
             smallestSum += stack.pop() * stack.peek();

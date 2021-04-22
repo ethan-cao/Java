@@ -29,7 +29,7 @@ public class M_Array_54 {
                 {7, 8, 9},
         };
 
-        System.out.println(Arrays.toString(spiralOrder2(matrix).toArray()));
+        System.out.println(Arrays.toString(spiralOrder0(matrix).toArray()));
         //  [1,2,3,6,9,8,7,4,5]
 
         int[][] matrix1 = {
@@ -38,137 +38,139 @@ public class M_Array_54 {
                 {9, 10, 11, 12}
         };
 
-        System.out.println(Arrays.toString(spiralOrder2(matrix1).toArray()));
+        System.out.println(Arrays.toString(spiralOrder0(matrix1).toArray()));
         // [1,2,3,4,8,12,11,10,9,5,6,7]
     }
 
-    // Time : O(N)), Space : O(N), N is the total number of elements
-    // 0MS
-    public static List<Integer> spiralOrder(int[][] matrix) {
-        List<Integer> order = new ArrayList<>();
-        if (matrix == null || matrix.length == 0) return order;
+    // 0ms
+    public static List<Integer> spiralOrder0(int[][] matrix) {
+        List<Integer> nums = new ArrayList<>();
 
-        int ROW_MIN = 0;
-        int ROW_MAX = matrix.length - 1;
-        int COL_MIN = 0;
-        int COL_MAX = matrix[0].length - 1;
+        final int M = matrix.length;
+        final int N = matrix[0].length;
+        boolean[][] isCellVisited = new boolean[M][N];
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // !!! x is at idx 1, y is at idx 0
+        int directionIdx = 0;
 
-        while (ROW_MIN <= ROW_MAX && COL_MIN <= COL_MAX) {
-            // move towards right
-            for (int col = COL_MIN; col <= COL_MAX; ++col) {
-                order.add(matrix[ROW_MIN][col]);
+        int x = 0;
+        int y = 0;
+
+        while (nums.size() < M * N) {
+            int num = matrix[y][x];  // !!! (x, y) -> [y, x]
+            nums.add(num);
+            isCellVisited[y][x] = true;
+
+            int[] direction = directions[directionIdx];
+            int nextX = x + direction[1];
+            int nextY = y + direction[0];
+
+            if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < M && !isCellVisited[nextY][nextX]) {
+                // if next position is within the bounds of the matrix and unvisited, then it becomes our next position;
+                y = nextY;
+                x = nextX;
+            } else {
+                // otherwise, next position is the one after performing a clockwise turn.
+                directionIdx = (directionIdx + 1) % 4;
+                direction = directions[directionIdx];
+                y += direction[0];
+                x += direction[1];
             }
-            ROW_MIN++;
-
-            // move towards bottom
-            for (int row = ROW_MIN; row <= ROW_MAX; ++row) {
-                order.add(matrix[row][COL_MAX]);
-            }
-            COL_MAX--;
-
-            // move towards left
-            // since ROW_MIN changed, add extra check
-            for (int col = COL_MAX; col >= COL_MIN && ROW_MIN <= ROW_MAX; --col) {
-                order.add(matrix[ROW_MAX][col]);
-            }
-            ROW_MAX--;
-
-            // move towards top
-            // since COL_MAX changed, add extra check
-            for (int row = ROW_MAX; row >= ROW_MIN && COL_MIN <= COL_MAX; --row) {
-                order.add(matrix[row][COL_MIN]);
-            }
-            COL_MIN++;
         }
 
-        return order;
+        return nums;
     }
 
+    // Time : O(N)), Space : O(N)
     // 0ms
     public static List<Integer> spiralOrder1(int[][] matrix) {
-        List<Integer> order = new ArrayList<>();
-        if (matrix == null || matrix.length == 0) return order;
+        List<Integer> nums = new ArrayList<>();
+
+        int top = 0;
+        int bottom = matrix.length - 1;
+        int left = 0;
+        int right = matrix[0].length - 1;
+
+        while (top <= bottom && left <= right) {
+            // move towards right
+            for (int col = left; col <= right; ++col) {
+                nums.add(matrix[top][col]);
+            }
+            top++;
+
+            // move towards bottom
+            for (int row = top; row <= bottom; ++row) {
+                nums.add(matrix[row][right]);
+            }
+            right--;
+
+            // move towards top
+            // since top changed, add extra check
+            for (int col = right; col >= left && top <= bottom; --col) {
+                nums.add(matrix[bottom][col]);
+            }
+            bottom--;
+
+            // move towards top
+            // since right changed, add extra check
+            for (int row = bottom; row >= top && left <= right; --row) {
+                nums.add(matrix[row][left]);
+            }
+            left++;
+        }
+
+        return nums;
+    }
+
+
+    // 0ms
+    // not easy to get it correct in interview
+    public static List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> nums = new ArrayList<>();
 
         int left = 0;
         int right = matrix[0].length - 1;
         int top = 0;
         int bottom = matrix.length - 1;
 
-        int direction = 0;
+        // !!! start from (-1, 0)
+        int x = -1;
+        int y = 0;
 
         while (left <= right && top <= bottom) {
-            switch (direction) {
-                case 0: // move to right
-                    for (int column = left; column <= right; ++column) {
-                        order.add(matrix[top][column]);
-                    }
-                    top++;
-                    break;
-                case 1: // move to bottom
-                    for (int row = top; row <= bottom; ++row) {
-                        order.add(matrix[row][right]);
-                    }
-                    right--;
-                    break;
-                case 2: // move to left
-                    for (int column = right; column >= left; --column) {
-                        order.add(matrix[bottom][column]);
-                    }
-                    bottom--;
-                    break;
-                case 3: // move to top
-                    for (int row = bottom; row >= top; --row) {
-                        order.add(matrix[row][left]);
-                    }
-                    left++;
-                    break;
-                default:
-                    break;
-            }
 
-            direction = (direction + 1) % 4;
+            x++;
+            while (x <= right) {
+                nums.add(matrix[y][x]);  // [x, y] -> matrix[y][x]
+                x++;
+            }
+            x--;
+            top++;
+
+            y++;
+            while (y <= bottom && left <= right && top <= bottom) {
+                nums.add(matrix[y][x]);
+                y++;
+            }
+            y--;
+            right--;
+
+            x--;
+            while (x >= left && left <= right && top <= bottom) {
+                nums.add(matrix[y][x]);
+                x--;
+            }
+            x++;
+            bottom--;
+
+            y--;
+            while (y >= top && left <= right && top <= bottom) {
+                nums.add(matrix[y][x]);
+                y--;
+            }
+            y++;
+            left++;
         }
 
-        return order;
+        return nums;
     }
-
-    // 0ms
-    public static List<Integer> spiralOrder2(int[][] matrix) {
-        List<Integer> order = new ArrayList<>();
-        if (matrix == null || matrix.length == 0) return order;
-
-        int M = matrix.length;
-        int N = matrix[0].length;
-        boolean[][] visited = new boolean[M][N];
-
-        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // towards right, towards bottom, towards left, towards top
-        int direction = 0;
-
-        int row = 0;
-        int column = 0;
-
-        while (order.size() < M * N) {
-            order.add(matrix[row][column]);
-            visited[row][column] = true;
-
-            int[] vector = directions[direction];
-            int nextRow = row + vector[0];
-            int nextColumn = column + vector[1];
-
-            if (nextRow >= 0 && nextRow < M && nextColumn >= 0 && nextColumn < N && !visited[nextRow][nextColumn]) {
-                // if next position is within the bounds of the matrix and unvisited, then it becomes our next position;
-                row = nextRow;
-                column = nextColumn;
-            } else {
-                // otherwise, next position is the one after performing a clockwise turn.
-                direction = (direction + 1) % 4;
-                vector = directions[direction];
-                row += vector[0];
-                column += vector[1];
-            }
-        }
-
-        return order;
-    }
-
 }

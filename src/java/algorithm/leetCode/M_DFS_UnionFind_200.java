@@ -18,6 +18,8 @@ You may assume all four edges of the grid are all surrounded by water.
 
 */
 
+import java.util.*;
+
 public class M_DFS_UnionFind_200 {
 
     public static void main(String[] args) {
@@ -47,53 +49,103 @@ public class M_DFS_UnionFind_200 {
         System.out.println(numIslands(grid4)); // 1
     }
 
-    static private char LAND = '1';
-    static private char WATER = '0';
-    static private int[][] DIRECTIONS = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private static char LAND = '1';
+    private static char WATER = '0';
+    private static int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
     // DFS ~1ms
-    // Time:  O(MN), M = grid.length, N = grid[0].length
-    public static int numIslands2(char[][] grid) {
+    // Time:  O(M*N)
+    public static int numIslands(char[][] grid) {
         int islandCount = 0;
 
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
+        final int M = grid.length;
+        final int N = grid[0].length;
 
-                if (grid[i][j] == WATER) {
-                    continue;
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (grid[y][x] == LAND) {
+                    visitLand(grid, y, x, M, N);
+                    islandCount++;
                 }
-
-                checkSurrounding(grid, i, j);
-                islandCount++;
             }
         }
 
         return islandCount;
     }
 
-    private static void checkSurrounding(char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length) {
+    private static void visitLand(char[][] grid, int y, int x, int M, int N) {
+        if (y < 0 || y >= M || x < 0 || x >= N) {
             return;
         }
 
-        if (grid[i][j] == WATER) {
+        if (grid[y][x] == WATER) {
             return;
         }
 
-        grid[i][j] = WATER;
+        // mark the visited one, so won't visit again
+        grid[y][x] = WATER;
 
         for (int[] direction : DIRECTIONS) {
-            checkSurrounding(grid, i + direction[0], j + direction[1]);
+            int nextY = y + direction[0];
+            int nextX = x + direction[1];
+            visitLand(grid, nextY, nextX, M, N);
         }
     }
 
-    // BFS
-    public static int numIslands1(char[][] grid) {
-        return 1;
+    // BFS, 4ms
+    // Time: O(M*N)
+    public int numIslands1(char[][] grid) {
+        final int M = grid.length;
+        final int N = grid[0].length;
+
+        int islandCount = 0;
+
+        boolean[][] visited = new boolean[M][N];
+
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (grid[y][x] == LAND && !visited[y][x]) {
+                    visitLand(grid, y, x, visited);
+                    islandCount++;
+                }
+            }
+        }
+
+        return islandCount;
     }
 
-    // Union Find
-    public static int numIslands(char[][] grid) {
+    private void visitLand(char[][] grid, int y, int x, boolean[][] visited) {
+        Deque<int[]> queue = new ArrayDeque<>();
+        queue.offer(new int[]{y, x});
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for (int i = 0; i < size; ++i) {
+                int[] land = queue.poll();
+                int nextY = land[0];
+                int nextX = land[1];
+
+                if (nextY < 0 || nextY >= grid.length|| nextX < 0 || nextX >= grid[0].length) {
+                    continue;
+                }
+
+                if (grid[nextY][nextX] == WATER || visited[nextY][nextX]) {
+                    continue;
+                }
+
+                visited[nextY][nextX] = true;
+
+                for (int[] direction: DIRECTIONS) {
+                    queue.offer(new int[]{nextY + direction[0], nextX + direction[1]});
+                }
+            }
+
+        }
+    }
+
+    // Union Find, 29ms
+    public static int numIslands2(char[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return 0;
         }

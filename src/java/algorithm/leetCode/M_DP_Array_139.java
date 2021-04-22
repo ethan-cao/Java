@@ -21,8 +21,7 @@ Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false
 */
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class M_DP_Array_139 {
 
@@ -43,42 +42,44 @@ public class M_DP_Array_139 {
         System.out.println(wordBreak1(s2, wordDict2));  // F
     }
 
-    // DP iterative
+    // DP, iterative, 4ms
     public static boolean wordBreak(String s, List<String> wordDict) {
-        // results[i] : if s.substring(0, i-1) can be segmented
-        boolean[] results = new boolean[s.length() + 1];
-        results[0] = true;  // the most base sub problem
+        final int L = s.length();
 
-        for (int i = 1; i <= s.length(); ++i) {
-            // iterate backward to solve dependent sub problem first
-            for (int j = i - 1; j >= 0; --j) {
-                // if substring(j, i) is in wordDict and substring(0, j) can be segmented
-                // substring(0, i) can be segmented as well
-                if (wordDict.contains(s.substring(j, i)) && results[j]) {
-                    results[i] = true;
+        // canBeSegmented[i] : if s.substring(0, i - 1) can be segmented
+        boolean[] canBeSegmented = new boolean[L + 1];
+        canBeSegmented[0] = true;
+
+        for (int end = 1; end <= L; ++end) {
+            for (int start = end - 1; start >= 0; --start) {
+                String subString = s.substring(start, end);
+
+                if (wordDict.contains(subString) && canBeSegmented[start]) {
+                    canBeSegmented[end] = true;
                     break;
                 }
             }
         }
 
-        return results[s.length()];
+        return canBeSegmented[L];
     }
 
-    // DP iterative, alternatively, faster
+    // DP iterative,
     public static boolean wordBreak1(String s, List<String> wordDict) {
-        // results[i] : if s.substring(0, i-1) can be segmented
-        boolean[] results = new boolean[s.length() + 1];
-        results[0] = true;
+        // canBeSegmented[i]: if s.substring(0, i-1) can be segmented
+        boolean[] canBeSegmented = new boolean[s.length() + 1];
+        canBeSegmented[0] = true;
 
-        for (int i = 1; i <= s.length(); ++i) {
+        for (int end = 1; end <= s.length(); ++end) {
             for (String word : wordDict) {
-                if (word.length() <= i && results[i - word.length()] && word.equals(s.substring(i - word.length(), i))) {
-                    results[i] = true;
+                if (word.length() <= end && canBeSegmented[end - word.length()] && word.equals(s.substring(end - word.length(), end))) {
+                    canBeSegmented[end] = true;
                     break;
                 }
             }
         }
-        return results[s.length()];
+
+        return canBeSegmented[s.length()];
     }
 
 }

@@ -4,11 +4,9 @@ package algorithm.leetCode;
 Given a positive integer n, generate a square matrix filled with elements from 1 to n^2 in spiral order.
 
 ### Example
-Input: 3
-Output:
-[ [ 1, 2, 3 ],
-  [ 8, 9, 4 ],
-  [ 7, 6, 5 ]  ]
+3 -> [ [ 1, 2, 3 ],
+       [ 8, 9, 4 ],
+       [ 7, 6, 5 ]  ]
 
 */
 
@@ -37,32 +35,86 @@ public class M_Array_59 {
     public static int[][] generateMatrix(int n) {
         int[][] matrix = new int[n][n];
 
-        int i = 1;
-        int row = 0;
-        int col = 0;
-
-        // left, bottom, right, top
-        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        final int N = matrix.length;
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  // !!! x is at idx 1, y is at idx 0
         int directionIdx = 0;
+        int num = 1;
+        int x = 0;
+        int y = 0;
 
-        while (i <= n * n) {
-            matrix[row][col] = i;
+        while (num <= N * N) {
+            matrix[y][x] = num;
+            num++;
 
             int[] direction = directions[directionIdx];
-            int nextRow = row + direction[0];
-            int nextCol = col + direction[1];
+            int nextX = x + direction[1];
+            int nextY = y + direction[0];
 
-            if (nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < n && matrix[nextRow][nextCol] == 0) {
-                row = nextRow;
-                col = nextCol;
+            if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < N && matrix[nextY][nextX] == 0) {
+                x = nextX;
+                y = nextY;
             } else {
                 directionIdx = (directionIdx + 1) % 4;
                 direction = directions[directionIdx];
-                row = row + direction[0];
-                col = col + direction[1];
+                x += direction[1];
+                y += direction[0];
             }
+        }
 
-            i++;
+        return matrix;
+    }
+
+    // 0ms
+    public int[][] generateMatrix1(int n) {
+        int[][] matrix = new int[n][n];
+
+        int left = 0;
+        int right = n - 1;
+        int top = 0;
+        int bottom = n - 1;
+
+        int num = 1;
+        int x = -1;
+        int y = 0;
+
+        while (num <= n * n && left <= right && top <= bottom) {
+
+            x++;
+            while (x <= right) {
+                matrix[y][x] = num;
+                num++;
+                x++;
+            }
+            top++;
+            x--;
+
+            y++;
+            while (y <= bottom) {
+                matrix[y][x] = num;
+                num++;
+                y++;
+            }
+            right--;
+            y--;
+
+            x--;
+            while (x >= left) {
+                matrix[y][x] = num;
+                num++;
+                x--;
+            }
+            bottom--;
+            x++;
+
+            y--;
+            while (y >= top) {
+                matrix[y][x] = num;
+                num++;
+                y--;
+            }
+            left++;
+            y++;
+
         }
 
         return matrix;

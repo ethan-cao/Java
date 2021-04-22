@@ -4,7 +4,6 @@ package algorithm.leetCode;
 A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
 The robot can only move either down or right at any point in time.
 The robot is trying to reach the bottom-right corner of the grid (marked 'Finish').
-
 m <= 100, n<=100
 
 Now consider if some obstacles are added to the grids. How many unique paths would there be?
@@ -13,21 +12,11 @@ An obstacle and empty space is marked as 1 and 0 respectively in the grid.
 [start]  *  *  *  *  *  *
       *  *  *  *  *  *  *
       *  *  *  *  *  *  [Finish]
-(Above is a 7 x 3 grid)
 
 ### Example
-Input:
 [ [0,0,0],
   [0,1,0],
   [0,0,0] ]   -> 2
-
-Explanation:
-There is one obstacle in the middle of the 3x3 grid above.
-There are two ways to reach the bottom-right corner:
-1. Right -> Right -> Down -> Down
-2. Down -> Down -> Right -> Right
-
-Related :  64, 63
 */
 
 public class M_DP_63 {
@@ -38,7 +27,6 @@ public class M_DP_63 {
                 {0, 1, 0},
                 {0, 0, 0}
         };
-
         System.out.println(uniquePathsWithObstacles1(obstacleGrid)); // 2
 
         int[][] obstacleGrid1 = {
@@ -52,7 +40,7 @@ public class M_DP_63 {
         System.out.println(uniquePathsWithObstacles1(obstacleGrid2)); // 1
     }
 
-    // DP, recursive, TLE
+    // DP, recursive, Too slow
     public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
         if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0][0] == 1) {
             return 0;
@@ -83,40 +71,83 @@ public class M_DP_63 {
         return pathCount;
     }
 
-    // DP, iterative
-    public static int uniquePathsWithObstacles1(int[][] obstacleGrid) {
-        int[][] solution = new int[obstacleGrid.length][obstacleGrid[0].length];
+    // DP, iterative, 0ms
+    public static int uniquePathsWithObstacles1(int[][] grid) {
+        final int M = grid.length;
+        final int N = grid[0].length;
+        final int OBSTACLE = 1;
+        final int SPACE = 0;
 
-        solution[0][0] = obstacleGrid[0][0] == 0 ? 1 : 0;
-        if (solution[0][0] == 0) {
-            return 0;
+        int[][] result = new int[M][N];
+
+        for (int y = 0; y < M; ++y) {
+            if (grid[y][0] == OBSTACLE) {
+                break;
+            }
+
+            result[y][0] = 1;
         }
 
-        for (int i = 0; i < solution.length; ++i) {
-            for (int j = 0; j < solution[0].length; ++j) {
-                // initialize 1st row
-                if (i == 0 && j > 0) {
-                    solution[0][j] = (obstacleGrid[0][j] == 0 && solution[0][j - 1] != 0) ? 1 : 0;
+        for (int x = 0; x < N; ++x) {
+            if (grid[0][x] == OBSTACLE) {
+                break;
+            }
+
+            result[0][x] = 1;
+        }
+
+        for (int y = 1; y < M; ++y) {
+            for (int x = 1; x < N; ++x) {
+                int cell = grid[y][x];
+
+                if (cell == OBSTACLE) {
+                    continue;
                 }
 
-                // initialize 1st column
-                if (j == 0 && i > 0) {
-                    solution[i][0] = (obstacleGrid[i][0] == 0 && solution[i - 1][0] != 0) ? 1 : 0;
-                }
+                result[y][x] = result[y - 1][x] + result[y][x - 1];
+            }
+        }
 
-                if (i != 0 && j != 0) {
-                    solution[i][j] = obstacleGrid[i][j] == 0 ? (solution[i - 1][j] + solution[i][j - 1]) : 0;
+        return result[M - 1][N - 1];
+    }
+
+    // DP, iterative, condensed space, 0ms
+    public static int uniquePathsWithObstacles2(int[][] grid) {
+        final int M = grid.length;
+        final int N = grid[0].length;
+        final int OBSTACLE = 1;
+        final int SPACE = 0;
+
+        int[] result = new int[N];
+
+        for (int x = 0; x < N; ++x) {
+            if (grid[0][x] == OBSTACLE) {
+                break;
+            }
+
+            result[x] = 1;
+        }
+
+        for (int y = 1; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                int cell = grid[y][x];
+
+                if (x == 0) {
+                    if (result[x] != 0) { // !!!
+                        result[x] = cell == OBSTACLE ? 0 : 1;
+                    }
+                } else {
+                    if (cell == OBSTACLE) {
+                        result[x] = 0;
+                    } else {
+                        result[x] = result[x - 1] + result[x];
+                    }
                 }
             }
         }
 
-        return solution[solution.length - 1][solution[0].length - 1];
+        return result[N - 1];
     }
 
-
-    // DP, iterative, with condensed array
-    public static int uniquePathsWithObstacles2(int[][] obstacleGrid) {
-        return 1;
-    }
 }
 

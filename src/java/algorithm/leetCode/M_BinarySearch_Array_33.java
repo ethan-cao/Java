@@ -5,7 +5,6 @@ Suppose an array sorted in ascending order is rotated at some pivot unknown to y
 (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
 You are given a target value to search. If found in the array return its index, otherwise return -1.
 assume no duplicate exists in the array.
-time complexity <= O(log n)
 
 ### Example
 nums = [4,5,6,7,0,1,2], target = 0 -> 4
@@ -24,7 +23,7 @@ public class M_BinarySearch_Array_33 {
     }
 
     // binary search, same as M_Array_81.search
-    // Time: O(logN), 0ms
+    // Time: O(NlogN), 0ms
     public static int search(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;

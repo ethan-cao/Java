@@ -17,8 +17,8 @@ public class E_Array_1 {
     public static void main(String[] args) {
         int[] result = twoSum2(new int[]{2, 7, 11, 15}, 9);
         assert result.length == 2;
-        assert Arrays.stream(result).anyMatch(x -> x == 3) == true;
-        assert Arrays.stream(result).anyMatch(x -> x == 1) == true;
+        assert Arrays.stream(result).anyMatch(x -> x == 3);
+        assert Arrays.stream(result).anyMatch(x -> x == 1);
 
         System.out.println(Arrays.toString(twoSum2(new int[]{2, 7, 11, 15}, 9))); // 1, 0
         System.out.println(Arrays.toString(twoSum2(new int[]{3, 2, 4}, 6)));      // 2, 1;

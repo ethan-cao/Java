@@ -3,12 +3,6 @@ package algorithm.leetCode;
 /*
 Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
 
-### Input
-int
-
-### Output
-List<List<Integer>>
-
 ### Example
 Input: 5
 Output:
@@ -19,20 +13,10 @@ Output:
 4 --> [[1], [1,1], [1,2,1], [1,3,3,1]]
 5 --> [[1], [1,1], [1,2,1], [1,3,3,1], [1,4,6,4,1]]
 
-### Condition
-
-### Essential problem
-
-
-### Corner case
-numRows <= 0 ---> []
-
 */
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class E_2Pointer_Array_118 {
 

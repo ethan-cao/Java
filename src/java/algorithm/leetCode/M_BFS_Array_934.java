@@ -24,81 +24,94 @@ public class M_BFS_Array_934 {
         System.out.println(shortestBridge(new int[][]{{0, 1}, {1, 0}})); // 1
     }
 
-    // BFS
-    // Time O(), Space: O()
+    private static final int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private static final int LAND = 1;
+    private static final int WATER = 0;
+    private static final int VISITED = -1;
+
+    // BFS, 15ms
+    // Time O(rows * cols), Space: O(rows * cols)
     public static int shortestBridge(int[][] A) {
-        int flipCount = 0;
-        int M = A.length;
-        int N = M == 0 ? 0 : A[0].length;
-        int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        Deque<int[]> queue = new ArrayDeque<>();
-        boolean hasIsland = false;
-        boolean[][] isIsland = new boolean[M][N];
+        Deque<int[]> island = findIsland(A);
+        return bridgeIslands(A, island);
+    }
 
-        // dfs to find one island, mark it in isIsland[][]
-        for (int i = 0; i < M; ++i) {
-            for (int j = 0; j < N; ++j) {
-                if (A[i][j] == 0) {
-                    continue;
+    private static Deque<int[]> findIsland(int[][] matrix) {
+        final int M = matrix.length;
+        final int N = matrix[0].length;
+
+        Deque<int[]> island = new ArrayDeque<>();
+
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (matrix[y][x] == LAND) {
+                    markIsland(matrix, y, x, island);
+                    return island;
                 }
-
-                visit(A, i, j, isIsland, queue, directions);
-                hasIsland = true;
-                break;
-            }
-
-            if (hasIsland) {
-                break;
             }
         }
 
-        // bfs to expand this island
-        while (!queue.isEmpty()) {
-            int size = queue.size();
+        return island;
+    }
+
+    private static void markIsland(int[][] matrix, int y, int x, Deque<int[]> island) {
+        if (y < 0 || y >= matrix.length || x < 0 || x >= matrix[0].length) {
+            return;
+        }
+
+        if (matrix[y][x] != 1) {
+            return;
+        }
+
+        island.offer(new int[]{y, x});
+        matrix[y][x] = VISITED;   // if we dont want change input, use visited[][] instead
+
+        for (int[] direction : directions) {
+            int nextY = y + direction[0];
+            int nextX = x + direction[1];
+
+            markIsland(matrix, nextY, nextX, island);
+        }
+    }
+
+    private static int bridgeIslands(int[][] matrix, Deque<int[]> island) {
+        int bridgeCount = 0;
+
+        final int M = matrix.length;
+        final int N = matrix[0].length;
+
+        while (!island.isEmpty()) {
+            int size = island.size();
 
             for (int i = 0; i < size; ++i) {
-                int[] land = queue.poll();
+                int[] land = island.poll();
 
                 for (int[] direction : directions) {
-                    int nextX = land[0] + direction[0];
-                    int nextY = land[1] + direction[1];
+                    int nextY = land[0] + direction[0];
+                    int nextX = land[1] + direction[1];
 
-                    if (nextX < 0 || nextX >= A.length || nextY < 0 || nextY >= A[0].length || isIsland[nextX][nextY]) {
+                    if (nextY < 0 || nextY >= N || nextX < 0 || nextX >= M) {
                         continue;
                     }
 
-                    // when two islands connects, we have the flipCount
-                    if (A[nextX][nextY] == 1) {
-                        return flipCount;
+                    if (matrix[nextY][nextX] == VISITED) {
+                        continue;
                     }
 
-                    isIsland[nextX][nextY] = true;
-                    queue.offer(new int[]{nextX, nextY});
+                    // when two islands connects, we have the bridgeCount
+                    if (matrix[nextY][nextX] == LAND) {
+                        return bridgeCount;
+                    }
+
+                    matrix[nextY][nextX] = VISITED;
+                    island.offer(new int[]{nextY, nextX});
                 }
             }
 
-            flipCount++;
+            bridgeCount++;
         }
 
         return -1;
     }
-
-    // mark island in isIsland[][]
-    private static void visit(int[][] A, int x, int y, boolean[][] isIsland, Deque<int[]> queue, int[][] directions) {
-        if (x < 0 || x >= A.length || y < 0 || y >= A[0].length || A[x][y] == 0 || isIsland[x][y]) {
-            return;
-        }
-
-        isIsland[x][y] = true;
-        queue.offer(new int[]{x, y});
-
-        for (int[] direction : directions) {
-            int nextX = x + direction[0];
-            int nextY = y + direction[1];
-
-            visit(A, nextX, nextY, isIsland, queue, directions);
-        }
-    }
-
 
 }

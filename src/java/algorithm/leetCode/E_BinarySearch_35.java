@@ -38,5 +38,4 @@ public class E_BinarySearch_35 {
         return left;
     }
 
-
 }

@@ -1,11 +1,19 @@
-import java.util.*;
+import basic.ObjectEqualityTest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Test {
 
     public static void main(String[] args) {
-        float f = 0.1F;
-        double d = 0.0D;
+        List<String> l = new ArrayList<>();
 
-        System.out.println("here");
+        l.add("AAA");
+        l.add("BBB");
+        l.add("CCC");
+
+        System.out.println(l.contains("AAA"));
+
     }
 }

@@ -7,16 +7,16 @@ Count the number of prime numbers less than a non-negative number, n.
 10 --> 4
 There are 4 prime numbers less than 10, they are 2, 3, 5, 7.
 
-
 */
 
 public class E_Math_204 {
+
     public static void main(String... args) {
-//        System.out.println(countPrimes(3));  // 1 : 2
-//        System.out.println(countPrimes0(5));  // 2 : 2 and 3
-//        System.out.println(countPrimes0(10));  // 4 : 2, 3, 5 and 7
-//        System.out.println(countPrimes0(88));  // 23
-//        System.out.println(countPrimes(100));  // 25
+        System.out.println(countPrimes(3));  // 1 : 2
+        System.out.println(countPrimes0(5));  // 2 : 2 and 3
+        System.out.println(countPrimes0(10));  // 4 : 2, 3, 5 and 7
+        System.out.println(countPrimes0(88));  // 23
+        System.out.println(countPrimes(100));  // 25
     }
 
     // https://www.youtube.com/watch?v=eKp56OLhoQs

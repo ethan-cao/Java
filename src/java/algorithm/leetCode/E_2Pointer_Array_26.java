@@ -15,8 +15,6 @@ It doesn't matter what you leave beyond the returned length.
 [0,0,1,1,1,2,2,3,3,4] -> 5
 with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively.
 
-// R : 1
-
  */
 
 public class E_2Pointer_Array_26 {

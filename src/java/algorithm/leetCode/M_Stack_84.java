@@ -6,7 +6,6 @@ where the width of each bar is 1,
 find the area of largest rectangle in the histogram.
 
 ### Example
-https://leetcode.com/problems/largest-rectangle-in-histogram/
 [2,1,5,6,2,3] -> 10
 
 */
@@ -15,7 +14,62 @@ import java.util.*;
 
 public class M_Stack_84 {
 
-    // Stack, 8ms
+    // Stack, Extrema, 7ms, similar to 42
+    // Time: O(N) Space: O(N)
+    public static int largestRectangleArea(int[] heights) {
+        int maxArea = 0;
+        final int L = heights.length;
+
+        // since we DON NOT need values just besides the local minima, but the local minima to derive the result, use monotonic decreasing stack
+        final Deque<Integer> stack = new ArrayDeque<>();
+
+        // calculate area including each bar the bar is used as height
+        for (int rightIdx = 0; rightIdx < L; ++rightIdx) {
+            int rightHeight = heights[rightIdx];
+
+            while (!stack.isEmpty() && heights[stack.peek()] >= rightHeight) {
+                // find the concave 凹 (convex 凸), similar to 907
+                /*           _
+                           _| |_
+                         _| | | |
+                        | | | | |
+                        | | | | |
+                      ------------
+                   idx   0 1 2 3
+                  height 2 3 4 2
+
+                    rightIdx points to the 1st smaller one on middle's right
+                    leftIdx points to the 1st smaller one on middle's left
+                    (rightIdx - left - 1) is the count for continuous num that >= middleNum
+                    middleIdx points to the minimum value between [leftIdx + 1, rightIdx - 1]
+                 */
+                int middleIdx = stack.pop();
+                int leftIdx = stack.isEmpty() ? -1 : stack.peek();
+
+                int height = heights[middleIdx];
+                int width = rightIdx - leftIdx - 1;
+                int area = height * width;
+
+                maxArea = Math.max(maxArea, area);
+            }
+
+            stack.push(rightIdx);
+        }
+
+        // check the rest heights
+        // in this case, if stack is not empty, the top one in stack is the last bar in histogram
+        while (!stack.isEmpty()) {
+            int height = heights[stack.pop()];
+            int width = (L - 1) - (stack.isEmpty() ? -1 : stack.peek());
+            int area = height * width;
+
+            maxArea = Math.max(maxArea, area);
+        }
+
+        return maxArea;
+    }
+
+    // Stack, 8ms, similar to algorithm.leetCode.M_Stack_Array_907.sumSubarrayMins1
     // Time: O(N)
     public static int largestRectangleArea0(int[] heights) {
         int maxArea = 0;
@@ -51,45 +105,6 @@ public class M_Stack_84 {
 
         for (int i = 0; i < L; ++i) {
             int area = heights[i] * (rightSmallerIndices[i] - leftSmallerIndices[i] - 1);
-            maxArea = Math.max(maxArea, area);
-        }
-
-        return maxArea;
-    }
-
-    // Stack, Extrema, 7ms
-    // Time: O(N) Space: O(N)
-    public static int largestRectangleArea(int[] heights) {
-        int maxArea = 0;
-
-        Deque<Integer> stack = new ArrayDeque<>(); // monotonic increasing
-
-        for (int rightIdx = 0; rightIdx < heights.length; ++rightIdx) {
-            int right = heights[rightIdx];
-
-            while (!stack.isEmpty() && heights[stack.peek()] >= right) {
-                // find the convex 凸 (concave 凹)
-                // middle is local maximum, middle >= right && middle > left
-                // use the local maximum as elevation to get area
-                int middle = heights[stack.pop()];
-                int leftIdx = stack.isEmpty() ? -1 : stack.peek();
-
-                int elevation = middle;
-                int length = rightIdx - leftIdx - 1;
-                int area = elevation * length;
-
-                maxArea = Math.max(maxArea, area);
-            }
-
-            stack.push(rightIdx);
-        }
-
-        // the rest heights are increasing
-        while (!stack.isEmpty()) {
-            int elevation = heights[stack.pop()];
-            int length = heights.length - (stack.isEmpty() ? 0 : stack.peek() + 1);
-            int area = elevation * length;
-
             maxArea = Math.max(maxArea, area);
         }
 

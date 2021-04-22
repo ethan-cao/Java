@@ -25,25 +25,22 @@ public class M_DP_Tree_96 {
         System.out.println(numTrees(5));  // 42
     }
 
-    //DP iterative, 0ms
+    // DP, iterative, 0ms
     public static int numTrees(int n) {
-        int[] count = new int[n + 1];  // count[i] tree count when n is i
+        int[] count = new int[n + 1];
         count[0] = 1;
-//        count[1] = 1;
 
-        for (int numCount = 1; numCount <= n; ++numCount) {
-            // leftCount < numCount, cannot use ==, leave 1 for the root
-            for (int leftNumCount = 0; leftNumCount < numCount; ++leftNumCount) {
-                // numCount - 1 (root) - leftNumCount : rightNumCount
-                // count[numCount] += count[leftNumCount] * count[rightNumCount]
-                count[numCount] += count[leftNumCount] * count[numCount - 1 - leftNumCount];
+        for (int i = 1; i <= n; ++i) {
+            for (int leftRange = 0; leftRange < i; ++leftRange) {
+                int rightRange = i - (leftRange + 1);
+                count[i] += count[leftRange] * count[rightRange];
             }
         }
 
         return count[n];
     }
 
-    //DP recursive, 2040ms
+    //DP, recursive, TLE
     public static int numTrees1(int n) {
         return getCount(1, n);
     }

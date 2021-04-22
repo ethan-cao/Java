@@ -28,8 +28,6 @@ Output: false
 
 ]*/
 
-import java.util.*;
-
 public class M_BinarySearch_Array_74 {
 
     public static void main(String... args) {
@@ -42,13 +40,9 @@ public class M_BinarySearch_Array_74 {
         System.out.println(searchMatrix(matrix, 13)); // F
     }
 
-    // Binary search
-    // 0ms, O(logN)
+    // Binary search, 0ms
+    // Time O(NlogN)
     public static boolean searchMatrix(int[][] matrix, int target) {
-        if (matrix == null || matrix.length == 0 || matrix[0].length ==0){
-            return false;
-        }
-
         int M = matrix.length;
         int N = matrix[0].length;
 
@@ -57,14 +51,13 @@ public class M_BinarySearch_Array_74 {
 
         while (left <= right) {
             int middle = left + (right - left) / 2;
-            int row = middle / N ;
-            int col = middle % N;
+            int y = middle / N;
+            int x = middle % N;
+            int val = matrix[y][x];
 
-            if (matrix[row][col] == target) {
+            if (val == target) {
                 return true;
-            }
-
-            if (target > matrix[row][col]) {
+            } else if (target > val) {
                 left = middle + 1;
             } else {
                 right = middle - 1;

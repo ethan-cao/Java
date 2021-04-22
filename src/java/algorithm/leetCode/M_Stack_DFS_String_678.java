@@ -43,11 +43,10 @@ public class M_Stack_DFS_String_678 {
         Deque<Integer> starIndices = new ArrayDeque<>();
 
         for (int i = 0; i < s.length(); ++i) {
-
             char c = s.charAt(i);
 
             if (c == '(') {
-                leftIndices.push(i) ;
+                leftIndices.push(i);
             } else if (c == ')') {
                 if (!leftIndices.isEmpty()) {
                     leftIndices.pop();
@@ -61,9 +60,11 @@ public class M_Stack_DFS_String_678 {
             }
         }
 
-        // if star is on right side of leftParenthesis, pair them
+        // check the rest
         while (!leftIndices.isEmpty() && !starIndices.isEmpty()) {
-            if ( leftIndices.pop() > starIndices.pop()) {
+            // only if star is on right side of leftParenthesis, pair them
+            // otherwise not valid
+            if (leftIndices.pop() > starIndices.pop()) {
                 return false;
             }
         }
@@ -71,47 +72,47 @@ public class M_Stack_DFS_String_678 {
         return leftIndices.isEmpty();
     }
 
+    // 0ms
     // Time: O(N), Space O(1)
     public static boolean checkValidString2(String s) {
-        int maxPossibleUnpairedLeftCount = 0;
-        int minPossibleUnpairedLeftCount = 0;
+        int maxOpenParenthesisCount = 0;
+        int minOpenParenthesisCount = 0;
 
         for (int i = 0; i < s.length(); ++i) {
             char c = s.charAt(i);
 
             if (c == '(') {
-                maxPossibleUnpairedLeftCount++;
-                minPossibleUnpairedLeftCount++;
+                maxOpenParenthesisCount++;
+                minOpenParenthesisCount++;
             } else if (c == ')') {
-                maxPossibleUnpairedLeftCount--;
-
-                // minPossibleUnpairedLeftCount < 0 is not a possible case
-                if (minPossibleUnpairedLeftCount > 0) {
-                    minPossibleUnpairedLeftCount--;
-                }
+                maxOpenParenthesisCount--;
+                minOpenParenthesisCount--;
             } else if (c == '*') {
                 // case1: consider * as (
-                // minPossibleUnpairedLeftCount remains, since the min possible value could still be the same
-                maxPossibleUnpairedLeftCount++;
+                // minOpenParenthesisCount remains, since the min possible value could still be the same
+                maxOpenParenthesisCount++;
 
                 // case2: consider * as )
                 // since * can be considered as empty, it is only necessary when there are unmatched (
-                // maxPossibleUnpairedLeftCount remains, since the max possible value could still be the same
-                if (minPossibleUnpairedLeftCount > 0) {
-                    minPossibleUnpairedLeftCount--;
-                }
+                // maxOpenParenthesisCount remains, since the max possible value could still be the same
+                minOpenParenthesisCount--;
 
                 // case3: consider * as empty, do nothing
             }
 
             // after each round, there is more ), and it is not possible to pair it any more
-            if (maxPossibleUnpairedLeftCount < 0) {
+            if (maxOpenParenthesisCount < 0) {
                 return false;
+            }
+
+            // minOpenParenthesisCount cannot be < 0, those cases should be eliminated
+            if (minOpenParenthesisCount < 0) {
+                minOpenParenthesisCount = 0;
             }
         }
 
         // if the min possible is 0, that means it could possibly pair all ( and )
-        return minPossibleUnpairedLeftCount == 0;
+        return minOpenParenthesisCount == 0;
     }
 
     // DFS

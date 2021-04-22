@@ -30,10 +30,43 @@ public class E_Stack_20 {
         System.out.println(isValid("{[]}")); // R
     }
 
+    // 1ms
+    public boolean isValid0(String s) {
+        if (s.length() % 2 != 0) {
+            return false;
+        }
+
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (int i = 0; i < s.length(); ++i) {
+            char token = s.charAt(i);
+
+            if (token == '(' || token == '[' || token == '{') {
+                stack.push(token);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                if (stack.peek() == '(' && token != ')') {
+                    return false;
+                } else if (stack.peek() == '[' && token != ']') {
+                    return false;
+                } else if (stack.peek() == '{' && token != '}') {
+                    return false;
+                }
+
+                stack.pop();
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
     // 2ms
     public static boolean isValid(String s) {
         Deque<Character> stack = new ArrayDeque<>();
-        // use map for better maintainbility and extensibility
+        // use map for better maintainability and extensibility
         Map<Character, Character> mapping = buildMapping();
 
         for (char c : s.toCharArray()) {
