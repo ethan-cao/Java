@@ -13,8 +13,8 @@ public class A_FrequentUse {
         static void test() {
             int i = 2;
 
-            boolean b = (i & 1) == 0; // check if i is even
-            b = (i & 1) == 1;  // check if i is odd
+            boolean isEven = (i & 1) == 0;
+            boolean isOdd = (i & 1) == 1;
         }
 
         static int getAverage(int a, int b) {
