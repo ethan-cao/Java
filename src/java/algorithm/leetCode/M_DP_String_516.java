@@ -1,0 +1,152 @@
+package algorithm.leetCode;
+
+/*
+Given a string s, find the longest palindromic subsequence's length in s.
+You may assume that the maximum length of s is 1000.
+
+1 <= s.length <= 1000
+s consists only of lowercase English letters.
+
+### Example
+"bbbab" -> 4, One possible longest palindromic subsequence is "bbbb".
+"cbbd" -> 2, One possible longest palindromic subsequence is "bb".
+
+*/
+
+public class M_DP_String_516 {
+
+    public static void main(String... args) {
+        System.out.println(longestPalindromeSubseq_1("a")); // 1
+        System.out.println(longestPalindromeSubseq_1("aa")); // 2
+        System.out.println(longestPalindromeSubseq_1("aaa")); // 3
+        System.out.println(longestPalindromeSubseq_1("bbbab")); // 4
+        System.out.println(longestPalindromeSubseq_1("cbbd")); // 2
+    }
+
+    // DP, recursive, TLE
+    public static int longestPalindromeSubseq_1(String s) {
+        return getSequence(s, 0, s.length() - 1);
+    }
+
+    private static int getSequence(String s, int start, int end) {
+        if (start == end) {
+            return 1;
+        }
+
+        if (start > end) {
+            return 0;
+        }
+
+        if (s.charAt(start) == s.charAt(end)) {
+            return 2 + getSequence(s, start + 1, end - 1);
+        } else {
+            return Math.max(getSequence(s, start + 1, end), getSequence(s, start, end - 1));
+        }
+    }
+
+    // DP, recursive, cache
+    // 28ms
+    public int longestPalindromeSubseq_2(String s) {
+        final int L = s.length();
+        Integer[][] memo = new Integer[L][L];
+
+        return getSequence(s, 0, s.length() - 1, memo);
+    }
+
+    private int getSequence(String s, int start, int end, Integer[][] memo) {
+        if (start == end) {
+            return 1;
+        }
+
+        if (start > end) {
+            return 0;
+        }
+
+        if (memo[start][end] != null) {
+            return memo[start][end];
+        }
+
+
+        if (s.charAt(start) == s.charAt(end)) {
+            memo[start][end] = 2 + getSequence(s, start + 1, end - 1, memo);
+        } else {
+            memo[start][end] = Math.max(getSequence(s, start + 1, end, memo), getSequence(s, start, end - 1, memo));
+        }
+
+        return memo[start][end];
+
+    }
+
+    // DP, iterative
+    // 137ms
+    public static int longestPalindromeSubseq_3(String s) {
+        final int L = s.length();
+        int[][] results = new int[L][L];
+
+        for (int end = 0; end < L; ++end) {
+            results[end][end] = 1;
+
+            for (int start = end - 1; start >= 0; start--) {
+                if (s.charAt(start) == s.charAt(end)) {
+                    results[start][end] = results[start + 1][end - 1] + 2;
+                } else {
+                    results[start][end] = Math.max(results[start + 1][end], results[start][end - 1]);
+                }
+            }
+        }
+
+        return results[0][L - 1];
+    }
+
+    // DP, iterative
+    public static int longestPalindromeSubseq_4(String s) {
+        int L = s.length();
+        int[][] results = new int[L][L];
+
+        for (int start = L - 1; start >= 0; --start) {
+            results[start][start] = 1;
+
+            for (int end = start + 1; end < L; ++end) {
+
+                if (s.charAt(start) == s.charAt(end)) {
+                    results[start][end] = 2 + results[start + 1][end - 1];
+                } else {
+                    results[start][end] = Math.max(results[start + 1][end], results[start][end - 1]);
+                }
+            }
+        }
+
+        return results[0][L - 1];
+    }
+
+    // DP, iterative, condensed space
+    // 70 ms
+    public static int longestPalindromeSubseq_5(String s) {
+        int L = s.length();
+        int[] results = new int[L];
+
+        int current = 0;
+
+        for (int end = 0; end < L; end++) {
+            results[end] = 1;
+            current = 0;
+
+            for (int start = end - 1; start >= 0; start--) {
+                int previous = results[start];
+
+                if (s.charAt(start) == s.charAt(end)) {
+                    results[start] = 2 + current;
+                }
+
+                current = Math.max(current, previous);
+            }
+        }
+
+        for (int result : results) {
+            current = Math.max(current, result);
+        }
+
+        return current;
+    }
+
+}
