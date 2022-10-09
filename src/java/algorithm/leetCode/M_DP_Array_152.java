@@ -19,7 +19,49 @@ public class M_DP_Array_152 {
         System.out.println(maxProduct(new int[] { -2, 0, -1 })); // 0
     }
 
-    // Kadane's algorithm, 1ms
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /** Kadane's algorithm
+     */
+    public int maxProduct0(int[] nums) {
+        final int L = nums.length;
+
+        int maxProduct = nums[0];
+
+        int[] maxProducts = new int[L];
+        maxProducts[0] = nums[0];
+
+        int[] minProducts = new int[L];
+        minProducts[0] = nums[0];
+
+        for (int i = 1; i < L; ++i) {
+            int num = nums[i];
+
+            int newArrayProduct = num;
+
+            int appendingArrayMaxProduct = 0;
+            int appendingArrayMinProduct = 0;
+
+            if (num >= 0) {
+                appendingArrayMaxProduct = maxProducts[i - 1] * num;
+                appendingArrayMinProduct = minProducts[i - 1] * num;
+            } else {
+                appendingArrayMaxProduct = minProducts[i - 1] * num;
+                appendingArrayMinProduct = maxProducts[i - 1] * num;
+            }
+
+            maxProducts[i] = Math.max(newArrayProduct, appendingArrayMaxProduct);
+            minProducts[i] = Math.min(newArrayProduct, appendingArrayMinProduct);
+
+            maxProduct = Math.max(maxProduct, maxProducts[i]);
+        }
+
+        return maxProduct;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Kadane's algorithm, condensed space
+    // 1ms
     // Time: O(N), Space: O(N)
     public static int maxProduct(int[] nums) {
         final int L = nums.length;
@@ -48,6 +90,7 @@ public class M_DP_Array_152 {
         return maxProduct;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 0ms, see Notion for explanation, hard to explain in interview
     // Time: O(N), Space: O(N)
     public int maxProduct1(int[] nums) {
@@ -85,6 +128,7 @@ public class M_DP_Array_152 {
         return maxProduct;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 1ms, simplified version of maxProduct1
     // Time: O(N), Space: O(N)
     public int maxProduct2(int[] nums) {

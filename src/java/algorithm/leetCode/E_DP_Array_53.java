@@ -42,9 +42,35 @@ public class E_DP_Array_53 {
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Kadane's algorithm
-    // DP, iterative, 1ms
-    // Time: O(N)
+    /** Kadane's algorithm
+     DP, iterative, 1ms
+     Time: O(N)
+
+    Analysis:
+    INPUT: [4,-1,2,1]
+    
+    [4]: 
+    [4]
+    -> 4
+
+    [4, -1]: 
+    [-1]
+    [4, -1]
+    -> 3
+
+    [4,-1,2]:
+    [2]
+    [-1, 2]
+    [4, -1, 2]
+    -> 5
+
+    [4,-1,2,1]:
+    [1]
+    [2, 1]
+    [-1, 2, 1]
+    [4, -1, 2, 1]
+    6
+    */ 
     public static int maxSubArray3(int[] nums) {
         final int L = nums.length;
 
