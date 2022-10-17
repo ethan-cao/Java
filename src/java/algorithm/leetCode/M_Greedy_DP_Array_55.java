@@ -16,84 +16,73 @@ Explanation: always arrive at index 3. Its maximum jump length is 0, which makes
 public class M_Greedy_DP_Array_55 {
 
     public static void main(String... args) {
-        System.out.println(canJump(new int[]{2, 3, 1, 1, 4})); // T
-        System.out.println(canJump(new int[]{3, 2, 1, 0, 4})); // F
-        System.out.println(canJump(new int[]{2, 3, 1, 31, 1})); // T
+        System.out.println(canJump(new int[] { 2, 3, 1, 1, 4 })); // T
+        System.out.println(canJump(new int[] { 3, 2, 1, 0, 4 })); // F
+        System.out.println(canJump(new int[] { 2, 3, 1, 31, 1 })); // T
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Greedy, 1ms
     public static boolean canJump(int[] nums) {
-        /*
+        final int L = nums.length;
 
-        public boolean canJump(int[] nums) {
-    int dis = 0;
-    for (int i = 0; i <= dis; i++) {
-        dis = Math.max(dis, i + nums[i]);
-        if (dis >= nums.length-1) {
-            return true;
-        }
-    }
-    return false;
-}
-         */
-
-
-        int currentIdx = 0;
-
-        for (int i = 0; i < nums.length; ++i) {
-            if (currentIdx < i) {
+        for (int currentIdx = 0, nextIdx = 0; currentIdx < L; ++currentIdx) {
+            if (nextIdx < currentIdx) {
                 // if the max jump index cannot reach index i, not possible to proceed
                 return false;
             }
 
-            currentIdx = Math.max(currentIdx, i + nums[i]); // greedy
+            nextIdx = Math.max(nextIdx, currentIdx + nums[currentIdx]); // greedy
         }
         // possible to reach index nums.length -1
 
         return true;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Greedy, 1ms
     public boolean canJump222(int[] nums) {
         final int L = nums.length;
-        
-        int maxPosition = 0;
-        int currentPosition = 0;
-    
-        while (currentPosition <= maxPosition) {
-            maxPosition = Math.max(maxPosition, currentPosition + nums[currentPosition]);
-            
-            if (maxPosition >= L - 1) {
+
+        int currentIdx = 0;
+        int nextIdx = 0;
+
+        while (nextIdx >= currentIdx) {
+            nextIdx = Math.max(nextIdx, currentIdx + nums[currentIdx]);
+
+            if (nextIdx >= L - 1) {
                 return true;
             }
-            
-            currentPosition++;
+
+            currentIdx++;
         }
-    
+
         return false;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 200ms
     // Time: O(N^2)
     public static boolean canJump1(int[] nums) {
         final int L = nums.length;
+
         boolean[] canJumpToEnd = new boolean[L];
         canJumpToEnd[L - 1] = true;
 
-        // check from right to left
-        for (int position = L - 2; position >= 0; --position) {
-            int maxJumpDistance = nums[position];
+        // check from end to start
+        for (int idx = L - 2; idx >= 0; --idx) {
+            int maxJumpDistance = nums[idx];
 
             for (int jumpDistance = 0; jumpDistance <= maxJumpDistance; ++jumpDistance) {
 
-                if (position + jumpDistance >= L - 1) {
-                    canJumpToEnd[position] = true;
+                if (idx + jumpDistance >= L - 1) {
+                    canJumpToEnd[idx] = true;
                 } else {
-                    // since we check from right to left, canJumpToEnd[position + jumpDistance] is known
-                    canJumpToEnd[position] = canJumpToEnd[position + jumpDistance];
+                    // since we check from end to start, canJumpToEnd[position + jumpDistance] is known
+                    canJumpToEnd[idx] = canJumpToEnd[idx + jumpDistance];
                 }
 
-                if (canJumpToEnd[position]) {
+                if (canJumpToEnd[idx]) {
                     break;
                 }
             }
@@ -102,4 +91,27 @@ public class M_Greedy_DP_Array_55 {
         return canJumpToEnd[0];
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Brute force, LTE
+    public boolean canJump11(int[] nums) {
+        return check(nums, 0);
+    }
+
+    boolean check(int[] nums, int idx) {
+        if (idx == nums.length - 1) {
+            return true;
+        }
+
+        int maxJump = nums[idx];
+
+        for (int jump = 1; jump <= maxJump; ++jump) {
+            int nextIdx = idx + jump;
+
+            if (nextIdx < nums.length && check(nums, nextIdx)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
