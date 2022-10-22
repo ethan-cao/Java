@@ -7,6 +7,7 @@ src/java/algorithm/slides/Algorithms4th.pdf
 
 .DS_Store
 .idea/
+.vscode
 
 gradlew
 gradlew.bat
