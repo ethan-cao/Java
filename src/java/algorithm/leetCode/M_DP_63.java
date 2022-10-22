@@ -72,43 +72,36 @@ public class M_DP_63 {
     }
 
     // DP, iterative, 0ms
-    public static int uniquePathsWithObstacles1(int[][] grid) {
-        final int M = grid.length;
-        final int N = grid[0].length;
+    public int uniquePathsWithObstacles11(int[][] obstacleGrid) {
+        final int M = obstacleGrid.length;
+        final int N = obstacleGrid[0].length;
         final int OBSTACLE = 1;
-        final int SPACE = 0;
 
-        int[][] result = new int[M][N];
+        int[][] paths = new int[M][N];
 
-        for (int y = 0; y < M; ++y) {
-            if (grid[y][0] == OBSTACLE) {
-                break;
-            }
+        paths[0][0] = obstacleGrid[0][0] == OBSTACLE ? 0 : 1;
 
-            result[y][0] = 1;
+        for (int x = 1; x < N; ++x) {
+            paths[0][x] = (obstacleGrid[0][x] == OBSTACLE || paths[0][x - 1] == 0) ? 0 : 1;
         }
 
-        for (int x = 0; x < N; ++x) {
-            if (grid[0][x] == OBSTACLE) {
-                break;
-            }
-
-            result[0][x] = 1;
+        for (int y = 1; y < M; ++y) {
+            paths[y][0] = (obstacleGrid[y][0] == OBSTACLE || paths[y - 1][0] == 0) ? 0 : 1;
         }
 
         for (int y = 1; y < M; ++y) {
             for (int x = 1; x < N; ++x) {
-                int cell = grid[y][x];
+                int cell = obstacleGrid[y][x];
 
                 if (cell == OBSTACLE) {
-                    continue;
+                    paths[y][x] = 0;
+                } else {
+                    paths[y][x] = paths[y - 1][x] + paths[y][x - 1];
                 }
-
-                result[y][x] = result[y - 1][x] + result[y][x - 1];
             }
         }
 
-        return result[M - 1][N - 1];
+        return paths[M - 1][N - 1];
     }
 
     // DP, iterative, condensed space, 0ms

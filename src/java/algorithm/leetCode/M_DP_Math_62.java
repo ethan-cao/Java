@@ -55,7 +55,7 @@ public class M_DP_Math_62 {
         return result[m - 1][n - 1];
     }
 
-    // DP, iterative, space, 0ms
+    // DP, iterative, condensed space, 0ms
     // Time: O(M*N), Space: O(N)
     public static int uniquePaths3(int m, int n) {
         int[] result = new int[n];
