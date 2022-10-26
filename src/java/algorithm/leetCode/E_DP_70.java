@@ -57,11 +57,33 @@ public class E_DP_70 {
 
     // DP, recursive, TLE
     private static int climbStairs1(int n) {
+        // 2 base case: 1 -> 1, 2->2
         if (n == 1 || n == 2) {
             return n;
         }
 
         return climbStairs(n - 1) + climbStairs(n - 2);
+    }
+
+    // DP, recursive, cache
+    // 0ms
+    public int climbStairs11(int n) {
+        int[] counts = new int[n + 1]; 
+        return count(n, counts);        
+    }
+
+    private int count(int n, int[] counts) {
+        if (counts[n] != 0) {
+            return counts[n];
+        }         
+
+        if (n == 1 || n == 2) {
+            counts[n] = n;
+            return counts[n];
+        }
+
+        counts[n] = count(n - 1, counts) + count(n - 2, counts);
+        return counts[n];
     }
 
 }

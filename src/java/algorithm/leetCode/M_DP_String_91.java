@@ -33,10 +33,10 @@ public class M_DP_String_91 {
     public int numDecodings0(String s) {
         final int L = s.length();
 
-        // result[0] and result[1] are basic cases to build results
         // result[i]: when s size is i, how many ways to decode
-        // 0 ways to decode a empty string. dp[0] set to 1 only to get the result for dp[2].
         int[] result = new int[L + 1];
+
+        // !!! 0 ways to decode a empty string. dp[0] set to 1 only to get the result for dp[2].
         result[0] = 1;
         result[1] = s.charAt(0) == '0' ? 0 : 1;
 
@@ -89,50 +89,40 @@ public class M_DP_String_91 {
     // DP, recursive
     // 1ms
     public static int numDecodings000(String s) {
-        final int L = s.length();
-
-        int[] memo = new int[L + 1];
-        Arrays.fill(memo, -1);
-        memo[0] = 1;
-        memo[1] = s.charAt(0) == '0' ? 0 : 1;
-
-        return count(s, L, memo);
+        Integer[] memo = new Integer[s.length()];
+        
+        return count(s, s.length() - 1, memo); 
     }
 
-    private static int count(String s, int i, int[] memo) {
-        if (i == 0) {
-            return memo[0];
+    private static int count(String s, int idx, Integer[] memo) {
+        if (idx == -1) {
+            return 1;
         }
 
-        if (i == 1) {
-            return memo[1];
+        if (memo[idx] != null) {
+            return memo[idx];
         }
 
-        if (memo[i] != -1) {
-            return memo[i];
+        if (idx == 0) {
+            memo[idx] = s.charAt(idx) == '0' ? 0 : 1;
+            return memo[idx];
         }
 
         int count = 0;
-
-        int singleDigitNum = s.charAt(i - 1) - '0';
+    
+        int singleDigitNum = s.charAt(idx) - '0';
         if (singleDigitNum != 0) {
-            if (memo[i - 1] == -1) {
-                memo[i - 1] = count(s, i - 1, memo);
-            }
-            count += memo[i - 1];
+            count += count(s, idx - 1, memo);
         }
 
-        int doubleDigitNum = (s.charAt(i - 2) - '0') * 10 + singleDigitNum;
+        int doubleDigitNum = (s.charAt(idx - 1) - '0') * 10 + singleDigitNum;
         if (doubleDigitNum >= 10 && doubleDigitNum <= 26) {
-            if (memo[i - 2] == -1) {
-                memo[i - 2] = count(s, i - 2, memo);
-            }
-            count += memo[i - 2];
+            // !!! since idx - 2, we need check if idx == -1 so we can return 1
+            count += count(s, idx - 2, memo);
         }
-
-        memo[i] = count;
-
-        return memo[i];
+    
+        memo[idx] = count;
+        return memo[idx];
     }
 
     // DP, iterative
