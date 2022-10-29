@@ -1,7 +1,8 @@
 package algorithm.leetCode;
 
 /*
-Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
+Given an integer n, return all the structurally unique BST's (binary search trees), 
+which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
 
 ### Example
 3 -> 5
@@ -48,11 +49,12 @@ public class M_DP_Tree_95 {
 
         if (start > end) {
             // there is no node for this tree
-            // !!! return null so leftSubTreeRoot and rightSubTreeRoot can be null in iteration to form tree
+            // why use null? because it's in the example's answer
             roots.add(null);
             return roots;
         }
 
+        // use i as root for the tree
         for (int i = start; i <= end; ++i) {
             List<TreeNode> leftTrees = buildTree(start, i - 1);
             List<TreeNode> rightTrees = buildTree(i + 1, end);
