@@ -24,13 +24,14 @@ public class M_DP_120 {
         final int SIZE = triangle.size();
         int[][] minSums = new int[SIZE][SIZE];
 
+         // BASE, the last row
         for (int x = 0; x < SIZE; ++x) {
             minSums[SIZE - 1][x] = triangle.get(SIZE - 1).get(x);
         }
 
         for (int y = SIZE - 2; y >= 0; --y) {
             for (int x = 0; x <= y; ++x) {
-                minSums[y][x] = Math.min(minSums[y + 1][x], minSums[y + 1][x + 1]) + triangle.get(y).get(x);
+                minSums[y][x] = triangle.get(y).get(x) + Math.min(minSums[y + 1][x], minSums[y + 1][x + 1]);
             }
         }
 

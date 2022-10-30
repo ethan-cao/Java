@@ -41,10 +41,11 @@ public class M_DP_Tree_95 {
     // DP, recursive, 2ms
     // 1ms
     public List<TreeNode> generateTrees0(int n) {
-        return buildTree(1, n);
+        return buildTrees(1, n);
     }
 
-    private List<TreeNode> buildTree(int start, int end) {
+    // build structurally unique BST, with values [start, end]
+    private List<TreeNode> buildTrees(int start, int end) {
         List<TreeNode> roots = new ArrayList<>();
 
         if (start > end) {
@@ -54,14 +55,13 @@ public class M_DP_Tree_95 {
             return roots;
         }
 
-        // use i as root for the tree
-        for (int i = start; i <= end; ++i) {
-            List<TreeNode> leftTrees = buildTree(start, i - 1);
-            List<TreeNode> rightTrees = buildTree(i + 1, end);
-
-            for (TreeNode leftTree : leftTrees) {
-                for (TreeNode rightTree : rightTrees) {
-                    TreeNode root = new TreeNode(i, leftTree, rightTree);
+        for (int rootValue = start; rootValue <= end; ++rootValue) {
+            List<TreeNode> leftTreeRoots = buildTrees(start, rootValue - 1);
+            List<TreeNode> rightTreeRoots = buildTrees(rootValue + 1, end);
+        
+            for (TreeNode leftTreeRoot: leftTreeRoots)  {
+                for (TreeNode rightTreeRoot: rightTreeRoots) {
+                    TreeNode root = new TreeNode(rootValue, leftTreeRoot, rightTreeRoot);
                     roots.add(root);
                 }
             }
