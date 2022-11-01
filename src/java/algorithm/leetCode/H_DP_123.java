@@ -17,65 +17,64 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 
 public class M_DP_123 {
 
-    public static void main(String... args) {
-    }
-
     // DP
     // Time: O(N), 5ms
     public int maxProfit0(int[] prices) {
         final int L = prices.length;
 
-        int balance1 = 0;
+        int profit1 = 0;
         int lowestPrice1 = prices[0];
 
-        int balance2 = 0;
+        int profit2 = 0;
         int lowestPrice2 = prices[0];
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            int profitWithoutTrading1 = balance1;
-            int profitWithTrading1 = price - lowestPrice1;
-            balance1 = Math.max(profitWithoutTrading1, profitWithTrading1);
+            int profitIfNoAction1 = profit1;
+            int profitIfSelling1 = price - lowestPrice1;
+            profit1 = Math.max(profitIfNoAction1, profitIfSelling1);
             lowestPrice1 = Math.min(lowestPrice1, price);
 
-            int profitWithoutTrading2 = balance2;
-            int profitWithTrading2 = price - lowestPrice2;
-            balance2 = Math.max(profitWithoutTrading2, profitWithTrading2);
-            lowestPrice2 = Math.min(lowestPrice2, price - balance1);
+            int profitIfNoAction2 = profit2;
+            int profitIfSelling2 = price - lowestPrice2;
+            profit2 = Math.max(profitIfNoAction2, profitIfSelling2);
+            // !!! price - profit1: profit from 1st transaction should be taken into lowest price consideration
+            lowestPrice2 = Math.min(lowestPrice2, price - profit1); 
         }
 
-        return balance2;
+        return profit2;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // same as 188
     // DP
     // Tim: O(N^2), 10ms
     public int maxProfit(int[] prices) {
         final int L = prices.length;
-
-        int transactionCount = 2;
+        final int TRANSACTION_COUNT = 2;
 
         // maxProfits[i][j]: max profit with i transaction within j days
-        int[][] maxProfits = new int[transactionCount + 1][L];
+        int[][] profits = new int[TRANSACTION_COUNT + 1][L];
 
-        for (int t = 1; t <= 2; t++) {
+        for (int t = 1; t <= TRANSACTION_COUNT; ++t) {
             int lowestPrice = prices[0];
 
-            for (int i = 1; i < L; i++) {
-                int price = prices[i];
+            for (int d = 1; d < L; ++d) {
+                int price = prices[d];
 
                 // same profit as the day before
-                int profitWithoutTrading = maxProfits[t][i - 1];
+                int profitIfNoAction = profits[t][d - 1];
 
-                // the lowest price reduce previous transaction profit
-                lowestPrice = Math.min(lowestPrice, price - maxProfits[t - 1][i - 1]);
-                int profitWithTrading = price - lowestPrice;
+                // the lowest price reduce previous transaction profit from previous day
+                lowestPrice = Math.min(lowestPrice, price - profits[t - 1][d - 1]);
+                int profitIfSelling = price - lowestPrice;
 
-                maxProfits[t][i] = Math.max(profitWithoutTrading, profitWithTrading);
+                profits[t][d] = Math.max(profitIfNoAction, profitIfSelling);
             }
         }
 
-        return maxProfits[transactionCount][L - 1];
+        return profits[TRANSACTION_COUNT][L - 1];
     }
 
 }

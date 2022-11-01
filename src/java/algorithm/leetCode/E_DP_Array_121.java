@@ -15,6 +15,9 @@ If you cannot achieve any profit, return 0.
 Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5
 buy on the first picked day and sell on the second picked day
 
+# Analysis
+Buy and sell cannot happen on the same day
+
 */
 public class E_DP_Array_121 {
 
@@ -25,58 +28,31 @@ public class E_DP_Array_121 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
-    public int maxProfit0(int[] prices) {
-        final int L = prices.length;
-
-        int maxProfit = 0;
-    
-        int[] lowestPrices = new int[L];
-        int[] maxProfits = new int[L];
-
-        lowestPrices[0] = prices[0];
-        maxProfits[0] = 0;
-
-        for (int i = 1; i < L; ++i) {
-            int price = prices[i];
-            
-            lowestPrices[i] = Math.min(lowestPrices[i - 1], price);
-        
-            int profitWithoutTrading = maxProfits[i - 1];
-            int profitWithTrading = price - lowestPrices[i];
-            maxProfits[i] = Math.max(profitWithoutTrading, profitWithTrading);
-            
-            maxProfit = Math.max(maxProfit, maxProfits[i]);
-        }
-
-        return maxProfit;
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, condensed space
     // 1ms
     public static int maxProfit(int[] prices) {
         final int L = prices.length;
-
-        int maxProfit = 0;
-
+    
         int profit = 0;
+    
         int lowestPrice = prices[0];
-
+    
         for (int i = 1; i < L; ++i) {
-            int price = prices[i];
+            int price  = prices[i];
+            
+            int profitIfNoAction = profit;
+            // 2 possible action: buy and sell
+            // to get profit, we just need to consider selling
+            int profitIfSelling = price - lowestPrice;
+
+            profit = Math.max(profitIfNoAction, profitIfSelling);
         
             lowestPrice = Math.min(lowestPrice, price);
-        
-            int profitWithoutTrading = profit;
-            int profitWithTrading = price - lowestPrice;
-            profit = Math.max(profitWithoutTrading, profitWithTrading);
-        
-            maxProfit = Math.max(maxProfit, profit);
         }
 
-        return maxProfit;
+        return profit;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // this is not meant for interview
     // DP, 10ms
     // Kadane's Algorithm
@@ -92,15 +68,12 @@ public class E_DP_Array_121 {
      * 
      * buy on day 3, sell on day 4: p4 - p3 = d4
      * buy on day 2, sell on day 4: p4 - p2 = (p4 - p3) + (p3 - p2) = d4 + d3
-     * buy on day 1, sell on day 4: p4 - p1 = (p4 - p3) + (p3 - p2) + (p2 - p1) = d4
-     * + d3 + d2
+     * buy on day 1, sell on day 4: p4 - p1 = (p4 - p3) + (p3 - p2) + (p2 - p1) = d4 + d3 + d2
      * 
      * buy on day 4, sell on day 5: p5 - p4 = d5
      * buy on day 3, sell on day 5: p5 - p3 = (p5 - p4) + (p4 - p3) = d5 + d4
-     * buy on day 2, sell on day 5: p5 - p2 = (p5 - p4) + (p4 - p3) + (p3 - p2) = d5
-     * + d4 + d3
-     * buy on day 1, sell on day 5: p5 - p1 = (p5 - p4) + (p4 - p3) + (p3 - p2) +
-     * (p2 - p1) = d5 + d4 + d3 + d2
+     * buy on day 2, sell on day 5: p5 - p2 = (p5 - p4) + (p4 - p3) + (p3 - p2) = d5 + d4 + d3
+     * buy on day 1, sell on day 5: p5 - p1 = (p5 - p4) + (p4 - p3) + (p3 - p2) + (p2 - p1) = d5 + d4 + d3 + d2
      * 
      * so the max sub array sum in delta[] is the max profit
      */
