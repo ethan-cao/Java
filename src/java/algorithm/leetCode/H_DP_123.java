@@ -13,6 +13,12 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 [1,2,3,4,5] -> 4
 [7,6,4,3,1] -> 0
 
+
+# Analysis
+Buy and sell cannot happen on the same day
+
+max profit with at most 2 transaction
+
 */
 
 public class M_DP_123 {

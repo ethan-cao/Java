@@ -18,7 +18,10 @@ buy on the first picked day and sell on the second picked day
 # Analysis
 Buy and sell cannot happen on the same day
 
+max profit with at most 1 transaction
+
 */
+
 public class E_DP_Array_121 {
 
     public static void main(String[] args) {

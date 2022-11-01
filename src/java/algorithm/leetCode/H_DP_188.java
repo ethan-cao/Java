@@ -13,6 +13,11 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 k = 2, prices = [2,4,1] -> 2
 k = 2, prices = [3,2,6,5,0,3] -> 7
 
+# Analysis
+Buy and sell cannot happen on the same day
+
+max profit with at most k transaction
+
 */
 
 public class M_DP_188 {
