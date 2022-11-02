@@ -36,19 +36,19 @@ public class M_Array_122 {
         final int L = prices.length;     
 
         int profit = 0;
-        int profitIfBuying =  0;
-        int profitIfSelling = 0;
+        int profitIfBuy =  0;
+        int profitIfSell = 0;
 
         for (int i = 0; i < L; ++i) {
             int price = prices[i];
 
             // no action or buying
-            profitIfBuying =  Math.max(profitIfBuying, profit - price);
+            profitIfBuy =  Math.max(profitIfBuy, profit - price);
             
             // no action or selling
-            profitIfSelling = Math.max(profitIfSelling, profit + price);
+            profitIfSell = Math.max(profitIfSell, profit + price);
         
-            profit = Math.max(profitIfBuying, profitIfSelling);
+            profit = Math.max(profitIfBuy, profitIfSell);
         }
     
         return profit;
@@ -64,10 +64,10 @@ public class M_Array_122 {
         int profit = 0;
 
         for (int i = 1; i < L; ++i) {
-            int profitIfSelling = prices[i] - prices[i - 1];
+            int profitIfSell = prices[i] - prices[i - 1];
             
             // as long as there is profit, count it in
-            profitIfSelling += Math.max(0, profitIfSelling);
+            profitIfSell += Math.max(0, profitIfSell);
         }
 
         return profit;

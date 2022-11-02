@@ -29,9 +29,33 @@ public class E_DP_Array_121 {
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
     }
 
+    // DP
+    // related 309, 714
+    public int maxProfit111(int[] prices) {
+        final int L = prices.length;
+
+        int profit = 0;
+
+        int profitIfBuy = -prices[0];
+        int profitIfSell = 0;
+
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+
+            int previousProfitIfBuy = profitIfBuy;
+
+            profitIfBuy = Math.max(profitIfBuy, -price); // only buy once, buying at the current price
+            profitIfSell = Math.max(profitIfSell, previousProfitIfBuy + price);
+
+            profit = Math.max(profitIfBuy, profitIfSell);
+        }
+
+        return profit;
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
-    // 1ms
+    // related 123
     public static int maxProfit(int[] prices) {
         final int L = prices.length;
     
@@ -45,9 +69,9 @@ public class E_DP_Array_121 {
             int profitIfNoAction = profit;
             // 2 possible action: buy and sell
             // to get profit, we just need to consider selling
-            int profitIfSelling = price - lowestPrice;
+            int profitIfSell = price - lowestPrice;
 
-            profit = Math.max(profitIfNoAction, profitIfSelling);
+            profit = Math.max(profitIfNoAction, profitIfSell);
         
             lowestPrice = Math.min(lowestPrice, price);
         }

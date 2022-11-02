@@ -39,9 +39,9 @@ public class M_DP_188 {
             int profitIfNoAction = profits[t][d - 1];
     
             lowestPrice = Math.min(lowestPrice, price - profits[t - 1][d - 1]);
-            int profitIfSelling = price - lowestPrice;
+            int profitIfSell = price - lowestPrice;
     
-            profits[t][d] = Math.max(profitIfNoAction, profitIfSelling);
+            profits[t][d] = Math.max(profitIfNoAction, profitIfSell);
     
           }
         }

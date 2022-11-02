@@ -28,31 +28,26 @@ public class M_DP_741 {
     // DP, State Machine
     // 3ms
     public int maxProfit(int[] prices, int fee) {
+        return Math.max(balanceWithStock, balanceWithoutStock);
+        
         final int L = prices.length;
 
-        int initialBalance = 0;
-        
-        // 1st day
-        int balanceWithoutStock = initialBalance;
-        int balanceWithStock = initialBalance - prices[0];
+        int profit = 0;
 
-        // 2nd day onwards
+        int profitIfBuy = -prices[0];
+        int profitIfSell = 0;
+
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            int previousBalanceWithoutStock = balanceWithoutStock;
-            
-            // 2 possible ways to enter without stock state
-            // either not hold it since yesterday: balanceWithoutStock
-            // or sell one when hold it yesterday and pay the fee: balanceWithStock + price - fee
-            balanceWithoutStock = Math.max(balanceWithoutStock, balanceWithStock + price - fee);
+            int previousProfitIfBuy = profitIfBuy;            
 
-            // 2 possible ways to enter with stock state
-            // either hold it since yesterday: balanceWithStock
-            // or buy one when not hold it yesterday: balanceWithoutStock - price
-            balanceWithStock = Math.max(balanceWithStock, previousBalanceWithoutStock - price);
+            profitIfBuy = Math.max(profitIfBuy, profitIfSell - price);
+            profitIfSell = Math.max(profitIfSell, previousProfitIfBuy + price - fee);
+
+            profit = Math.max(profitIfBuy, profitIfSell);
         }
 
-        return Math.max(balanceWithStock, balanceWithoutStock);
+        return profit;
     }
 }
