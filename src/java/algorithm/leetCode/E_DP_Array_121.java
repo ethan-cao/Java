@@ -16,9 +16,13 @@ Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5
 buy on the first picked day and sell on the second picked day
 
 # Analysis
-Buy and sell cannot happen on the same day
+Buy and sell CANNOT happen on the same day
 
 max profit with at most 1 transaction
+
+keys:
+1. at most n transaction
+2. can buy and sell on the same day?
 
 */
 
@@ -29,33 +33,36 @@ public class E_DP_Array_121 {
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
     }
 
-    // DP
-    // related 309, 714
+    // DP, state machine
+    // related 122, 123, 188, 309, 714
     public int maxProfit111(int[] prices) {
         final int L = prices.length;
 
-        int profit = 0;
-
+        // BASE, 1st day
+        // 2 possible actions 
         int profitIfBuy = -prices[0];
         int profitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
+            // !!! CANNOT buy and sell on the same day
             int previousProfitIfBuy = profitIfBuy;
 
-            profitIfBuy = Math.max(profitIfBuy, -price); // only buy once, buying at the current price
+            // do nothing or buy, !!! always check do-nothing-case
+            profitIfBuy = Math.max(profitIfBuy, -price); // you can buy only once, buying at the current price
+            // do nothing or sell
             profitIfSell = Math.max(profitIfSell, previousProfitIfBuy + price);
 
-            profit = Math.max(profitIfBuy, profitIfSell);
+            // profit = Math.max(profitIfBuy, profitIfSell);
         }
 
-        return profit;
+        return profitIfSell;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
-    // related 123
+    // related: 123, 188
     public static int maxProfit(int[] prices) {
         final int L = prices.length;
     
@@ -66,12 +73,11 @@ public class E_DP_Array_121 {
         for (int i = 1; i < L; ++i) {
             int price  = prices[i];
             
-            int profitIfNoAction = profit;
             // 2 possible action: buy and sell
             // to get profit, we just need to consider selling
             int profitIfSell = price - lowestPrice;
 
-            profit = Math.max(profitIfNoAction, profitIfSell);
+            profit = Math.max(profit, profitIfSell);
         
             lowestPrice = Math.min(lowestPrice, price);
         }

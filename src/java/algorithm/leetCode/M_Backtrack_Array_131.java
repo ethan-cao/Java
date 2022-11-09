@@ -64,17 +64,17 @@ public class M_Backtrack_Array_131 {
             int start,
             List<List<String>> partitions,
             List<String> tracker,
-            boolean[][] isPalindrome) {
+            boolean[][] isPalindrome
+    ) {
         if (start == s.length()) {
             partitions.add(new ArrayList<>(tracker));
             return;
         }
 
-        for (int i = start; i < s.length(); ++i) {
-
-            if (isPalindrome[start][i]) {
-                tracker.add(s.substring(start, i + 1));
-                getPartitions(s, i + 1, partitions, tracker, isPalindrome);
+        for (int end = start; end < s.length(); ++end) {
+            if (isPalindrome[start][end]) {
+                tracker.add(s.substring(start, end + 1));
+                getPartitions(s, end + 1, partitions, tracker, isPalindrome);
 
                 tracker.remove(tracker.size() - 1);
             }

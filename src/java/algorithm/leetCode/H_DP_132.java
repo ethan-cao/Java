@@ -17,80 +17,100 @@ import java.util.Arrays;
 
 public class H_DP_132 {
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
-    // 30ms
     public int minCut(String s) {
         int L = s.length();
 
         // minCuts[i]: minimal cuts from string from 0 to i
         int[] minCuts = new int[L];
-
-        boolean[][] isPalindrome = new boolean[L][L];
+        Boolean[][] isPalindrome = new Boolean[L][L];
 
         for (int end = 0; end < L; ++end) {
             // at most (end) cuts
             minCuts[end] = end;
 
             for (int start = 0; start <= end; ++start) {
-
-                if (s.charAt(start) == s.charAt(end)) {
-
-                    if (start + 1 < end - 1) {
-                        isPalindrome[start][end] = isPalindrome[start + 1][end - 1];
+                if (isPalindrome(s, start, end, isPalindrome)) {
+                    if (start == 0) {
+                        // BASE
+                        minCuts[end] = 0;
                     } else {
-                        isPalindrome[start][end] = true;
+                        // TRANSFORM
+                        // since s substring from start to end is palindrome
+                        // we can cut before the start, basically, 1 more cut than minCuts[start - 1]
+                        minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
-
-                    if (isPalindrome[start][end]) {
-                        // since s.substring(start, end) is palindrome
-                        // we can cut before the start, basically, 1 more cut than mins[start -1]
-                        minCuts[end] = start >= 1 ? Math.min(minCuts[end], minCuts[start - 1] + 1) : 0;
-                    }
-                }
-
+                } 
             }
         }
-
+    
         return minCuts[L - 1];
     }
 
+    private boolean isPalindrome(String s, int start, int end, Boolean[][] isPalindrome) {
+        if (isPalindrome[start][end] != null) {
+            return isPalindrome[start][end];
+        }
+
+        if (start == end) {
+            // BASE
+            isPalindrome[start][end] = true;
+        } else {
+            // TRANSFORM
+            if (start + 1 <= end - 1) {
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome(s, start + 1, end - 1, isPalindrome);
+            } else {
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+            }
+        }
+
+        return isPalindrome[start][end];
+    }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive
     // 3ms
     public int minCut1(String s) {
         int L = s.length();
 
-        int[] minCut = new int[L];
-        Arrays.fill(minCut, L);
+        // minCuts[i]: minimal cuts from string from 0 to i
+        int[] minCuts = new int[L];
+        Arrays.fill(minCuts, L);
 
         for (int mid = 0; mid < L; ++mid) {
-            checkPalindrome(s, mid, mid, minCut); // Odd Length Palindrome
-            checkPalindrome(s, mid, mid + 1, minCut); // Even Length Palindrome
+            checkPalindrome(s, mid, mid, minCuts); // Odd Length Palindrome
+            checkPalindrome(s, mid, mid + 1, minCuts); // Even Length Palindrome
         }
 
-        return minCut[L - 1];
+        return minCuts[L - 1];
     }
 
-    private void checkPalindrome(String s, int start, int end, int[] minCut) {
+    private void checkPalindrome(String s, int start, int end, int[] minCuts) {
         int L = s.length();
 
         while (start >= 0 && end < L && s.charAt(start) == s.charAt(end)) {
-            minCut[end] = start == 0 ? 0 : Math.min(minCut[end], minCut[start - 1] + 1);
+            minCuts[end] = start == 0 ? 0 : Math.min(minCuts[end], minCuts[start - 1] + 1);
 
             start--;
             end++;
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP recursive
     // 1000ms
     public int minCut2(String s) {
         final int L = s.length();
+    
+        // min cuts fro substring(i, j+1)
         Integer[][] memo = new Integer[L][L];
 
-        return findCuts(s, 0, L - 1, memo);
+        return findCut(s, 0, L - 1, memo);
     }
 
-    int findCuts(String s, int start, int end, Integer[][] memo) {
+    int findCut(String s, int start, int end, Integer[][] memo) {
         if (start >= end) {
             return 0;
         }
@@ -104,29 +124,28 @@ public class H_DP_132 {
             return memo[start][end];
         }
 
-        int min = Integer.MAX_VALUE;
+        int minCut = Integer.MAX_VALUE; // or (end - start) at most
 
         for (int i = start; i <= end; ++i) {
-
             if (isPalindrome(s, start, i)) {
-                int partitions = 1 + findCuts(s, i + 1, end, memo);
-                min = Math.min(min, partitions);
+                int cut = 1 + findCut(s, i + 1, end, memo);
+                minCut = Math.min(minCut, cut);
             }
         }
 
-        memo[start][end] = min;
+        memo[start][end] = minCut;
 
         return memo[start][end];
     }
 
-    private static boolean isPalindrome(String s, int left, int right) {
-        while (left <= right) {
-            if (s.charAt(left) != s.charAt(right)) {
+    private static boolean isPalindrome(String s, int start, int end) {
+        while (start <= end) {
+            if (s.charAt(start) != s.charAt(end)) {
                 return false;
             }
 
-            left++;
-            right--;
+            start++;
+            end--;
         }
 
         return true;

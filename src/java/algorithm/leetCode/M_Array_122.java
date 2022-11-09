@@ -17,7 +17,7 @@ Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-
 [7,6,4,3,1] -> 0
 
 # Analysis
-Buy and sell can happen on the same day
+Buy and sell CAN happen on the same day
 
 */
 
@@ -29,30 +29,23 @@ public class M_Array_122 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /* DP 
-     *   prices: [p1, p2, p3, p4, p5]
+    /* DP, state machine
      */
     public int maxProfit1(int[] prices) {
         final int L = prices.length;     
-
-        int profit = 0;
-        int profitIfBuy =  0;
+     
+        int profitIfBuy = -prices[0];
         int profitIfSell = 0;
 
-        for (int i = 0; i < L; ++i) {
+        for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            // no action or buying
-            profitIfBuy =  Math.max(profitIfBuy, profit - price);
-            
-            // no action or selling
-            profitIfSell = Math.max(profitIfSell, profit + price);
-        
-            profit = Math.max(profitIfBuy, profitIfSell);
+            profitIfBuy = Math.max(profitIfBuy, profitIfSell - price);
+            profitIfSell = Math.max(profitIfSell, profitIfBuy + price);
         }
-    
-        return profit;
-    }
+
+        return profitIfSell;
+     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* Greedy

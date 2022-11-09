@@ -18,28 +18,29 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 prices = [1,3,2,8,4,9], fee = 2 -> 8
 prices = [1,3,7,5,10,3], fee = 3 -> 6
 
+# Analysis
+Buy and sell CANNOT happen on the same day
+
 */
 
 public class M_DP_741 {
 
-    public static void main(String... args) {
-    }
-
     // DP, State Machine
     // 3ms
     public int maxProfit(int[] prices, int fee) {
-        return Math.max(balanceWithStock, balanceWithoutStock);
-        
         final int L = prices.length;
 
         int profit = 0;
 
+        // BASE, 1st day
+        // 2 possible actions 
         int profitIfBuy = -prices[0];
         int profitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
+            // !!! CANNOT buy and sell on the same day
             int previousProfitIfBuy = profitIfBuy;            
 
             profitIfBuy = Math.max(profitIfBuy, profitIfSell - price);

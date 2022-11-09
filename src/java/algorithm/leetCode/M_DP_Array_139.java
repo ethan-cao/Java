@@ -8,17 +8,10 @@ The same word in the dictionary may be reused multiple times in the segmentation
 You may assume the dictionary does not contain duplicate words.
 
 ### Example
-Input: s = "leetcode", wordDict = ["leet", "code"]
-Output: true
-Explanation: Return true because "leetcode" can be segmented as "leet code".
+s = "leetcode", wordDict = ["leet", "code"] -> true
+s = "applepenapple", wordDict = ["apple", "pen"] -> true
+s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"] -> true
 
-Input: s = "applepenapple", wordDict = ["apple", "pen"]
-Output: true
-Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
-             Note that you are allowed to reuse a dictionary word.
-
-Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
-Output: false
 */
 
 import java.util.*;
@@ -42,20 +35,25 @@ public class M_DP_Array_139 {
         System.out.println(wordBreak1(s2, wordDict2));  // F
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 4ms
     public static boolean wordBreak(String s, List<String> wordDict) {
         final int L = s.length();
 
         // canBeSegmented[i] : if s.substring(0, i - 1) can be segmented
         boolean[] canBeSegmented = new boolean[L + 1];
+
+        // BASE
         canBeSegmented[0] = true;
 
-        for (int end = 1; end <= L; ++end) {
-            for (int start = end - 1; start >= 0; --start) {
-                String subString = s.substring(start, end);
+        for (int end = 0; end < L; ++end) {
+            for (int start = end; start >= 0; start--) {
+                String subString = s.substring(start, end + 1);
 
                 if (wordDict.contains(subString) && canBeSegmented[start]) {
-                    canBeSegmented[end] = true;
+                    canBeSegmented[end + 1] = true;
+                    
+                    // !!! no need to check further for case canBeSegmented[end + 1]
                     break;
                 }
             }
@@ -64,10 +62,13 @@ public class M_DP_Array_139 {
         return canBeSegmented[L];
     }
 
-    // DP iterative,
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP iterative
     public static boolean wordBreak1(String s, List<String> wordDict) {
         // canBeSegmented[i]: if s.substring(0, i-1) can be segmented
         boolean[] canBeSegmented = new boolean[s.length() + 1];
+        
+        // BASE
         canBeSegmented[0] = true;
 
         for (int end = 1; end <= s.length(); ++end) {
@@ -82,4 +83,27 @@ public class M_DP_Array_139 {
         return canBeSegmented[s.length()];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Brute force, DFS
+    // Time: O(2^n)
+    public boolean wordBreak111(String s, List<String> wordDict) {
+        return canBreak(s, wordDict);
+    }
+
+    private boolean canBreak(String s, List<String> wordDict) {
+        if (s.length() == 0) {
+            return true;
+        }
+         
+        for (int idx = 0; idx < s.length(); ++idx) {
+            if (
+                wordDict.contains(s.substring(0, idx + 1)) &&
+                canBreak(s.substring(idx + 1), wordDict)
+            ) {
+                return true;
+            } 
+        }
+
+        return false;
+    }
 }

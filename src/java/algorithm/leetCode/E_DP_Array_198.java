@@ -55,6 +55,7 @@ public class E_DP_Array_198 {
         // take(2) = nums[1]
         // skip(1) = nums[0]
         int[] maxValue = new int[L];
+
         maxValue[0] = nums[0];
         maxValue[1] = Math.max(nums[0], nums[1]);
 

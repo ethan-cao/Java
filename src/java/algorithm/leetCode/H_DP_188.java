@@ -49,4 +49,8 @@ public class M_DP_188 {
         return profits[k][L - 1];
     }
 
+    // DP, state machine
+    public int maxProfit1(int[] prices) {
+      return 1;
+    }
 }

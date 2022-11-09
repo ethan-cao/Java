@@ -3,6 +3,7 @@ package algorithm.leetCode;
 /*
 Given an integer array nums, find the contiguous subarray (containing at least one number)
 which has the largest sum and return its sum.
+
 1 <= nums.length <= 3 * 10^4
 -10^5 <= nums[i] <= 10^5
 
@@ -83,11 +84,13 @@ public class E_DP_Array_53 {
         maxSums[0] = nums[0];
 
         for (int i = 1; i < L; ++i) {
+            int num = nums[i];
+
             // TRANSFORM
             // must always includes num, either a new one or with maxSums[i - 1]
             // because maxSums[i-1] always includes the previous num
-            int appendingArray = maxSums[i - 1] + nums[i];
-            int newArray = nums[i];
+            int appendingArray = maxSums[i - 1] + num;
+            int newArray = num;
             maxSums[i] = Math.max(appendingArray, newArray);
 
             maxSum = Math.max(maxSum, maxSums[i]);

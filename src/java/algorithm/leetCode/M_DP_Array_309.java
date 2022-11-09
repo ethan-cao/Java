@@ -11,6 +11,9 @@ After you sell your stock, you cannot buy stock on next day. (cooldown 1 day)
 [1,2,3,0,2] -> 3
 transactions = [buy, sell, cooldown, buy, sell]
 
+# Analysis
+Buy and sell CANNOT happen on the same day
+
 */
 
 public class M_DP_Array_309 {
@@ -20,7 +23,10 @@ public class M_DP_Array_309 {
     public int maxProfit(int[] prices) {
         final int L = prices.length;
 
+        int profit = 0;
+
         // BASE, 1st day
+        // 3 possible actions 
         int profitIfBuy = 0 - prices[0];
         int profitIfSell = 0;
         int profitIfCooldown = 0;
@@ -28,7 +34,8 @@ public class M_DP_Array_309 {
         // since 2nd day
         for (int i = 1; i < L; ++i) {
             int price  = prices[i];
-        
+
+            // !!! CANNOT buy and sell on the same day
             int previousProfitIfBuy = profitIfBuy;
             int previousProfitIfSell = profitIfSell;
         

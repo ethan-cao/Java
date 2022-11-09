@@ -47,6 +47,7 @@ public class M_DP_Math_264 {
         return uglyNumbers[n - 1];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 51ms
     // Time: O
     public int nthUglyNumber2(int n) {
@@ -65,6 +66,7 @@ public class M_DP_Math_264 {
         return sortedSet.pollFirst().intValue();
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Heap, 67ms
     // Time: O
     public int nthUglyNumber1(int n) {
@@ -86,6 +88,5 @@ public class M_DP_Math_264 {
 
         return minHeap.peek().intValue();
     }
-
 
 }

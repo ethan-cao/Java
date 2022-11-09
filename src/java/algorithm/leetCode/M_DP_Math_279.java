@@ -25,6 +25,28 @@ public class M_DP_Math_279 {
         System.out.println(numSquares2(7168));  // 4
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public int numSquares00(int n) {
+        int[] counts = new int[n + 1];
+        Arrays.fill(counts, Integer.MAX_VALUE);
+    
+        // BASE
+        counts[0] = 0;
+        counts[1] = 1;
+    
+        for (int num = 2; num <= n; ++num) {
+            for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
+                int countWithoutSquareRoot = counts[num];
+                int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
+
+                counts[num] = Math.min(countWithoutSquareRoot, countWithSquareRoot);
+            }
+        }
+
+        return counts[n];
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, LTE
     public static int numSquares1(int n) {
         int largestPerfectSquareRoot = (int) Math.sqrt(n);
@@ -59,7 +81,7 @@ public class M_DP_Math_279 {
         return count;
     }
 
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static int numSquares2(int n) {
         int largestPerfectSquareRoot = (int) Math.sqrt(n);
         int[][] memo = new int[largestPerfectSquareRoot + 1][n + 1];
@@ -97,6 +119,7 @@ public class M_DP_Math_279 {
         return memo[perfectSquareRoot][num];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 73ms
     public static int numSquares3(int n) {
         int largestPerfectSquareRoot = (int) Math.sqrt(n);
@@ -129,13 +152,14 @@ public class M_DP_Math_279 {
         return counts[largestPerfectSquareRoot][n];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, condensed space, 39ms
     public static int numSquares4(int n) {
         int largestPerfectSquareRoot = (int) Math.sqrt(n);
 
-        int[] perfectSquares = new int[largestPerfectSquareRoot + 1];
+        int[] squares = new int[largestPerfectSquareRoot + 1];
         for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
-            perfectSquares[i] = i * i;
+            squares[i] = i * i;
         }
 
         int[] counts = new int[n + 1];
@@ -145,10 +169,10 @@ public class M_DP_Math_279 {
 
         for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
             for (int num = 1; num <= n; ++num) {
-                int perfectSquare = perfectSquares[i];
+                int square = squares[i];
 
-                if (perfectSquare <= num) {
-                    counts[num] = Math.min(counts[num], 1 + counts[num - perfectSquare]);
+                if (square <= num) {
+                    counts[num] = Math.min(counts[num], 1 + counts[num - square]);
                 } else {
                     counts[num] = counts[num];
                 }
@@ -158,6 +182,9 @@ public class M_DP_Math_279 {
         return counts[n];
     }
 
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Based on Lagrange's Four Square theorem: natural number can be represented as the sum of four integer squares
     // https://en.wikipedia.org/wiki/Lagrange%27s_four-square_theorem
     // so there are only 4 possible results: 1, 2, 3, 4
@@ -174,7 +201,6 @@ public class M_DP_Math_279 {
                 return 2;
             }
         }
-
 
         // The result is 4 if and only if n can be written in the
         // form of 4^k*(8*m + 7). Please refer to
