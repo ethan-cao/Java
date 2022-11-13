@@ -31,6 +31,35 @@ public class M_DP_Tree_Array_322 {
         System.out.println(coinChange0(new int[]{411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422}, 9864)); // 24
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // similar to 279
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0) {
+            return 0;
+        }
+
+        Arrays.sort(coins);
+
+        int[] counts = new int[amount + 1];
+        Arrays.fill(counts, Integer.MAX_VALUE);
+
+        counts[0] = 0;
+
+        for (int value = 1; value <= amount; ++value) {
+            for (int i = 0; i < coins.length ; ++i) {
+                
+                if (coins[i] <= value && counts[value - coins[i]] != Integer.MAX_VALUE) {
+                    int count = 1 + counts[value - coins[i]];
+                    counts[value] = Math.min(counts[value], count);
+                }
+            }
+        }
+
+        return counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Unbounded Knapsack
     // DP, recursive, LTE
     public static int coinChange0(int[] coins, int amount) {
@@ -70,6 +99,7 @@ public class M_DP_Tree_Array_322 {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, memo
     // 70ms
     public static int coinChange1(int[] coins, int amount) {

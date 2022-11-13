@@ -36,10 +36,9 @@ public class M_DP_Math_279 {
     
         for (int num = 2; num <= n; ++num) {
             for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
-                int countWithoutSquareRoot = counts[num];
-                int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
 
-                counts[num] = Math.min(countWithoutSquareRoot, countWithSquareRoot);
+                int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
+                counts[num] = Math.min(counts[num], countWithSquareRoot);
             }
         }
 
