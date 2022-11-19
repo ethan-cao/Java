@@ -11,14 +11,13 @@ the number of coins is less than 500
 the answer is guaranteed to fit into signed 32-bit integer
 
 ### Example
+amount = 3, coins = [2] -> 0
+amount = 10, coins = [10] -> 1
 amount = 5, coins = [1, 2, 5] -> 4
 5=5
 5=2+2+1
 5=2+1+1+1
 5=1+1+1+1+1
-
-amount = 3, coins = [2] -> 0
-amount = 10, coins = [10] -> 1
 
 ### keys
 * This question asks for combination, the order does not matters
@@ -39,6 +38,7 @@ public class M_DP_Array_518 {
         System.out.println(change1(500, new int[]{3, 5, 7, 8, 9, 10, 11}));  // 35502874
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, top-down
     // 14ms
     public int change2(int amount, int[] coins) {
@@ -85,6 +85,27 @@ public class M_DP_Array_518 {
         return memo[idx][amount];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public int change(int amount, int[] coins) {
+        int[][] counts = new int[amount + 1][coins.length];
+        Arrays.fill(counts[0], 1);
+
+        for (int value = 1; value <= amount; ++value) {
+            for (int i = 0; i < coins.length; ++i) {
+                
+                int coin = coins[i];
+            
+                int skip = i >= 1 ? counts[value][i - 1]: 0;
+                int take = value >= coin ? counts[value - coin][i] : 0;
+            
+                counts[value][i] = skip + take;
+            }
+        }
+ 
+        return counts[amount][coins.length - 1];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, bottom-up
     // 6ms
     public static int change3(int amount, int[] coins) {
@@ -124,6 +145,7 @@ public class M_DP_Array_518 {
         return memo[L - 1][amount];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, bottom-up, condensed space
     // 3ms
     public static int change4(int amount, int[] coins) {
@@ -154,6 +176,7 @@ public class M_DP_Array_518 {
         return memo[amount];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DFS, brute force
     // Time: O(2^n) 99ms
     public static int change1(int amount, int[] coins) {

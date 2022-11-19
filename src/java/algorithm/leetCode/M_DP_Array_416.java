@@ -8,11 +8,9 @@ find if the array can be partitioned into 2 subsets such that the sum of element
 1 <= nums[i] <= 100
 
 ### Example
+[1, 2, 3, 5] -> false
 [1, 5, 11, 5] -> true
 Explanation: The array can be partitioned as [1, 5, 5] and [11]
-
-[1, 2, 3, 5] -> false
-Explanation: The array cannot be partitioned into equal sum subsets.
 
 */
 

@@ -49,7 +49,7 @@ public class M_DP_Math_264 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 51ms
-    // Time: O
+    // Time: 
     public int nthUglyNumber2(int n) {
         TreeSet<Long> sortedSet = new TreeSet<>();
         sortedSet.add(1L);
@@ -68,7 +68,7 @@ public class M_DP_Math_264 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Heap, 67ms
-    // Time: O
+    // Time: 
     public int nthUglyNumber1(int n) {
         PriorityQueue<Long> minHeap = new PriorityQueue<>();
         minHeap.offer(1L);

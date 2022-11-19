@@ -31,7 +31,6 @@ public class M_DP_Tree_Array_322 {
         System.out.println(coinChange0(new int[]{411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422}, 9864)); // 24
     }
 
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // similar to 279
     public int coinChange(int[] coins, int amount) {
@@ -50,8 +49,9 @@ public class M_DP_Tree_Array_322 {
             for (int i = 0; i < coins.length ; ++i) {
                 
                 if (coins[i] <= value && counts[value - coins[i]] != Integer.MAX_VALUE) {
-                    int count = 1 + counts[value - coins[i]];
-                    counts[value] = Math.min(counts[value], count);
+                    int countWithCoin = 1 + counts[value - coins[i]];
+                    int countWithoutCoin = counts[value];
+                    counts[value] = Math.min(countWithoutCoin, countWithCoin);
                 }
             }
         }
@@ -141,7 +141,6 @@ public class M_DP_Tree_Array_322 {
         }
 
         int changeWithoutCoin = changeCoins(coins, idx + 1, amount, memo);
-
 
         if (changeWithCoin == -1 && changeWithoutCoin == -1) {
             memo[idx][amount] = -1;

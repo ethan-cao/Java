@@ -35,6 +35,7 @@ public class M_DP_Array_377 {
         System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 5));  // 13
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP recursive with cache, brute force
     // Time: O(N*target), 0ms, Space: O(target)
     public static int combinationSum4_3(int[] nums, int target) {
@@ -67,13 +68,14 @@ public class M_DP_Array_377 {
         return memo[target];
     }
 
-    // DP, iterative, derived from DP recursive with cache
-    // 1ms
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, iterative, 
+    // derived from DP recursive with cache or draw table, analyze from combinationSum4_5
+    // Time: O(N^2) 1ms
     public static int combinationSum4_1(int[] nums, int target) {
         int[] permutations = new int[target + 1];
 
         // BASE
-        // permutations(0) = 1
         permutations[0] = 1;
 
         // TRANSFORM
@@ -89,10 +91,39 @@ public class M_DP_Array_377 {
         return permutations[target];
     }
 
-    // *
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, Bottom-up
+    // Time: O(N^3) 6ms
+    public static int combinationSum4_5(int[] nums, int target) {
+        int[][] results = new int[target + 1][nums.length];
+        Arrays.fill(results[0], 1);
+
+        for (int currentTarget = 1; currentTarget <= target; ++currentTarget) {
+            for (int idx = 0; idx < nums.length; ++idx) {
+                int num = nums[idx];
+
+                if (num <= currentTarget) {
+
+                    for (int i = 0; i <= idx; ++i) {
+                        if (nums[i] <= currentTarget) {
+                            results[currentTarget][idx] += results[currentTarget - nums[i]][idx];
+                        }
+                    }
+
+                } else {
+                    results[currentTarget][idx] = idx - 1 >= 0 ? results[currentTarget][idx - 1] : 0;
+                }
+            }
+        }
+
+        return results[target][nums.length - 1];
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, Bottom-up
     // different from unbounded knapsack
-    // 6ms
+    // Time: O(N^3)  6ms
     public static int combinationSum4_4(int[] nums, int target) {
         final int L = nums.length;
         int[][] permutations = new int[L][target + 1];
@@ -127,34 +158,5 @@ public class M_DP_Array_377 {
 
         return permutations[L - 1][target];
     }
-
-    // *
-    // DP, Bottom-up
-    // 6ms
-    public static int combinationSum4_5(int[] nums, int target) {
-        int[][] results = new int[target + 1][nums.length];
-        Arrays.fill(results[0], 1);
-
-        for (int currentTarget = 1; currentTarget <= target; ++currentTarget) {
-            for (int idx = 0; idx < nums.length; ++idx) {
-                int num = nums[idx];
-
-                if (num <= currentTarget) {
-
-                    for (int i = 0; i <= idx; ++i) {
-                        if (nums[i] <= currentTarget) {
-                            results[currentTarget][idx] += results[currentTarget - nums[i]][idx];
-                        }
-                    }
-
-                } else {
-                    results[currentTarget][idx] = idx - 1 >= 0 ? results[currentTarget][idx - 1] : 0;
-                }
-            }
-        }
-
-        return results[target][nums.length - 1];
-    }
-
 
 }

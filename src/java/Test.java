@@ -3,30 +3,24 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-        int[] nums = {-2,1,-3,4};
+        System.out.println("@@@");
+        int target = 3;
+        int[] nums = new int[] { 1, 2, 3 };
 
-        final int L = nums.length;
+        int[] counts = new int[target + 1];
 
-        int maxSum = nums[0];
+        counts[0] = 1;
 
-        // maxSums[i]: max sum including nums[i]
-        int maxSums[] = new int[L];
+        for (int value = 1; value <= target; ++value) {
+            for (int i = 0; i < nums.length; ++i) {
+                int num = nums[i];
 
-        // BASE
-        maxSums[0] = nums[0];
-
-        for (int i = 1; i < L; ++i) {
-            // TRANSFORM
-
-
-            // must always includes num, this case is subarray including num
-            // because maxSums[i-1] always includes the previous num, 
-            int appendingArray = maxSums[i - 1] + nums[i];
-            int newArray = nums[i];
-
-            maxSums[i] = Math.max(appendingArray, newArray);
-            maxSum = Math.max(maxSum, maxSums[i]);
+                if (value >= num) {
+                    counts[value] += counts[value - num];
+                }
+            }
         }
 
+        System.out.println( counts[target]);
     }
 }

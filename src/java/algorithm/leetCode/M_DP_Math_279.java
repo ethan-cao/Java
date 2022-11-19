@@ -38,7 +38,8 @@ public class M_DP_Math_279 {
             for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
 
                 int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
-                counts[num] = Math.min(counts[num], countWithSquareRoot);
+                int countWithoutSquareRoot = counts[num];
+                counts[num] = Math.min(countWithoutSquareRoot, countWithSquareRoot);
             }
         }
 
