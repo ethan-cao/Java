@@ -26,6 +26,58 @@ public class M_DP_Math_279 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, iterative, 73ms
+    public static int numSquares3(int n) {
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
+
+        // count[i][j]: the least number of perfect square ranging from 1...i to that sum to num j
+        int[][] counts = new int[largestPerfectSquareRoot + 1][n + 1];
+        Arrays.fill(counts[0], Integer.MAX_VALUE);
+
+        for (int squareRoot = 1; squareRoot <= largestPerfectSquareRoot; ++squareRoot) {
+            for (int value = 1; value <= n; ++value) {
+
+                int skip = counts[squareRoot - 1][value];
+                int take = squareRoot * squareRoot <= value
+                        ? 1 + counts[squareRoot][value - squareRoot * squareRoot]
+                        : skip;
+
+                counts[squareRoot][value] = Math.min(skip, take);
+            }
+        }
+
+        return counts[largestPerfectSquareRoot][n];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP
+    public int numSquares000(int n) {
+        int largestPerfectSquareRoot = (int) Math.sqrt(n);
+        
+        int[][] counts = new int[n + 1][largestPerfectSquareRoot + 1];
+
+        for (int value = 1; value <= n; ++value) {
+            counts[value][0] = Integer.MAX_VALUE;
+            
+            for (int squareRoot = 1; squareRoot <= largestPerfectSquareRoot; ++squareRoot) {
+
+                if (squareRoot * squareRoot <= value) {
+                    int skip = counts[value][squareRoot - 1];
+                    int take = 1 + counts[value - squareRoot * squareRoot][squareRoot];
+
+                    counts[value][squareRoot] = Math.min(skip, take);
+                } else {
+                    counts[value][squareRoot] = counts[value][squareRoot - 1];
+                }
+
+            }
+        }
+
+        return counts[n][largestPerfectSquareRoot];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP
     public int numSquares00(int n) {
         int[] counts = new int[n + 1];
         Arrays.fill(counts, Integer.MAX_VALUE);
@@ -119,38 +171,7 @@ public class M_DP_Math_279 {
         return memo[perfectSquareRoot][num];
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative, 73ms
-    public static int numSquares3(int n) {
-        int largestPerfectSquareRoot = (int) Math.sqrt(n);
 
-        int[] perfectSquares = new int[largestPerfectSquareRoot + 1];
-        for (int i = 0; i <= largestPerfectSquareRoot; ++i) {
-            perfectSquares[i] = i * i;
-        }
-
-        // count[i][j]: the least number of perfect square ranging from 1...i to that sum to num j
-        int[][] counts = new int[largestPerfectSquareRoot + 1][n + 1];
-        for (int i = 1; i <= n; ++i) {
-            counts[0][i] = Integer.MAX_VALUE;
-        }
-
-        for (int i = 1; i <= largestPerfectSquareRoot; ++i) {
-            for (int num = 1; num <= n; ++num) {
-                int perfectSquare = perfectSquares[i];
-
-                if (perfectSquare <= num) {
-                    // since it always compare with the 1st row, counts[1][j] = Math.min(counts[0][j], ...)
-                    // so assign Integer.MAX to the 1st row counts[0]
-                    counts[i][num] = Math.min(counts[i - 1][num], 1 + counts[i][num - perfectSquare]);
-                } else {
-                    counts[i][num] = counts[i - 1][num];
-                }
-            }
-        }
-
-        return counts[largestPerfectSquareRoot][n];
-    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, condensed space, 39ms
@@ -181,8 +202,6 @@ public class M_DP_Math_279 {
 
         return counts[n];
     }
-
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Based on Lagrange's Four Square theorem: natural number can be represented as the sum of four integer squares

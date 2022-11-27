@@ -65,7 +65,6 @@ public class M_DP_1155 {
     // DFS
     // DP, iterative
     // 11ms
-    
     public int numRollsToTarget2(int n, int k, int target) {
         if (n * k < target || n * 1 > target) {
             return 0;

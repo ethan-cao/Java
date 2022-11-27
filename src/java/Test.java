@@ -1,26 +1,34 @@
 import java.util.*;
 
 public class Test {
-
     public static void main(String[] args) {
-        System.out.println("@@@");
-        int target = 3;
-        int[] nums = new int[] { 1, 2, 3 };
 
-        int[] counts = new int[target + 1];
+        int amount = 3;
+        int[] coins = new int[] { 1, 2, 5};
 
-        counts[0] = 1;
+        int L = coins.length;
 
-        for (int value = 1; value <= target; ++value) {
-            for (int i = 0; i < nums.length; ++i) {
-                int num = nums[i];
+        int[] counts = new int[amount + 1];
 
-                if (value >= num) {
-                    counts[value] += counts[value - num];
-                }
+        // Arrays.fill(counts, Integer.MAX_VALUE);
+        // counts[0] = 0;
+
+        for (int coinIdx = 0; coinIdx < L; ++coinIdx) {
+            int coinValue = coins[coinIdx];
+
+            for (int value = 1; value <= amount; ++value) {
+                int skip = value == 1 ? Integer.MAX_VALUE : counts[value];
+
+                int take = value - coinValue >= 0 && counts[value - coinValue] != Integer.MAX_VALUE
+                        ? 1 + counts[value - coinValue]
+                        : Integer.MAX_VALUE;
+
+                counts[value] = Math.min(skip, take);
             }
         }
 
-        System.out.println( counts[target]);
+        int r = counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
+    
+        System.out.println(r);
     }
 }

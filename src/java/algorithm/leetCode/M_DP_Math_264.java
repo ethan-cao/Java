@@ -23,28 +23,33 @@ public class M_DP_Math_264 {
         System.out.println(nthUglyNumber(10)); // 12
     }
 
+    static int PRIME_FACTOR_2 = 2;
+    static int PRIME_FACTOR_3 = 3;
+    static int PRIME_FACTOR_5 = 5;
+
     // DP, 2ms
     // Time: O(N)
     // write the first 10 ugly numbers, we can find any ugly number is min(2 * i, 3 * j, 5 * k)
     // i, j, k points to previous ugly numbers, starting from the 1st ugly number 1, once used move to the next
     public static int nthUglyNumber(int n) {
-        int[] uglyNumbers = new int[n];
-        uglyNumbers[0] = 1;
+        int[] nums = new int[n];
 
+        // 0 is index, since BASE case is index 0
         int idx2 = 0;
         int idx3 = 0;
         int idx5 = 0;
+        nums[0] = 1;
 
         for (int i = 1; i < n; ++i) {
-            uglyNumbers[i] = Math.min(uglyNumbers[idx2] * 2, Math.min(uglyNumbers[idx3] * 3, uglyNumbers[idx5] * 5));
+            nums[i] = Math.min(nums[idx2] * PRIME_FACTOR_2, Math.min(nums[idx3] * PRIME_FACTOR_3, nums[idx5] * PRIME_FACTOR_5));
 
             // Move according index to avoid getting existing number
-            if (uglyNumbers[i] == uglyNumbers[idx2] * 2) idx2++;
-            if (uglyNumbers[i] == uglyNumbers[idx3] * 3) idx3++;
-            if (uglyNumbers[i] == uglyNumbers[idx5] * 5) idx5++;
+            if (nums[i] == nums[idx2] * PRIME_FACTOR_2) idx2++;
+            if (nums[i] == nums[idx3] * PRIME_FACTOR_3) idx3++;
+            if (nums[i] == nums[idx5] * PRIME_FACTOR_5) idx5++;
         }
 
-        return uglyNumbers[n - 1];
+        return nums[n - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

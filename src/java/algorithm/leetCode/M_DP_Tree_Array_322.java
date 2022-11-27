@@ -11,7 +11,9 @@ You may assume that you have an infinite number of each kind of coin.
 0 <= amount <= 10^4
 
 ### Example
-coins = [1, 2, 5], amount = 11 -> 3, 11 = 5 + 5 + 1
+coins = [1, 2, 5], amount = 0 -> 0
+coins = [1, 2, 5], amount = 5 -> 1    5 = 5
+coins = [1, 2, 5], amount = 11 -> 3   11 = 5 + 5 + 1
 coins = [2], amount = 3 -> -1
 
 */
@@ -32,27 +34,51 @@ public class M_DP_Tree_Array_322 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // similar to 279
-    public int coinChange(int[] coins, int amount) {
-        if (amount == 0) {
-            return 0;
+    // DP
+    public int coinChange000(int[] coins, int amount) {
+        int L = coins.length;
+        int[][] counts = new int[L][amount + 1];
+
+        for (int coinIdx = 0; coinIdx < L; coinIdx++) {
+            int coinValue = coins[coinIdx];
+
+            for (int value = 1; value <= amount; value++) {
+                int skip = coinIdx > 0
+                        ? counts[coinIdx - 1][value]
+                        : Integer.MAX_VALUE;
+
+                int take = value - coinValue >= 0 && counts[coinIdx][value - coinValue] != Integer.MAX_VALUE
+                        ? 1 + counts[coinIdx][value - coinValue]
+                        : Integer.MAX_VALUE;
+
+                counts[coinIdx][value] = Math.min(skip, take);
+            }
         }
 
-        Arrays.sort(coins);
+        return counts[L - 1][amount] == Integer.MAX_VALUE ? -1 : counts[L - 1][amount];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP
+    // similar to 279
+    public int coinChange(int[] coins, int amount) {
+        int L = coins.length;
 
         int[] counts = new int[amount + 1];
-        Arrays.fill(counts, Integer.MAX_VALUE);
 
-        counts[0] = 0;
+        for (int coinIdx = 0; coinIdx < L; ++coinIdx) {
+            int coinValue = coins[coinIdx];
 
-        for (int value = 1; value <= amount; ++value) {
-            for (int i = 0; i < coins.length ; ++i) {
-                
-                if (coins[i] <= value && counts[value - coins[i]] != Integer.MAX_VALUE) {
-                    int countWithCoin = 1 + counts[value - coins[i]];
-                    int countWithoutCoin = counts[value];
-                    counts[value] = Math.min(countWithoutCoin, countWithCoin);
-                }
+            for (int value = 1; value <= amount; ++value) {
+                int skip = coinIdx == 0
+                        ? Integer.MAX_VALUE
+                        : counts[value];
+
+                int take = value - coinValue >= 0 && counts[value - coinValue] != Integer.MAX_VALUE
+                        ? 1 + counts[value - coinValue]
+                        : Integer.MAX_VALUE;
+
+                counts[value] = Math.min(skip, take);
             }
         }
 
