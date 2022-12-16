@@ -55,13 +55,14 @@ public class M_DP_Array_518 {
         // take(i) = changes(i, amount - coins[i]), if coins[i] <= amount
         // changes(i, j) = take + skip
         for (int i = 0; i < L; ++i) {
-            for (int value = 1; value <= amount; ++value) {
-                int coin = coins[i];
+            int coin = coins[i];
 
-                // existing combination
+            for (int value = 1; value <= amount; ++value) {
+
+                // existing combination, with all previously used coins
                 int skip = i == 0 ? 0 : counts[i - 1][value];
                 
-                // a new combination 
+                // a new combination, with the new coin
                 int take = value - coin >= 0 ? counts[i][value - coin] : 0;
 
                 counts[i][value] = take + skip;

@@ -15,7 +15,6 @@ The possible combination ways are:
 (2, 1, 1)
 (2, 2)
 (3, 1)
-Note that different sequences are counted as different combinations.
 
 ### Keys
 * This question actually ask for permutation, the order matters
@@ -41,32 +40,35 @@ public class M_DP_Array_377 {
     // Time: O(N^3)  6ms
     // different from unbounded knapsack
     public static int combinationSum4_4(int[] nums, int target) {
-        final int L = nums.length;
+        int L = nums.length;
+
         int[][] counts = new int[L][target + 1];
 
-        // BASE
-        // permutations(i, 0) = 1
-        for (int i = 0; i < L; ++i) {
-            counts[i][0] = 1;
-        }
+        for (int idx = 0; idx < L; ++idx) {
+            // BASE
+            // permutations(i, 0) = 1
+            counts[idx][0] = 1;
+            int num = nums[idx];
 
-        // TRANSFORM
-        // permutations(i, target) = Σ permutation(i, target - nums[i]), nums[i] <= target
-        // permutations(i, target) = permutation(i - 1, target), nums[i] > target
-        for (int i = 0; i < L; ++i) {
+            // TRANSFORM
+            // either skip or take
             for (int value = 1; value <= target; ++value) {
 
-                // if nums[i] could be in the permutation
-                if (nums[i] <= value) {
-
-                    // look for permutations which sum up to (currentTarget - nums[i])
-                    // !!! start count from 0 again to check for all possible permutation
-                    for (int idx = 0; idx <= i; ++idx) {
-                        counts[i][value] += value - nums[idx] >= 0 ? counts[i][value - nums[idx]] : 0;
-                    }
-
+                if (num > value) {
+                    // skip
+                    // if not possible to use this num
+                    counts[idx][value] = idx - 1 >= 0 ? counts[idx - 1][value] : 0;
                 } else {
-                    counts[i][value] = i - 1 >= 0 ? counts[i - 1][value] : 0;
+                    // take
+                    // if possible to use this num
+                    // since asking for permutation, 
+                    // use all possible num in the last position to form a new permutation
+                    // and sum them up
+                    for (int nextIdx = 0; nextIdx <= idx; ++nextIdx) {
+                        if (value >= nums[nextIdx]) {
+                            counts[idx][value] += counts[idx][value - nums[nextIdx]];
+                        }
+                    }
                 }
             }
         }
