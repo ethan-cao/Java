@@ -1,16 +1,21 @@
 package algorithm.leetCode;
 
 /*
-You are given a list of non-negative integers, a1, a2, ..., an, and a target, S.
-you have 2 symbols + and -. For each integer, you should choose one from + and - as its new symbol.
-Find out how many ways to assign symbols to make sum of integers equal to target S.
+You are given an integer array nums and an integer target.
 
-The length of the given array is positive and will not exceed 20.
-The sum of elements in the given array will not exceed 1000.
-Your output answer is guaranteed to be fitted in a 32-bit integer.
+You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
+
+For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression "+2-1".
+Return the number of different expressions that you can build, which evaluates to target.
+
+1 <= nums.length <= 20
+0 <= nums[i] <= 1000
+0 <= sum(nums[i]) <= 1000
+-1000 <= target <= 1000
 
 ### Example
-[1, 1, 1, 1, 1], S is 3 -> 5
+[1, 2, 5], 0         -> 0 
+[1, 1, 1, 1, 1], 3   -> 5
 -1+1+1+1+1 = 3
 +1-1+1+1+1 = 3
 +1+1-1+1+1 = 3
@@ -70,6 +75,7 @@ public class M_DP_DFS_494 {
             sum += n;
         }
 
+        // nums contains only positive number
         if (sum < target || -sum > target) {
             return 0;
         }
@@ -80,31 +86,29 @@ public class M_DP_DFS_494 {
         // possible expression results are     -6, -5, -4, -3, -2, -1, +0, +1, +2, +3, +4,  +5, +6
         // put them in array, their index is    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  11, 12
         // 13 elements in total (13 = 2 * sum + 1)
-        // index = expressionResult + sum, basically sum is the offset from expressionResult to index
+        // !!! index = expressionResult + sum, basically sum is the offset from expressionResult to index
+        // what we need is index = target + sum
         final int L = nums.length;
         final int SIZE = 2 * sum + 1;
         final int OFFSET = sum;
 
-        // results[i][j]: number of ways when use the first i elements to get expression result (j - OFFSET)
+        // results[i][j + OFFSET]: number of ways with the first i elements to get expression result j
         int[][] results = new int[L][SIZE];
 
         // BASE
-        // count(0, +nums(0) + OFFSET) = 0
-        // count(0, -nums(0) + OFFSET) = 0
-
-        // use + with the 1st num
-        results[0][+nums[0] + OFFSET] = 1;
-        // use - with the 1st num
-        results[0][-nums[0] + OFFSET] += 1;
-
+        // use + nums[0]
+        results[0][+nums[0] + OFFSET]++;
+        // use - nums[0]
+        results[0][-nums[0] + OFFSET]++; // nums[0] could be 0
 
         // TRANSFORM
         // usePlus(i, j) += f(i-1, j - mum), j - num >= 0
         // useMinus(i, j) += f(i-1, j + mum), j + num < SIZE
         // count(i, j) = usePlus(i, j) + useMinus(i, j)
         for (int i = 1; i < L; ++i) {
+            int num = nums[i];
+
             for (int j = 0; j < SIZE; ++j) {
-                int num = nums[i];
 
                 // if we can use + with num
                 if (j - num >= 0) {

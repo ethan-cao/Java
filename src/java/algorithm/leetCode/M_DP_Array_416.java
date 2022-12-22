@@ -129,25 +129,20 @@ public class M_DP_Array_416 {
             results[i][0] = true;
         }
 
-        // TRANSFORM
-        // take = canPartition(i - 1, half - nums[i])
-        // skip = canPartition(i - 1, half)
-        // canPartition(i, half) =  take || skip
         for (int i = 0; i < L; ++i) {
+            int num = nums[i];
+
             for (int target = 1; target <= half; ++target) {
 
-                boolean take = false;
-                boolean skip = false;
+                // TRANSFORM
+                // take = canPartition(i - 1, half - nums[i])
+                // skip = canPartition(i - 1, half)
+                // canPartition(i, half) = take || skip
+                boolean skip = i - 1 >= 0 ? canPartitions[i - 1][target] : false;
+                // each num can ONLY BE USED ONCE, different from 377 and 518
+                boolean take = i - 1 >= 0 && target - num >= 0 ? canPartitions[i - 1][target - num] : false;
 
-                if (i == 0) {
-                    take = nums[i] == target;
-                    skip = false;
-                } else {
-                    take = target >= nums[i] ? results[i - 1][target - nums[i]] : false;
-                    skip = results[i - 1][target];
-                }
-
-                results[i][target] = take || skip;
+                canPartitions[i][target] = skip || take;
             }
         }
 
