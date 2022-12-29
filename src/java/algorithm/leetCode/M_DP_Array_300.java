@@ -4,6 +4,9 @@ package algorithm.leetCode;
 Given an unsorted array of integers, find the length of longest increasing subsequence.
 There may be more than one LIS combination, it is only necessary for you to return the length.
 
+1 <= nums.length <= 2500
+-104 <= nums[i] <= 104
+
 ### Example
 [10,9,2,5,3,7,101,18] -> 4
 [0,1,0,3,2,3] -> 4
@@ -16,10 +19,10 @@ import java.util.*;
 public class M_DP_Array_300 {
 
     public static void main(String... args) {
-//        System.out.println(lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18})); // 4
-        System.out.println(lengthOfLIS(new int[]{4, 10, 4, 3, 8, 9})); // 3
-//        System.out.println(lengthOfLIS(new int[]{1, 1})); // 1
-//        System.out.println(lengthOfLIS(new int[]{2, 5, 3, 6, 5, 6, 80})); // 5
+        // System.out.println(lengthOfLIS(new int[]{10, 9, 2, 5, 3, 7, 101, 18})); // 4
+        System.out.println(lengthOfLIS(new int[] { 4, 10, 4, 3, 8, 9 })); // 3
+        // System.out.println(lengthOfLIS(new int[]{1, 1})); // 1
+        // System.out.println(lengthOfLIS(new int[]{2, 5, 3, 6, 5, 6, 80})); // 5
     }
 
     // Greedy, Patience sorting + Binary search
@@ -67,20 +70,24 @@ public class M_DP_Array_300 {
     // DP iterative, 91ms
     // Time: O(N^2),
     public static int lengthOfLIS1(int[] nums) {
-        int maxLength = 0;
+        int L = nums.length;
 
-        // length[i]: length of longest increasing subsequence from nums[0] to nums[i]
-        int[] length = new int[nums.length];
-        Arrays.fill(length, 1);
+        // counts[i]: length of longest increasing subsequence ending at i
+        int[] counts = new int[L];
+        Arrays.fill(counts, 1);
 
-        for (int i = 1; i < nums.length; ++i) {
-            for (int j = 0; j < i; ++j) {
-                if (nums[j] < nums[i]) {
-                    length[i] = Math.max(length[i], length[j] + 1);
-                }
+        int maxLength = 1;
+
+        for (int idx2 = 1; idx2 < L; ++idx2) {
+            for (int idx1 = 0; idx1 < idx2; ++idx1) {
+
+                int skip = counts[idx2];
+                int take = nums[idx1] < nums[idx2] ? counts[idx1] + 1 : 0;
+                counts[idx2] = Math.max(skip, take);
+
+                maxLength = Math.max(maxLength, counts[idx2]);
             }
 
-            maxLength = Math.max(maxLength, length[i]);
         }
 
         return maxLength;

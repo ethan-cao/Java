@@ -2,14 +2,10 @@ package algorithm.leetCode;
 
 /*
 You are given an array of n pairs where pairs[i] = [left_i, right_i] and left_i < right_i.
-
 A pair p2 = [c, d] follows a pair p1 = [a, b] if b < c. A chain of pairs can be formed in this fashion.
-
 Return the length longest chain which can be formed.
-
 You do not need to use up all the given intervals. You can select pairs in any order.
 
-n == pairs.length
 1 <= n <= 1000
 -1000 <= left_i < right_i <= 1000
 
@@ -26,33 +22,39 @@ import java.util.Arrays;
 
 public class M_DP_646 {
 
-    public static void main(String[] args) {
-    }
-
     // DP, 36ms
     public int findLongestChain1(int[][] pairs) {
+        int L = pairs.length;
+
+        int[] counts = new int[L];
+        Arrays.fill(counts, 1);
+
+        int maxCount = 1;
+    
+        // mutate input sorting
+        // it's also ok to sort based on (p1, p2) -> Integer.compare(p1[0], p2[0])
+        // https://leetcode.com/problems/maximum-length-of-pair-chain/discuss/105602/easy-dp/1733313
+        Arrays.sort(pairs, (p1, p2) -> Integer.compare(p1[1], p2[1]));
+
+        // without mutating the input
         int[][] sortedPairs = Arrays.stream(pairs)
                 .sorted((p1, p2) -> Integer.compare(p1[1], p2[1]))
                 .toArray(int[][]::new);
 
-        int L = sortedPairs.length;
+        for (int idx2 = 1; idx2 < L; ++idx2) {
+            for (int idx1 = 0; idx1 < idx2; ++idx1) {
 
-        // counts[i]: longest chain ending at i
-        int[] counts = new int[L];
+                int skip = counts[idx2];
+                int take = pairs[idx1][1] < pairs[idx2][0] ? counts[idx1] + 1 : 0;
+                // pairs[idx1][1] < pairs[idx2][1]
 
-        // BASE
-        Arrays.fill(counts, 1);
+                counts[idx2] = Math.max(skip, take);
 
-        // TRANSFORM
-        for (int end = 0; end < L; ++end) {
-            for (int start = 0; start < end; ++start) {
-
-                int count = sortedPairs[end][0] > sortedPairs[start][1] ? counts[start] + 1 : counts[start];
-                counts[end] = Math.max(counts[end], count);
+                maxCount = Math.max(maxCount, counts[idx2]);
             }
         }
 
-        return counts[L - 1];
+        return maxCount;
     }
 
     // Greedy, 26ms
@@ -78,6 +80,4 @@ public class M_DP_646 {
         return longestLength;
     }
 
-
 }
-

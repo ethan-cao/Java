@@ -86,7 +86,7 @@ public class M_Greedy_Array_406 {
 
     // Time: same as Arrays.sort()
     public static int[][] reconstructQueue(int[][] people) {
-        if (people.length < 2) {
+        if (people.length < 2) { 
             return people;
         }
 

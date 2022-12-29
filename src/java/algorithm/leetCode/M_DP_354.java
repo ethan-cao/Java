@@ -73,32 +73,40 @@ public class M_DP_354 {
     // DP
     // Time: O(N^2), LTE
     public static int maxEnvelopes2(int[][] envelopes) {
-        int max = 1;
-
         int L = envelopes.length;
-        int[] count = new int[L];
 
+        int[] counts = new int[L];
+        Arrays.fill(counts, 1);
+
+        int maxCount = 1;
+
+        // does not mutate the input
         int[][] sortedEnvelopes = Arrays.stream(envelopes)
                 .sorted((e1, e2) -> e1[0] == e2[0] ? Integer.compare(e2[1], e1[1]) : Integer.compare(e1[0], e2[0]))
                 .toArray(int[][]::new);
 
-        for (int i = 0; i < L; ++i) {
-            count[i] = 1;
+        // alternatively, mutate the input
+        // Arrays.sort(envelopes, (e1, e2) -> {
+        //     if (e1[0] == e2[0]) {
+        //         return Integer.compare(e2[1], e1[1]);
+        //     } else {
+        //         return Integer.compare(e1[0], e2[0]);
+        //     }
+        // });
 
-            for (int j = 0; j < i; ++j) {
+        for (int end = 1; end < L; ++end) {
+            for (int start = 0; start < end; ++start) {
+
+                int skip = counts[end];
                 // Since the width is increasing, only need to consider height
-                int height1 = sortedEnvelopes[j][1];
-                int height2 = sortedEnvelopes[i][1];
+                int take = sortedEnvelopes[start][1] < sortedEnvelopes[end][1] ? counts[start] + 1 : 0;
+                counts[end] = Math.max(skip, take);
 
-                if (height1 < height2) {
-                    count[i] = Math.max(count[i], count[j] + 1);
-                }
-
-                max = Math.max(max, count[i]);
+                maxCount = Math.max(maxCount, counts[end]);
             }
         }
 
-        return max;
+        return maxCount;
     }
 
 }

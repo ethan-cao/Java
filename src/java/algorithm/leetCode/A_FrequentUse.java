@@ -174,6 +174,7 @@ public class A_FrequentUse {
         // sort
         int[] test1 = {4, 3, 1, 2, -1};
 
+        // !mutate the input
         // sort primitive
         Arrays.sort(test1);
 
@@ -200,6 +201,7 @@ public class A_FrequentUse {
 
         int[][] test2 = {{5, 4}, {6, 4}, {6, 7}, {2, 3}};
 
+        // !!! does not mutate the input
         // sort on index 0, then sort on index 1
         int[][] sortedArray2 = Arrays.stream(test2)
                 .sorted((x, y) -> {
