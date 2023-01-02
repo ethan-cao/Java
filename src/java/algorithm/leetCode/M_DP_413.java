@@ -20,9 +20,6 @@ Explanation: 3 arithmetic slices in nums: [1, 2, 3], [2, 3, 4], [1,2,3,4]
 
 public class M_DP_413 {
 
-    public static void main(String[] args) {
-    }
-
     // DP 0ms
     // Time: o(N), Space: O(n)
     public int numberOfArithmeticSlices1(int[] nums) {
@@ -41,13 +38,13 @@ public class M_DP_413 {
 
         // TRANSFORM
         // counts[i] = ( nums[i]-nums[i-1] == nums[i-1] - nums[i-2] )? 1 + counts[i-1] : 0
-        for (int start = 2; start < L; ++start) {
+        for (int idx = 2; idx < L; ++idx) {
 
-            if (nums[start] - nums[start - 1] == nums[start - 1] - nums[start - 2]) {
-                counts[start] = counts[start - 1] + 1;
+            if (nums[idx] - nums[idx - 1] == nums[idx - 1] - nums[idx - 2]) {
+                counts[idx] = counts[idx - 1] + 1;
             }
 
-            count += counts[start];
+            count += counts[idx];
         }
 
         return count;
@@ -65,9 +62,9 @@ public class M_DP_413 {
         int count = 0;
         int currentCount = 0;
 
-        for (int start = 2; start < L; ++start)
+        for (int idx = 2; idx < L; ++idx)
 
-            if (nums[start] - nums[start - 1] == nums[start - 1] - nums[start - 2]) {
+            if (nums[idx] - nums[idx - 1] == nums[idx - 1] - nums[idx - 2]) {
                 currentCount += 1;
                 count += currentCount;
             } else {

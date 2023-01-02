@@ -19,8 +19,8 @@ public class M_DP_BitManipulation_338 {
         System.out.println(Arrays.toString(countBits0(10))); // [0,1,1,2,1,2,2,3,1,2,2]
     }
 
-    // DP, iterative
-    // 2ms
+    // DP + Bit manipulation, iterative
+    // Time: O(N), 2ms
     public static int[] countBits0(int n) {
         int[] bits = new int[n + 1];
 
@@ -38,7 +38,7 @@ public class M_DP_BitManipulation_338 {
     }
 
     // DP, iterative
-    // 2ms
+    // Time: O(N), 2ms
     public static int[] countBits1(int n) {
         int[] bits = new int[n + 1];
 

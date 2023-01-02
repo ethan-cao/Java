@@ -23,6 +23,7 @@ import java.util.Arrays;
 public class M_DP_646 {
 
     // DP, 36ms
+    // Time: O(N^2)
     public int findLongestChain1(int[][] pairs) {
         int L = pairs.length;
 
@@ -30,10 +31,14 @@ public class M_DP_646 {
         Arrays.fill(counts, 1);
 
         int maxCount = 1;
-    
+
+        // difference between 300 and 646: in 646 you can re-order item, in 300 you
+        // cannot
+        // so if sort paris, so we only need to look in 1 direction left to right
+        // otherwise, we need to look in 2 direction, left to right and right to left
+
         // mutate input sorting
         // it's also ok to sort based on (p1, p2) -> Integer.compare(p1[0], p2[0])
-        // https://leetcode.com/problems/maximum-length-of-pair-chain/discuss/105602/easy-dp/1733313
         Arrays.sort(pairs, (p1, p2) -> Integer.compare(p1[1], p2[1]));
 
         // without mutating the input
@@ -41,16 +46,14 @@ public class M_DP_646 {
                 .sorted((p1, p2) -> Integer.compare(p1[1], p2[1]))
                 .toArray(int[][]::new);
 
-        for (int idx2 = 1; idx2 < L; ++idx2) {
-            for (int idx1 = 0; idx1 < idx2; ++idx1) {
+        for (int i = 1; i < L; ++i) {
+            for (int j = 0; j < i; ++j) {
 
-                int skip = counts[idx2];
-                int take = pairs[idx1][1] < pairs[idx2][0] ? counts[idx1] + 1 : 0;
-                // pairs[idx1][1] < pairs[idx2][1]
+                if (pairs[j][1] < pairs[i][0]) {
+                    counts[i] = Math.max(counts[i], counts[j] + 1);
+                }
 
-                counts[idx2] = Math.max(skip, take);
-
-                maxCount = Math.max(maxCount, counts[idx2]);
+                maxCount = Math.max(maxCount, counts[i]);
             }
         }
 
@@ -58,6 +61,7 @@ public class M_DP_646 {
     }
 
     // Greedy, 26ms
+    // Time: O(NlogN)
     public static int findLongestChain2(int[][] pairs) {
         int[][] sortedPairs = Arrays.stream(pairs)
                 .sorted((p1, p2) -> Integer.compare(p1[1], p2[1]))

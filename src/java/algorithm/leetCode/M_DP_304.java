@@ -48,17 +48,18 @@ public class M_DP_304 {
             // BASE
             sum[0][0] = matrix[0][0];
 
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < N; j++) {
-                    int leftRectSum = j - 1 >= 0 ? sum[i][j - 1] : 0;
-                    int topRectSum = i - 1 >= 0 ? sum[i - 1][j] : 0;
-                    int overlapRectSum = i - 1 >= 0 && j - 1 >= 0 ? sum[i - 1][j - 1] : 0;
+            for (int row = 0; row < M; row++) {
+                for (int col = 0; col < N; col++) {
+                    int leftRectSum = col - 1 >= 0 ? sum[row][col - 1] : 0;
+                    int topRectSum = row - 1 >= 0 ? sum[row - 1][col] : 0;
+                    int overlapRectSum = row - 1 >= 0 && col - 1 >= 0 ? sum[row - 1][col - 1] : 0;
 
-                    sum[i][j] = matrix[i][j] + leftRectSum + topRectSum - overlapRectSum;
+                    sum[row][col] = matrix[row][col] + leftRectSum + topRectSum - overlapRectSum;
                 }
             }
         }
 
+        // Time: O(1)
         public int sumRegion(int row1, int col1, int row2, int col2) {
             int leftRectSum = col1 - 1 >= 0 ? sum[row2][col1 - 1] : 0;
             int topRectSum = row1 - 1 >= 0 ? sum[row1 - 1][col2] : 0;
@@ -68,4 +69,3 @@ public class M_DP_304 {
         }
     }
 }
-

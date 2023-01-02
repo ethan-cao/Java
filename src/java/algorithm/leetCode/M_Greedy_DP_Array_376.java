@@ -14,10 +14,13 @@ Given a sequence of integers, return the length of the longest subsequence that 
 A subsequence is obtained by deleting some number of elements (eventually, also zero) from the original sequence,
 leaving the remaining elements in their original order.
 
+1 <= nums.length <= 1000
+0 <= nums[i] <= 1000
+
+
 ### Example
 [1,7,4,9,2,5] ->  6
-Explanation:
-difference is [6, -3, 5, -7, 3], so the entire sequence is a wiggle sequence.
+Explanation: difference is [6, -3, 5, -7, 3], so the entire sequence is a wiggle sequence.
 
 [1,17,5,10,13,15,10,5,16,8] ->  7
 Explanation: There are several subsequences that achieve this length. One is [1,17,10,13,10,16,8].
@@ -41,74 +44,77 @@ public class M_Greedy_DP_Array_376 {
     // DP, iterative
     // Time: O(N), Space: O(N),  0ms
     public static int wiggleMaxLength(int[] nums) {
-        if (nums.length == 1) {
-            return 1;
-        }
+        int L = nums.length;
 
-        // lengthEndsOnPositive[i]: length of the longest wiggle subsequence for nums[0]...nums[i], when nums[i] > nums[i-1]
-        int[] lengthEndsOnPositive = new int[nums.length];
-        lengthEndsOnPositive[0] = 1;
+        // positiveEnds[i]: length of the longest wiggle subsequence for nums[0]...nums[i], when nums[i] > nums[i-1]
+        int[] positiveEnds = new int[L];
+        positiveEnds[0] = 1;
 
-        // lengthEndsOnNegative[i]: length of the longest wiggle subsequence for nums[0]...nums[i], when nums[i] < nums[i-1]
-        int[] lengthEndsOnNegative = new int[nums.length];
-        lengthEndsOnNegative[0] = 1;
+        // negativeEnds[i]: length of the longest wiggle subsequence for nums[0]...nums[i], when nums[i] < nums[i-1]
+        int[] negativeEnds = new int[L];
+        negativeEnds[0] = 1;
 
-        for (int i = 1; i < nums.length; ++i) {
-            int difference = nums[i] - nums[i - 1];
+        for (int i = 1; i < L; ++i) {
+            int diff = nums[i] - nums[i - 1];
 
-            if (difference > 0) {
-                lengthEndsOnPositive[i] = lengthEndsOnNegative[i - 1] + 1;
-                lengthEndsOnNegative[i] = lengthEndsOnNegative[i - 1];
-            } else if (difference < 0) {
-                lengthEndsOnPositive[i] = lengthEndsOnPositive[i - 1];
-                lengthEndsOnNegative[i] = lengthEndsOnPositive[i - 1] + 1;
+            if (diff > 0) {
+                positiveEnds[i] = negativeEnds[i - 1] + 1;
+                negativeEnds[i] = negativeEnds[i - 1];
+            } else if (diff < 0) {
+                positiveEnds[i] = positiveEnds[i - 1];
+                negativeEnds[i] = positiveEnds[i - 1] + 1;
             } else {
-                lengthEndsOnPositive[i] = lengthEndsOnPositive[i - 1];
-                lengthEndsOnNegative[i] = lengthEndsOnNegative[i - 1];
+                positiveEnds[i] = positiveEnds[i - 1];
+                negativeEnds[i] = negativeEnds[i - 1];
             }
         }
 
-        return Math.max(lengthEndsOnPositive[nums.length - 1], lengthEndsOnNegative[nums.length - 1]);
+        return Math.max(positiveEnds[L -1], negativeEnds[L - 1]);
     }
 
     // DP, iterative
     // Time: O(N), Space: O(N)
     // 0ms
     public static int wiggleMaxLength0(int[] nums) {
-        if (nums.length == 1) {
-            return 1;
-        }
+        int L = nums.length;
 
-        // maxWiggleLength[i]: length of the longest wiggle subsequence for nums[0]...nums[i]
-        // maxWiggleLength[i] = maxWiggleLength[i-1] + (wiggle ? 1 : 0)
-        int[] maxWiggleLength = new int[nums.length];
-        maxWiggleLength[0] = 1;  // base case
+        int[] counts = new int[L];
+        counts[0] = 1;
 
-        int previousDifference = 0;
-        for (int i = 1; i < maxWiggleLength.length; ++i) {
-            int difference = nums[i] - nums[i - 1];
+        int preDiff = 0;
 
-            if (difference == 0) {
-                maxWiggleLength[i] = maxWiggleLength[i - 1];
-            } else {
-                int product = previousDifference * difference;
+        for (int i = 1; i < L; ++i) {
+            int diff = nums[i] - nums[i - 1];
 
-                // it must be that previousDifference is 0, difference is 0 is already checked
-                if (product == 0) {
-                    // base case, this wiggle starts from nums[i-1]
-                    maxWiggleLength[i] = 2;
+            if (diff == 0) {
+                counts[i] = counts[i - 1];
+            } else if (diff > 0) {
+                if (preDiff == 0) {
+                    counts[i] = 2;
+                } else if (preDiff < 0) {
+                    counts[i] = counts[i - 1] + 1;
                 } else {
-                    maxWiggleLength[i] = product < 0 ? maxWiggleLength[i - 1] + 1 : maxWiggleLength[i - 1];
+                    counts[i] = counts[i - 1];
                 }
+            } else {
+                if (preDiff == 0) {
+                    counts[i] = 2;
+                } else if (preDiff > 0) {
+                    counts[i] = counts[i - 1] + 1;
+                } else {
+                    counts[i] = counts[i - 1];
+                } 
+            }
 
-                // update previousDifference iff curent isn't 0, otherwise we reset the length to 2
-                // !!! the question is about sequence (discrete), so we can skip updating previous difference
-                // e.g. [1, 5, 2, 3, 3, 1] -> 5
-                previousDifference = difference;
+            // !!! update preDiff iff current isn't 0, otherwise we reset the length to 2
+            // the question is about sequence (discrete), so we can skip updating previous difference
+            // e.g. [1, 5, 2, 3, 3, 1] -> 5
+            if (diff != 0) {
+                preDiff = diff;
             }
         }
 
-        return maxWiggleLength[maxWiggleLength.length - 1];
+        return counts[L - 1];
     }
 
     // Greedy
