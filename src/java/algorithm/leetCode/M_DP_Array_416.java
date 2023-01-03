@@ -102,14 +102,12 @@ public class M_DP_Array_416 {
 
     // DP iterative
     // 39ms
-    public static boolean canPartition(int[] nums) {
-        if (nums.length < 2) {
-            return false;
-        }
-
+    public static boolean canPartition11(int[] nums) {
+        final int L = nums.length;
         int sum = 0;
-        for (int num : nums) {
-            sum += num;
+
+        for (int i = 0; i < L; ++i) {
+            sum += nums[i];
         }
 
         if (sum % 2 != 0) {
@@ -118,82 +116,91 @@ public class M_DP_Array_416 {
 
         int half = sum / 2;
 
-        // sums[i][j]: if there are elements located from 0 to i, that can sum up to j
+        // can[i][j]: if there are elements located from 0 to i, that can sum up to j
         // if, some elements can sum up to half, then the reset sum up to half as well, possible to partition
-        final int L = nums.length;
-        boolean[][] results = new boolean[L][half + 1];
+        boolean[][] can = new boolean[L][half + 1];
 
-        // BASE
-        // canPartition(i, 0) = true
-        for (int i = 0; i < L; ++i) {
-            results[i][0] = true;
-        }
+        // optional, without sort, return can[L][target]
+        Arrays.sort(nums);
 
         for (int i = 0; i < L; ++i) {
             int num = nums[i];
 
-            for (int target = 1; target <= half; ++target) {
+            // BASE
+            can[i][0] = true;
 
-                // TRANSFORM
-                // take = canPartition(i - 1, half - nums[i])
-                // skip = canPartition(i - 1, half)
-                // canPartition(i, half) = take || skip
-                boolean skip = i - 1 >= 0 ? canPartitions[i - 1][target] : false;
-                // each num can ONLY BE USED ONCE, different from 377 and 518
-                boolean take = i - 1 >= 0 && target - num >= 0 ? canPartitions[i - 1][target - num] : false;
+            for (int value = 1; value <= half; ++value) {
+                
+                boolean skip = false;
+                boolean take = false;
 
-                canPartitions[i][target] = skip || take;
+                if (i == 0) {
+                    skip = false;
+                    take = value == num;
+                } else  {
+                    skip = can[i - 1][value];
+                      // each num can ONLY BE USED ONCE, different from 377 and 518
+                    take = value - num >= 0 ? can[i - 1][value - num] : false;
+                }
+            
+                can[i][value] = skip || take;
+            }
+
+            // terminate early, because we sort before
+            if (can[i][half]) {
+                return true;
             }
         }
 
-        return results[L - 1][half];
+        return false;
     }
 
     // DP iterative, condensed space
     // 20 ms
-    public static boolean canPartition1(int[] nums) {
-        if (nums.length < 2) {
-            return false;
-        }
-
+    public boolean canPartition22(int[] nums) {
+        final int L = nums.length;
         int sum = 0;
-        for (int num : nums) {
-            sum += num;
+
+        for (int i = 0; i < L; ++i) {
+            sum += nums[i];
         }
 
-        // if sum is odd number, then not possible
         if (sum % 2 != 0) {
             return false;
         }
 
-        final int L = nums.length;
         int half = sum / 2;
-        boolean[] results = new boolean[half + 1];
 
-        results[0] = true;
+        boolean[] can = new boolean[half + 1];
+        can[0] = true;
 
-        // !!! iterate backwards
-        // [i][j] depends on [i-1][j-num]
-        // j depends on j - num
-        // row i should be derived from the previous row
         for (int i = 0; i < L; ++i) {
-            for (int target = half; target >= 0; --target) {
-                boolean take = false;
+            int num = nums[i];
+
+            // !!! iterate backwards
+            // [i][j] depends on [i-1][j-num]
+            // j depends on j - num
+            // row i should be derived from the previous row i - 1
+            // iterate from left to right means dp[i][j] = dp[i][j-nums[i-1]])
+            // iterate from right to left means dp[i][j] = dp[i-1][j-nums[i-1]]
+            for (int value = half; value > 0; --value) {
+
                 boolean skip = false;
+                boolean take = false;
 
                 if (i == 0) {
-                    take = nums[i] == target;
                     skip = false;
+                    take = value == num;
                 } else {
-                    take = target - nums[i] >= 0 ? results[target - nums[i]] : false;
-                    skip = results[target];
+                    skip = can[value];
+                    take = value >= num ? can[value - num] : false;
                 }
 
-                results[target] = take || skip;
+                can[value] = take || skip;
             }
         }
 
-        return results[half];
+        return can[half];
     }
 
 }

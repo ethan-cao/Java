@@ -4,7 +4,7 @@ public class Test {
     public static void main(String[] args) {
 
         int amount = 3;
-        int[] coins = new int[] { 1, 2, 5};
+        int[] coins = new int[] { 1, 2, 5 };
 
         int L = coins.length;
 
@@ -28,7 +28,7 @@ public class Test {
         }
 
         int r = counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
-    
+
         System.out.println(r);
     }
 }
