@@ -182,7 +182,7 @@ public class M_DP_Array_416 {
             // j depends on j - num
             // row i should be derived from the previous row i - 1
             // iterate from left to right means dp[i][j] = dp[i][j-nums[i-1]])
-            // iterate from right to left means dp[i][j] = dp[i-1][j-nums[i-1]]
+            // iterate from right to left means dp[i][j] = dp[i-1][j-nums[i-1]], which is wrong
             for (int value = half; value > 0; --value) {
 
                 boolean skip = false;

@@ -99,7 +99,7 @@ public class M_DP_DFS_494 {
         // use + nums[0]
         results[0][+nums[0] + OFFSET]++;
         // use - nums[0]
-        results[0][-nums[0] + OFFSET]++; // nums[0] could be 0
+        results[0][-nums[0] + OFFSET]++; // !!! nums[0] could be 0, cannot use results[0][-nums[0] + OFFSET] + 1
 
         // TRANSFORM
         // usePlus(i, j) += f(i-1, j - mum), j - num >= 0
@@ -124,6 +124,39 @@ public class M_DP_DFS_494 {
 
         return results[L - 1][target + OFFSET];
     }
+
+    public int findTargetSumWays111(int[] nums, int target) {
+        int L = nums.length;
+
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        if (target > sum || target < -sum) {
+            return 0;
+        }
+
+        int SIZE = 2 * sum + 1;
+        int OFFSET = sum;
+        int[][] counts = new int[L][SIZE];
+
+        for (int i = 0; i < L; ++i) {
+            int num = nums[i];
+
+            for (int j = 0; j < SIZE; ++j) {
+                
+                if (i == 0) {
+                    counts[i][j] += (j == num + sum ? 1 : 0);
+                    counts[i][j] += (j == -num + sum ? 1 : 0);
+                } else {
+                    counts[i][j] += j - num >= 0 ? counts[i - 1][j - num] : 0;
+                    counts[i][j] += j + num < SIZE ? counts[i - 1][j + num] : 0;
+                }
+            }
+        }
+
+        return counts[L - 1][target + OFFSET];
 
     // DP, iterative, condensed space, 15ms
     public int findTargetSumWays_4(int[] nums, int target) {

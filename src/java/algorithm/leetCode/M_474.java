@@ -25,4 +25,101 @@ Explanation: The largest subset is {"0", "1"}, so the answer is 2.
 
 public class M_474 {
 
+	// DP
+	// Time: O(N^3), Space: O(N^3)
+	public int findMaxForm(String[] strs, int m, int n) {
+		int L = strs.length;
+
+		// counts[i][j][k]: size of the largest subset of strs
+		// with the first i string and at most j 0's and at most k 1's
+		int[][][] size = new int[L][m + 1][n + 1];
+
+		for (int i = 0; i < L; ++i) {
+			String s = strs[i];
+
+			int[] count = count(s);
+
+			for (int j = 0; j <= m; ++j) {
+				for (int k = 0; k <= n; ++k) {
+
+                    int skip = 0; // subset size when skip strs[i] in the subset
+                    int take = 0; // subset size when take strs[i] in the subset
+
+					if (i == 0) {
+						// BASE
+						skip = 0;
+						take = j >= count[0] && k >= count[1] ? 1 : 0;
+					} else {
+						// TRANSFORM
+						skip = size[i - 1][j][k];
+						take = j >= count[0] && k >= count[1]
+								? size[i - 1][j - count[0]][k - count[1]] + 1
+								: size[i - 1][j][k];
+					}
+
+					size[i][j][k] = Math.max(skip, take);
+				}
+			}
+		}
+
+		return size[L - 1][m][n];
+	}
+
+	// DP
+	// Time: O(N^3), Space: O(N^2)
+	public int findMaxForm1(String[] strs, int m, int n) {
+        int L = strs.length;
+
+        // counts[i]a[j][k]: size of the largest subset of strs
+        // with the first i string and at most j 0's and at most k 1's
+        int[][] size = new int[m + 1][n + 1];
+
+        for (int i = 0; i < L; ++i) {
+            String s = strs[i];
+
+            int[] count = count(s);
+
+			// !!! iterate backward, same as 416
+			// because size[i][j][k] relies on size[i-1][j - 0count][k - 1count]
+		    // when calculate i, need to preserve size[j - 0count][k - 1count] from i - 1
+			// iterate from left to right means size[i][j][k] relies on size[i][j - 0count][k - 1count], which is wrong
+            for (int j = m; j >= 0; --j) {
+                for (int k = n; k >= 0; --k) {
+
+                    int skip = 0; // subset size when skip strs[i] in the subset
+                    int take = 0; // subset size when take strs[i] in the subset
+
+                    if (i == 0) {
+                        // BASE
+                        skip = 0;
+                        take = j >= count[0] && k >= count[1] ? 1 : 0;
+                    } else {
+                        // TRANSFORM
+                        skip = size[j][k];
+                        take = j >= count[0] && k >= count[1]
+                                ? size[j - count[0]][k - count[1]] + 1
+                                : size[j][k];
+                    }
+
+                    size[j][k] = Math.max(skip, take);
+                }
+            }
+        }
+
+        return size[m][n];
+    }
+
+	private int[] count(String str) {
+		int[] counts = new int[2];
+
+		for (char ch : str.toCharArray()) {
+			if (ch == '0') {
+				counts[0]++;
+			} else if (ch == '1') {
+				counts[1]++;
+			}
+		}
+
+		return counts;
+	}
 }
