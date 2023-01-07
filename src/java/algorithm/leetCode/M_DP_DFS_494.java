@@ -157,6 +157,7 @@ public class M_DP_DFS_494 {
         }
 
         return counts[L - 1][target + OFFSET];
+    }
 
     // DP, iterative, condensed space, 15ms
     public int findTargetSumWays_4(int[] nums, int target) {

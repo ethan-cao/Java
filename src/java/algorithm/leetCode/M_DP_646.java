@@ -28,18 +28,19 @@ public class M_DP_646 {
         int L = pairs.length;
 
         int[] counts = new int[L];
+        
+        // BASE
         Arrays.fill(counts, 1);
 
         int maxCount = 1;
 
-        // difference between 300 and 646: in 646 you can re-order item, in 300 you
-        // cannot
-        // so if sort paris, so we only need to look in 1 direction left to right
+        // since we sort paris, we only need to look in 1 direction left to right
         // otherwise, we need to look in 2 direction, left to right and right to left
-
         // mutate input sorting
         // it's also ok to sort based on (p1, p2) -> Integer.compare(p1[0], p2[0])
         Arrays.sort(pairs, (p1, p2) -> Integer.compare(p1[1], p2[1]));
+
+        // in 646 you can re-order item, in 300 you cannot
 
         // without mutating the input
         int[][] sortedPairs = Arrays.stream(pairs)
