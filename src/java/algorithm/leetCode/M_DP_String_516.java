@@ -123,30 +123,29 @@ public class M_DP_String_516 {
     // 70 ms
     public static int longestPalindromeSubseq_5(String s) {
         int L = s.length();
-        int[] results = new int[L];
 
-        int current = 0;
+        int[] counts = new int[L];
+        int[] preCounts = new int[L];
 
-        for (int end = 0; end < L; end++) {
-            results[end] = 1;
-            current = 0;
+        // since the current row is derived from previous row
+        // iterate the start backwards
+        for (int start = L - 1; start >= 0; --start) {
+            counts[start] = 1;
 
-            for (int start = end - 1; start >= 0; start--) {
-                int previous = results[start];
+            for (int end = start + 1; end < L; ++end) {
 
                 if (s.charAt(start) == s.charAt(end)) {
-                    results[start] = 2 + current;
+                    counts[end] = preCounts[end - 1] + 2;
+                } else {
+                    counts[end] = Math.max(preCounts[end], counts[end - 1]);
                 }
-
-                current = Math.max(current, previous);
             }
+
+            preCounts = counts;
+            counts = new int[L];
         }
 
-        for (int result : results) {
-            current = Math.max(current, result);
-        }
-
-        return current;
+        return preCounts[L - 1];
     }
 
 }
