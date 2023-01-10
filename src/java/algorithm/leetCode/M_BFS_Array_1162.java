@@ -75,7 +75,7 @@ public class M_BFS_Array_1162 {
     }
 
     // DP
-    // 13ms
+    // Time: O(N^2) 13ms
     public int maxDistance2(int[][] grid) {
         final int N = grid.length;
 
@@ -84,7 +84,6 @@ public class M_BFS_Array_1162 {
         // distance[y][x]: distance between water at grid[y][x] to nearest land
         int[][] distances = new int[N][N];
 
-        // BASE CASE: all land cells' distance is 0
         for (int y = 0; y < N; ++y) {
             for (int x = 0; x < N; ++x) {
                 if (grid[y][x] == WATER) {

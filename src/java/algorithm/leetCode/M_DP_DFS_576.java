@@ -23,7 +23,7 @@ public class M_DP_DFS_576 {
     }
 
     private static int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-    private static int MOD = 1000000007;
+    private static int MOD = (int) 1e9 + 7;
 
     // DFS, brute force
     // Time:  O(Nmn), 20ms
@@ -64,10 +64,10 @@ public class M_DP_DFS_576 {
     // DP, iterative, 3d
     // 19ms
     public static int findPaths2(int m, int n, int maxMove, int startRow, int startColumn) {
+        // counts[i][j][k]: how many possible ways to walk from outside boundary to cell[j,k] with step i
         int[][][] counts = new int[maxMove + 1][m][n];
 
         for (int move = 1; move <= maxMove; ++move) {
-
             for (int y = 0; y < m; ++y) {
                 for (int x = 0; x < n; ++x) {
 
@@ -76,12 +76,13 @@ public class M_DP_DFS_576 {
                         int nextX = x + direction[1];
 
                         if (nextY < 0 || nextY >= m || nextX < 0 || nextX >= n) {
+                            // if out of boundary
+                            // BASE CASE
                             counts[move][y][x] += 1;
                         } else {
-                            // derived from recursive approach
+                            // TRANSFORM
+                            // same as ways to [nextY, nextX], but 1 less steps
                             counts[move][y][x] += counts[move - 1][nextY][nextX];
-
-                            //  counts[move][y][x] only depends on counts[move - 1][nextY][nextX], the previous row
                         }
 
                         counts[move][y][x] %= MOD;
