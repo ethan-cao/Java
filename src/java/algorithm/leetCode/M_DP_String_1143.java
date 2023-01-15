@@ -68,30 +68,32 @@ public class M_DP_String_1143 {
         final int L1 = text1.length();
         final int L2 = text2.length();
 
-        int[][] longestLength = new int[L1][L2];
+        int[][] counts = new int[L1][L2];
 
         // BASE
-        longestLength[0][0] = text1.charAt(0) == text2.charAt(0) ? 1 : 0;
+        counts[0][0] = text1.charAt(0) == text2.charAt(0) ? 1 : 0;
 
         for (int idx = 1; idx < L1; ++idx) {
-            longestLength[idx][0] = text1.charAt(idx) == text2.charAt(0) ? 1 : longestLength[idx - 1][0];
+            counts[idx][0] = text1.charAt(idx) == text2.charAt(0) ? 1 : counts[idx - 1][0];
         }
 
         for (int idx = 1; idx < L2; ++idx) {
-            longestLength[0][idx] = text1.charAt(0) == text2.charAt(idx) ? 1 : longestLength[0][idx - 1];
+            counts[0][idx] = text1.charAt(0) == text2.charAt(idx) ? 1 : counts[0][idx - 1];
         }
 
         // TRANSFORM
         for (int i = 1; i < L1; ++i) {
             for (int j = 1; j < L2; ++j) {
 
-                longestLength[i][j] = text1.charAt(i) == text2.charAt(j)
-                        ? longestLength[i - 1][j - 1] + 1
-                        : Math.max(longestLength[i - 1][j], longestLength[i][j - 1]);
+                if (text1.charAt(i) == text2.charAt(j)) {
+                    counts[i][j] = counts[i - 1][j - 1] + 1;
+                } else {
+                    counts[i][j] = Math.max(counts[i - 1][j], counts[i][j - 1]);
+                }
             }
         }
 
-        return longestLength[L1 - 1][L2 - 1];
+        return counts[L1 - 1][L2 - 1];
     }
 
 

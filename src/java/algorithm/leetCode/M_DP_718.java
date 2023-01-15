@@ -67,34 +67,35 @@ public class M_DP_718 {
         int L1 = nums1.length;
         int L2 = nums2.length;
 
-        if (L1 < 1 || L2 < 1) {
-            return 0;
-        }
-
-        int maxLength = 0;
-        int[][] maxLengths = new int[L1][L2];
+        // counts[i][j]: longest common subarray length, containing nums1[i], nums2[j], respectively
+        int[][] counts = new int[L1][L2];
+        int maxCount = 0;
 
         // BASE
-        for (int idx2 = 0; idx2 < L2; ++idx2) {
-            if (nums1[0] == nums2[idx2]) {
-                maxLengths[0][idx2] = 1;
-                maxLength = Math.max(maxLength, maxLengths[0][idx2]);
-            }
+        for (int i = 0; i < L1; ++i) {
+            counts[i][0] = nums1[i] == nums2[0] ? 1 : 0;
+            maxCount = Math.max(maxCount, counts[i][0]);
         }
 
-        // TRANSFORM
+        // BASE
+        for (int i = 0; i < L2; ++i) {
+            counts[0][i] = nums1[0] == nums2[i] ? 1 : 0;
+            maxCount = Math.max(maxCount, counts[0][i]);
+        }
+
         for (int idx1 = 1; idx1 < L1; ++idx1) {
-            // idx2 should start from 0, otherwise missing cases
-            for (int idx2 = 0; idx2 < L2; ++idx2) {
+            for (int idx2 = 1; idx2 < L2; ++idx2) {
 
+                // TRANSFORM
                 if (nums1[idx1] == nums2[idx2]) {
-                    maxLengths[idx1][idx2] = idx2 >= 1 ? 1 + maxLengths[idx1 - 1][idx2 - 1] : 1;
-                    maxLength = Math.max(maxLength, maxLengths[idx1][idx2]);
+                    counts[idx1][idx2] = 1 + counts[idx1 - 1][idx2 - 1];
                 }
+
+                maxCount = Math.max(maxCount, counts[idx1][idx2]);
             }
         }
 
-        return maxLength;
+        return maxCount;
     }
 
     // DP, iterative, condensed space
@@ -107,14 +108,14 @@ public class M_DP_718 {
         int[] cur = new int[L1];
         int[] pre = new int[L1];
 
-        int maxLength = 0;
+        int max = 0;
 
         for (int i = 0; i < L1; ++i) {
             for (int j = 0; j < L2; ++j) {
 
                 if (nums1[i] == nums2[j]) {
                     cur[j] = j >= 1 ? pre[j - 1] + 1 : 1;
-                    maxLength = Math.max(maxLength, cur[j]);
+                    max = Math.max(max, cur[j]);
                 } else {
                     cur[j] = 0;
                 }
@@ -124,6 +125,6 @@ public class M_DP_718 {
             pre = Arrays.copyOf(cur, cur.length);
         }
 
-        return maxLength;
+        return max;
     }
 }
