@@ -27,11 +27,12 @@ Output: 1.00000
 public class M_DP_688 {
 
     public static void main(String[] args) {
-        System.out.println(knightProbability1(3, 2, 0, 0));  // 0.06250
-        System.out.println(knightProbability1(8, 20, 6, 4));  // 0.06250
+        System.out.println(knightProbability1(3, 2, 0, 0)); // 0.06250
+        System.out.println(knightProbability1(8, 20, 6, 4)); // 0.06250
     }
 
-    private static int[][] directions = new int[][]{{-2, -1}, {-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}};
+    private static int[][] directions = new int[][] { { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }, { 2, 1 }, { 1, 2 },
+            { -1, 2 }, { -2, 1 } };
 
     // BFS, TLE
     public static double knightProbability(int n, int k, int row, int column) {
@@ -47,7 +48,7 @@ public class M_DP_688 {
             return 1;
         }
 
-        // 0.125 = 1 / 8,  1 of 8 possible move
+        // 0.125 = 1 / 8, 1 of 8 possible move
         double curProbability = 0.125;
 
         double probability = 0;
@@ -60,6 +61,45 @@ public class M_DP_688 {
         }
 
         return probability;
+    }
+
+    // DP, iterative
+    public double knightProbability11(int n, int k, int row, int column) {
+        // probabilities[i][y][x]: probability when move i step arriving at (y, x)
+        double[][][] probabilities = new double[k + 1][n][n];
+
+        probabilities[0][row][column] = 1.0;
+        
+        // find probabilities of arriving at each cell within the board
+        for (int step = 1; step <= k; ++step) {
+            for (int y = 0; y < n; ++y) {
+                for (int x = 0; x < n; ++x) {
+
+                    for (int[] direction : directions) {
+                        int preY = y - direction[0];
+                        int preX = x - direction[1];
+
+                        // if the previous position is within board,
+                        // 1/8 of the probability arriving at the previous location can sum to the probability arriving at the next position
+                        if (preY >= 0 && preY < n && preX >= 0 && preX < n) {
+                            //!!! must use 8.0 or 8d, otherwise 0/8 is 0
+                            probabilities[step][y][x] += (probabilities[step - 1][preY][preX] * (1 / 8.0));
+                        }
+                    }
+                }
+            }
+        }
+
+        double result = 0;
+
+        // sum all the probabilities up, to get the probability of staying in the board after k moves
+        for (int y = 0; y < n; ++y) {
+            for (int x = 0; x < n; ++x) {
+                result += probabilities[k][y][x];
+            }
+        }
+
+        return result;
     }
 
     // DP
@@ -96,4 +136,3 @@ public class M_DP_688 {
         return memo[row][col][k];
     }
 }
-
