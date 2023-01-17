@@ -28,16 +28,16 @@ import java.util.Arrays;
 public class M_DP_Array_377 {
 
     public static void main(String... args) {
-        System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 4));  // 7
-        System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 1));  // 1
-        System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 2));  // 2
-        System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 3));  // 4
-        System.out.println(combinationSum4_1(new int[]{1, 2, 3}, 5));  // 13
+        System.out.println(combinationSum4_1(new int[] { 1, 2, 3 }, 4)); // 7
+        System.out.println(combinationSum4_1(new int[] { 1, 2, 3 }, 1)); // 1
+        System.out.println(combinationSum4_1(new int[] { 1, 2, 3 }, 2)); // 2
+        System.out.println(combinationSum4_1(new int[] { 1, 2, 3 }, 3)); // 4
+        System.out.println(combinationSum4_1(new int[] { 1, 2, 3 }, 5)); // 13
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, Bottom-up
-    // Time: O(N^3)  6ms
+    // Time: O(N^3) 6ms
     // different from unbounded knapsack
     public static int combinationSum4_4(int[] nums, int target) {
         int L = nums.length;
@@ -61,11 +61,11 @@ public class M_DP_Array_377 {
                 } else {
                     // take
                     // if possible to use this num
-                    // since asking for permutation, 
+                    // since asking for permutation,
                     // use all possible num in the last position to form a new permutation
                     // and sum them up
                     for (int nextIdx = 0; nextIdx <= idx; ++nextIdx) {
-                        if (value >= nums[nextIdx]) {
+                        if (nums[nextIdx] <= value) {
                             counts[idx][value] += counts[idx][value - nums[nextIdx]];
                         }
                     }
@@ -75,9 +75,9 @@ public class M_DP_Array_377 {
 
         return counts[L - 1][target];
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative, 
+    // DP, iterative,
     // Time: O(N^2) 1ms
     public static int combinationSum4_1(int[] nums, int target) {
         int[] counts = new int[target + 1];
@@ -103,13 +103,13 @@ public class M_DP_Array_377 {
     public int combinationSum4(int[] nums, int target) {
         int L = nums.length;
 
-        int[][] counts = new int[target + 1][L];       
+        int[][] counts = new int[target + 1][L];
         Arrays.fill(counts[0], 1);
-        
+
         for (int value = 1; value <= target; ++value) {
             for (int i = 0; i < L; ++i) {
                 int num = nums[i];
-                
+
                 if (value >= num) {
                     for (int j = 0; j <= i; ++j) {
                         if (value >= nums[j]) {
@@ -121,7 +121,7 @@ public class M_DP_Array_377 {
                 }
             }
         }
-    
+
         return counts[target][L - 1];
     }
 
@@ -146,7 +146,8 @@ public class M_DP_Array_377 {
 
         memo[target] = 0;
 
-        // !!! permutation, check every num again，to count same elements in different order
+        // !!! permutation, check every num again，to count same elements in different
+        // order
         // TRANSFORM
         // permutations(i) = Σ permutation(target - nums[i]), nums[i] <= target
         for (int num : nums) {
