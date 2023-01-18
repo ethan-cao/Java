@@ -48,6 +48,7 @@ public class M_DP_Array_377 {
             // BASE
             // permutations(i, 0) = 1
             counts[idx][0] = 1;
+
             int num = nums[idx];
 
             // TRANSFORM
@@ -56,13 +57,11 @@ public class M_DP_Array_377 {
 
                 if (num > value) {
                     // skip
-                    // if not possible to use this num
                     counts[idx][value] = idx - 1 >= 0 ? counts[idx - 1][value] : 0;
                 } else {
                     // take
-                    // if possible to use this num
-                    // since asking for permutation,
-                    // use all possible num in the last position to form a new permutation
+                    // since we need permutation,
+                    // 
                     // and sum them up
                     for (int nextIdx = 0; nextIdx <= idx; ++nextIdx) {
                         if (nums[nextIdx] <= value) {

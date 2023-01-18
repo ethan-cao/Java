@@ -52,23 +52,25 @@ public class M_DFS_DP_698 {
         return canPartition(nums, 0, 0, targetSum, k, new boolean[nums.length]);
     }
 
+    // if nums[idx...end] can be partitioned into k bucket with sum equal to targetSum
     private static boolean canPartition(int[] nums, int idx, int sum, int targetSum, int k, boolean[] used) {
         // if there is only 1 bucket left, since all the rest reaches target, the last one reaches targetSum for sure
         if (k == 1) {
             return true;
         }
 
-        // if the current bucket reaches target sum, try next bucket
         if (sum == targetSum) {
+            // if the current bucket reaches target sum, 
+            // reset idx to 0, sum to 0, look for next bucket (k-1)
             return canPartition(nums, 0, 0, targetSum, k - 1, used);
         } else if (sum > targetSum) {
             return false;
         } else {
-            // examine each used num
             for (int i = idx; i < nums.length; ++i) {
                 if (used[i]) {
                     continue;
                 }
+
                 // try
                 used[i] = true;
 
