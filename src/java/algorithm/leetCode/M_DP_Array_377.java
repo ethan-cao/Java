@@ -59,13 +59,13 @@ public class M_DP_Array_377 {
                     // skip
                     counts[idx][value] = idx - 1 >= 0 ? counts[idx - 1][value] : 0;
                 } else {
-                    // take
-                    // since we need permutation,
-                    // 
-                    // and sum them up
-                    for (int nextIdx = 0; nextIdx <= idx; ++nextIdx) {
-                        if (nums[nextIdx] <= value) {
-                            counts[idx][value] += counts[idx][value - nums[nextIdx]];
+                    // take: use tree to analyze
+                    // if possible to use this num, need to consider nums[0...idx], that's why it's counts[idx]
+                    // for each applicable num in [0...idx], when in use, the remaining sum is (value - nums[i]), that's why it's counts[idx][value - nums[i]]
+                    // then sum them up
+                    for (int i = 0; i <= idx; ++i) {
+                        if (nums[i] <= value) {
+                            counts[idx][value] += counts[idx][value - nums[i]];
                         }
                     }
                 }

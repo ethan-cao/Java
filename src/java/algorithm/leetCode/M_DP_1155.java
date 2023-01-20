@@ -74,14 +74,16 @@ public class M_DP_1155 {
 
         for (int i = 1; i < n; ++i) {
 
+            // minimal sum for dice so far
             int minSum = i + 1;
+            // maximal sum for dice so far
             int maxSum = Math.min(target, (i + 1) * k);
 
             for (int sum = minSum; sum <= maxSum; ++sum) {
 
                 for (int value = 1; value <= k; ++value) {
 
-                    if (sum - value >= 0) {
+                    if (value <= sum) {
                         counts[i][sum] += counts[i - 1][sum - value];
                         counts[i][sum] %= MODULO;
                     }
