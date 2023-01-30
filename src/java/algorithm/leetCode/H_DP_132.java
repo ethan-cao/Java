@@ -39,6 +39,7 @@ public class H_DP_132 {
                         // TRANSFORM
                         // since s substring from start to end is palindrome
                         // we can cut before the start, basically, 1 more cut than minCuts[start - 1]
+                        // since start relies on start - 1, the loop use ++start
                         minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
                 } 
@@ -66,7 +67,6 @@ public class H_DP_132 {
         }
 
         return isPalindrome[start][end];
-    }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

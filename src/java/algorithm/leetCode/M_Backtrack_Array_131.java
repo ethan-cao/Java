@@ -74,6 +74,7 @@ public class M_Backtrack_Array_131 {
         for (int end = start; end < s.length(); ++end) {
             if (isPalindrome[start][end]) {
                 tracker.add(s.substring(start, end + 1));
+                
                 getPartitions(s, end + 1, partitions, tracker, isPalindrome);
 
                 tracker.remove(tracker.size() - 1);

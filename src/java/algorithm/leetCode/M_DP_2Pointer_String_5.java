@@ -107,6 +107,47 @@ public class M_DP_2Pointer_String_5 {
 
         return isPalindrome[start][end];
     }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, iterative, 305 ms
+    // Time: O(N^2)
+    public static String longestPalindrome3(String s) {
+        final int L = s.length();
+
+        String longestPalindrome = "";
+
+        // since we are talking about substring, we need the start and end index, so
+        // came up with this array
+        // isPalindrome[x][y] indicates whether substring s that starts at index x and
+        // ends at y is palindrome
+        boolean[][] isPalindrome = new boolean[L][L];
+
+        for (int end = 0; end < L; ++end) {
+            for (int start = end; start >= 0; --start) {
+
+                // since isPalindrome[start][end] could depends on isPalindrome[start + 1][end - 1]
+                // we need make sure isPalindrome[start + 1][end - 1] is already checked
+
+                if (start == end) {
+                    // BASE
+                    isPalindrome[start][end] = true;
+                } else {
+                    // TRANSFORM
+                    if (start + 1 < end - 1) {
+                        isPalindrome[start][end] = isPalindrome[start + 1][end - 1] && s.charAt(start) == s.charAt(end);
+                    } else {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    }
+                }
+
+                if (isPalindrome[start][end] && end - start + 1 > longestPalindrome.length()) {
+                    longestPalindrome = s.substring(start, end + 1);
+                }
+            }
+        }
+
+        return longestPalindrome;
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 400ms
@@ -142,47 +183,6 @@ public class M_DP_2Pointer_String_5 {
         }
 
         return s.substring(longestStart, longestEnd + 1);
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative, 305 ms
-    // Time: O(N^2)
-    public static String longestPalindrome3(String s) {
-        final int L = s.length();
-
-        String longestPalindrome = "";
-
-        // since we are talking about substring, we need the start and end index, so
-        // came up with this array
-        // isPalindrome[x][y] indicates whether substring s that starts at index x and
-        // ends at y is palindrome
-        boolean[][] isPalindrome = new boolean[L][L];
-
-        for (int end = 0; end < L; ++end) {
-            for (int start = end; start >= 0; --start) {
-
-                // since isPalindrome[start][end] could depends on isPalindrome[start + 1][end -
-                // 1],
-                // we need make sure isPalindrome[start + 1][end - 1] is already checked
-
-                if (end - start + 1 <= 3) {
-                    // BASE
-                    // char size <= 3, end matches start is enough, the middle does not matter
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
-                } else {
-                    // TRANSFORM
-                    // char size >= 3, substring (start+1, end-1) should be palindrome too,
-                    // substring (start+1, end-1) has been examined before
-                    isPalindrome[start][end] = isPalindrome[start + 1][end - 1] && s.charAt(start) == s.charAt(end);
-                }
-
-                if (isPalindrome[start][end] && end - start + 1 > longestPalindrome.length()) {
-                    longestPalindrome = s.substring(start, end + 1);
-                }
-            }
-        }
-
-        return longestPalindrome;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

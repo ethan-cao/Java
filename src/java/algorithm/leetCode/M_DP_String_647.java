@@ -104,10 +104,14 @@ public class M_DP_String_647 {
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
 
-                if (start + 1 < end - 1) {
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
+                if (start == end) {
+                    isPalindrome[start][end] = true;
                 } else {
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    if (start + 1 < end - 1) {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
+                    } else {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    }
                 }
 
                 if (isPalindrome[start][end]) {
@@ -140,16 +144,16 @@ public class M_DP_String_647 {
                 // right as start, left as end
                 // since isPalindrome[left][right] could depends on isPalindrome[left + 1][right
                 // - 1], we need make sure isPalindrome[left + 1][right - 1] is already checked
-
-                if (end - start <= 2) {
+                if (end == start) {
                     // BASE
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    isPalindrome[start][end] = true;
                 } else {
                     // TRANSFORM
-                    // (right - 1) - (left + 1) >= 0
-                    // right - left - 2 >= 0
-                    // right - left >= 2
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
+                    if (start + 1 < end - 1) {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
+                    } else {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    }
                 }
 
                 if (isPalindrome[start][end]) {
