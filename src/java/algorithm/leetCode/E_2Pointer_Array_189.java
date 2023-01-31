@@ -24,8 +24,8 @@ rotate 2 steps to the right: [3,99,-1,-100]
 public class E_2Pointer_Array_189 {
 
     public static void main(String... args) {
-//        int[] input = {1, 2, 3, 4, 5, 6, 7};
-        int[] input = {-1,-100,3,99};
+        // int[] input = {1, 2, 3, 4, 5, 6, 7};
+        int[] input = { -1, -100, 3, 99 };
 
         rotate(input, 4);
 
@@ -33,7 +33,7 @@ public class E_2Pointer_Array_189 {
     }
 
     public static void rotate(int[] nums, int k) {
-        if (k <= 0 ){
+        if (k <= 0) {
             return;
         }
 
@@ -43,7 +43,7 @@ public class E_2Pointer_Array_189 {
         System.arraycopy(nums, nums.length - k, lastKValue, 0, k);
 
         for (int i = nums.length - k - 1; i >= 0; --i) {
-            nums[i+k] = nums[i];
+            nums[i + k] = nums[i];
         }
 
         System.arraycopy(lastKValue, 0, nums, 0, k);
