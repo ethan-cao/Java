@@ -20,46 +20,53 @@ public class M_DP_Array_139 {
 
     public static void main(String... args) {
         String s = "leetcode";
-        String[] wordDictArray = {"leet", "code"};
+        String[] wordDictArray = { "leet", "code" };
         List<String> wordDict = Arrays.asList(wordDictArray);
         System.out.println(wordBreak1(s, wordDict)); // T
 
         String s1 = "cars";
-        String[] wordDictArray1 = {"car", "ca", "rs"};
+        String[] wordDictArray1 = { "car", "ca", "rs" };
         List<String> wordDict1 = Arrays.asList(wordDictArray1);
-        System.out.println(wordBreak1(s1, wordDict1));  // T
+        System.out.println(wordBreak1(s1, wordDict1)); // T
 
         String s2 = "catsandog";
-        String[] wordDictArray2 = {"cats", "dog", "sand", "and", "cat"};
+        String[] wordDictArray2 = { "cats", "dog", "sand", "and", "cat" };
         List<String> wordDict2 = Arrays.asList(wordDictArray2);
-        System.out.println(wordBreak1(s2, wordDict2));  // F
+        System.out.println(wordBreak1(s2, wordDict2)); // F
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 4ms
     public static boolean wordBreak(String s, List<String> wordDict) {
-        final int L = s.length();
+        int L = s.length();
 
-        // canBeSegmented[i] : if s.substring(0, i - 1) can be segmented
-        boolean[] canBeSegmented = new boolean[L + 1];
-
-        // BASE
-        canBeSegmented[0] = true;
+        boolean[] result = new boolean[L];
 
         for (int end = 0; end < L; ++end) {
-            for (int start = end; start >= 0; start--) {
-                String subString = s.substring(start, end + 1);
 
-                if (wordDict.contains(subString) && canBeSegmented[start]) {
-                    canBeSegmented[end + 1] = true;
-                    
-                    // !!! no need to check further for case canBeSegmented[end + 1]
+            // alternatively
+            // for (int start = 0; start <= end; ++start) {
+            for (int start = 0; start <= end; ++start) {
+
+                String sub = s.substring(start, end + 1);
+
+                if (end == 0) {
+                    result[end] = wordDict.contains(sub);
+                } else {
+                    if (start >= 1) {
+                        result[end] = wordDict.contains(sub) && result[start - 1];
+                    } else {
+                        result[end] = wordDict.contains(sub);
+                    }
+                }
+
+                if (result[end]) {
                     break;
                 }
             }
         }
 
-        return canBeSegmented[L];
+        return result[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,13 +74,15 @@ public class M_DP_Array_139 {
     public static boolean wordBreak1(String s, List<String> wordDict) {
         // canBeSegmented[i]: if s.substring(0, i-1) can be segmented
         boolean[] canBeSegmented = new boolean[s.length() + 1];
-        
+
         // BASE
         canBeSegmented[0] = true;
 
         for (int end = 1; end <= s.length(); ++end) {
             for (String word : wordDict) {
-                if (word.length() <= end && canBeSegmented[end - word.length()] && word.equals(s.substring(end - word.length(), end))) {
+                if (word.length() <= end
+                        && canBeSegmented[end - word.length()]
+                        && word.equals(s.substring(end - word.length(), end))) {
                     canBeSegmented[end] = true;
                     break;
                 }
@@ -94,14 +103,12 @@ public class M_DP_Array_139 {
         if (s.length() == 0) {
             return true;
         }
-         
+
         for (int idx = 0; idx < s.length(); ++idx) {
-            if (
-                wordDict.contains(s.substring(0, idx + 1)) &&
-                canBreak(s.substring(idx + 1), wordDict)
-            ) {
+            if (wordDict.contains(s.substring(0, idx + 1)) &&
+                    canBreak(s.substring(idx + 1), wordDict)) {
                 return true;
-            } 
+            }
         }
 
         return false;
