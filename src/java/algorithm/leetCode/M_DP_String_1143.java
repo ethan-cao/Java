@@ -26,8 +26,8 @@ import java.util.Arrays;
 public class M_DP_String_1143 {
 
     public static void main(String... args) {
-        System.out.println(longestCommonSubsequence("abcde", "ace"));          // 3
-        System.out.println(longestCommonSubsequence("abvwerbwbc", "avrabc"));  // 5
+        System.out.println(longestCommonSubsequence("abcde", "ace")); // 3
+        System.out.println(longestCommonSubsequence("abvwerbwbc", "avrabc")); // 5
     }
 
     // DP, recursive
@@ -55,8 +55,7 @@ public class M_DP_String_1143 {
         } else {
             memo[idx1][idx2] = Math.max(
                     countLCS(s1, s2, idx1 - 1, idx2, memo),
-                    countLCS(s1, s2, idx1, idx2 - 1, memo)
-            );
+                    countLCS(s1, s2, idx1, idx2 - 1, memo));
         }
 
         return memo[idx1][idx2];
@@ -96,30 +95,32 @@ public class M_DP_String_1143 {
         return counts[L1 - 1][L2 - 1];
     }
 
-
     // DP, iterative
     // Time: O(N^2) 16ms
     public static int longestCommonSubsequence1(String text1, String text2) {
-        int L1 = text1.length();
-        int L2 = text2.length();
+        int L1 = s1.length();
+        int L2 = s2.length();
 
-        int[][] results = new int[L1][L2];
+        int[][] counts = new int[L1][L2];
 
-        for (int i = 0; i < L1; ++i) {
-            for (int j = 0; j < L2; ++j) {
+        for (int idx1 = 0; idx1 < L1; ++idx1) {
+            for (int idx2 = 0; idx2 < L2; ++idx2) {
 
-                if (text1.charAt(i) == text2.charAt(j)) {
-                    results[i][j] = 1 + (i >= 1 && j >= 1 ? results[i - 1][j - 1] : 0);
+                if (s1.charAt(idx1) == s2.charAt(idx2)) {
+                    if (idx1 >= 1 && idx2 >= 1) {
+                        counts[idx1][idx2] = 1 + counts[idx1 - 1][idx2 - 1];
+                    } else {
+                        counts[idx1][idx2] = 1;
+                    }
                 } else {
-                    results[i][j] = Math.max(
-                            i >= 1 ? results[i - 1][j] : 0,
-                            j >= 1 ? results[i][j - 1] : 0
-                    );
+                    int count1 = idx1 >= 1 ? counts[idx1 - 1][idx2] : 0;
+                    int count2 = idx2 >= 1 ? counts[idx1][idx2 - 1] : 0;
+                    counts[idx1][idx2] = Math.max(count1, count2);
                 }
             }
         }
 
-        return results[L1 - 1][L2 - 1];
+        return counts[L1 - 1][L2 - 1];
     }
 
     // DP, iterative, condensed space
