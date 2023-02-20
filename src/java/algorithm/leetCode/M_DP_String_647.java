@@ -60,7 +60,7 @@ public class M_DP_String_647 {
 
         int count = 0;
         Boolean[][] isPalindrome = new Boolean[L][L];
-    
+
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
                 if (isPalindrome(s, start, end, isPalindrome)) {
@@ -68,7 +68,7 @@ public class M_DP_String_647 {
                 }
             }
         }
-    
+
         return count;
     }
 
@@ -76,14 +76,15 @@ public class M_DP_String_647 {
         if (isPalindrome[start][end] != null) {
             return isPalindrome[start][end];
         }
-    
+
         if (start == end) {
             // BASE
             isPalindrome[start][end] = true;
         } else {
             // TRANSFORM
             if (start + 1 <= end - 1) {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome(s, start + 1, end - 1, isPalindrome);
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
+                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
             } else {
                 isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
             }
@@ -94,19 +95,30 @@ public class M_DP_String_647 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP iterative
-    // 35 ms
-    public int countSubstrings111(String s) {
+    // 12 ms
+    public static int countSubstrings1(String s) {
         final int L = s.length();
 
         int count = 0;
-        Boolean[][] isPalindrome = new Boolean[L][L];
-    
-        for (int end = 0; end < L; ++end) {
-            for (int start = 0; start <= end; ++start) {
 
-                if (start == end) {
+        // since we are talking about substring, we need the start and end index, so
+        // came up with this array
+        // isPalindrome[x][y] indicates whether substring s that starts at index x and
+        // ends at y is palindrome, both inclusive
+        boolean[][] isPalindrome = new boolean[L][L];
+
+        for (int end = 0; end < L; ++end) {
+            for (int start = end; start >= 0; --start) {
+
+                // we cannot use for (int left = right; left < L; ++left) as 2nd iteration and
+                // right as start, left as end
+                // since isPalindrome[left][right] could depends on isPalindrome[left + 1][right
+                // - 1], we need make sure isPalindrome[left + 1][right - 1] is already checked
+                if (end == start) {
+                    // BASE
                     isPalindrome[start][end] = true;
                 } else {
+                    // TRANSFORM
                     if (start + 1 < end - 1) {
                         isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
                     } else {
@@ -125,30 +137,19 @@ public class M_DP_String_647 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP iterative
-    // 12 ms
-    public static int countSubstrings1(String s) {
+    // 35 ms
+    public int countSubstrings111(String s) {
         final int L = s.length();
 
         int count = 0;
-
-        // since we are talking about substring, we need the start and end index, so
-        // came up with this array
-        // isPalindrome[x][y] indicates whether substring s that starts at index x and
-        // ends at y is palindrome, both inclusive
-        boolean[][] isPalindrome = new boolean[L + 1][L + 1];
+        Boolean[][] isPalindrome = new Boolean[L][L];
 
         for (int end = 0; end < L; ++end) {
-            for (int start = end; start >= 0; --start) {
+            for (int start = 0; start <= end; ++start) {
 
-                // we cannot use for (int left = right; left < L; ++left) as 2nd iteration and
-                // right as start, left as end
-                // since isPalindrome[left][right] could depends on isPalindrome[left + 1][right
-                // - 1], we need make sure isPalindrome[left + 1][right - 1] is already checked
-                if (end == start) {
-                    // BASE
+                if (start == end) {
                     isPalindrome[start][end] = true;
                 } else {
-                    // TRANSFORM
                     if (start + 1 < end - 1) {
                         isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
                     } else {

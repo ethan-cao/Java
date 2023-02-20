@@ -67,7 +67,8 @@ public class M_DP_718 {
         int L1 = nums1.length;
         int L2 = nums2.length;
 
-        // counts[i][j]: longest common subarray length, containing nums1[i], nums2[j], respectively
+        // counts[i][j]: longest common subarray length, containing nums1[i], nums2[j],
+        // respectively
         int[][] counts = new int[L1][L2];
         int maxCount = 0;
 
@@ -86,9 +87,10 @@ public class M_DP_718 {
         for (int idx1 = 1; idx1 < L1; ++idx1) {
             for (int idx2 = 1; idx2 < L2; ++idx2) {
 
-                // TRANSFORM
                 if (nums1[idx1] == nums2[idx2]) {
                     counts[idx1][idx2] = 1 + counts[idx1 - 1][idx2 - 1];
+                } else {
+                    counts[idx1][idx2] = 0;
                 }
 
                 maxCount = Math.max(maxCount, counts[idx1][idx2]);

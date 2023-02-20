@@ -27,7 +27,7 @@ public class H_DP_132 {
         Boolean[][] isPalindrome = new Boolean[L][L];
 
         for (int end = 0; end < L; ++end) {
-            // at most (end) cuts
+            // at most (end) cuts !!!
             minCuts[end] = end;
 
             for (int start = 0; start <= end; ++start) {
@@ -42,10 +42,10 @@ public class H_DP_132 {
                         // since start relies on start - 1, the loop use ++start
                         minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
-                } 
+                }
             }
         }
-    
+
         return minCuts[L - 1];
     }
 
@@ -60,7 +60,8 @@ public class H_DP_132 {
         } else {
             // TRANSFORM
             if (start + 1 <= end - 1) {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome(s, start + 1, end - 1, isPalindrome);
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
+                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
             } else {
                 isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
             }
@@ -103,7 +104,7 @@ public class H_DP_132 {
     // 1000ms
     public int minCut2(String s) {
         final int L = s.length();
-    
+
         // min cuts fro substring(i, j+1)
         Integer[][] memo = new Integer[L][L];
 

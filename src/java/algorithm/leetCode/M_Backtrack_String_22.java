@@ -38,7 +38,13 @@ public class M_Backtrack_String_22 {
         return parentheses;
     }
 
-    private static void generateParenthesis(int position, int totalParentheses, int availableParenthesis, int openParenthesis, StringBuilder sb, List<String> parentheses) {
+    private static void generateParenthesis(
+            int position,
+            int totalParentheses,
+            int availableParenthesis,
+            int openParenthesis,
+            StringBuilder sb,
+            List<String> parentheses) {
         // we know the final result length is 2 * totalParentheses, fill one by one
         if (position >= 2 * totalParentheses - 1) {
             parentheses.add(sb.toString());
@@ -65,13 +71,13 @@ public class M_Backtrack_String_22 {
         }
 
         for (String candidate : candidates) {
-            generateParenthesis(position + 1, totalParentheses, availableParenthesis, openParenthesis, sb.append(candidate), parentheses);
+            generateParenthesis(position + 1, totalParentheses, availableParenthesis, openParenthesis,
+                    sb.append(candidate), parentheses);
             sb.deleteCharAt(sb.length() - 1); // IMPORTANT: keep the original value!!!
         }
     }
 
-
-    // backtrack
+    // Backtrack
     public static List<String> generateParenthesis1(int n) {
         List<String> result = new LinkedList<>();
 
@@ -84,7 +90,8 @@ public class M_Backtrack_String_22 {
         return result;
     }
 
-    private static void generateParenthesis1(int totalParentheses, int leftParentheses, int rightParentheses, StringBuilder sb, List<String> parentheses) {
+    private static void generateParenthesis1(int totalParentheses, int leftParentheses, int rightParentheses,
+            StringBuilder sb, List<String> parentheses) {
         if (sb.length() == 2 * totalParentheses) {
             parentheses.add(sb.toString());
             return;

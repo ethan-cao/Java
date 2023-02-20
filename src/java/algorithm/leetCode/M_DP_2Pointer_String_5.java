@@ -29,9 +29,9 @@ public class M_DP_2Pointer_String_5 {
     // Time: O(N^2)
     public static String longestPalindrome(String s) {
         String longestPalindrome = "";
-    
+
         for (int idx = 0; idx < s.length(); ++idx) {
-            String oddPalindrome = getPalindrome(s, idx, idx);            
+            String oddPalindrome = getPalindrome(s, idx, idx);
             if (oddPalindrome.length() > longestPalindrome.length()) {
                 longestPalindrome = oddPalindrome;
             }
@@ -41,17 +41,15 @@ public class M_DP_2Pointer_String_5 {
                 longestPalindrome = evenPalindrome;
             }
         }
-    
+
         return longestPalindrome;
     }
 
     // TODO: use memo
     private static String getPalindrome(String s, int start, int end) {
-        while (
-            start >= 0 && 
-            end < s.length() && 
-            s.charAt(start) == s.charAt(end)
-        ) {
+        while (start >= 0 &&
+                end < s.length() &&
+                s.charAt(start) == s.charAt(end)) {
             start--;
             end++;
         }
@@ -99,7 +97,8 @@ public class M_DP_2Pointer_String_5 {
         } else {
             // TRANSFORM
             if (start + 1 <= end - 1) {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome(s, start + 1, end - 1, isPalindrome);
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
+                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
             } else {
                 isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
             }
@@ -107,7 +106,7 @@ public class M_DP_2Pointer_String_5 {
 
         return isPalindrome[start][end];
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 305 ms
     // Time: O(N^2)
@@ -125,7 +124,8 @@ public class M_DP_2Pointer_String_5 {
         for (int end = 0; end < L; ++end) {
             for (int start = end; start >= 0; --start) {
 
-                // since isPalindrome[start][end] could depends on isPalindrome[start + 1][end - 1]
+                // since isPalindrome[start][end] could depends on isPalindrome[start + 1][end -
+                // 1]
                 // we need make sure isPalindrome[start + 1][end - 1] is already checked
 
                 if (start == end) {
@@ -134,7 +134,7 @@ public class M_DP_2Pointer_String_5 {
                 } else {
                     // TRANSFORM
                     if (start + 1 < end - 1) {
-                        isPalindrome[start][end] = isPalindrome[start + 1][end - 1] && s.charAt(start) == s.charAt(end);
+                        isPalindrome[start][end] = is.charAt(start) == s.charAt(end) && sPalindrome[start + 1][end - 1];
                     } else {
                         isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                     }
@@ -192,14 +192,16 @@ public class M_DP_2Pointer_String_5 {
         final int L = s.length();
         Boolean[][] memo = new Boolean[L][L];
 
-        // !!! loop based on length, cannot based on end, this guarantees the first returned is the longest
+        // !!! loop based on length, cannot based on end, this guarantees the first
+        // returned is the longest
         // if loop based on end and start, need to check all cases to find the longest
         // top-down
         for (int length = L; length > 0; --length) {
             for (int start = 0; start + length <= L; ++start) {
                 int end = start + length - 1;
 
-                // since we are checking length from the longest one, the first returned is the longest
+                // since we are checking length from the longest one, the first returned is the
+                // longest
                 if (isPalindrome(s, start, end, memo)) {
                     // this is the DP part
                     return s.substring(start, end + 1);

@@ -2,33 +2,28 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
+        String s = "bbbab";
+        int L = s.length();
 
-        int amount = 3;
-        int[] coins = new int[] { 1, 2, 5 };
+        int[][] counts = new int[L][L];
 
-        int L = coins.length;
+        for (int end = 0; end < L; ++end) {
+            // counts[end][end] = 1;
 
-        int[] counts = new int[amount + 1];
+            for (int start = end; start >= 0; --start) {
 
-        // Arrays.fill(counts, Integer.MAX_VALUE);
-        // counts[0] = 0;
-
-        for (int coinIdx = 0; coinIdx < L; ++coinIdx) {
-            int coinValue = coins[coinIdx];
-
-            for (int value = 1; value <= amount; ++value) {
-                int skip = value == 1 ? Integer.MAX_VALUE : counts[value];
-
-                int take = value - coinValue >= 0 && counts[value - coinValue] != Integer.MAX_VALUE
-                        ? 1 + counts[value - coinValue]
-                        : Integer.MAX_VALUE;
-
-                counts[value] = Math.min(skip, take);
+                if (s.charAt(start) == s.charAt(end)) {
+                    if (start + 1 <= end - 1) {
+                        counts[start][end] = 2 + counts[start + 1][end - 1];
+                    } else {
+                        counts[start][end] = end - start + 1;
+                    }
+                } else {
+                    counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
+                }
             }
         }
 
-        int r = counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
-
-        System.out.println(r);
+        // return counts[0][L - 1];
     }
 }

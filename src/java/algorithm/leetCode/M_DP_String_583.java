@@ -16,20 +16,22 @@ one step to make "sea" to "ea" and another step to make "eat" to "ea"
 public class M_DP_String_583 {
 
     public static void main(String... args) {
-        System.out.println(minDistance1("a", "a"));          // 0
-        System.out.println(minDistance1("ab", "a"));         // 1
-        System.out.println(minDistance1("", "aaa"));         // 3
-        System.out.println(minDistance1("a", "aaa"));        // 2
-        System.out.println(minDistance1("park", "spake"));   // 3
-        System.out.println(minDistance1("sea", "eat"));      // 2
+        System.out.println(minDistance1("a", "a")); // 0
+        System.out.println(minDistance1("ab", "a")); // 1
+        System.out.println(minDistance1("", "aaa")); // 3
+        System.out.println(minDistance1("a", "aaa")); // 2
+        System.out.println(minDistance1("park", "spake")); // 3
+        System.out.println(minDistance1("sea", "eat")); // 2
     }
 
     // DP, same idea as finding the longest common subsequence.
     // Time: O(N^2) 17ms
     public static int minDistance(String word1, String word2) {
-        //  dp[i][j] stands for distance of first i chars of word1 and first j chars of word2
         int L1 = word1.length();
         int L2 = word2.length();
+
+        // minDistances[i][j] stands for distance of first i chars of word1 and first j
+        // chars of word2
         int[][] minDistances = new int[L1 + 1][L2 + 1];
 
         for (int i = 0; i <= L1; ++i) {
