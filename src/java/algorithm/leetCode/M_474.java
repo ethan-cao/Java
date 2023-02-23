@@ -42,8 +42,8 @@ public class M_474 {
 			for (int j = 0; j <= m; ++j) {
 				for (int k = 0; k <= n; ++k) {
 
-                    int skip = 0; // subset size when skip strs[i] in the subset
-                    int take = 0; // subset size when take strs[i] in the subset
+					int skip = 0; // subset size when skip strs[i] in the subset
+					int take = 0; // subset size when take strs[i] in the subset
 
 					if (i == 0) {
 						// BASE
@@ -68,46 +68,47 @@ public class M_474 {
 	// DP
 	// Time: O(N^3), Space: O(N^2)
 	public int findMaxForm1(String[] strs, int m, int n) {
-        int L = strs.length;
+		int L = strs.length;
 
-        // counts[i]a[j][k]: size of the largest subset of strs
-        // with the first i string and at most j 0's and at most k 1's
-        int[][] size = new int[m + 1][n + 1];
+		// counts[i]a[j][k]: size of the largest subset of strs
+		// with the first i string and at most j 0's and at most k 1's
+		int[][] size = new int[m + 1][n + 1];
 
-        for (int i = 0; i < L; ++i) {
-            String s = strs[i];
+		for (int i = 0; i < L; ++i) {
+			String s = strs[i];
 
-            int[] count = count(s);
+			int[] count = count(s);
 
 			// !!! iterate backward, same as 416
 			// because size[i][j][k] relies on size[i-1][j - 0count][k - 1count]
-		    // when calculate i, need to preserve size[j - 0count][k - 1count] from i - 1
-			// iterate from left to right means size[i][j][k] relies on size[i][j - 0count][k - 1count], which is wrong
-            for (int j = m; j >= 0; --j) {
-                for (int k = n; k >= 0; --k) {
+			// when calculate i, need to preserve size[j - 0count][k - 1count] from i - 1
+			// iterate from left to right means size[i][j][k] relies on size[i][j -
+			// 0count][k - 1count], which is wrong
+			for (int j = m; j >= 0; --j) {
+				for (int k = n; k >= 0; --k) {
 
-                    int skip = 0; // subset size when skip strs[i] in the subset
-                    int take = 0; // subset size when take strs[i] in the subset
+					int skip = 0; // subset size when skip strs[i] in the subset
+					int take = 0; // subset size when take strs[i] in the subset
 
-                    if (i == 0) {
-                        // BASE
-                        skip = 0;
-                        take = j >= count[0] && k >= count[1] ? 1 : 0;
-                    } else {
-                        // TRANSFORM
-                        skip = size[j][k];
-                        take = j >= count[0] && k >= count[1]
-                                ? size[j - count[0]][k - count[1]] + 1
-                                : size[j][k];
-                    }
+					if (i == 0) {
+						// BASE
+						skip = 0;
+						take = j >= count[0] && k >= count[1] ? 1 : 0;
+					} else {
+						// TRANSFORM
+						skip = size[j][k];
+						take = j >= count[0] && k >= count[1]
+								? size[j - count[0]][k - count[1]] + 1
+								: size[j][k];
+					}
 
-                    size[j][k] = Math.max(skip, take);
-                }
-            }
-        }
+					size[j][k] = Math.max(skip, take);
+				}
+			}
+		}
 
-        return size[m][n];
-    }
+		return size[m][n];
+	}
 
 	private int[] count(String str) {
 		int[] counts = new int[2];

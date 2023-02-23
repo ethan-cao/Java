@@ -26,12 +26,39 @@ public class M_Backtrack_String_22 {
         System.out.println(generateParenthesis1(3)); // ["((()))","(()())","(())()","()(())","()()()"]
     }
 
-    public static List<String> generateParenthesis(int n) {
-        List<String> parentheses = new LinkedList<>();
+    // Backtrack
+    // Time: 0ms
+    public List<String> generateParenthesis(int n) {
+        List<String> parenthesis = new LinkedList<>();
 
-        if (n < 0) {
-            return parentheses;
+        StringBuilder sb = new StringBuilder("");
+
+        collect(parenthesis, sb, n, 0, 0);
+
+        return parenthesis;
+    }
+
+    private void collect(List<String> parenthesis, StringBuilder sb, int n, int leftCount, int rightCount) {
+        if (sb.length() == n * 2) {
+            parenthesis.add(sb.toString());
+            return;
         }
+
+        if (leftCount < n) {
+            collect(parenthesis, sb.append('('), n, leftCount + 1, rightCount);
+            // backtrack
+            sb.deleteCharAt(sb.length() - 1);
+        }
+
+        if (rightCount < leftCount) {
+            collect(parenthesis, sb.append(')'), n, leftCount, rightCount + 1);
+            // backtrack, sb is reference shared with caller
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    public static List<String> generateParenthesis1(int n) {
+        List<String> parentheses = new LinkedList<>();
 
         generateParenthesis(0, n, n, 0, new StringBuilder(), parentheses);
 
@@ -71,40 +98,16 @@ public class M_Backtrack_String_22 {
         }
 
         for (String candidate : candidates) {
-            generateParenthesis(position + 1, totalParentheses, availableParenthesis, openParenthesis,
-                    sb.append(candidate), parentheses);
+            generateParenthesis(
+                    position + 1,
+                    totalParentheses,
+                    availableParenthesis,
+                    openParenthesis,
+                    sb.append(candidate),
+                    parentheses);
+
             sb.deleteCharAt(sb.length() - 1); // IMPORTANT: keep the original value!!!
         }
     }
 
-    // Backtrack
-    public static List<String> generateParenthesis1(int n) {
-        List<String> result = new LinkedList<>();
-
-        if (n < 0) {
-            return result;
-        }
-
-        generateParenthesis1(n, 0, 0, new StringBuilder(), result);
-
-        return result;
-    }
-
-    private static void generateParenthesis1(int totalParentheses, int leftParentheses, int rightParentheses,
-            StringBuilder sb, List<String> parentheses) {
-        if (sb.length() == 2 * totalParentheses) {
-            parentheses.add(sb.toString());
-            return;
-        }
-
-        if (leftParentheses < totalParentheses) {
-            generateParenthesis1(totalParentheses, leftParentheses + 1, rightParentheses, sb.append("("), parentheses);
-            sb.deleteCharAt(sb.length() - 1); // NECESSARY ! need to keep its original value
-        }
-
-        if (rightParentheses < leftParentheses) {
-            generateParenthesis1(totalParentheses, leftParentheses, rightParentheses + 1, sb.append(")"), parentheses);
-            sb.deleteCharAt(sb.length() - 1); // NECESSARY ! need to keep its original value
-        }
-    }
 }

@@ -27,8 +27,8 @@ Return the number of different expressions that you can build, which evaluates t
 public class M_DP_DFS_494 {
 
     public static void main(String... args) {
-        System.out.println(findTargetSumWays_1(new int[]{1, 1, 1, 1, 1}, 3));  // 5
-        System.out.println(findTargetSumWays_1(new int[]{1, 2, 3, 3, 1}, 6));  // 2
+        System.out.println(findTargetSumWays_1(new int[] { 1, 1, 1, 1, 1 }, 3)); // 5
+        System.out.println(findTargetSumWays_1(new int[] { 1, 2, 3, 3, 1 }, 6)); // 2
     }
 
     // DFS, Brute Force, 500ms
@@ -59,7 +59,7 @@ public class M_DP_DFS_494 {
             return target == 0 ? 1 : 0;
         }
 
-//        !!! store the current count before continuing
+        // !!! store the current count before continuing
         int currentCount = count;
 
         count += find_2(nums, idx + 1, target - nums[idx], currentCount);
@@ -81,18 +81,21 @@ public class M_DP_DFS_494 {
         }
 
         // given sum = Σ nums[i]
-        // range of expression results is [-sum, sum], there are (2 * sum + 1) values in total
+        // range of expression results is [-sum, sum], there are (2 * sum + 1) values
         // e.g. nums = [1,2,3]
-        // possible expression results are     -6, -5, -4, -3, -2, -1, +0, +1, +2, +3, +4,  +5, +6
-        // put them in array, their index is    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  11, 12
+        // possible expression results are -6, -5, -4, -3, -2, -1, +0, +1, +2, +3, +4,
+        // +5, +6
+        // put them in array, their index is 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
         // 13 elements in total (13 = 2 * sum + 1)
-        // !!! index = expressionResult + sum, basically sum is the offset from expressionResult to index
+        // !!! index = expressionResult + sum, basically sum is the offset from
+        // expressionResult to index
         // what we need is index = target + sum
         final int L = nums.length;
         final int SIZE = 2 * sum + 1;
         final int OFFSET = sum;
 
-        // results[i][j + OFFSET]: number of ways with the first i elements to get expression result j
+        // results[i][j + OFFSET]: number of ways with the first i elements to get
+        // expression result j
         int[][] results = new int[L][SIZE];
 
         // BASE
@@ -102,20 +105,17 @@ public class M_DP_DFS_494 {
         results[0][-nums[0] + OFFSET]++; // !!! nums[0] could be 0, cannot use results[0][-nums[0] + OFFSET] + 1
 
         // TRANSFORM
-        // usePlus(i, j) += f(i-1, j - mum), j - num >= 0
-        // useMinus(i, j) += f(i-1, j + mum), j + num < SIZE
-        // count(i, j) = usePlus(i, j) + useMinus(i, j)
         for (int i = 1; i < L; ++i) {
             int num = nums[i];
 
             for (int j = 0; j < SIZE; ++j) {
 
-                // if we can use + with num
+                // if we can use +num
                 if (j - num >= 0) {
                     results[i][j] += results[i - 1][j - num];
                 }
 
-                // if we can use - with num
+                // if we can use -num
                 if (j + num < SIZE) {
                     results[i][j] += results[i - 1][j + num];
                 }
@@ -145,7 +145,7 @@ public class M_DP_DFS_494 {
             int num = nums[i];
 
             for (int j = 0; j < SIZE; ++j) {
-                
+
                 if (i == 0) {
                     counts[i][j] += (j == num + sum ? 1 : 0);
                     counts[i][j] += (j == -num + sum ? 1 : 0);
@@ -206,10 +206,11 @@ public class M_DP_DFS_494 {
         // we need
         //
         // sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
-        // given             sum(P) + sum(N) = sum
-        //                        2 * sum(P) = target + sum
-        // so                         sum(P) = (target + sum) / 2
-        // basically, we need to find a subset containing positive num, whose sum is (target + sum) / 2
+        // given sum(P) + sum(N) = sum
+        // 2 * sum(P) = target + sum
+        // so sum(P) = (target + sum) / 2
+        // basically, we need to find a subset containing positive num, whose sum is
+        // (target + sum) / 2
 
         if ((sum + target) % 2 != 0) {
             return 0;

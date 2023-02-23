@@ -17,9 +17,9 @@ Explanation: The array can be partitioned as [1, 5, 5] and [11]
 public class M_DP_Array_416 {
 
     public static void main(String... args) {
-        System.out.println(canPartition_1(new int[]{1, 5, 11, 5}));    // T
-        System.out.println(canPartition_1(new int[]{1, 2, 3, 5}));     // F
-        System.out.println(canPartition_1(new int[]{3, 3, 3, 4, 5}));  // T
+        System.out.println(canPartition_1(new int[] { 1, 5, 11, 5 })); // T
+        System.out.println(canPartition_1(new int[] { 1, 2, 3, 5 })); // F
+        System.out.println(canPartition_1(new int[] { 3, 3, 3, 4, 5 })); // T
     }
 
     // O(2^N)
@@ -41,7 +41,7 @@ public class M_DP_Array_416 {
         Boolean[][] memo = new Boolean[nums.length][half + 1];
 
         return partition_1(nums, nums.length - 1, half, memo);
-//        return partition_2(nums, 0, half, memo);
+        // return partition_2(nums, 0, half, memo);
     }
 
     // DP, top down
@@ -99,7 +99,7 @@ public class M_DP_Array_416 {
         return memo[idx][sum];
     }
 
-
+    // -------------------------------------------------------------------------------------------------------------------
     // DP iterative
     // 39ms
     public static boolean canPartition11(int[] nums) {
@@ -117,7 +117,8 @@ public class M_DP_Array_416 {
         int half = sum / 2;
 
         // can[i][j]: if there are elements located from 0 to i, that can sum up to j
-        // if, some elements can sum up to half, then the reset sum up to half as well, possible to partition
+        // if, some elements can sum up to half, then the reset sum up to half as well,
+        // possible to partition
         boolean[][] can = new boolean[L][half + 1];
 
         // optional, without sort, return can[L][target]
@@ -130,19 +131,19 @@ public class M_DP_Array_416 {
             can[i][0] = true;
 
             for (int value = 1; value <= half; ++value) {
-                
+
                 boolean skip = false;
                 boolean take = false;
 
                 if (i == 0) {
                     skip = false;
                     take = value == num;
-                } else  {
+                } else {
                     skip = can[i - 1][value];
-                      // each num can ONLY BE USED ONCE, different from 377 and 518
+                    // each num can ONLY BE USED ONCE, different from 377 and 518
                     take = value - num >= 0 ? can[i - 1][value - num] : false;
                 }
-            
+
                 can[i][value] = skip || take;
             }
 
@@ -182,7 +183,8 @@ public class M_DP_Array_416 {
             // j depends on j - num
             // row i should be derived from the previous row i - 1
             // iterate from left to right means dp[i][j] = dp[i][j-nums[i-1]])
-            // iterate from right to left means dp[i][j] = dp[i-1][j-nums[i-1]], which is wrong
+            // iterate from right to left means dp[i][j] = dp[i-1][j-nums[i-1]], which is
+            // wrong
             for (int value = half; value > 0; --value) {
 
                 boolean skip = false;

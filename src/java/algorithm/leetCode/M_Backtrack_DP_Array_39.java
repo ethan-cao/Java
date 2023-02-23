@@ -32,40 +32,38 @@ public class M_Backtrack_DP_Array_39 {
     }
 
     // Backtrack, 2ms
-    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> combinations = new ArrayList<>();
 
-        if (candidates == null || candidates.length == 0) {
-            return combinations;
-        }
+        List<Integer> tracker = new ArrayList<>();
 
         Arrays.sort(candidates);
 
-        if (candidates[0] > target) {
-            return combinations;
-        }
-
-        List<Integer> tracker = new ArrayList<>();
-        collectCombinations(candidates, target, combinations, tracker, 0);
+        collect(combinations, tracker, candidates, 0, target);
 
         return combinations;
     }
 
-    private static void collectCombinations(int[] candidates, int remain, List<List<Integer>> combinations,
-            List<Integer> tracker, int start) {
-        if (remain == 0) {
+    private void collect(
+            List<List<Integer>> combinations,
+            List<Integer> tracker,
+            int[] candidates,
+            int idx,
+            int target) {
+        if (target == 0) {
             combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        // it is faster to iterate from beginning to end
-        for (int i = start; i < candidates.length; ++i) {
-            if (candidates[i] > remain) {
+        for (int i = idx; i < candidates.length; ++i) {
+            int candidate = candidates[i];
+
+            if (candidate > target) {
                 break;
             }
 
-            tracker.add(candidates[i]);
-            collectCombinations(candidates, remain - candidates[i], combinations, tracker, i);
+            tracker.add(candidate);
+            collect(combinations, tracker, candidates, i, target - candidate);
             tracker.remove(tracker.size() - 1);
         }
     }

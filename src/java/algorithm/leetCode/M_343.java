@@ -19,18 +19,24 @@ public class M_343 {
   public int integerBreak(int n) {
     // maxProducts[i]: max product when break integer i
     int[] maxProducts = new int[n + 1];
+
+    // BASE
     maxProducts[1] = 1;
 
-    for (int target = 1; target <= n; ++target) {
+    for (int target = 2; target <= n; ++target) {
       // for each integer target, we can pick from 1 to target - 1
       for (int num = 1; num < target; ++num) {
 
-        // if we pick num, there are 2 possible way to get value num
+        // product = num1 * num2, if num1 + num2 = target
+
+        // there are 2 possible way to get value num
         // either by the num itself, or break num to integers
         int num1 = Math.max(num, maxProducts[num]);
         int num2 = Math.max(target - num, maxProducts[target - num]);
 
-        maxProducts[target] = Math.max(maxProducts[target], num1 * num2);
+        int product = num1 * num2;
+
+        maxProducts[target] = Math.max(maxProducts[target], product);
       }
     }
 
