@@ -52,7 +52,6 @@ public class M_DP_Array_377 {
             int num = nums[idx];
 
             // TRANSFORM
-            // either skip or take
             for (int value = 1; value <= target; ++value) {
 
                 if (num > value) {
@@ -60,8 +59,10 @@ public class M_DP_Array_377 {
                     counts[idx][value] = idx - 1 >= 0 ? counts[idx - 1][value] : 0;
                 } else {
                     // take: use tree to analyze
-                    // if possible to use this num, need to consider nums[0...idx], that's why it's counts[idx]
-                    // for each applicable num in [0...idx], when in use, the remaining sum is (value - nums[i]), that's why it's counts[idx][value - nums[i]]
+                    // if possible to use this num, to consider all permutation among nums[0...idx], 
+                    // we start using each value again, from 0 to idx
+                    // in other words, count how many permutation to get (value - nums[i]) from 0 to idx
+                    // that's why it's counts[idx][value - nums[i]]
                     // then sum them up
                     for (int i = 0; i <= idx; ++i) {
                         if (nums[i] <= value) {
@@ -99,6 +100,7 @@ public class M_DP_Array_377 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
+    // Time: O(N^3) 
     public int combinationSum4(int[] nums, int target) {
         int L = nums.length;
 

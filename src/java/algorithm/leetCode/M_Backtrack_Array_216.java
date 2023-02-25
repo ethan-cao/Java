@@ -21,26 +21,38 @@ public class M_Backtrack_Array_216 {
         System.out.println(combinationSum3(3, 9));
     }
 
-    public static List<List<Integer>> combinationSum3(int k, int n) {
+    // Time: 0ms
+    public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> combinations = new ArrayList<>();
-        List<Integer> combination = new ArrayList<>();
+        List<Integer> tracker = new ArrayList<>();
 
-        collectCombinations(1, 9, k, n, combination, combinations);
+        collect(combinations, tracker, 1, k, n);
 
         return combinations;
     }
 
-    private static void collectCombinations(int current, int end, int size, int sum, List<Integer> combination, List<List<Integer>> combinations) {
-        if (sum == 0 && size == 0) {
-            combinations.add(new ArrayList<Integer>(combination));
+    private void collect(List<List<Integer>> combinations, List<Integer> tracker, int start, int k, int n) {
+        if (n == 0 && tracker.size() == k) {
+            combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        for (int i = current; i <= end; ++i) {
-            combination.add(i);
-            collectCombinations(i + 1, end, size - 1, sum - i, combination, combinations);
-            combination.remove(combination.size() - 1);
+        if (tracker.size() >= k) {
+            return;
         }
+
+        for (int value = start; value <= 9; ++value) {
+            if (value > n) {
+                return;
+            }
+
+            tracker.add(value);
+
+            collect(combinations, tracker, value + 1, k, n - value);
+
+            tracker.remove(tracker.size() - 1);
+        }
+
     }
 
 }
