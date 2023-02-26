@@ -18,32 +18,30 @@ import java.util.*;
 
 public class M_Backtrack_Array_77 {
 
-    public static void main(String... args) {
-        List<List<Integer>> combinations = combine(4, 2);
-        System.out.println(combinations);
-    }
-
-    public static List<List<Integer>> combine(int n, int k) {
+    // Backtracke
+    // 1ms
+    public List<List<Integer>> combine(int n, int k) {
         List<List<Integer>> combinations = new ArrayList<>();
-        List<Integer> combination = new ArrayList<>();
+        List<Integer> tracker = new ArrayList<>();
 
-        collectCombinations(1, n, combination, k, combinations);
+        collect(combinations, tracker, 1, n, k);
 
         return combinations;
     }
 
-    // fast 1ms
-    private static void collectCombinations(int start, int end, List<Integer> combination, int size, List<List<Integer>> combinations) {
+    private void collect(List<List<Integer>> combinations, List<Integer> tracker, int start, int end, int size) {
         if (size == 0) {
-            combinations.add(new ArrayList<Integer>(combination));
+            combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        for (int i = start; i <= end - size + 1; ++i) {    // 1ms, need to pick (size)个 elements from start, do it when we have enough elements
-//        for (int i = start; i <= end; ++i) {             // 17ms
-            combination.add(i);
-            collectCombinations(i + 1, end, combination, size - 1, combinations);
-            combination.remove(combination.size() - 1);
+        // combination only cares whether the candidate has been used, if used, proceed to the next one, no need to start over
+        for (int i = start; i <= end - size + 1; ++i) {
+            tracker.add(i);
+
+            collect(combinations, tracker, i + 1, end, size - 1);
+
+            tracker.remove(tracker.size() - 1);
         }
     }
 

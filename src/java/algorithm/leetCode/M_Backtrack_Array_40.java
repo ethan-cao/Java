@@ -49,20 +49,23 @@ public class M_Backtrack_Array_40 {
             return;
         }
 
+        // since looking for combinaiton, just start from where the next one
         for (int i = start; i < candidates.length; ++i) {
             if (candidates[i] > target) {
                 break;
             }
 
-            if (i > start && candidates[i] == candidates[i - 1]) { // !!! i > start
-                continue; // skip duplicate candidate
+            // !!! i > start: only if the candidate is the 1st in the combination
+            if (i > start && candidates[i] == candidates[i - 1]) {
+                // skip duplicate candidate
+                continue;
             }
 
-            tracker.add(tracker.size(), candidates[i]); // Try
+            tracker.add(candidates[i]);
 
-            getCombinations(candidates, i + 1, target - candidates[i], tracker, combinations);
+            getCombinations(combinations, tracker, candidates, i + 1, target - candidates[i]);
 
-            tracker.remove(tracker.size() - 1); // Backtrack
+            tracker.remove(tracker.size() - 1);
         }
     }
 

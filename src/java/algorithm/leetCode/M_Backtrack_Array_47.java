@@ -51,7 +51,7 @@ public class M_Backtrack_Array_47 {
             // !!! skip duplicated case, require nums to be sorted
             // if the current is the same as the previous one && the previous one is not in use
             // this is the same case as the previous is used
-            if (i > 0 && !used[i - 1] && nums[i] == nums[i - 1]) {
+            if (i >= 1 && !used[i - 1] && nums[i] == nums[i - 1]) {
                 continue;
             }
 
@@ -65,6 +65,7 @@ public class M_Backtrack_Array_47 {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Iterative, slower than backtrack
     public static List<List<Integer>> permuteUnique1(int[] nums) {
         List<List<Integer>> permutations = new ArrayList<>();

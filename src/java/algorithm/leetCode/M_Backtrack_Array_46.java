@@ -23,6 +23,7 @@ public class M_Backtrack_Array_46 {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Backtrack
     // 1ms
     public static List<List<Integer>> permute(int[] nums) {
@@ -40,6 +41,8 @@ public class M_Backtrack_Array_46 {
             return;
         }
 
+        // permutation cares whether the candidate has been used and the position,
+        // so even if used,  need to start over, to count the candidate used in a different position
         for (int num : nums) {
             if (tracker.contains(num)) {
                 continue;
@@ -53,6 +56,7 @@ public class M_Backtrack_Array_46 {
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Iterative
     // https://leetcode.com/problems/permutations/discuss/18237/My-AC-simple-iterative-javapython-solution
     public static List<List<Integer>> permute1(int[] nums) {

@@ -14,7 +14,7 @@ import java.util.*;
 public class M_Backtrack_BitManipulation_Array_78 {
 
     public static void main(String... args) {
-        int[] nums = {1, 2, 3};
+        int[] nums = { 1, 2, 3 };
 
         List<List<Integer>> subsets = subsets2(nums);
         for (List<Integer> subset : subsets) {
@@ -24,26 +24,27 @@ public class M_Backtrack_BitManipulation_Array_78 {
     }
 
     // Backtrack
-    public static List<List<Integer>> subsets(int[] nums) {
+    // Time: 0ms
+    public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> subsets = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
 
-        collectSubset(nums, subsets, tracker, 0);
+        collect(subsets, tracker, nums, 0);
 
         return subsets;
     }
 
-    private static void collectSubset(int[] nums, List<List<Integer>> subsets, List<Integer> tracker, int start) {
-        List<Integer> subset = new ArrayList<>(tracker);
-        subsets.add(subset);
+    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int start) {
+        subsets.add(new ArrayList<>(tracker));
 
         for (int i = start; i < nums.length; ++i) {
             tracker.add(nums[i]);
-            collectSubset(nums, subsets, tracker, i + 1);
+            collect(subsets, tracker, nums, i + 1);
             tracker.remove(tracker.size() - 1);
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Iterative, BFS
     public static List<List<Integer>> subsets2(int[] nums) {
         List<List<Integer>> subsets = new ArrayList<>();
