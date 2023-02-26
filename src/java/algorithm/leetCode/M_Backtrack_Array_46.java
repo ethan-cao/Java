@@ -13,7 +13,7 @@ import java.util.*;
 public class M_Backtrack_Array_46 {
 
     public static void main(String... args) {
-        int[] nums = {1, 2, 3};
+        int[] nums = { 1, 2, 3 };
 
         List<List<Integer>> subsets = permute(nums);
         for (List<Integer> subset : subsets) {
@@ -24,16 +24,17 @@ public class M_Backtrack_Array_46 {
     }
 
     // Backtrack
+    // 1ms
     public static List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> permutations = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
 
-        collectPermutation(nums, permutations, tracker);
+        collect(permutations, tracker, nums);
 
         return permutations;
     }
 
-    private static void collectPermutation(int[] nums, List<List<Integer>> permutations, List<Integer> tracker) {
+    private static void collect(List<List<Integer>> permutations, List<Integer> tracker, int[] nums) {
         if (tracker.size() == nums.length) {
             permutations.add(new ArrayList<>(tracker));
             return;
@@ -46,7 +47,7 @@ public class M_Backtrack_Array_46 {
 
             tracker.add(num);
 
-            collectPermutation(nums, permutations, tracker);
+            collect(permutations, tracker, nums);
 
             tracker.remove(tracker.size() - 1);
         }

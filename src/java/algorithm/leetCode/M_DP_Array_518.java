@@ -30,40 +30,36 @@ import java.util.Arrays;
 public class M_DP_Array_518 {
 
     public static void main(String... args) {
-        System.out.println(change1(4, new int[]{1, 2, 3}));                  // 4
-        System.out.println(change1(0, new int[]{7}));                        // 1
-        System.out.println(change1(5, new int[]{1, 2, 5}));                  // 4
-        System.out.println(change1(3, new int[]{2}));                        // 0
-        System.out.println(change1(10, new int[]{10}));                      // 1
-        System.out.println(change1(500, new int[]{3, 5, 7, 8, 9, 10, 11}));  // 35502874
+        System.out.println(change1(4, new int[] { 1, 2, 3 })); // 4
+        System.out.println(change1(0, new int[] { 7 })); // 1
+        System.out.println(change1(5, new int[] { 1, 2, 5 })); // 4
+        System.out.println(change1(3, new int[] { 2 })); // 0
+        System.out.println(change1(10, new int[] { 10 })); // 1
+        System.out.println(change1(500, new int[] { 3, 5, 7, 8, 9, 10, 11 })); // 35502874
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
     // Time: O(N^2)
     public int change000(int amount, int[] coins) {
         final int L = coins.length;
         int[][] counts = new int[L][amount + 1];
 
-        // BASE
         for (int i = 0; i < L; ++i) {
+            // BASE
             counts[i][0] = 1;
-        }
-
-        // TRANSFORM
-        // skip(i) = changes(i-1, amount)
-        // take(i) = changes(i, amount - coins[i]), if coins[i] <= amount
-        // changes(i, j) = take + skip
-        for (int i = 0; i < L; ++i) {
-            int coin = coins[i];
 
             for (int value = 1; value <= amount; ++value) {
+                // TRANSFORM
+                // skip(i) = changes(i-1, amount)
+                // take(i) = changes(i, amount - coins[i]), if coins[i] <= amount
+                // changes(i, j) = take + skip
 
                 // existing combination, with all previously used coins
-                int skip = i == 0 ? 0 : counts[i - 1][value];
-                
+                int skip = i >= 1 ? counts[i - 1][value] : 0;
+
                 // a new combination, with the new coin
-                int take = value - coin >= 0 ? counts[i][value - coin] : 0;
+                int take = value - coins[i] >= 0 ? counts[i][value - coins[i]] : 0;
 
                 counts[i][value] = take + skip;
             }
@@ -87,10 +83,8 @@ public class M_DP_Array_518 {
         // changes(i, j) = take + skip
         for (int i = 0; i < L; ++i) {
             for (int value = 1; value <= amount; ++value) {
-                int coin = coins[i];
-
                 int skip = i == 0 ? 0 : counts[value];
-                int take = value - coin >= 0 ? counts[value - coin] : 0;
+                int take = value - coins[i] >= 0 ? counts[value - coins[i]] : 0;
 
                 counts[value] = take + skip;
             }
@@ -153,16 +147,16 @@ public class M_DP_Array_518 {
 
         for (int value = 1; value <= amount; ++value) {
             for (int i = 0; i < coins.length; ++i) {
-                
+
                 int coin = coins[i];
-            
-                int skip = i >= 1 ? counts[value][i - 1]: 0;
+
+                int skip = i >= 1 ? counts[value][i - 1] : 0;
                 int take = value >= coin ? counts[value - coin][i] : 0;
-            
+
                 counts[value][i] = skip + take;
             }
         }
- 
+
         return counts[amount][coins.length - 1];
     }
 
@@ -245,16 +239,16 @@ public class M_DP_Array_518 {
 
         for (int value = 1; value <= amount; ++value) {
             for (int i = 0; i < coins.length; ++i) {
-                
+
                 int coin = coins[i];
-            
-                int skip = i >= 1 ? counts[value][i - 1]: 0;
+
+                int skip = i >= 1 ? counts[value][i - 1] : 0;
                 int take = value >= coin ? counts[value - coin][i] : 0;
-            
+
                 counts[value][i] = skip + take;
             }
         }
- 
+
         return counts[amount][coins.length - 1];
     }
 

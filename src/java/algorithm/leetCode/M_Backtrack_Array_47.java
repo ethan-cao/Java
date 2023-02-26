@@ -15,7 +15,7 @@ import java.util.List;
 public class M_Backtrack_Array_47 {
 
     public static void main(String... args) {
-        int[] nums = {1, 1, 2, 2};
+        int[] nums = { 1, 1, 2, 2 };
 
         List<List<Integer>> subsets = permuteUnique1(nums);
         for (List<Integer> subset : subsets) {
@@ -32,12 +32,12 @@ public class M_Backtrack_Array_47 {
 
         Arrays.sort(nums);
 
-        collectPermutation(nums, permutations, tracker, used);
+        collectPermutation(permutations, tracker, nums, used);
 
         return permutations;
     }
 
-    private static void collectPermutation(int[] nums, List<List<Integer>> permutations, List<Integer> tracker, boolean[] used) {
+    private static void collectPermutation(List<List<Integer>> permutations, List<Integer> tracker, int[] nums, boolean[] used) {
         if (tracker.size() == nums.length) {
             permutations.add(new ArrayList<>(tracker));
             return;
@@ -58,7 +58,7 @@ public class M_Backtrack_Array_47 {
             tracker.add(nums[i]);
             used[i] = true;
 
-            collectPermutation(nums, permutations, tracker, used);
+            collectPermutation(permutations, tracker, nums, used);
 
             tracker.remove(tracker.size() - 1);
             used[i] = false;

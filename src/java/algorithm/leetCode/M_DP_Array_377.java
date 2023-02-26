@@ -19,7 +19,7 @@ The possible combination ways are:
 ### Keys
 * This question actually ask for permutation, the order matters
 * you can reuse each number
-* 377 is related to 518, the only difference is 518 is asking for combination,  where order does not matter
+* 377 is related to 518, the only difference is 518 is asking for combination, where order does not matter
 
 */
 
