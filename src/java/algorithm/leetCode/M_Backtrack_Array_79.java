@@ -22,33 +22,35 @@ public class M_Backtrack_Array_79 {
 
     public static void main(String... args) {
         char[][] board = {
-                {'A', 'B', 'C', 'E'},
-                {'S', 'F', 'C', 'S'},
-                {'A', 'D', 'E', 'E'}
+                { 'A', 'B', 'C', 'E' },
+                { 'S', 'F', 'C', 'S' },
+                { 'A', 'D', 'E', 'E' }
         };
 
         System.out.println(exist(board, "ABCCED")); // T
-        System.out.println(exist(board, "SEE"));    // T
-        System.out.println(exist(board, "ABCB"));   // F
+        System.out.println(exist(board, "SEE")); // T
+        System.out.println(exist(board, "ABCB")); // F
 
-        char[][] board1 = {{'a'}};
+        char[][] board1 = { { 'a' } };
         System.out.println(exist(board1, "a")); // T
         System.out.println(exist(board1, "ab")); // F
 
-        char[][] board2 = {{'a', 'b'}};
+        char[][] board2 = { { 'a', 'b' } };
         System.out.println(exist(board2, "ba")); // T
     }
 
     // BFS + Backtrack
     // Time: O(M * N * 4^L) where M*N is the size of the board and we have 4^L for each cell because of the recursion
     // Space: O(L) where L is the length of the word
+    private static int[][] DIRECTIONS = new int[][] { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
     public static boolean exist(char[][] board, String word) {
-//        boolean[] used = new boolean[board.length * board[0].length];  // 1D array does not save space
         boolean[][] used = new boolean[board.length][board[0].length];
 
-        for (int row = 0; row < board.length; ++row) {
-            for (int column = 0; column < board[row].length; ++column) {
-                if (searchWord(board, row, column, word, 0, used)) {
+        // !!! start from all the positions
+        for (int y = 0; y < board.length; ++y) {
+            for (int x = 0; x < board[0].length; ++x) {
+                if (search(board, y, x, word, 0, used)) {
                     return true;
                 }
             }
@@ -57,38 +59,35 @@ public class M_Backtrack_Array_79 {
         return false;
     }
 
-    private static boolean searchWord(char[][] board, int row, int column, String word, int matchCount, boolean[][] used) {
-        if (matchCount == word.length()) {
+    private static boolean search(char[][] board, int y, int x, String word, int idx, boolean[][] used) {
+        if (idx == word.length()) {
             return true;
         }
 
-        if (row < 0 || row >= board.length || column < 0 || column >= board[0].length) {
+        if (y < 0 || y >= board.length || x < 0 || x >= board[0].length) {
             return false;
         }
 
-        if (board[row][column] != word.charAt(matchCount) || used[row][column]) { // order of check does not affect time
+        if (used[y][x]) {
             return false;
         }
 
-        used[row][column] = true;
-
-        // this works, just slow 8ms
-//        int[][] vectors = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-//        for (int[] vector : vectors) {
-//            if (searchWord(board, row + vector[0], column + vector[1], word, matchCount + 1, used)) {
-//                return true;
-//            }
-//        }
-
-        // this works and faster, 4ms
-        if (searchWord(board, row, column + 1, word, matchCount + 1, used) ||
-                searchWord(board, row, column + -1, word, matchCount + 1, used) ||
-                searchWord(board, row + 1, column, word, matchCount + 1, used) ||
-                searchWord(board, row + -1, column, word, matchCount + 1, used)) {
-            return true;
+        if (board[y][x] != word.charAt(idx)) {
+            return false;
         }
 
-        used[row][column] = false;  // backtrack
+        used[y][x] = true;
+
+        for (int[] direction : DIRECTIONS) {
+            int nextY = y + direction[0];
+            int nextX = x + direction[1];
+
+            if (search(board, nextY, nextX, word, idx + 1, used)) {
+                return true;
+            }
+        }
+
+        used[y][x] = false; // backtrack
 
         return false;
     }
