@@ -33,13 +33,13 @@ test {
 dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter:5.4.2')
 
-    compile(
+    implementation(
             'com.google.guava:guava:27.1-jre',
-//            'org.apache.commons:commons-lang3:8.1',
+        //    'org.apache.commons:commons-lang3:8.1',
             files('lib/algs4.jar')
     )
 
-    testCompile(
+    testImplementation(
             'org.mockito:mockito-core:2.+',
     )
 }
