@@ -15,7 +15,7 @@ import java.util.*;
 public class M_Backtrack_Array_90 {
 
     public static void main(String... args) {
-        int[] nums = {4, 4, 4, 1, 4};
+        int[] nums = { 4, 4, 4, 1, 4 };
 
         List<List<Integer>> subsets = subsetsWithDup1(nums);
         for (List<Integer> subset : subsets) {
@@ -25,36 +25,39 @@ public class M_Backtrack_Array_90 {
 
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Backtrack
-    public static List<List<Integer>> subsetsWithDup(int[] nums) {
+    // 1ms
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
         List<List<Integer>> subsets = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
 
         Arrays.sort(nums);
 
-        collectSubset(nums, subsets, tracker, 0);
+        collect(subsets, tracker, nums, 0);
 
         return subsets;
     }
 
-    private static void collectSubset(int[] nums, List<List<Integer>> subsets, List<Integer> tracker, int start) {
-        List<Integer> subset = new ArrayList<>(tracker);
-        subsets.add(subset);
+    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int idx) {
+        subsets.add(new ArrayList<>(tracker));
 
-        for (int i = start; i < nums.length; ++i) {
-
+        for (int i = idx; i < nums.length; ++i) {
             // skip duplicate, require array to be sorted
             // !!! i > start, only avoid to-be added num are not the same
-            if (i > start && nums[i] == nums[i - 1]) {
+            if (i > idx && nums[i] == nums[i - 1]) {
                 continue;
             }
 
             tracker.add(nums[i]);
-            collectSubset(nums, subsets, tracker, i + 1);
+
+            collect(subsets, tracker, nums, i + 1);
+
             tracker.remove(tracker.size() - 1);
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Iterative, Time and Space wise, same as backtrack
     public static List<List<Integer>> subsetsWithDup1(int[] nums) {
         Arrays.sort(nums);

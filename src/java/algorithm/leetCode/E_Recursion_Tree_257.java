@@ -30,35 +30,40 @@ public class E_Recursion_Tree_257 {
     }
 
     // 1ms
-    public static List<String> binaryTreePaths(TreeNode root) {
+    public List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
-        reachLeaf(root, paths, sb);
+        collect(paths, sb, root);
 
         return paths;
     }
 
-    private static void reachLeaf(TreeNode node, List<String> paths, StringBuilder sb) {
+    private void collect(List<String> paths, StringBuilder sb, TreeNode node) {
+        // !! this is not leaf case, no need to cllect path
         if (node == null) {
             return;
         }
 
-        if (sb.length() == 0) {
-            sb.append(node.val);
-        } else {
-            sb.append("->").append(node.val);
+        if (sb.length() != 0) {
+            sb.append("->");
         }
 
+        sb.append(node.val);
+
+        // !!! when both children are null, node is leaf and stop 
         if (node.left == null && node.right == null) {
             paths.add(sb.toString());
             return;
         }
 
-        reachLeaf(node.left, paths, new StringBuilder(sb));
-        reachLeaf(node.right, paths, new StringBuilder(sb));
+        // !!!backtrack, use new StringBuilder, 
+        collect(paths, new StringBuilder(sb), node.left);
+        collect(paths, new StringBuilder(sb), node.right);
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // BFS
     private static List<String> binaryTreePaths1(TreeNode root) {
         List<String> paths = new ArrayList<>();
 
@@ -94,4 +99,3 @@ public class E_Recursion_Tree_257 {
         return paths;
     }
 }
-

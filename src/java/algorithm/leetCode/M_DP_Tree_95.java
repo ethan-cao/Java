@@ -49,19 +49,19 @@ public class M_DP_Tree_95 {
         List<TreeNode> roots = new ArrayList<>();
 
         if (start > end) {
-            // there is no node for this tree
-            // why use null? because it's in the example's answer
+            // !!! put null, so in the caller stackframe, this null as be used in iteration as as childNode
             roots.add(null);
             return roots;
         }
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
-            List<TreeNode> leftTreeRoots = buildTrees(start, rootValue - 1);
-            List<TreeNode> rightTreeRoots = buildTrees(rootValue + 1, end);
-        
-            for (TreeNode leftTreeRoot: leftTreeRoots)  {
-                for (TreeNode rightTreeRoot: rightTreeRoots) {
-                    TreeNode root = new TreeNode(rootValue, leftTreeRoot, rightTreeRoot);
+
+            List<TreeNode> leftNodes = build(start, rootValue - 1);
+            List<TreeNode> rightNodes = build(rootValue + 1, end);
+
+            for (TreeNode leftNode : leftNodes) {
+                for (TreeNode rightNode : rightNodes) {
+                    TreeNode root = new TreeNode(rootValue, leftNode, rightNode);
                     roots.add(root);
                 }
             }
@@ -70,6 +70,7 @@ public class M_DP_Tree_95 {
         return roots;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 2ms
     // https://bit.ly/36EKgvy
     public List<TreeNode> generateTrees(int n) {
