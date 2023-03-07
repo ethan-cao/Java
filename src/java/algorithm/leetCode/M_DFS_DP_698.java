@@ -22,10 +22,10 @@ import java.util.stream.IntStream;
 public class M_DFS_DP_698 {
 
     public static void main(String... args) {
-        System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4)); // T
-        System.out.println(canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 5)); // F
-        System.out.println(canPartitionKSubsets2(new int[]{2, 2, 2, 2, 3, 4, 5}, 5)); // F
-        System.out.println(canPartitionKSubsets2(new int[]{18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037}, 4)); // T
+        System.out.println(canPartitionKSubsets2(new int[] { 4, 3, 2, 3, 5, 2, 1 }, 4)); // T
+        System.out.println(canPartitionKSubsets2(new int[] { 4, 3, 2, 3, 5, 2, 1 }, 5)); // F
+        System.out.println(canPartitionKSubsets2(new int[] { 2, 2, 2, 2, 3, 4, 5 }, 5)); // F
+        System.out.println(canPartitionKSubsets2(new int[] { 18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037 }, 4)); // T
     }
 
     // Backtracking, DFS
@@ -34,10 +34,6 @@ public class M_DFS_DP_698 {
     // we go on to find the second, which would take 2^n roughly (because some numbers have been marked as visited).
     // So T = 2^n + 2^n + 2^n + ... = k * 2^n.
     public static boolean canPartitionKSubsets(int[] nums, int k) {
-        if (k < nums.length) {
-            return false;
-        }
-
         int sum = 0;
         for (int num : nums) {
             sum += num;
@@ -48,23 +44,25 @@ public class M_DFS_DP_698 {
         }
 
         int targetSum = sum / k;
+        boolean[] used = new boolean[nums.length];
 
-        return canPartition(nums, 0, 0, targetSum, k, new boolean[nums.length]);
+        return canPartition(nums, used, 0, 0, targetSum, k);
     }
 
     // if nums[idx...end] can be partitioned into k bucket with sum equal to targetSum
-    private static boolean canPartition(int[] nums, int idx, int sum, int targetSum, int k, boolean[] used) {
+    private static boolean canPartition(int[] nums, boolean[] used, int idx, int sum, int targetSum, int k) {
+        // optimization
         // if there is only 1 bucket left, since all the rest reaches target, the last one reaches targetSum for sure
         if (k == 1) {
             return true;
         }
 
-        if (sum == targetSum) {
+        if (sum > targetSum) {
+            return false;
+        } else if (sum == targetSum) {
             // if the current bucket reaches target sum, 
             // reset idx to 0, sum to 0, look for next bucket (k-1)
             return canPartition(nums, 0, 0, targetSum, k - 1, used);
-        } else if (sum > targetSum) {
-            return false;
         } else {
             for (int i = idx; i < nums.length; ++i) {
                 if (used[i]) {

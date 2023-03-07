@@ -24,19 +24,16 @@ import java.util.Arrays;
 public class M_DFS_473 {
 
     public static void main(String[] args) {
-        System.out.println(makesquare(new int[]{1, 1, 2, 2, 2})); // true
-        System.out.println(makesquare(new int[]{3, 3, 3, 3, 4})); // false
+        System.out.println(makesquare(new int[] { 1, 1, 2, 2, 2 })); // true
+        System.out.println(makesquare(new int[] { 3, 3, 3, 3, 4 })); // false
     }
 
-    // DFS, ms
-    public static boolean makesquare(int[] nums) {
-        if (nums == null || nums.length < 4) {
-            return false;
-        }
-
+    // pick the maximum element that is not used
+    // trying a longer matchstick first will get to negative conclusion earlier
+    public boolean makesquare(int[] matchsticks) {
         int sum = 0;
-        for (int n : nums) {
-            sum += n;
+        for (int stick : matchsticks) {
+            sum += stick;
         }
 
         if (sum % 4 != 0) {
@@ -45,25 +42,30 @@ public class M_DFS_473 {
 
         // pick the maximum element that is not used
         // trying a longer matchstick first will get to negative conclusion earlier
-        Arrays.sort(nums);
+        Arrays.sort(matchsticks);
 
-        boolean[] used = new boolean[nums.length];
+        int targetSum = sum / 4;
+        boolean[] used = new boolean[matchsticks.length];
 
-        return canMakeSquare(nums, nums.length - 1, 0, sum / 4, 0, used);
+        // !!! iterate backwards, since trying longer stick leads to (sum > targetSum) earlier
+        return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, 0);
     }
 
-    // side: there are 4 side of a square to be filled
-    private static boolean canMakeSquare(int[] nums, int idx, int sum, int targetSum, int side, boolean[] used) {
+    private boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int sideCount) {
+        // optimization
+        // there are 4 side of a square to be filled
         // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
-        if (side == 3) {
+        if (sideCount == 3) {
             return true;
         }
 
-        if (sum == targetSum) {
-            return canMakeSquare(nums, nums.length - 1, 0, targetSum, side + 1, used);
-        } else if (sum > targetSum) {
+        if (sum > targetSum) {
             return false;
+        } else if (sum == targetSum) {
+            // !!! iterate backwards
+            return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, sideCount + 1);
         } else {
+            // !!! iterate backwards
             for (int i = idx; i >= 0; --i) {
                 if (used[i]) {
                     continue;
@@ -71,14 +73,16 @@ public class M_DFS_473 {
 
                 used[i] = true;
 
-                if (canMakeSquare(nums, i - 1, sum + nums[i], targetSum, side, used)) {
+                boolean result = check(matchsticks, used, i - 1, sum + matchsticks[i], targetSum, sideCount);
+
+                if (result) {
                     return true;
                 }
 
                 used[i] = false;
 
                 // dedup
-                while (i > 0 && nums[i] == nums[i - 1]) {
+                while (i > 0 && matchsticks[i] == matchsticks[i - 1]) {
                     i--;
                 }
             }
