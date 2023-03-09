@@ -29,7 +29,7 @@ public class M_DFS_DP_698 {
     }
 
     // Backtracking, DFS
-    // Space: O(n),  Time: O(k*2^n)
+    // Space: O(n),  Time: O(k*2^n) 7ms
     // it takes the inner recursion 2^n time to find a good subset. Once the 1st subset is found,
     // we go on to find the second, which would take 2^n roughly (because some numbers have been marked as visited).
     // So T = 2^n + 2^n + 2^n + ... = k * 2^n.
@@ -46,7 +46,9 @@ public class M_DFS_DP_698 {
         int targetSum = sum / k;
         boolean[] used = new boolean[nums.length];
 
-        return canPartition(nums, used, 0, 0, targetSum, k);
+        Arrays.sort(nums);
+
+        return check(nums, used, nums.length - 1, 0, targetSum, k);
     }
 
     // if nums[idx...end] can be partitioned into k bucket with sum equal to targetSum
@@ -62,22 +64,26 @@ public class M_DFS_DP_698 {
         } else if (sum == targetSum) {
             // if the current bucket reaches target sum, 
             // reset idx to 0, sum to 0, look for next bucket (k-1)
-            return canPartition(nums, 0, 0, targetSum, k - 1, used);
+            return check(nums, used, nums.length - 1, 0, targetSum, k - 1);
         } else {
-            for (int i = idx; i < nums.length; ++i) {
+            for (int i = idx; i >= 0; --i) {
                 if (used[i]) {
                     continue;
                 }
 
-                // try
                 used[i] = true;
 
-                if (canPartition(nums, i + 1, sum + nums[i], targetSum, k, used)) {
+                if (check(nums, used, i - 1, sum + nums[i], targetSum, k)) {
                     return true;
                 }
 
-                // if not work, backtrack
+                //  backtrack
                 used[i] = false;
+
+                // dedup
+                while (i - 1 >= 0 && nums[i - 1] == nums[i]) {
+                    i--;
+                }
             }
 
             return false;

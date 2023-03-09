@@ -17,6 +17,10 @@ You can form a square with length 2, one side of the square came two sticks with
 
 [3,3,3,3,4] -> false
 You cannot find a way to form a square with all the matchsticks.
+
+
+473 is the same as 698, when k = 4
+
 */
 
 import java.util.Arrays;
@@ -30,7 +34,7 @@ public class M_DFS_473 {
 
     // pick the maximum element that is not used
     // trying a longer matchstick first will get to negative conclusion earlier
-    public boolean makesquare(int[] matchsticks) {
+    public static boolean makesquare(int[] matchsticks) {
         int sum = 0;
         for (int stick : matchsticks) {
             sum += stick;
@@ -40,18 +44,18 @@ public class M_DFS_473 {
             return false;
         }
 
+        int targetSum = sum / 4;
+        boolean[] used = new boolean[matchsticks.length];
+
         // pick the maximum element that is not used
         // trying a longer matchstick first will get to negative conclusion earlier
         Arrays.sort(matchsticks);
-
-        int targetSum = sum / 4;
-        boolean[] used = new boolean[matchsticks.length];
 
         // !!! iterate backwards, since trying longer stick leads to (sum > targetSum) earlier
         return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, 0);
     }
 
-    private boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int sideCount) {
+    private static boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int sideCount) {
         // optimization
         // there are 4 side of a square to be filled
         // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
@@ -81,7 +85,6 @@ public class M_DFS_473 {
 
                 used[i] = false;
 
-                // dedup
                 while (i > 0 && matchsticks[i] == matchsticks[i - 1]) {
                     i--;
                 }
