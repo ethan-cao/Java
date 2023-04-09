@@ -47,19 +47,19 @@ public class M_DFS_473 {
         int targetSum = sum / 4;
         boolean[] used = new boolean[matchsticks.length];
 
-        // pick the maximum element that is not used
-        // trying a longer matchstick first will get to negative conclusion earlier
+        // pick the maximum element that is not used as early as possible
+        // trying a longer matchstick first leads to negative conclusion earlier
         Arrays.sort(matchsticks);
 
         // !!! iterate backwards, since trying longer stick leads to (sum > targetSum) earlier
-        return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, 0);
+        return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, 4);
     }
 
-    private static boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int sideCount) {
+    private static boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int count) {
         // optimization
         // there are 4 side of a square to be filled
         // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
-        if (sideCount == 3) {
+        if (count == 1) {
             return true;
         }
 
@@ -67,7 +67,7 @@ public class M_DFS_473 {
             return false;
         } else if (sum == targetSum) {
             // !!! iterate backwards
-            return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, sideCount + 1);
+            return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, count - 1);
         } else {
             // !!! iterate backwards
             for (int i = idx; i >= 0; --i) {
@@ -77,8 +77,7 @@ public class M_DFS_473 {
 
                 used[i] = true;
 
-                boolean result = check(matchsticks, used, i - 1, sum + matchsticks[i], targetSum, sideCount);
-
+                boolean result = check(matchsticks, used, i - 1, sum + matchsticks[i], targetSum, count);
                 if (result) {
                     return true;
                 }
