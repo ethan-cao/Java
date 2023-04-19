@@ -3,9 +3,11 @@ package algorithm.leetCode;
 /*
 You are given an integer array nums and an integer target.
 
-You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
+You want to build an expression out of nums by adding one of 
+the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
 
-For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression "+2-1".
+For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 
+and concatenate them to build the expression "+2-1".
 Return the number of different expressions that you can build, which evaluates to target.
 
 1 <= nums.length <= 20
@@ -69,7 +71,7 @@ public class M_DP_DFS_494 {
     }
 
     // DP, iterative, 15ms
-    public int findTargetSumWays_3(int[] nums, int target) {
+    public static int findTargetSumWays_3(int[] nums, int target) {
         int sum = 0;
         for (int n : nums) {
             sum += n;
@@ -125,7 +127,8 @@ public class M_DP_DFS_494 {
         return results[L - 1][target + OFFSET];
     }
 
-    public int findTargetSumWays111(int[] nums, int target) {
+    // DP, iterative
+    public static int findTargetSumWays_4(int[] nums, int target) {
         int L = nums.length;
 
         int sum = 0;
@@ -160,7 +163,7 @@ public class M_DP_DFS_494 {
     }
 
     // DP, iterative, condensed space, 15ms
-    public int findTargetSumWays_4(int[] nums, int target) {
+    public static int findTargetSumWays_5(int[] nums, int target) {
         int sum = 0;
         for (int num : nums) {
             sum += num;
@@ -189,8 +192,7 @@ public class M_DP_DFS_494 {
     }
 
     // DP, iterative, 3ms
-    // 10ms
-    public static int findTargetSumWays1(int[] nums, int target) {
+    public static int findTargetSumWays_6(int[] nums, int target) {
         int sum = 0;
         for (int num : nums) {
             sum += num;
@@ -247,9 +249,8 @@ public class M_DP_DFS_494 {
         return results[L - 1][SUM];
     }
 
-    // DP, iterative, condensed space
-    // 4ms
-    public static int findTargetSumWays2(int[] nums, int target) {
+    // DP, iterative, condensed space, 4ms
+    public static int findTargetSumWays_7(int[] nums, int target) {
         int sum = 0;
         for (int num : nums) {
             sum += num;

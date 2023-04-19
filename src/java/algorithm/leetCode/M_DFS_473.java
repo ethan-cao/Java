@@ -35,7 +35,7 @@ public class M_DFS_473 {
     // pick the maximum element that is not used
     // trying a longer matchstick first will get to negative conclusion earlier
     public static boolean makesquare(int[] matchsticks) {
-        int sum = 0;
+        int sum = 0s
         for (int stick : matchsticks) {
             sum += stick;
         }
@@ -66,7 +66,7 @@ public class M_DFS_473 {
         if (sum > targetSum) {
             return false;
         } else if (sum == targetSum) {
-            // !!! iterate backwards
+            // !!! iterate backwards, start over again
             return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, count - 1);
         } else {
             // !!! iterate backwards

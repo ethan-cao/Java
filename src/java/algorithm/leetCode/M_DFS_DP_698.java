@@ -80,7 +80,7 @@ public class M_DFS_DP_698 {
                 //  backtrack
                 used[i] = false;
 
-                // dedup
+                // dedup, try next different num
                 while (i - 1 >= 0 && nums[i - 1] == nums[i]) {
                     i--;
                 }
