@@ -15,16 +15,17 @@ import java.util.*;
 public class E_Array_1 {
 
     public static void main(String[] args) {
-        int[] result = twoSum2(new int[]{2, 7, 11, 15}, 9);
+        int[] result = twoSum2(new int[] { 2, 7, 11, 15 }, 9);
         assert result.length == 2;
         assert Arrays.stream(result).anyMatch(x -> x == 3);
         assert Arrays.stream(result).anyMatch(x -> x == 1);
 
-        System.out.println(Arrays.toString(twoSum2(new int[]{2, 7, 11, 15}, 9))); // 1, 0
-        System.out.println(Arrays.toString(twoSum2(new int[]{3, 2, 4}, 6)));      // 2, 1;
-        System.out.println(Arrays.toString(twoSum2(new int[]{3, 3,}, 6)));        // 1, 0
+        System.out.println(Arrays.toString(twoSum2(new int[] { 2, 7, 11, 15 }, 9))); // 1, 0
+        System.out.println(Arrays.toString(twoSum2(new int[] { 3, 2, 4 }, 6))); // 2, 1;
+        System.out.println(Arrays.toString(twoSum2(new int[] { 3, 3, }, 6))); // 1, 0
     }
 
+    // HashMap
     // Time: O(N), Space: O(N)
     public static int[] twoSum1(int[] nums, int target) {
         int[] indices = new int[2];
@@ -55,6 +56,7 @@ public class E_Array_1 {
     public static int[] twoSum2(int[] nums, int target) {
         int[] result = new int[2];
 
+        // HashMap
         // number -> its counterpart's index (number + counterpart = target)
         Map<Integer, Integer> locationRecorder = new HashMap<>();
 

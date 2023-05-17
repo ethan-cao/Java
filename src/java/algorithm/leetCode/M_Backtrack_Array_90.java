@@ -39,21 +39,18 @@ public class M_Backtrack_Array_90 {
         return subsets;
     }
 
-    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int idx) {
+    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int start) {
         subsets.add(new ArrayList<>(tracker));
 
-        for (int i = idx; i < nums.length; ++i) {
-            // skip duplicate, require array to be sorted
-            // !!! i > start, only avoid to-be added num are not the same
-            if (i > idx && nums[i] == nums[i - 1]) {
-                continue;
-            }
-
+        for (int i = start; i < nums.length; ++i) {
             tracker.add(nums[i]);
-
             collect(subsets, tracker, nums, i + 1);
-
             tracker.remove(tracker.size() - 1);
+
+            // skip duplicate, require array to be sorted
+            while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
+                ++i;
+            }
         }
     }
 

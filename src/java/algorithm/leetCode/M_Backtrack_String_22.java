@@ -26,37 +26,38 @@ public class M_Backtrack_String_22 {
         System.out.println(generateParenthesis1(3)); // ["((()))","(()())","(())()","()(())","()()()"]
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Backtrack
     // Time: 0ms
     public List<String> generateParenthesis(int n) {
-        List<String> parenthesis = new LinkedList<>();
+        List<String> parenthesis = new ArrayList<>();
+        StringBuilder tracker = new StringBuilder();
 
-        StringBuilder sb = new StringBuilder("");
-
-        collect(parenthesis, sb, n, 0, 0);
+        collect(parenthesis, tracker, n, n);
 
         return parenthesis;
     }
 
-    private void collect(List<String> parenthesis, StringBuilder sb, int n, int leftCount, int rightCount) {
-        if (sb.length() == n * 2) {
-            parenthesis.add(sb.toString());
+    private void collect(List<String> parenthesis, StringBuilder tracker, int leftCount, int rightCount) {
+        if (leftCount == 0 && rightCount == 0) {
+            parenthesis.add(tracker.toString());
             return;
         }
 
-        if (leftCount < n) {
-            collect(parenthesis, sb.append('('), n, leftCount + 1, rightCount);
-            // backtrack
-            sb.deleteCharAt(sb.length() - 1);
+        if (leftCount > 0) {
+            tracker.append("(");
+            collect(parenthesis, tracker, leftCount - 1, rightCount);
+            tracker.deleteCharAt(tracker.length() - 1);
         }
 
-        if (rightCount < leftCount) {
-            collect(parenthesis, sb.append(')'), n, leftCount, rightCount + 1);
-            // backtrack, sb is reference shared with caller
-            sb.deleteCharAt(sb.length() - 1);
+        if (rightCount > leftCount) {
+            tracker.append(")");
+            collect(parenthesis, tracker, leftCount, rightCount - 1);
+            tracker.deleteCharAt(tracker.length() - 1);
         }
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static List<String> generateParenthesis1(int n) {
         List<String> parentheses = new LinkedList<>();
 

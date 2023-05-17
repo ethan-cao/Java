@@ -18,11 +18,11 @@ import java.util.*;
 public class M_Backtrack_Array_216 {
 
     public static void main(String... args) {
-        System.out.println(combinationSum3(3, 9));
+        System.out.println(combinationSum(3, 9));
     }
 
     // Time: 0ms
-    public List<List<Integer>> combinationSum3(int k, int n) {
+    public static List<List<Integer>> combinationSum(int k, int n) {
         List<List<Integer>> combinations = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class M_Backtrack_Array_216 {
         return combinations;
     }
 
-    private void collect(List<List<Integer>> combinations, List<Integer> tracker, int start, int k, int n) {
+    private static void collect(List<List<Integer>> combinations, List<Integer> tracker, int start, int k, int n) {
         if (n == 0 && tracker.size() == k) {
             combinations.add(new ArrayList<>(tracker));
             return;
@@ -41,14 +41,14 @@ public class M_Backtrack_Array_216 {
             return;
         }
 
-        for (int value = start; value <= 9; ++value) {
-            if (value > n) {
+        for (int num = start; num <= 9; ++num) {
+            if (num > n) {
                 return;
             }
 
-            tracker.add(value);
+            tracker.add(num);
 
-            collect(combinations, tracker, value + 1, k, n - value);
+            collect(combinations, tracker, num + 1, k, n - num);
 
             tracker.remove(tracker.size() - 1);
         }

@@ -51,21 +51,18 @@ public class M_Backtrack_Array_40 {
 
         // since looking for combinaiton, just start from where the next one
         for (int i = start; i < candidates.length; ++i) {
-            if (candidates[i] > target) {
-                break;
+            int candidate = candidates[i];
+
+            if (target >= candidate) {
+                tracker.add(candidate);
+                collect(combinations, tracker, candidates, i + 1, target - candidate);
+                tracker.remove(tracker.size() - 1);
             }
 
-            // !!! i > start: only if the candidate is the 1st in the combination
-            if (i > start && candidates[i] == candidates[i - 1]) {
-                // skip duplicate candidate
-                continue;
+            // skip duplicateds
+            while (i + 1 < candidates.length && candidates[i + 1] == candidates[i]) {
+                ++i;
             }
-
-            tracker.add(candidates[i]);
-
-            getCombinations(combinations, tracker, candidates, i + 1, target - candidates[i]);
-
-            tracker.remove(tracker.size() - 1);
         }
     }
 

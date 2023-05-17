@@ -42,37 +42,38 @@ public class M_Backtrack_String_17 {
 
     public List<String> letterCombinations(String digits) {
         List<String> combinations = new ArrayList<>();
+        StringBuilder tracker = new StringBuilder();
 
-        if (digits == null || digits.isEmpty()) {
+        if (digits.isEmpty()) {
             return combinations;
         }
 
-        StringBuilder sb = new StringBuilder("");
-
-        return getCombinations(combinations, sb, digits, 0);
-    }
-
-    private List<String> getCombinations(List<String> combinations, StringBuilder combination, String digits, int idx) {
-        if (idx >= digits.length()) {
-            combinations.add(combination.toString());
-            return combinations;
-        }
-
-        int letterMapIdx = digits.charAt(idx) - '2';
-        String letters = letterMap[letterMapIdx];
-
-        for (char letter : letters.toCharArray()) {
-            combination.append(letter);
-
-            getCombinations(combinations, combination, digits, idx + 1);
-
-            // backtrack
-            combination.deleteCharAt(combination.length() - 1);
-        }
+        collect(combinations, tracker, digits, 0);
 
         return combinations;
     }
 
+    private void collect(List<String> combinations, StringBuilder tracker, String digits, int start) {
+        if (start >= digits.length()) {
+            combinations.add(tracker.toString());
+            return;
+        }
+
+        char digit = digits.charAt(start);
+        String letters = letterMap[digit - '2'];
+
+        for (int i = 0; i < letters.length(); ++i) {
+            char letter = letters.charAt(i);
+
+            tracker.append(letter);
+
+            collect(combinations, tracker, digits, start + 1);
+
+            tracker.deleteCharAt(tracker.length() - 1);
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // BFS, Queue
     // Time: O(N^3), 6ms
     public static List<String> letterCombinations1(String digits) {
@@ -82,8 +83,6 @@ public class M_Backtrack_String_17 {
         if (digits == null || digits.isEmpty()) {
             return letterCombinations;
         }
-
-        String[] letterMap = { "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 
         letterCombinations.add("");
 
