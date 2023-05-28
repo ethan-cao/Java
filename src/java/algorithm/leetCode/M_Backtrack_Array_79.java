@@ -59,35 +59,35 @@ public class M_Backtrack_Array_79 {
         return false;
     }
 
-    private static boolean search(char[][] board, int y, int x, String word, int idx, boolean[][] used) {
-        if (idx == word.length()) {
-            return true;
-        }
-
+    private static boolean search(char[][] board, int y, int x, String word, int idx, boolean[][] isUsed) {
         if (y < 0 || y >= board.length || x < 0 || x >= board[0].length) {
             return false;
         }
 
-        if (used[y][x]) {
+        if (isUsed[y][x]) {
             return false;
         }
 
-        if (board[y][x] != word.charAt(idx)) {
+        if (idx < word.length() && board[y][x] != word.charAt(idx)) {
             return false;
         }
 
-        used[y][x] = true;
+        if (idx == word.length() - 1) {
+            return true;
+        }
 
-        for (int[] direction : DIRECTIONS) {
-            int nextY = y + direction[0];
-            int nextX = x + direction[1];
+        isUsed[y][x] = true;
 
-            if (search(board, nextY, nextX, word, idx + 1, used)) {
+        for (int[] DIRECTION : DIRECTIONS) {
+            int nextY = y + DIRECTION[0];
+            int nextX = x + DIRECTION[1];
+
+            if (search(board, word, idx + 1, nextY, nextX, isUsed)) {
                 return true;
             }
         }
 
-        used[y][x] = false; // backtrack
+        isUsed[y][x] = false;
 
         return false;
     }
