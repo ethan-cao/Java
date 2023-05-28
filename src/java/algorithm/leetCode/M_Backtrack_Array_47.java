@@ -37,31 +37,33 @@ public class M_Backtrack_Array_47 {
         return permutations;
     }
 
-    private static void collectPermutation(List<List<Integer>> permutations, List<Integer> tracker, int[] nums, boolean[] used) {
+    private static void collectPermutation(List<List<Integer>> permutations, List<Integer> tracker, int[] nums, boolean[] isUsed) {
         if (tracker.size() == nums.length) {
             permutations.add(new ArrayList<>(tracker));
             return;
         }
 
-        for (int i = 0; i < nums.length; ++i) {
-            if (used[i]) {
+        for (int idx = 0; idx < nums.length; ++idx) {
+            if (isUsed[idx]) {
                 continue;
             }
+
+            int num = nums[idx];
+
+            tracker.add(num);
+            isUsed[idx] = true;
+
+            collect(permutations, tracker, nums, isUsed);
+
+            tracker.remove(tracker.size() - 1);
+            isUsed[idx] = false;
 
             // !!! skip duplicated case, require nums to be sorted
             // if the current is the same as the previous one && the previous one is not in use
             // this is the same case as the previous is used
-            if (i >= 1 && !used[i - 1] && nums[i] == nums[i - 1]) {
-                continue;
+            while (idx + 1 < nums.length && nums[idx] == nums[idx + 1]) {
+                idx++;
             }
-
-            tracker.add(nums[i]);
-            used[i] = true;
-
-            collectPermutation(permutations, tracker, nums, used);
-
-            tracker.remove(tracker.size() - 1);
-            used[i] = false;
         }
     }
 
