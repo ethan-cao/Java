@@ -32,34 +32,33 @@ public class E_Recursion_Tree_257 {
     // 1ms
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder tracker = new StringBuilder();
 
-        collect(paths, sb, root);
+        collect(paths, tracker, root);
 
         return paths;
     }
 
-    private void collect(List<String> paths, StringBuilder sb, TreeNode node) {
-        // !! this is not leaf case, no need to cllect path
-        if (node == null) {
-            return;
-        }
-
-        if (sb.length() != 0) {
-            sb.append("->");
-        }
-
-        sb.append(node.val);
-
-        // !!! when both children are null, node is leaf and stop 
+    private void collect(List<String> paths, StringBuilder tracker, TreeNode node) {
+        // when this node is leave
         if (node.left == null && node.right == null) {
-            paths.add(sb.toString());
+            tracker.append(node.val);
+            paths.add(tracker.toString());
             return;
         }
 
-        // !!!backtrack, use new StringBuilder, 
-        collect(paths, new StringBuilder(sb), node.left);
-        collect(paths, new StringBuilder(sb), node.right);
+        tracker.append(node.val).append("->");
+
+        if (node.left != null) {
+            // backtrack, since we create a new trakcer, it decouple left path from right path
+            StringBuilder trackerLeft = new StringBuilder(tracker);
+            collect(paths, trackerLeft, node.left);
+        }
+
+        if (node.right != null) {
+            StringBuilder trackerRight = new StringBuilder(tracker);
+            collect(paths, trackerRight, node.right);
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

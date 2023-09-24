@@ -35,7 +35,7 @@ public class M_DFS_473 {
     // pick the maximum element that is not used
     // trying a longer matchstick first will get to negative conclusion earlier
     public static boolean makesquare(int[] matchsticks) {
-        int sum = 0s
+        int sum = 0;
         for (int stick : matchsticks) {
             sum += stick;
         }

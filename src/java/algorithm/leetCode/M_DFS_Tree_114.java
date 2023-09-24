@@ -45,9 +45,40 @@ public class M_DFS_Tree_114 {
         }
     }
 
+    // Time O(N), 0ms
+    // https://www.youtube.com/watch?v=Vg74BsgRq8Y
+    public void flatten0(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        // flatten left first
+        flatten(root.left);
+        // flatten right later
+        flatten(root.right);
+
+        // after flatten right and left, set root.left to empty, 
+        // link root.right to flattened left child and link the end of left child to the flattened right child
+
+        if (root.left == null) {
+            return;
+        }
+
+        TreeNode rightNode = root.right;
+
+        root.right = root.left;
+        root.left = null;
+
+        TreeNode current = root.right;
+        while (current.right != null) {
+            current = current.right;
+        }
+        current.right = rightNode;
+    }
+
     // Morris Traversal
     // DFS, essentially flatten a tree to in-place preorder
-    // Time O(N), 0ms
+    // Time O(N), 0msVy
     public static void flatten(TreeNode root) {
         flattenTree(root, null);
     }
@@ -65,6 +96,7 @@ public class M_DFS_Tree_114 {
         node.right = next;
         node.left = null;
 
+        // 
         next = node;
 
         return next;

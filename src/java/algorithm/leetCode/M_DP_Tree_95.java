@@ -56,8 +56,8 @@ public class M_DP_Tree_95 {
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
 
-            List<TreeNode> leftNodes = build(start, rootValue - 1);
-            List<TreeNode> rightNodes = build(rootValue + 1, end);
+            List<TreeNode> leftNodes = buildTrees(start, rootValue - 1);
+            List<TreeNode> rightNodes = buildTrees(rootValue + 1, end);
 
             for (TreeNode leftNode : leftNodes) {
                 for (TreeNode rightNode : rightNodes) {
