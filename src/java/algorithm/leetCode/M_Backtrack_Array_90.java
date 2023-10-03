@@ -39,10 +39,15 @@ public class M_Backtrack_Array_90 {
         return subsets;
     }
 
-    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int start) {
+    private void collect(List<List<Integer>> subsets, List<Integer> tracker, int[] nums, int startIdx) {
         subsets.add(new ArrayList<>(tracker));
 
-        for (int i = start; i < nums.length; ++i) {
+        // this can be skipped
+        // if (tracker.size() == nums.length) {
+        //     return;
+        // }
+
+        for (int i = startIdx; i < nums.length; ++i) {
             tracker.add(nums[i]);
             collect(subsets, tracker, nums, i + 1);
             tracker.remove(tracker.size() - 1);
