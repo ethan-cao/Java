@@ -29,6 +29,7 @@ public class E_Recursion_Tree_257 {
         }
     }
 
+    // Backtrack
     // 1ms
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> paths = new ArrayList<>();
@@ -40,14 +41,17 @@ public class E_Recursion_Tree_257 {
     }
 
     private void collect(List<String> paths, StringBuilder tracker, TreeNode node) {
-        // when this node is leave
-        if (node.left == null && node.right == null) {
-            tracker.append(node.val);
-            paths.add(tracker.toString());
+        if (node == null) {
             return;
         }
 
         tracker.append(node.val).append("->");
+
+        if (node.left == null && node.right == null) {
+            tracker.delete(tracker.length() - 2, tracker.length()); // remove the last extra '->'
+            paths.add(tracker.toString());
+            return;
+        }
 
         if (node.left != null) {
             // backtrack, since we create a new trakcer, it decouple left path from right path
