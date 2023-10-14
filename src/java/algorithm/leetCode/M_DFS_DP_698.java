@@ -44,15 +44,15 @@ public class M_DFS_DP_698 {
         }
 
         int targetSum = sum / k;
-        boolean[] used = new boolean[nums.length];
+        boolean[] isUsed = new boolean[nums.length];
 
         Arrays.sort(nums);
 
-        return check(nums, used, nums.length - 1, 0, targetSum, k);
+        return check(nums, isUsed, nums.length - 1, 0, targetSum, k);
     }
 
     // if nums[idx...end] can be partitioned into k bucket with sum equal to targetSum
-    private static boolean canPartition(int[] nums, boolean[] used, int idx, int sum, int targetSum, int k) {
+    private static boolean canPartition(int[] nums, boolean[] isUsed, int startIdx, int sum, int targetSum, int k) {
         // optimization
         // if there is only 1 bucket left, since all the rest reaches target, the last one reaches targetSum for sure
         if (k == 1) {
@@ -64,21 +64,22 @@ public class M_DFS_DP_698 {
         } else if (sum == targetSum) {
             // if the current bucket reaches target sum, 
             // reset idx to 0, sum to 0, look for next bucket (k-1)
-            return check(nums, used, nums.length - 1, 0, targetSum, k - 1);
+            return check(nums, isUsed, nums.length - 1, 0, targetSum, k - 1);
         } else {
-            for (int i = idx; i >= 0; --i) {
-                if (used[i]) {
+            for (int i = startIdx; i >= 0; --i) {
+                if (isUsed[i]) {
                     continue;
                 }
 
-                used[i] = true;
+                isUsed[i] = true;
 
-                if (check(nums, used, i - 1, sum + nums[i], targetSum, k)) {
+                boolean result =check(nums, isUsed, i - 1, sum + nums[i], targetSum, k)
+                if (result) {
                     return true;
                 }
 
                 //  backtrack
-                used[i] = false;
+                isUsed[i] = false;
 
                 // dedup, try next different num
                 while (i - 1 >= 0 && nums[i - 1] == nums[i]) {

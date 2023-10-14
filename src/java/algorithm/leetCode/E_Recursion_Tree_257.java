@@ -53,16 +53,12 @@ public class E_Recursion_Tree_257 {
             return;
         }
 
-        if (node.left != null) {
-            // backtrack, since we create a new trakcer, it decouple left path from right path
-            StringBuilder trackerLeft = new StringBuilder(tracker);
-            collect(paths, trackerLeft, node.left);
-        }
+        // backtrack, since we create a new trakcer, it decouple left path from right path
+        StringBuilder trackerLeft = new StringBuilder(tracker);
+        collect(paths, trackerLeft, node.left);
 
-        if (node.right != null) {
-            StringBuilder trackerRight = new StringBuilder(tracker);
-            collect(paths, trackerRight, node.right);
-        }
+        StringBuilder trackerRight = new StringBuilder(tracker);
+        collect(paths, trackerRight, node.right);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -33,43 +33,6 @@ public class M_DP_DFS_494 {
         System.out.println(findTargetSumWays_1(new int[] { 1, 2, 3, 3, 1 }, 6)); // 2
     }
 
-    // DFS, Brute Force, 500ms
-    // Time: O(2^n), Space: O(n^2)
-    public static int findTargetSumWays_1(int[] nums, int target) {
-        return find_1(nums, 0, target);
-    }
-
-    private static int find_1(int[] nums, int idx, int target) {
-        if (idx == nums.length) {
-            return target == 0 ? 1 : 0;
-        }
-
-        return find_1(nums, idx + 1, target - nums[idx]) +
-                find_1(nums, idx + 1, target + nums[idx]);
-    }
-
-    // same as findTargetSumWays_1
-    // DFS, Brute Force, 500ms
-    // Time: O(2^n), Space: O(n^2)
-    // no need for memoization, since we never re-calculate the same thing
-    public static int findTargetSumWays_2(int[] nums, int target) {
-        return find_2(nums, 0, target, 0);
-    }
-
-    private static int find_2(int[] nums, int idx, int target, int count) {
-        if (idx == nums.length) {
-            return target == 0 ? 1 : 0;
-        }
-
-        // !!! store the current count before continuing
-        int currentCount = count;
-
-        count += find_2(nums, idx + 1, target - nums[idx], currentCount);
-        count += find_2(nums, idx + 1, target + nums[idx], currentCount);
-
-        return count;
-    }
-
     // DP, iterative, 15ms
     public static int findTargetSumWays_3(int[] nums, int target) {
         int sum = 0;
@@ -285,6 +248,43 @@ public class M_DP_DFS_494 {
         }
 
         return results[SUM];
+    }
+
+    // DFS, Brute Force, 500ms
+    // Time: O(2^n), Space: O(n^2)
+    public static int findTargetSumWays_1(int[] nums, int target) {
+        return find_1(nums, 0, target);
+    }
+
+    private static int find_1(int[] nums, int idx, int target) {
+        if (idx == nums.length) {
+            return target == 0 ? 1 : 0;
+        }
+
+        return find_1(nums, idx + 1, target - nums[idx]) +
+                find_1(nums, idx + 1, target + nums[idx]);
+    }
+
+    // same as findTargetSumWays_1
+    // DFS, Brute Force, 500ms
+    // Time: O(2^n), Space: O(n^2)
+    // no need for memoization, since we never re-calculate the same thing
+    public static int findTargetSumWays_2(int[] nums, int target) {
+        return find_2(nums, 0, target, 0);
+    }
+
+    private static int find_2(int[] nums, int idx, int target, int count) {
+        if (idx == nums.length) {
+            return target == 0 ? 1 : 0;
+        }
+
+        // !!! store the current count before continuing
+        int currentCount = count;
+
+        count += find_2(nums, idx + 1, target - nums[idx], currentCount);
+        count += find_2(nums, idx + 1, target + nums[idx], currentCount);
+
+        return count;
     }
 
 }

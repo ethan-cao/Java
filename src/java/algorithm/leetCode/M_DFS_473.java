@@ -44,18 +44,18 @@ public class M_DFS_473 {
             return false;
         }
 
-        int targetSum = sum / 4;
-        boolean[] used = new boolean[matchsticks.length];
+        int squareLength = sum / 4;
 
         // pick the maximum element that is not used as early as possible
         // trying a longer matchstick first leads to negative conclusion earlier
         Arrays.sort(matchsticks);
+        boolean[] isUsed = new boolean[matchsticks.length];
 
         // !!! iterate backwards, since trying longer stick leads to (sum > targetSum) earlier
-        return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, 4);
+        return check(matchsticks, isUsed, matchsticks.length - 1, 0, squareLength, 4);
     }
 
-    private static boolean check(int[] matchsticks, boolean[] used, int idx, int sum, int targetSum, int count) {
+    private static boolean check(int[] matchsticks, boolean[] isUsed, int startIdx, int sum, int target, int count) {
         // optimization
         // there are 4 side of a square to be filled
         // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
@@ -63,28 +63,29 @@ public class M_DFS_473 {
             return true;
         }
 
-        if (sum > targetSum) {
+        if (sum > target) {
             return false;
-        } else if (sum == targetSum) {
+        } else if (sum == target) {
             // !!! iterate backwards, start over again
-            return check(matchsticks, used, matchsticks.length - 1, 0, targetSum, count - 1);
+            return check(matchsticks, isUsed, matchsticks.length - 1, 0, target, count - 1);
         } else {
             // !!! iterate backwards
-            for (int i = idx; i >= 0; --i) {
-                if (used[i]) {
+            for (int i = startIdx; i >= 0; --i) {
+                if (isUsed[i]) {
                     continue;
                 }
 
-                used[i] = true;
+                isUsed[i] = true;
 
-                boolean result = check(matchsticks, used, i - 1, sum + matchsticks[i], targetSum, count);
+                boolean result = check(matchsticks, isUsed, i - 1, sum + matchsticks[i], target, count);
                 if (result) {
                     return true;
                 }
 
-                used[i] = false;
+                // backtrack
+                isUsed[i] = false;
 
-                while (i > 0 && matchsticks[i] == matchsticks[i - 1]) {
+                while (i - 1 > 0 && matchsticks[i - 1] == matchsticks[i]) {
                     i--;
                 }
             }
