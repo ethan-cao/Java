@@ -66,24 +66,24 @@ public class M_DFS_DP_698 {
             // reset idx to 0, sum to 0, look for next bucket (k-1)
             return check(nums, isUsed, nums.length - 1, 0, targetSum, k - 1);
         } else {
-            for (int i = startIdx; i >= 0; --i) {
-                if (isUsed[i]) {
+            for (int idx = startIdx; idx >= 0; --idx) {
+                if (isUsed[idx]) {
                     continue;
                 }
 
-                isUsed[i] = true;
+                isUsed[idx] = true;
 
-                boolean result =check(nums, isUsed, i - 1, sum + nums[i], targetSum, k)
+                boolean result = check(nums, isUsed, idx - 1, sum + nums[idx], targetSum, k);
                 if (result) {
                     return true;
                 }
 
                 //  backtrack
-                isUsed[i] = false;
+                isUsed[idx] = false;
 
                 // dedup, try next different num
-                while (i - 1 >= 0 && nums[i - 1] == nums[i]) {
-                    i--;
+                while (idx - 1 >= 0 && nums[idx - 1] == nums[idx]) {
+                    idx--;
                 }
             }
 

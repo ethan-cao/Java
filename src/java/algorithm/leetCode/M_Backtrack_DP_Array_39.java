@@ -34,9 +34,10 @@ public class M_Backtrack_DP_Array_39 {
     // Backtrack, 2ms
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> combinations = new ArrayList<>();
-
         List<Integer> tracker = new ArrayList<>();
 
+        // sort array in ascending order
+        // for early termination optimization
         Arrays.sort(candidates);
 
         collect(combinations, tracker, candidates, 0, target);
@@ -58,12 +59,17 @@ public class M_Backtrack_DP_Array_39 {
         for (int i = idx; i < candidates.length; ++i) {
             int candidate = candidates[i];
 
+            // early termination optimization
             if (candidate > target) {
                 break;
             }
 
             tracker.add(candidate);
+
+            // why using i, not i+1?
+            // since each number can be used for multiple times
             collect(combinations, tracker, candidates, i, target - candidate);
+
             tracker.remove(tracker.size() - 1);
         }
     }
