@@ -45,19 +45,14 @@ public class M_Backtrack_DP_Array_39 {
         return combinations;
     }
 
-    private void collect(
-            List<List<Integer>> combinations,
-            List<Integer> tracker,
-            int[] candidates,
-            int idx,
-            int target) {
+    void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx, int target) {
         if (target == 0) {
             combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        for (int i = idx; i < candidates.length; ++i) {
-            int candidate = candidates[i];
+        for (int idx = startIdx; idx < candidates.length; ++idx) {
+            int candidate = candidates[idx];
 
             // early termination optimization
             if (candidate > target) {
@@ -66,9 +61,9 @@ public class M_Backtrack_DP_Array_39 {
 
             tracker.add(candidate);
 
-            // why using i, not i+1?
+            // why using idx, not idx+1?
             // since each number can be used for multiple times
-            collect(combinations, tracker, candidates, i, target - candidate);
+            collect(combinations, tracker, candidates, idx, target - candidate);
 
             tracker.remove(tracker.size() - 1);
         }

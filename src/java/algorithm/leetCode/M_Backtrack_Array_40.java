@@ -55,6 +55,7 @@ public class M_Backtrack_Array_40 {
         for (int idx = startIdx; idx < candidates.length; ++idx) {
             int candidate = candidates[idx];
 
+            // early termination optimization
             if (candidate > target) {
                 break;
             }
@@ -70,7 +71,6 @@ public class M_Backtrack_Array_40 {
             while (idx + 1 < candidates.length && candidates[idx + 1] == candidate) {
                 idx++;
             }
-
         }
     }
 
