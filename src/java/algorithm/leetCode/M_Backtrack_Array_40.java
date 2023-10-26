@@ -30,12 +30,15 @@ public class M_Backtrack_Array_40 {
         System.out.println(combinationSum(new int[] { 10, 1, 2, 7, 6, 1, 5 }, 8)); // [[1,1,6],[1,2,5],[1,7],[2,6]]
     }
 
+    // Backtrack
     // Time complexity O(2^n). Space complexity O(n)
     // 2ms
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> combinations = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
 
+        // sort array in ascending order
+        // for early termination optimization
         Arrays.sort(candidates);
 
         collect(combinations, tracker, candidates, 0, target);
@@ -43,26 +46,31 @@ public class M_Backtrack_Array_40 {
         return combinations;
     }
 
-    private static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int start, int target) {
+    static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx, int target) {
         if (target == 0) {
-            combinations.add(new ArrayList<>(tracker)); // pick combination that sum up to target
+            combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        // since looking for combinaiton, just start from where the next one
-        for (int i = start; i < candidates.length; ++i) {
-            int candidate = candidates[i];
+        for (int idx = startIdx; idx < candidates.length; ++idx) {
+            int candidate = candidates[idx];
 
-            if (target >= candidate) {
-                tracker.add(candidate);
-                collect(combinations, tracker, candidates, i + 1, target - candidate);
-                tracker.remove(tracker.size() - 1);
+            if (candidate > target) {
+                break;
             }
+
+            tracker.add(candidate);
+
+            // this is differernt from Q39, idx + 1 since each number can be used only once
+            collect(combinations, tracker, candidates, idx + 1, target - candidate);
+
+            tracker.remove(tracker.size() - 1);
 
             // skip duplicateds
-            while (i + 1 < candidates.length && candidates[i + 1] == candidates[i]) {
-                ++i;
+            while (idx + 1 < candidates.length && candidates[idx + 1] == candidate) {
+                idx++;
             }
+
         }
     }
 
