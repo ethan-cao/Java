@@ -30,6 +30,7 @@ public class M_Backtrack_Array_47 {
         List<Integer> tracker = new ArrayList<>();
         boolean[] used = new boolean[nums.length];
 
+        // necessary to sort, this helps to skip duplicates
         Arrays.sort(nums);
 
         collectPermutation(permutations, tracker, nums, used);

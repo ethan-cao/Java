@@ -47,14 +47,14 @@ public class M_Backtrack_Array_90 {
         //     return;
         // }
 
-        for (int i = startIdx; i < nums.length; ++i) {
-            tracker.add(nums[i]);
-            collect(subsets, tracker, nums, i + 1);
+        for (int idx = startIdx; idx < nums.length; ++idx) {
+            tracker.add(nums[idx]);
+            collect(subsets, tracker, nums, idx + 1);
             tracker.remove(tracker.size() - 1);
 
             // skip duplicate, require array to be sorted
-            while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
-                ++i;
+            while (idx + 1 < nums.length && nums[idx] == nums[idx + 1]) {
+                ++idx;
             }
         }
     }

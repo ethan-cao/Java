@@ -41,11 +41,11 @@ public class M_Backtrack_Array_216 {
             return;
         }
 
-        for (int num = start; num <= 9; ++num) {
-            if (num > n) {
-                return;
-            }
+        if (n < 0) {
+            return;
+        }
 
+        for (int num = start; num <= 9; ++num) {
             tracker.add(num);
 
             collect(combinations, tracker, num + 1, k, n - num);
