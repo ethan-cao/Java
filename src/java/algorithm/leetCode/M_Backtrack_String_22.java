@@ -55,6 +55,15 @@ public class M_Backtrack_String_22 {
             collect(parenthesis, tracker, leftCount, rightCount - 1);
             tracker.deleteCharAt(tracker.length() - 1);
         }
+
+        // alternatively
+        // if (leftCount > 0) {
+        //     collect(parenthesis, new StringBuilder(sb).append("("), leftCount - 1, rightCount);
+        // }
+
+        // if (rightCount > 0 && leftCount < rightCount) {
+        //     collect(parenthesis, new StringBuilder(sb).append(")"), leftCount, rightCount - 1);
+        // }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
