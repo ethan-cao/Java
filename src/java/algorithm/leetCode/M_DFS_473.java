@@ -51,47 +51,52 @@ public class M_DFS_473 {
         Arrays.sort(matchsticks);
         boolean[] isUsed = new boolean[matchsticks.length];
 
-        // !!! iterate backwards, since trying longer stick leads to (sum > targetSum) earlier
+        // !!! iterate backwards, since trying longer stick leads to (sum > targetSum)
+        // earlier
         return check(matchsticks, isUsed, matchsticks.length - 1, 0, squareLength, 4);
     }
 
     private static boolean check(int[] matchsticks, boolean[] isUsed, int startIdx, int sum, int target, int count) {
         // optimization
         // there are 4 side of a square to be filled
-        // if there is only 1 side left, since all the rest reaches target, the last one reaches targetSum for sure
+        // if there is only 1 side left, since all the rest reaches target, the last one
+        // reaches targetSum for sure
         if (count == 1) {
             return true;
         }
 
         if (sum > target) {
             return false;
-        } else if (sum == target) {
+        }
+
+        if (sum == target) {
             // !!! iterate backwards, start over again
             return check(matchsticks, isUsed, matchsticks.length - 1, 0, target, count - 1);
-        } else {
-            // !!! iterate backwards
-            for (int i = startIdx; i >= 0; --i) {
-                if (isUsed[i]) {
-                    continue;
-                }
+        }
 
-                isUsed[i] = true;
-
-                boolean result = check(matchsticks, isUsed, i - 1, sum + matchsticks[i], target, count);
-                if (result) {
-                    return true;
-                }
-
-                // backtrack
-                isUsed[i] = false;
-
-                while (i - 1 > 0 && matchsticks[i - 1] == matchsticks[i]) {
-                    i--;
-                }
+        // !!! iterate backwards
+        // why not iterate from matchsticks.length - 1? avoid duplicates
+        for (int i = startIdx; i >= 0; --i) {
+            if (isUsed[i]) {
+                continue;
             }
 
-            return false;
+            isUsed[i] = true;
+
+            boolean result = check(matchsticks, isUsed, i - 1, sum + matchsticks[i], target, count);
+            if (result) {
+                return true;
+            }
+
+            // backtrack
+            isUsed[i] = false;
+
+            while (i - 1 > 0 && matchsticks[i - 1] == matchsticks[i]) {
+                i--;
+            }
         }
+
+        return false;
     }
 
 }
