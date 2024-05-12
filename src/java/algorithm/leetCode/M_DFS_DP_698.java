@@ -25,13 +25,16 @@ public class M_DFS_DP_698 {
         System.out.println(canPartitionKSubsets2(new int[] { 4, 3, 2, 3, 5, 2, 1 }, 4)); // T
         System.out.println(canPartitionKSubsets2(new int[] { 4, 3, 2, 3, 5, 2, 1 }, 5)); // F
         System.out.println(canPartitionKSubsets2(new int[] { 2, 2, 2, 2, 3, 4, 5 }, 5)); // F
-        System.out.println(canPartitionKSubsets2(new int[] { 18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037 }, 4)); // T
+        System.out.println(canPartitionKSubsets2(
+                new int[] { 18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037 }, 4)); // T
     }
 
     // Backtracking, DFS
-    // Space: O(n),  Time: O(k*2^n) 7ms
-    // it takes the inner recursion 2^n time to find a good subset. Once the 1st subset is found,
-    // we go on to find the second, which would take 2^n roughly (because some numbers have been marked as visited).
+    // Space: O(n), Time: O(k*2^n) 7ms
+    // it takes the inner recursion 2^n time to find a good subset. Once the 1st
+    // subset is found,
+    // we go on to find the second, which would take 2^n roughly (because some
+    // numbers have been marked as visited).
     // So T = 2^n + 2^n + 2^n + ... = k * 2^n.
     public static boolean canPartitionKSubsets(int[] nums, int k) {
         int sum = 0;
@@ -51,10 +54,12 @@ public class M_DFS_DP_698 {
         return check(nums, isUsed, nums.length - 1, 0, targetSum, k);
     }
 
-    // if nums[idx...end] can be partitioned into k bucket with sum equal to targetSum
+    // if nums[idx...end] can be partitioned into k bucket with sum equal to
+    // targetSum
     private static boolean canPartition(int[] nums, boolean[] isUsed, int startIdx, int sum, int targetSum, int k) {
         // optimization
-        // if there is only 1 bucket left, since all the rest reaches target, the last one reaches targetSum for sure
+        // if there is only 1 bucket left, since all the rest reaches target, the last
+        // one reaches targetSum for sure
         if (k == 1) {
             return true;
         }
@@ -62,8 +67,8 @@ public class M_DFS_DP_698 {
         if (sum > targetSum) {
             return false;
         } else if (sum == targetSum) {
-            // if the current bucket reaches target sum, 
-            // reset idx to 0, sum to 0, look for next bucket (k-1)
+            // if the current bucket reaches target sum,
+            // !!! reset idx to 0, sum to 0, look for next bucket (k-1)
             return check(nums, isUsed, nums.length - 1, 0, targetSum, k - 1);
         } else {
             for (int idx = startIdx; idx >= 0; --idx) {
@@ -78,7 +83,7 @@ public class M_DFS_DP_698 {
                     return true;
                 }
 
-                //  backtrack
+                // backtrack
                 isUsed[idx] = false;
 
                 // dedup, try next different num
@@ -106,7 +111,8 @@ public class M_DFS_DP_698 {
         // create a bitmask, whose length is 1 more digits than the array length
         final int SIZE = 1 << L;
 
-        // used[i] : mark number used in subset, if i-th bit is set to T, i-th element is used
+        // used[i] : mark number used in subset, if i-th bit is set to T, i-th element
+        // is used
         boolean[] used = new boolean[SIZE];
         // total[i] : sum of subset used[i], with sum less than equal to targetSum
         int[] sums = new int[SIZE];
@@ -136,7 +142,8 @@ public class M_DFS_DP_698 {
                 // if get a new subset
                 if (temp != i) {
                     if (nums[j] + (sums[i] % targetSum) <= targetSum) {
-                        // if total sum is less than target store by so far, pick the number and add to sum
+                        // if total sum is less than target store by so far, pick the number and add to
+                        // sum
                         used[temp] = true;
                         sums[temp] = sums[i] + nums[j];
                     } else {

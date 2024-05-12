@@ -27,16 +27,17 @@ public class M_DP_2Pointer_String_5 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 2 pointer, 28ms
     // Time: O(N^2)
+    // expand-around-center technique
     public static String longestPalindrome(String s) {
         String longestPalindrome = "";
 
         for (int idx = 0; idx < s.length(); ++idx) {
-            String oddPalindrome = getPalindrome(s, idx, idx);
+            String oddPalindrome = expandAroundCenter(s, idx, idx);
             if (oddPalindrome.length() > longestPalindrome.length()) {
                 longestPalindrome = oddPalindrome;
             }
 
-            String evenPalindrome = getPalindrome(s, idx, idx + 1);
+            String evenPalindrome = expandAroundCenter(s, idx, idx + 1);
             if (evenPalindrome.length() > longestPalindrome.length()) {
                 longestPalindrome = evenPalindrome;
             }
@@ -45,11 +46,8 @@ public class M_DP_2Pointer_String_5 {
         return longestPalindrome;
     }
 
-    // TODO: use memo
-    private static String getPalindrome(String s, int start, int end) {
-        while (start >= 0 &&
-                end < s.length() &&
-                s.charAt(start) == s.charAt(end)) {
+    private static String expandAroundCenter(String s, int start, int end) {
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
             start--;
             end++;
         }

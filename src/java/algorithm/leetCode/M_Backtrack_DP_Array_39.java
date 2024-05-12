@@ -51,13 +51,13 @@ public class M_Backtrack_DP_Array_39 {
             return;
         }
 
+        // early termination optimization
+        if (target < 0) {
+            return;
+        }
+
         for (int idx = startIdx; idx < candidates.length; ++idx) {
             int candidate = candidates[idx];
-
-            // early termination optimization
-            if (candidate > target) {
-                break;
-            }
 
             tracker.add(candidate);
 

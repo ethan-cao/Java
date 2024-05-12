@@ -46,19 +46,20 @@ public class M_Backtrack_Array_40 {
         return combinations;
     }
 
-    static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx, int target) {
+    static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx,
+            int target) {
         if (target == 0) {
             combinations.add(new ArrayList<>(tracker));
             return;
         }
 
+        // early termination optimization
+        if (target < 0) {
+            return;
+        }
+
         for (int idx = startIdx; idx < candidates.length; ++idx) {
             int candidate = candidates[idx];
-
-            // early termination optimization
-            if (candidate > target) {
-                break;
-            }
 
             tracker.add(candidate);
 
