@@ -23,60 +23,33 @@ public class M_DP_String_516 {
         System.out.println(longestPalindromeSubseq_1("cbbd")); // 2
     }
 
-    // DP, recursive, TLE
-    public static int longestPalindromeSubseq_1(String s) {
-        return getSequence(s, 0, s.length() - 1);
-    }
-
-    private static int getSequence(String s, int start, int end) {
-        if (start == end) {
-            return 1;
-        }
-
-        if (start > end) {
-            return 0;
-        }
-
-        if (s.charAt(start) == s.charAt(end)) {
-            return 2 + getSequence(s, start + 1, end - 1);
-        } else {
-            return Math.max(getSequence(s, start + 1, end), getSequence(s, start, end - 1));
-        }
-    }
-
-    // DP, recursive, cache
-    // 28ms
-    public int longestPalindromeSubseq_2(String s) {
-        final int L = s.length();
-        Integer[][] memo = new Integer[L][L];
-
-        return getSequence(s, 0, s.length() - 1, memo);
-    }
-
-    private int getSequence(String s, int start, int end, Integer[][] memo) {
-        if (start == end) {
-            return 1;
-        }
-
-        if (start > end) {
-            return 0;
-        }
-
-        if (memo[start][end] != null) {
-            return memo[start][end];
-        }
-
-        if (s.charAt(start) == s.charAt(end)) {
-            memo[start][end] = 2 + getSequence(s, start + 1, end - 1, memo);
-        } else {
-            memo[start][end] = Math.max(getSequence(s, start + 1, end, memo), getSequence(s, start, end - 1, memo));
-        }
-
-        return memo[start][end];
-    }
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
-    // 137ms
+    // 33ms
+    public static int longestPalindromeSubseq_4(String s) {
+        int L = s.length();
+        int counts[][] = new int[L][L];
+
+        for (int end = 0; end < s.length(); ++end) {
+            counts[end][end] = 1;
+
+            for (int start = end - 1; start >= 0; start--) {
+
+                if (s.charAt(start) == s.charAt(end)) {
+                    counts[start][end] = 2 + counts[start + 1][end - 1];
+                } else {
+                    counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
+                }
+            }
+
+        }
+
+        return counts[0][L - 1];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, iterative
+    // 33ms
     public static int longestPalindromeSubseq_3(String s) {
         final int L = s.length();
         int[][] counts = new int[L][L];
@@ -85,13 +58,13 @@ public class M_DP_String_516 {
             // BASE
             counts[end][end] = 1;
 
-            for (int start = end - 1; start >= 0; start--) {
+            for (int start = end - 1; start >= 0; --start) {
 
                 // TRANSFORM
-                if (s.charAt(start) == s.charAt(end)) {
+                if (start + 1 <= end - 1) {
                     counts[start][end] = 2 + counts[start + 1][end - 1];
                 } else {
-                    counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
+                    counts[start][end] = 2;
                 }
             }
         }
@@ -99,27 +72,7 @@ public class M_DP_String_516 {
         return counts[0][L - 1];
     }
 
-    // DP, iterative
-    public static int longestPalindromeSubseq_4(String s) {
-        int L = s.length();
-        int[][] results = new int[L][L];
-
-        for (int start = L - 1; start >= 0; --start) {
-            results[start][start] = 1;
-
-            for (int end = start + 1; end < L; ++end) {
-
-                if (s.charAt(start) == s.charAt(end)) {
-                    results[start][end] = 2 + results[start + 1][end - 1];
-                } else {
-                    results[start][end] = Math.max(results[start + 1][end], results[start][end - 1]);
-                }
-            }
-        }
-
-        return results[0][L - 1];
-    }
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
     public int longestPalindromeSubseq(String s) {
         int L = s.length();
@@ -151,6 +104,7 @@ public class M_DP_String_516 {
         return counts[0][L - 1];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, condensed space
     // 70 ms
     public static int longestPalindromeSubseq_5(String s) {
@@ -180,4 +134,57 @@ public class M_DP_String_516 {
         return preCounts[L - 1];
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, recursive, TLE
+    public static int longestPalindromeSubseq_1(String s) {
+        return getSequence(s, 0, s.length() - 1);
+    }
+
+    private static int getSequence(String s, int start, int end) {
+        if (start == end) {
+            return 1;
+        }
+
+        if (start > end) {
+            return 0;
+        }
+
+        if (s.charAt(start) == s.charAt(end)) {
+            return 2 + getSequence(s, start + 1, end - 1);
+        } else {
+            return Math.max(getSequence(s, start + 1, end), getSequence(s, start, end - 1));
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, recursive, cache
+    // 28ms
+    public int longestPalindromeSubseq_2(String s) {
+        final int L = s.length();
+        Integer[][] memo = new Integer[L][L];
+
+        return getSequence(s, 0, s.length() - 1, memo);
+    }
+
+    private int getSequence(String s, int start, int end, Integer[][] memo) {
+        if (start == end) {
+            return 1;
+        }
+
+        if (start > end) {
+            return 0;
+        }
+
+        if (memo[start][end] != null) {
+            return memo[start][end];
+        }
+
+        if (s.charAt(start) == s.charAt(end)) {
+            memo[start][end] = 2 + getSequence(s, start + 1, end - 1, memo);
+        } else {
+            memo[start][end] = Math.max(getSequence(s, start + 1, end, memo), getSequence(s, start, end - 1, memo));
+        }
+
+        return memo[start][end];
+    }
 }

@@ -19,19 +19,20 @@ public class H_DP_132 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
+    // 44ms
     public int minCut(String s) {
         int L = s.length();
 
         // minCuts[i]: minimal cuts from string from 0 to i
         int[] minCuts = new int[L];
-        Boolean[][] isPalindrome = new Boolean[L][L];
+        boolean[][] isPalindrome = findPalindrome(s);
 
         for (int end = 0; end < L; ++end) {
             // at most (end) cuts !!!
             minCuts[end] = end;
 
-            for (int start = 0; start <= end; ++start) {
-                if (isPalindrome(s, start, end, isPalindrome)) {
+            for (int start = end; start >= 0; --start) {
+                if (isPalindrome[start][end])
                     if (start == 0) {
                         // BASE
                         minCuts[end] = 0;
@@ -42,32 +43,32 @@ public class H_DP_132 {
                         // since start relies on start - 1, the loop use ++start
                         minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
-                }
             }
         }
 
         return minCuts[L - 1];
     }
 
-    private boolean isPalindrome(String s, int start, int end, Boolean[][] isPalindrome) {
-        if (isPalindrome[start][end] != null) {
-            return isPalindrome[start][end];
-        }
+    private boolean[][] findPalindrome(String s) {
+        final int L = s.length();
+        boolean[][] isPalindrome = new boolean[L][L];
 
-        if (start == end) {
-            // BASE
-            isPalindrome[start][end] = true;
-        } else {
-            // TRANSFORM
-            if (start + 1 <= end - 1) {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
-                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
-            } else {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+        for (int end = 0; end < s.length(); ++end) {
+            for (int start = end; start >= 0; --start) {
+
+                if (start == end) {
+                    isPalindrome[start][end] = true;
+                } else {
+                    if (start + 1 <= end - 1) {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
+                    } else {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+                    }
+                }
             }
         }
 
-        return isPalindrome[start][end];
+        return isPalindrome;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
