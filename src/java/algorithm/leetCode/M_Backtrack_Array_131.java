@@ -18,7 +18,7 @@ public class M_Backtrack_Array_131 {
     }
 
     // Backtrack + DP
-    // Time: O(2^n)
+    // Time: O(2^n), 7ms
     public static List<List<String>> partition(String s) {
         List<List<String>> palindrome = new ArrayList<>();
         List<String> tracker = new ArrayList<>();
@@ -30,7 +30,8 @@ public class M_Backtrack_Array_131 {
         return palindrome;
     }
 
-    static void collect(List<List<String>> palindrome, List<String> tracker, String s, int startIdx, boolean[][] isPalindrome) {
+    static void collect(List<List<String>> palindrome, List<String> tracker, String s, int startIdx,
+            boolean[][] isPalindrome) {
         if (startIdx == s.length()) {
             palindrome.add(new ArrayList<>(tracker));
             return;
@@ -68,15 +69,15 @@ public class M_Backtrack_Array_131 {
 
         // alternatively
         // for (int end = 0; end < L; ++end) {
-        //     for (int start = 0; start <= end; ++start) {
-        //         if (s.charAt(start) == s.charAt(end)) {
-        //             if (start + 1 < end - 1) {
-        //                 isPalindrome[start][end] = isPalindrome[start + 1][end - 1];
-        //             } else {
-        //                 isPalindrome[start][end] = true;
-        //             }
-        //         }
-        //     }
+        // for (int start = 0; start <= end; ++start) {
+        // if (s.charAt(start) == s.charAt(end)) {
+        // if (start + 1 < end - 1) {
+        // isPalindrome[start][end] = isPalindrome[start + 1][end - 1];
+        // } else {
+        // isPalindrome[start][end] = true;
+        // }
+        // }
+        // }
         // }
 
         return isPalindrome;

@@ -49,31 +49,6 @@ public class M_DP_String_516 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
-    // 33ms
-    public static int longestPalindromeSubseq_3(String s) {
-        final int L = s.length();
-        int[][] counts = new int[L][L];
-
-        for (int end = 0; end < L; ++end) {
-            // BASE
-            counts[end][end] = 1;
-
-            for (int start = end - 1; start >= 0; --start) {
-
-                // TRANSFORM
-                if (start + 1 <= end - 1) {
-                    counts[start][end] = 2 + counts[start + 1][end - 1];
-                } else {
-                    counts[start][end] = 2;
-                }
-            }
-        }
-
-        return counts[0][L - 1];
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative
     public int longestPalindromeSubseq(String s) {
         int L = s.length();
 
