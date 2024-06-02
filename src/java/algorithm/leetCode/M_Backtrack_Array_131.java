@@ -57,27 +57,25 @@ public class M_Backtrack_Array_131 {
 
                 if (start == end) {
                     isPalindrome[start][end] = true;
+                } else if (start + 1 == end) {
+                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                 } else {
-                    if (start + 1 <= end - 1) {
-                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
-                    } else {
-                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
-                    }
+                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
                 }
             }
         }
 
         // alternatively
         // for (int end = 0; end < L; ++end) {
-        // for (int start = 0; start <= end; ++start) {
-        // if (s.charAt(start) == s.charAt(end)) {
-        // if (start + 1 < end - 1) {
-        // isPalindrome[start][end] = isPalindrome[start + 1][end - 1];
-        // } else {
-        // isPalindrome[start][end] = true;
-        // }
-        // }
-        // }
+        //     for (int start = 0; start <= end; ++start) {
+        //         if (s.charAt(start) == s.charAt(end)) {
+        //             if (start + 1 < end - 1) {
+        //                 isPalindrome[start][end] = isPalindrome[start + 1][end - 1];
+        //             } else {
+        //                 isPalindrome[start][end] = true;
+        //             }
+        //         }
+        //     }
         // }
 
         return isPalindrome;

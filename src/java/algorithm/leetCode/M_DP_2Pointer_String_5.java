@@ -1,5 +1,4 @@
 package algorithm.leetCode;
-
 /*
 Given a string s, find the longest palindromic substring in s.
 You may assume that the maximum length of s is 1000.
@@ -65,10 +64,8 @@ public class M_DP_2Pointer_String_5 {
     public static String longestPalindrome3(String s) {
         final int L = s.length();
 
-        // since we are talking about substring, we need the start and end index, so
-        // came up with this array
-        // isPalindrome[x][y] indicates whether substring s that starts at index x and
-        // ends at y is palindrome
+        // since we are talking about substring, we need the start and end index, so came up with this array
+        // isPalindrome[x][y] indicates whether substring s that starts at index x and ends at y is palindrome
         Boolean[][] isPalindrome = new Boolean[L][L];
 
         int longestStart = 0;
@@ -77,7 +74,10 @@ public class M_DP_2Pointer_String_5 {
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
 
-                if (start == end || start + 1 == end) {
+                if (start == end) {
+                    // BASE
+                    isPalindrome[start][end] = true;
+                } else if (start + 1 == end) {
                     // BASE
                     isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                 } else {
@@ -91,6 +91,37 @@ public class M_DP_2Pointer_String_5 {
                 }
             }
         }
+
+        /*
+         * iteration order to find palindrome
+         *
+         * 
+         * !!! CORRECT:  Must expand from the known to the unknown
+         * 
+         * for (int end = 0; end < s.length(); ++end) 
+         *   for (int start = end; start >= 0; --start) 
+         * 
+         * 
+         * for (int end = 0; end < L; ++end) 
+         *   for (int start = 0; start <= end; ++start)
+         * 
+         * 
+         * for (int start = L - 1; start >= 0; --start) 
+         *   for (int end = start; end < L; ++end)
+         * 
+         * 
+         * for (int start = L - 1; start >= 0; --start) 
+         *   for (int end = L - 1; end >= start; --end) 
+         * 
+         * 
+         * 
+         * 
+         * !!! WRONG: expand from the unknown to the known
+         * 
+         * for (int start = 0; start < L; ++start) 
+         *   for (int end = start; end < L; ++end) 
+         * 
+         */
 
         return s.substring(longestStart, longestEnd + 1);
     }
@@ -113,7 +144,10 @@ public class M_DP_2Pointer_String_5 {
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
 
-                if (start + 1 == end) {
+                if (start == end) {
+                    // BASE
+                    isPalindrome[start][end] = true;
+                } else if (start + 1 == end) {
                     // BASE
                     isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                 } else {
