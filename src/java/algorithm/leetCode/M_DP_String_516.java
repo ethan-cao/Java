@@ -25,33 +25,8 @@ public class M_DP_String_516 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
-    // 33ms
-    public static int longestPalindromeSubseq_4(String s) {
-        int L = s.length();
-        int counts[][] = new int[L][L];
-
-        for (int end = 0; end < s.length(); ++end) {
-            counts[end][end] = 1;
-
-            for (int start = end - 1; start >= 0; start--) {
-
-                if (s.charAt(start) == s.charAt(end)) {
-                    counts[start][end] = 2 + counts[start + 1][end - 1];
-                } else {
-                    counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
-                }
-            }
-
-        }
-
-        return counts[0][L - 1];
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative
     public int longestPalindromeSubseq(String s) {
         int L = s.length();
-
         int[][] counts = new int[L][L];
 
         for (int end = 0; end < L; ++end) {
