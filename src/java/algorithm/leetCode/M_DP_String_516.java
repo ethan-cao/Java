@@ -26,23 +26,23 @@ public class M_DP_String_516 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
     public int longestPalindromeSubseq(String s) {
-        int L = s.length();
+        final int L = s.length();
         int[][] counts = new int[L][L];
 
         for (int end = 0; end < L; ++end) {
             for (int start = end; start >= 0; --start) {
 
                 if (start == end) {
-                    // BASE
                     counts[start][end] = 1;
-                } else {
-                    // TRANSFROM
+                } else if (start + 1 == end) {
                     if (s.charAt(start) == s.charAt(end)) {
-                        if (start + 1 <= end - 1) {
-                            counts[start][end] = 2 + counts[start + 1][end - 1];
-                        } else {
-                            counts[start][end] = 2;
-                        }
+                        counts[start][end] = 2;
+                    } else {
+                        counts[start][end] = 1;
+                    }
+                } else {
+                    if (s.charAt(start) == s.charAt(end)) {
+                        counts[start][end] = 2 + counts[start + 1][end - 1];
                     } else {
                         counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
                     }

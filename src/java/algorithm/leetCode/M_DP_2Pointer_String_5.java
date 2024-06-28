@@ -71,6 +71,8 @@ public class M_DP_2Pointer_String_5 {
         int longestStart = 0;
         int longestEnd = 0;
 
+        // table is not the best way to analyze this solution
+
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
 
@@ -116,51 +118,12 @@ public class M_DP_2Pointer_String_5 {
          * 
          * 
          * 
-         * !!! WRONG: expand from the unknown to the known
+         * !!! WRONG: need to expand from the unknown to the known
          * 
          * for (int start = 0; start < L; ++start) 
          *   for (int end = start; end < L; ++end) 
          * 
          */
-
-        return s.substring(longestStart, longestEnd + 1);
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative, 110ms
-    // Time: O(N^2)
-    public String longestPalindrome2(String s) {
-        final int L = s.length();
-
-        // since we are talking about substring, we need the start and end index, so
-        // came up with this array
-        // isPalindrome[x][y] indicates whether substring s that starts at index x and
-        // ends at y is palindrome
-        Boolean[][] isPalindrome = new Boolean[L][L];
-
-        int longestStart = 0;
-        int longestEnd = 0;
-
-        for (int end = 0; end < L; ++end) {
-            for (int start = 0; start <= end; ++start) {
-
-                if (start == end) {
-                    // BASE
-                    isPalindrome[start][end] = true;
-                } else if (start + 1 == end) {
-                    // BASE
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
-                } else {
-                    // TRANSFORM
-                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
-                }
-
-                if (isPalindrome[start][end] && end - start > longestEnd - longestStart) {
-                    longestStart = start;
-                    longestEnd = end;
-                }
-            }
-        }
 
         return s.substring(longestStart, longestEnd + 1);
     }

@@ -110,20 +110,14 @@ public class M_DP_String_647 {
         for (int end = 0; end < L; ++end) {
             for (int start = end; start >= 0; --start) {
 
-                // we cannot use for (int left = right; left < L; ++left) as 2nd iteration and
-                // right as start, left as end
-                // since isPalindrome[left][right] could depends on isPalindrome[left + 1][right
-                // - 1], we need make sure isPalindrome[left + 1][right - 1] is already checked
-                if (end == start) {
-                    // BASE
+                // we cannot use for (int left = right; left < L; ++left) as 2nd iteration and right as start, left as end
+                // since isPalindrome[left][right] could depends on isPalindrome[left + 1][right - 1], we need make sure isPalindrome[left + 1][right - 1] is already checked
+                if (start == end) {
                     isPalindrome[start][end] = true;
+                } else if (start + 1 == end) {
+                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                 } else {
-                    // TRANSFORM
-                    if (start + 1 < end - 1) {
-                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
-                    } else {
-                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
-                    }
+                    isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
                 }
 
                 if (isPalindrome[start][end]) {
