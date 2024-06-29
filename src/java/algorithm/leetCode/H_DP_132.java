@@ -27,16 +27,16 @@ public class H_DP_132 {
         int[] minCuts = new int[L];
         boolean[][] isPalindrome = findPalindrome(s);
 
-        for (int endIdx = 0; endIdx < L; ++endIdx) {
+        for (int end = 0; end < L; ++end) {
             // at most (end) cuts !!!
-            minCuts[endIdx] = endIdx;
+            minCuts[end] = end;
 
-            for (int startIdx = endIdx; startIdx >= 0; --startIdx) {
-                if (isPalindrome[startIdx][endIdx])
-                    if (startIdx == 0) {
+            for (int start = end; start >= 0; --start) {
+                if (isPalindrome[start][end])
+                    if (start == 0) {
                         // BASE
                         // when start is 0, the substring is s.substring(0, end + 1), which is palindrome
-                        minCuts[endIdx] = 0;
+                        minCuts[end] = 0;
                     } else {
                         // TRANSFORM
                         // s.substring(start, end + 1) is palindrome
@@ -44,7 +44,7 @@ public class H_DP_132 {
                         // the min cuts for s.substring(0, start + 1) is minCuts[start - 1]
                         // the min cuts for s ending at endIdx is minCuts[start - 1] + 1       
                         // since start relies on start - 1, the loop use ++start
-                        minCuts[endIdx] = Math.min(minCuts[endIdx], minCuts[startIdx - 1] + 1);
+                        minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
             }
         }

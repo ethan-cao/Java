@@ -53,47 +53,6 @@ public class M_DP_String_647 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, recursive
-    // 55ms
-    public int countSubstrings11(String s) {
-        final int L = s.length();
-
-        int count = 0;
-        Boolean[][] isPalindrome = new Boolean[L][L];
-
-        for (int end = 0; end < L; ++end) {
-            for (int start = 0; start <= end; ++start) {
-                if (isPalindrome(s, start, end, isPalindrome)) {
-                    count++;
-                }
-            }
-        }
-
-        return count;
-    }
-
-    private boolean isPalindrome(String s, int start, int end, Boolean[][] isPalindrome) {
-        if (isPalindrome[start][end] != null) {
-            return isPalindrome[start][end];
-        }
-
-        if (start == end) {
-            // BASE
-            isPalindrome[start][end] = true;
-        } else {
-            // TRANSFORM
-            if (start + 1 <= end - 1) {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
-                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
-            } else {
-                isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
-            }
-        }
-
-        return isPalindrome[start][end];
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP iterative
     // 12 ms
     public static int countSubstrings1(String s) {
@@ -158,6 +117,47 @@ public class M_DP_String_647 {
         }
 
         return count;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, recursive
+    // 55ms
+    public int countSubstrings11(String s) {
+        final int L = s.length();
+
+        int count = 0;
+        Boolean[][] isPalindrome = new Boolean[L][L];
+
+        for (int end = 0; end < L; ++end) {
+            for (int start = 0; start <= end; ++start) {
+                if (isPalindrome(s, start, end, isPalindrome)) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private boolean isPalindrome(String s, int start, int end, Boolean[][] isPalindrome) {
+        if (isPalindrome[start][end] != null) {
+            return isPalindrome[start][end];
+        }
+
+        if (start == end) {
+            // BASE
+            isPalindrome[start][end] = true;
+        } else {
+            // TRANSFORM
+            if (start + 1 <= end - 1) {
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end)
+                        && isPalindrome(s, start + 1, end - 1, isPalindrome);
+            } else {
+                isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
+            }
+        }
+
+        return isPalindrome[start][end];
     }
 
 }

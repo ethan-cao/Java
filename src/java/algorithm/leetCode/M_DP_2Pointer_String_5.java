@@ -74,7 +74,7 @@ public class M_DP_2Pointer_String_5 {
         // table is not the best way to analyze this solution
 
         for (int end = 0; end < L; ++end) {
-            for (int start = 0; start <= end; ++start) {
+            for (int start = end; start >= 0; --start) {
 
                 if (start == end) {
                     // BASE
