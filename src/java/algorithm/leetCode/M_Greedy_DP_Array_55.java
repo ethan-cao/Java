@@ -66,29 +66,52 @@ public class M_Greedy_DP_Array_55 {
     public static boolean canJump1(int[] nums) {
         final int L = nums.length;
 
-        boolean[] canJumpToEnd = new boolean[L];
-        canJumpToEnd[L - 1] = true;
+        // jump[i]: if possible to jump from i to the end
+        boolean[] jump = new boolean[L];
+        jump[L - 1] = true;
 
         // check from end to start
-        for (int idx = L - 2; idx >= 0; --idx) {
-            int maxJumpDistance = nums[idx];
+        for (int startIdx = L - 2; startIdx >= 0; --startIdx) {
+            int maxJumpDistance = nums[startIdx];
 
             for (int jumpDistance = 0; jumpDistance <= maxJumpDistance; ++jumpDistance) {
 
-                if (idx + jumpDistance >= L - 1) {
-                    canJumpToEnd[idx] = true;
+                if (startIdx + jumpDistance >= L - 1) {
+                    jump[startIdx] = true;
                 } else {
                     // since we check from end to start, canJumpToEnd[position + jumpDistance] is known
-                    canJumpToEnd[idx] = canJumpToEnd[idx + jumpDistance];
+                    jump[startIdx] = jump[startIdx + jumpDistance];
                 }
 
-                if (canJumpToEnd[idx]) {
+                if (jump[startIdx]) {
                     break;
                 }
             }
         }
 
-        return canJumpToEnd[0];
+        return jump[0];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, 1200ms
+    // Time: O(N^2)
+    public boolean canJump2(int[] nums) {
+        boolean jump[] = new boolean[nums.length];
+        jump[0] = true;
+
+        for (int end = 1; end < nums.length; ++end) {
+            for (int start = 0; start < end; ++start) {
+                if (jump[start]) {
+                    jump[end] = nums[start] >= end - start;
+                }
+
+                if (jump[end]) {
+                    break;
+                }
+            }
+        }
+
+        return jump[nums.length - 1];
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

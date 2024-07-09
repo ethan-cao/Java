@@ -26,52 +26,52 @@ public class E_DP_Array_53 {
         final int L = nums.length;
 
         int maxSum = nums[0];
-        int localMaxSum = nums[0];
+        int sumSoFar = nums[0];
 
         for (int i = 1; i < L; ++i) {
             int num = nums[i];
 
             // must always includes num, this case is subarray including num
             int newArraySum = num;
-            int appendingArraySum = localMaxSum + num;
-            localMaxSum = Math.max(newArraySum, appendingArraySum);
+            int appendingArraySum = sumSoFar + num;
+            sumSoFar = Math.max(newArraySum, appendingArraySum);
 
-            maxSum = Math.max(maxSum, localMaxSum);
+            maxSum = Math.max(maxSum, sumSoFar);
         }
 
         return maxSum;
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /** Kadane's algorithm
      DP, iterative, 1ms
      Time: O(N)
-
+    
     Analysis:
     INPUT: [4,-1,2,1]
     
     [4]: 
     [4]
     -> 4
-
+    
     [4, -1]: 
     [-1]
     [4, -1]
     -> 3
-
+    
     [4,-1,2]:
     [2]
     [-1, 2]
     [4, -1, 2]
     -> 5
-
+    
     [4,-1,2,1]:
     [1]
     [2, 1]
     [-1, 2, 1]
     [4, -1, 2, 1]
     6
-    */ 
+    */
     public static int maxSubArray3(int[] nums) {
         final int L = nums.length;
 
