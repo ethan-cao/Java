@@ -36,23 +36,21 @@ public class M_DP_Math_62 {
     // Time: O(M*N), Space: O(M*N)
     // analyse with tabulation
     public static int uniquePaths2(int m, int n) {
-        int[][] result = new int[m][n];
-
-        for (int x = 0; x < n; ++x) {
-            result[0][x] = 1;
-        }
+        int[][] counts = new int[m][n];
 
         for (int y = 0; y < m; ++y) {
-            result[y][0] = 1;
-        }
+            for (int x = 0; x < n; ++x) {
 
-        for (int y = 1; y < m; ++y) {
-            for (int x = 1; x < n; ++x) {
-                result[y][x] = result[y - 1][x] + result[y][x - 1];
+                if (y == 0 || x == 0) {
+                    counts[y][x] = 1;
+                    continue;
+                }
+
+                counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
             }
         }
 
-        return result[m - 1][n - 1];
+        return counts[m - 1][n - 1];
     }
 
     // DP, iterative, condensed space, 0ms
@@ -108,7 +106,6 @@ public class M_DP_Math_62 {
         return memo[y - 1][x] + memo[y][x - 1];
     }
 
-
     // Math
     // Time: O(N), Space: O(N)
     // move from (1,1) to (m, n), there are (m-1)+(n-1) steps needed, namely m+n-2
@@ -116,7 +113,7 @@ public class M_DP_Math_62 {
     // then we know how many ways to reach from (1,1) to (m,m)
     // Thus we just need to get P(m+n-2, m-1)
     public static int uniquePaths4(int m, int n) {
-        double uniquePath = 1;   // pay attention to precision !!!
+        double uniquePath = 1; // pay attention to precision !!!
 
         // m/1 * (m+1)/2 * (m+2)/3 ... * (m-1+n-1)/(n-1)
         for (double i = 1; i < n; ++i) {

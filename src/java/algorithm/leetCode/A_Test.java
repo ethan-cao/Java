@@ -2,27 +2,47 @@ class A_Test {
 
     public static void main(String[] args) {
         System.out.println("Debugging...");
-        canJump(new int[] { 2, 0, 0 });
+
+        int x = uniquePathsWithObstacles(new int[][] { { 0, 0 }, { 1, 1 }, { 0, 0 }, });
+
+        System.out.println("results: " + x);
     }
 
-    public static boolean canJump(int[] nums) {
+    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int M = obstacleGrid.length;
+        int N = obstacleGrid[0].length;
 
-        boolean jump[] = new boolean[nums.length];
+        int[][] counts = new int[M][N];
 
-        jump[0] = true;
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
 
-        for (int idx1 = 1; idx1 < nums.length; ++idx1) {
-            for (int idx2 = 0; idx2 < idx1; ++idx2) {
-                if (jump[idx2]) {
-                    jump[idx1] = nums[idx2] >= idx1 - idx2;
+                if (x == 0 && y == 0) {
+                    if (obstacleGrid[y][x] == 1) {
+                        return 0;
+                    } else {
+                        counts[y][x] = 1;
+                        continue;
+                    }
                 }
 
-                if (jump[idx1]) {
-                    break;
+                if (y == 0 && obstacleGrid[y][x] == 0 && counts[y][x - 1] == 1) {
+                    counts[y][x] = 1;
+                    continue;
                 }
+
+                if (x == 0 && obstacleGrid[y][x] == 0 && counts[y - 1][x] == 1) {
+                    counts[y][x] = 1;
+                    continue;
+                }
+
+                if (x != 9 && y != 0 && obstacleGrid[y][x] == 0) {
+                    counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
+                }
+
             }
         }
 
-        return jump[nums.length - 1];
+        return counts[M - 1][N - 1];
     }
 }

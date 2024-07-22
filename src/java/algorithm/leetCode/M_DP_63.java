@@ -22,21 +22,13 @@ An obstacle and empty space is marked as 1 and 0 respectively in the grid.
 public class M_DP_63 {
 
     public static void main(String... args) {
-        int[][] obstacleGrid = {
-                {0, 0, 0},
-                {0, 1, 0},
-                {0, 0, 0}
-        };
+        int[][] obstacleGrid = { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } };
         System.out.println(uniquePathsWithObstacles1(obstacleGrid)); // 2
 
-        int[][] obstacleGrid1 = {
-                {1, 0}
-        };
+        int[][] obstacleGrid1 = { { 1, 0 } };
         System.out.println(uniquePathsWithObstacles1(obstacleGrid1)); // 0
 
-        int[][] obstacleGrid2 = {
-                {0, 0}
-        };
+        int[][] obstacleGrid2 = { { 0, 0 } };
         System.out.println(uniquePathsWithObstacles1(obstacleGrid2)); // 1
     }
 
@@ -77,31 +69,32 @@ public class M_DP_63 {
         final int N = obstacleGrid[0].length;
         final int OBSTACLE = 1;
 
-        int[][] paths = new int[M][N];
+        if (obstacleGrid[0][0] == 1 || obstacleGrid[M - 1][N - 1] == 1) {
+            return 0;
+        }
 
-        paths[0][0] = obstacleGrid[0][0] == OBSTACLE ? 0 : 1;
+        int[][] counts = new int[M][N];
+        counts[0][0] = 1;
 
         for (int x = 1; x < N; ++x) {
-            paths[0][x] = (obstacleGrid[0][x] == OBSTACLE || paths[0][x - 1] == 0) ? 0 : 1;
+            counts[0][x] = (obstacleGrid[0][x] == OBSTACLE || counts[0][x - 1] == 0) ? 0 : 1;
         }
 
         for (int y = 1; y < M; ++y) {
-            paths[y][0] = (obstacleGrid[y][0] == OBSTACLE || paths[y - 1][0] == 0) ? 0 : 1;
+            counts[y][0] = (obstacleGrid[y][0] == OBSTACLE || counts[y - 1][0] == 0) ? 0 : 1;
         }
 
         for (int y = 1; y < M; ++y) {
             for (int x = 1; x < N; ++x) {
                 int cell = obstacleGrid[y][x];
 
-                if (cell == OBSTACLE) {
-                    paths[y][x] = 0;
-                } else {
-                    paths[y][x] = paths[y - 1][x] + paths[y][x - 1];
+                if (cell != OBSTACLE) {
+                    counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
                 }
             }
         }
 
-        return paths[M - 1][N - 1];
+        return counts[M - 1][N - 1];
     }
 
     // DP, iterative, condensed space, 0ms
@@ -109,7 +102,6 @@ public class M_DP_63 {
         final int M = grid.length;
         final int N = grid[0].length;
         final int OBSTACLE = 1;
-        final int SPACE = 0;
 
         int[] result = new int[N];
 
@@ -143,4 +135,3 @@ public class M_DP_63 {
     }
 
 }
-
