@@ -38,7 +38,7 @@ public class M_DP_Tree_95 {
         }
     }
 
-    // DP, recursive, 2ms
+    // DP, recursive
     // 1ms
     public List<TreeNode> generateTrees0(int n) {
         return buildTrees(1, n);
@@ -49,13 +49,12 @@ public class M_DP_Tree_95 {
         List<TreeNode> roots = new ArrayList<>();
 
         if (start > end) {
-            // !!! put null, so in the caller stackframe, this null as be used in iteration as as childNode
+            // !!! use null as child, because in the example, null is used for empty child node
             roots.add(null);
             return roots;
         }
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
-
             List<TreeNode> leftNodes = buildTrees(start, rootValue - 1);
             List<TreeNode> rightNodes = buildTrees(rootValue + 1, end);
 
