@@ -19,7 +19,7 @@ import java.util.*;
 
 public class M_DP_Tree_95 {
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
@@ -38,16 +38,22 @@ public class M_DP_Tree_95 {
         }
     }
 
+    public static void main(String... args) {
+        System.out.println(generateTrees0(3));
+    }
+
     // DP, recursive
     // 1ms
-    public List<TreeNode> generateTrees0(int n) {
+    public static List<TreeNode> generateTrees0(int n) {
         return buildTrees(1, n);
     }
 
     // build structurally unique BST, with values [start, end]
-    private List<TreeNode> buildTrees(int start, int end) {
+    private static List<TreeNode> buildTrees(int start, int end) {
         List<TreeNode> roots = new ArrayList<>();
 
+        // !!! use start > end
+        // when start == end, the node with value start can be added
         if (start > end) {
             // !!! use null as child, because in the example, null is used for empty child node
             roots.add(null);

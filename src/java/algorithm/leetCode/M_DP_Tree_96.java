@@ -20,57 +20,36 @@ public class M_DP_Tree_96 {
         // System.out.println(numTrees(0));  // 1
         // System.out.println(numTrees(1));  // 1
         // System.out.println(numTrees(2));  // 2
-        System.out.println(numTrees1(3));  // 5
+        System.out.println(numTrees1(3)); // 5
         // System.out.println(numTrees(4));  // 14
         // System.out.println(numTrees(5));  // 42
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 0ms
     public static int numTrees(int n) {
         int[] count = new int[n + 1];
         count[0] = 1;
 
-        for (int i = 1; i <= n; ++i) {
-            for (int leftRange = 0; leftRange < i; ++leftRange) {
-                int rightRange = i - (leftRange + 1);
-                count[i] += count[leftRange] * count[rightRange];
+        for (int root = 1; root <= n; ++root) {
+            // how many possible value for left child
+            for (int left = 0; left < root; ++left) {
+                // how many possible value for right child
+                int right = root - (left + 1);
+                count[root] += count[left] * count[right];
             }
         }
 
         return count[n];
     }
 
-    //DP, recursive, 2715ms 
-    public static int numTrees1(int n) {
-        return count(1, n);        
-    }
-
-    private static int count(int start, int end) {
-        // !!! == is needed, coz start can be larger than end
-        // the case is there is no node (null)
-        if (start >= end) {
-            return 1;
-        }        
-
-        int count = 0; 
-
-        for (int rootValue = start; rootValue <= end; ++rootValue) {
-            int leftTreeCount = count(start, rootValue - 1);
-            int rightTreeCount = count(rootValue + 1, end);
-
-            count += leftTreeCount * rightTreeCount;
-        }
-
-        return count;
-    }
-
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // recursive, memo, 0ms
     public int numTrees11(int n) {
         Integer[][] memo = new Integer[n + 2][n + 2];
-        return count(1, n, memo);        
+        return count(1, n, memo);
     }
- 
+
     private int count(int start, int end, Integer[][] memo) {
         if (memo[start][end] != null) {
             return memo[start][end];
@@ -78,9 +57,9 @@ public class M_DP_Tree_96 {
 
         if (start >= end) {
             return 1;
-        }        
+        }
 
-        int count = 0; 
+        int count = 0;
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
             int leftTreeCount = count(start, rootValue - 1, memo);
@@ -90,6 +69,31 @@ public class M_DP_Tree_96 {
         }
 
         memo[start][end] = count;
+
+        return count;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //DP, recursive, 2715ms 
+    public static int numTrees1(int n) {
+        return count(1, n);
+    }
+
+    private static int count(int start, int end) {
+        // !!! == is needed, coz start can be larger than end
+        // the case is there is no node (null)
+        if (start >= end) {
+            return 1;
+        }
+
+        int count = 0;
+
+        for (int rootValue = start; rootValue <= end; ++rootValue) {
+            int leftTreeCount = count(start, rootValue - 1);
+            int rightTreeCount = count(rootValue + 1, end);
+
+            count += leftTreeCount * rightTreeCount;
+        }
 
         return count;
     }
