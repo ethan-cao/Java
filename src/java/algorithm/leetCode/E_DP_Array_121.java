@@ -16,9 +16,8 @@ Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5
 buy on the first picked day and sell on the second picked day
 
 # Analysis
-Buy and sell CANNOT happen on the same day
-
-max profit with at most 1 transaction
+1 Buy and sell CANNOT happen on the same day
+2 !!! get max profit with at most 1 transaction
 
 keys:
 1. at most n transaction
@@ -33,28 +32,59 @@ public class E_DP_Array_121 {
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
     }
 
-    // DP, state machine
+    // DP
+    // 4ms
+    public int maxProfit0(int[] prices) {
+        int L = prices.length;
+        
+        int[] profitIfBuy = new int[prices.length];
+        int[] profitIfSell = new int[prices.length];
+
+        // !!! get max profit with AT MOST 1 transaction
+        // !!! CANNOT buy and sell on the same day
+
+        // BASE
+        // buy on day 1
+        profitIfBuy[0] = -prices[0];
+        // sell on day 1, but nothing to sell
+        profitIfSell[0] = 0;
+
+        for (int i = 1; i < L; ++i ) {
+            int price = prices[i];
+
+            // compare the profit between buy on day i or privious day
+            profitIfBuy[i] = Math.max(-price, profitIfBuy[i-1] );
+            // compare the profit between sell on day i or privious day
+            profitIfSell[i] = Math.max(profitIfBuy[i-1] + price, profitIfSell[i - 1]);
+        }
+
+        return  profitIfSell[L - 1];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, condensed space
+    // 2ms
     // related 122, 123, 188, 309, 714
-    public int maxProfit111(int[] prices) {
+    public int maxProfit1(int[] prices) {
         final int L = prices.length;
 
-        // BASE, 1st day
-        // 2 possible actions 
+        // !!! get max profit with AT MOST 1 transaction
+
+        // BASE
+        // buy on day 1
         int profitIfBuy = -prices[0];
+        // sell on day 1, but nothing to sell
         int profitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            // !!! CANNOT buy and sell on the same day
             int previousProfitIfBuy = profitIfBuy;
-
-            // do nothing or buy, !!! always check do-nothing-case
-            profitIfBuy = Math.max(profitIfBuy, -price); // you can buy only once, buying at the current price
-            // do nothing or sell
-            profitIfSell = Math.max(profitIfSell, previousProfitIfBuy + price);
-
-            // profit = Math.max(profitIfBuy, profitIfSell);
+            
+            // compare the profit between buy on day i or privious day
+            profitIfBuy = Math.max(-price, profitIfBuy); 
+            // compare the profit between sell on day i or privious day
+            profitIfSell = Math.max(previousProfitIfBuy + price, profitIfSell);
         }
 
         return profitIfSell;
@@ -62,6 +92,7 @@ public class E_DP_Array_121 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
+    // 2ms
     // related: 123, 188
     public static int maxProfit(int[] prices) {
         final int L = prices.length;

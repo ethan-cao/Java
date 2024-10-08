@@ -26,17 +26,17 @@ public class E_DP_Array_53 {
         final int L = nums.length;
 
         int maxSum = nums[0];
-        int sumSoFar = nums[0];
+        int maxSums = nums[0];
 
         for (int i = 1; i < L; ++i) {
             int num = nums[i];
 
             // must always includes num, this case is subarray including num
             int newArraySum = num;
-            int appendingArraySum = sumSoFar + num;
-            sumSoFar = Math.max(newArraySum, appendingArraySum);
+            int appendingArraySum = maxSums + num;
+            maxSums = Math.max(newArraySum, appendingArraySum);
 
-            maxSum = Math.max(maxSum, sumSoFar);
+            maxSum = Math.max(maxSum, maxSums);
         }
 
         return maxSum;
@@ -75,13 +75,11 @@ public class E_DP_Array_53 {
     public static int maxSubArray3(int[] nums) {
         final int L = nums.length;
 
-        int maxSum = nums[0];
-
         // maxSums[i]: max subarray sum including nums[i]
         int maxSums[] = new int[L];
-
-        // BASE
         maxSums[0] = nums[0];
+
+        int maxSum = nums[0];
 
         for (int i = 1; i < L; ++i) {
             int num = nums[i];

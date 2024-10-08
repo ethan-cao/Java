@@ -54,12 +54,12 @@ public class M_DP_String_647 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP iterative
-    // 12 ms
+    // 19 ms
     public static int countSubstrings1(String s) {
         final int L = s.length();
 
-        int count = 0;
 
+        int count = 0;
         // since we are talking about substring, we need the start and end index, so
         // came up with this array
         // isPalindrome[x][y] indicates whether substring s that starts at index x and
