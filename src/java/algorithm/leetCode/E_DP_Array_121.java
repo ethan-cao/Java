@@ -36,12 +36,16 @@ public class E_DP_Array_121 {
     // 4ms
     public int maxProfit0(int[] prices) {
         int L = prices.length;
-        
-        int[] profitIfBuy = new int[prices.length];
-        int[] profitIfSell = new int[prices.length];
 
-        // !!! get max profit with AT MOST 1 transaction
+        // choosing a single day to buy one stock
+        // and choosing a different day in the future to sell that stock.
+        // means get max profit with 1 transaction
         // !!! CANNOT buy and sell on the same day
+        
+        // profitIfBuy[i]: max profit if buy action happening in the first i days
+        int[] profitIfBuy = new int[L];
+        // profitIfBuy[i]: max profit if sell action happening in the first i days
+        int[] profitIfSell = new int[L];
 
         // BASE
         // buy on day 1
@@ -52,10 +56,11 @@ public class E_DP_Array_121 {
         for (int i = 1; i < L; ++i ) {
             int price = prices[i];
 
-            // compare the profit between buy on day i or privious day
-            profitIfBuy[i] = Math.max(-price, profitIfBuy[i-1] );
-            // compare the profit between sell on day i or privious day
-            profitIfSell[i] = Math.max(profitIfBuy[i-1] + price, profitIfSell[i - 1]);
+            // max profit if buy action happening in the first i days
+            // can buy only once, so profit on day i if buy ation happening is -price[i]
+            profitIfBuy[i] = Math.max(profitIfBuy[i - 1], -price);
+            // max profit if sell action happening in the first i days
+            profitIfSell[i] = Math.max(profitIfSell[i - 1], profitIfBuy[i - 1] + price);
         }
 
         return  profitIfSell[L - 1];

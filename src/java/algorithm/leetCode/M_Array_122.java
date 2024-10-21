@@ -29,8 +29,31 @@ public class M_Array_122 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /* DP, state machine
-     */
+    // DP, 3ms
+    public int maxProfit0(int[] prices) {
+        int L = prices.length;
+        
+        int[] profitIfBuy = new int[L];
+        int[] profitIfSell = new int[L];
+
+        profitIfBuy[0] = -prices[0];
+        profitIfSell[0] = 0;
+
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+
+            // compare the profit between buy on day i or privious day
+            profitIfBuy[i] = Math.max(profitIfSell[i - 1] - price, profitIfBuy[i - 1]);
+            // compare the profit between sell on day i or privious day
+            profitIfSell[i] = Math.max(profitIfBuy[i - 1] + price, profitIfSell[i - 1]);
+        }
+        
+        return profitIfSell[L - 1];
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, state machine
+    // 1ms
     public int maxProfit1(int[] prices) {
         final int L = prices.length;     
      
@@ -40,8 +63,10 @@ public class M_Array_122 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            profitIfBuy = Math.max(profitIfBuy, profitIfSell - price);
-            profitIfSell = Math.max(profitIfSell, profitIfBuy + price);
+            // compare the profit between buy on day i or privious day
+            profitIfBuy = Math.max( profitIfSell - price, profitIfBuy);
+            // compare the profit between sell on day i or privious day
+            profitIfSell = Math.max(profitIfBuy + price, profitIfSell);
         }
 
         return profitIfSell;
