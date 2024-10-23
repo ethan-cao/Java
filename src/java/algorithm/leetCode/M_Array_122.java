@@ -16,9 +16,6 @@ Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-
 
 [7,6,4,3,1] -> 0
 
-# Analysis
-Buy and sell CAN happen on the same day
-
 */
 
 public class M_Array_122 {
@@ -29,11 +26,15 @@ public class M_Array_122 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, 3ms
+    // DP, 2ms
     public int maxProfit0(int[] prices) {
         int L = prices.length;
+
+        // there is no limit on how many transaction can happen
         
+        // profitIfBuy[i]: max profit if buy happen on day i
         int[] profitIfBuy = new int[L];
+        // profitIfBuy[i]: max profit if sell happen on day i
         int[] profitIfSell = new int[L];
 
         profitIfBuy[0] = -prices[0];
@@ -42,13 +43,13 @@ public class M_Array_122 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            // compare the profit between buy on day i or privious day
-            profitIfBuy[i] = Math.max(profitIfSell[i - 1] - price, profitIfBuy[i - 1]);
-            // compare the profit between sell on day i or privious day
-            profitIfSell[i] = Math.max(profitIfBuy[i - 1] + price, profitIfSell[i - 1]);
+            profitIfBuy[i] = Math.max(profitIfBuy[i - 1], profitIfSell[i - 1] - price);
+            
+            // you can buy it then immediately sell, so the profit is: profitIfBuy[i] + price
+            profitIfSell[i] = Math.max(profitIfSell[i - 1], profitIfBuy[i] + price);
         }
         
-        return profitIfSell[L - 1];
+        return profitifsell[l - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

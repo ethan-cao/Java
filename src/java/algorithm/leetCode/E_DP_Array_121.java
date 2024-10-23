@@ -19,9 +19,6 @@ buy on the first picked day and sell on the second picked day
 1 Buy and sell CANNOT happen on the same day
 2 !!! get max profit with at most 1 transaction
 
-keys:
-1. at most n transaction
-2. can buy and sell on the same day?
 
 */
 
@@ -42,9 +39,9 @@ public class E_DP_Array_121 {
         // means get max profit with 1 transaction
         // !!! CANNOT buy and sell on the same day
         
-        // profitIfBuy[i]: max profit if buy action happening in the first i days
+        // profitIfBuy[i]: max profit if buy happen on day i
         int[] profitIfBuy = new int[L];
-        // profitIfBuy[i]: max profit if sell action happening in the first i days
+        // profitIfBuy[i]: max profit if sell happen on day i
         int[] profitIfSell = new int[L];
 
         // BASE
