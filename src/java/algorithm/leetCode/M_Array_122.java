@@ -43,9 +43,10 @@ public class M_Array_122 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
+            // can hold at most 1 share, so must sell a day before, the profit is: profitIfSell[i - 1] + price
             profitIfBuy[i] = Math.max(profitIfBuy[i - 1], profitIfSell[i - 1] - price);
             
-            // you can buy it then immediately sell, so the profit is: profitIfBuy[i] + price
+            // can buy it then immediately sell, so the profit is: profitIfBuy[i] + price
             profitIfSell[i] = Math.max(profitIfSell[i - 1], profitIfBuy[i] + price);
         }
         
