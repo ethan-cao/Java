@@ -28,50 +28,61 @@ public class M_Array_122 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 2ms
     public int maxProfit0(int[] prices) {
-        int L = prices.length;
+        final int L = prices.length;     
 
-        // there is no limit on how many transaction can happen
-        
-        // profitIfBuy[i]: max profit if buy happen on day i
-        int[] profitIfBuy = new int[L];
-        // profitIfBuy[i]: max profit if sell happen on day i
-        int[] profitIfSell = new int[L];
+        // maxProfitIfBuy[i]: max profit if buy happens in the first i days
+        int[] maxProfitIfBuy = new int[L];
+        // maxProfitIfSell[i]: max profit if sell happens in the first i days
+        int[] maxProfitIfSell = new int[L];
 
-        profitIfBuy[0] = -prices[0];
-        profitIfSell[0] = 0;
+        // BASE
+        // buy on day 1
+        maxProfitIfBuy[0] = -prices[0];
+        // sell on day 1, but nothing to sell
+        maxProfitIfSell[0] = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
-
-            // can hold at most 1 share, so must sell a day before, the profit is: profitIfSell[i - 1] + price
-            profitIfBuy[i] = Math.max(profitIfBuy[i - 1], profitIfSell[i - 1] - price);
-            
-            // can buy it then immediately sell, so the profit is: profitIfBuy[i] + price
-            profitIfSell[i] = Math.max(profitIfSell[i - 1], profitIfBuy[i] + price);
-        }
         
-        return profitifsell[l - 1];
+            // profit if buy happens on day i
+            // can hold at most 1 share, 
+            // didt mention you can sell then immediately buy on the same day, so sell must happen 1 day ahead
+            // so the profit is: maxProfitIfSell[i - 1] - prices[i]
+            int profitIfBuy = maxProfitIfSell[i - 1] - price;
+            maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i- 1], profitIfBuy);
+
+            // profit if sell happens on day i
+            // can buy it then immediately sell, so the profit is: maxProfitIfBuy[i] + prices[i]
+            int profitIfSell = maxProfitIfBuy[i] + price;
+            maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
+        }
+
+       return maxProfitIfSell[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, state machine
+    // DP, condensed space
     // 1ms
     public int maxProfit1(int[] prices) {
         final int L = prices.length;     
-     
-        int profitIfBuy = -prices[0];
-        int profitIfSell = 0;
+
+        int maxProfitIfBuy = 0;
+        int maxProfitIfSell = 0;
+
+        maxProfitIfBuy = -prices[0];
+        maxProfitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
+        
+            int profitIfBuy = maxProfitIfSell - price;
+            maxProfitIfBuy = Math.max(maxProfitIfBuy, profitIfBuy);
 
-            // compare the profit between buy on day i or privious day
-            profitIfBuy = Math.max( profitIfSell - price, profitIfBuy);
-            // compare the profit between sell on day i or privious day
-            profitIfSell = Math.max(profitIfBuy + price, profitIfSell);
+            int profitIfSell = maxProfitIfBuy + price;
+            maxProfitIfSell = Math.max(maxProfitIfSell, profitIfSell);
         }
 
-        return profitIfSell;
+       return maxProfitIfSell;
      }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
