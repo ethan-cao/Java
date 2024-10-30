@@ -23,29 +23,34 @@ max profit with at most 2 transaction
 
 public class M_DP_123 {
 
-    // DP, state machine
+    // DP, 4ms 
     public int maxProfit1(int[] prices) {
         final int L = prices.length;
 
-        int profit = 0;
+        // you can have at most 2 transactions
+        // there is no limit on how many actions per day
 
-        int profitIfBuy1 = -prices[0];
-        int profitIfSell1 = 0;
+        // max profit if there is 1 transaction
+        int maxProfitIfBuy1 = -prices[0];
+        int maxProfitIfSell1 = 0;
 
-        int profitIfBuy2 = profitIfSell1 - prices[0];
-        int profitIfSell2 = profitIfBuy2 + prices[0];
+        // max profit if there are 2 transaction
+        int maxProfitIfBuy2 = maxProfitIfSell1 - prices[0];
+        int maxProfitIfSell2 = maxProfitIfBuy2 + prices[0];
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            profitIfBuy1 = Math.max(profitIfBuy1, -price); // assume 1st buy at this price
-            profitIfSell1 = Math.max(profitIfSell1, profitIfBuy1 + price);
+            // the 1st transaction happens on day i
+            maxProfitIfBuy1 = Math.max(maxProfitIfBuy1, -price); 
+            maxProfitIfSell1 = Math.max(maxProfitIfSell1, maxProfitIfBuy1 + price);
 
-            profitIfBuy2 = Math.max(profitIfBuy2, profitIfSell1 - price);
-            profitIfSell2 = Math.max(profitIfSell2, profitIfBuy2 + price);
+            // the 2nd transaction happens on day i
+            maxProfitIfBuy2 = Math.max(maxProfitIfBuy2, maxProfitIfSell1 - price);
+            maxProfitIfSell2 = Math.max(maxProfitIfSell2, maxProfitIfBuy2 + price);
         }
 
-        return profitIfSell2;
+        return maxProfitIfSell2;
     }
     
     // DP
