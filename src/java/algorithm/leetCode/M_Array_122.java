@@ -31,6 +31,8 @@ public class M_Array_122 {
     public int maxProfit0(int[] prices) {
         final int L = prices.length;     
 
+        // at most 1 transaction per day
+
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
         int[] maxProfitIfBuy = new int[L];
         // maxProfitIfSell[i]: max profit if sell happens in the first i days

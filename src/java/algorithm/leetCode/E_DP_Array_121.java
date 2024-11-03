@@ -29,10 +29,13 @@ public class E_DP_Array_121 {
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
     }
 
-    // DP
-    // 4ms
+    // DP, 4ms
     public int maxProfit0(int[] prices) {
         final int L = prices.length;
+
+        // max 1 transaction
+        // 1 transaction means a full cycle of buying and then selling
+        // buy and sell must on different days
 
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
         int[] maxProfitIfBuy = new int[L];
@@ -49,11 +52,11 @@ public class E_DP_Array_121 {
             int price = prices[i];
         
             // profit if buy happens on day i
-            // can buy only once, so profit on day i if buy ation happening is -price
             int profitIfBuy = -price;
             maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i - 1], profitIfBuy);
 
             // profit if sell happens on day i
+            // since sell must on a different day, use maxProfitIfBuy[i - 1] 
             int profitIfSell = maxProfitIfBuy[i - 1] + price;
             maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
         }
@@ -63,28 +66,29 @@ public class E_DP_Array_121 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, condensed space
-    // 2ms
-    // related 122, 123, 188, 309, 714
+    // DP, condensed space, 2ms
     public int maxProfit1(int[] prices) {
         final int L = prices.length;
 
-        int maxProfitIfBuy = 0;
+        // max profit if buy on day1
+        int maxProfitIfBuy = -prices[0];
+        // max profit if sell on day1
         int maxProfitIfSell = 0;
-        
-        maxProfitIfBuy = -prices[0];
-        maxProfitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
         
             int profitIfBuy = -price;
+            int preMaxProfitIfBuy = maxProfitIfBuy; 
             maxProfitIfBuy = Math.max(maxProfitIfBuy, profitIfBuy);
 
-            int profitIfSell = maxProfitIfBuy + price;
+            // since sell must on a different day, use maxProfitIfBuy[i - 1] 
+            // need to use the max profit when buy happens before dayI
+            int profitIfSell = preMaxProfitIfBuy + price;
             maxProfitIfSell = Math.max(maxProfitIfSell, profitIfSell);
-        }
 
+        }
+    
         return maxProfitIfSell;
     }
 
