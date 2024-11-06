@@ -33,9 +33,8 @@ public class E_DP_Array_121 {
     public int maxProfit0(int[] prices) {
         final int L = prices.length;
 
-        // max 1 transaction
-        // 1 transaction means a full cycle of buying and then selling
-        // buy and sell must on different days
+        // max 1 full cycle of buying and then selling
+        // buy and sell must be on different days
 
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
         int[] maxProfitIfBuy = new int[L];
@@ -70,9 +69,9 @@ public class E_DP_Array_121 {
     public int maxProfit1(int[] prices) {
         final int L = prices.length;
 
-        // max profit if buy on day1
+        // max profit if buy on day 1
         int maxProfitIfBuy = -prices[0];
-        // max profit if sell on day1
+        // max profit if sell on day 1
         int maxProfitIfSell = 0;
 
         for (int i = 1; i < L; ++i) {

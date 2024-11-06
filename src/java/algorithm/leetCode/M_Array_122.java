@@ -31,7 +31,9 @@ public class M_Array_122 {
     public int maxProfit0(int[] prices) {
         final int L = prices.length;     
 
-        // at most 1 transaction per day
+        // max 1 full cycle of buying and then selling, per day
+        // buy and sell can be on the same day
+        // no limit of how many total buy/sell you can do
 
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
         int[] maxProfitIfBuy = new int[L];
@@ -48,9 +50,10 @@ public class M_Array_122 {
             int price = prices[i];
         
             // profit if buy happens on day i
-            // can hold at most 1 share, 
-            // didt mention you can sell then immediately buy on the same day, so sell must happen 1 day ahead
-            // so the profit is: maxProfitIfSell[i - 1] - prices[i]
+            // since there is no limit on buy/sell and can hold at most 1 share
+            // use (maxProfitIfSell[i - 1] - price) to get profitIfBuy on day i
+            // this means max profit from previous sell, minius price to buy today
+            // didnt mention you can sell then immediately buy on the same day, so sell must happen 1 day ahead
             int profitIfBuy = maxProfitIfSell[i - 1] - price;
             maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i- 1], profitIfBuy);
 
