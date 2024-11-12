@@ -27,30 +27,32 @@ public class M_DP_188 {
     public int maxProfit(int k, int[] prices) {
         final int L = prices.length;
 
-        // profits[i][j]: balance with at most i transaction within j days
-        int[][] profits = new int[k + 1][L];
+        // maxProfits[i][j]: maximum profit achievable with at most i transactions up to day j.
+        int[][] maxProfits = new int[k + 1][L];
     
-        for (int t = 1; t <= k; ++t) {
-          int lowestPrice = prices[0];
+        for (int i = 1; i <= k; ++i) {
+          // initialize the price to the 1st day's price
+          int lowestEffectiveBuyPrice = prices[0];
     
-          for (int d = 1; d < L; ++d) {
-            int price = prices[d];
+          for (int j = 1; j < L; ++j) {
+            int price = prices[j];
     
-            int profitIfNoAction = profits[t][d - 1];
+            int profitIfNoAction = maxProfits[i][j - 1];
     
-            lowestPrice = Math.min(lowestPrice, price - profits[t - 1][d - 1]);
-            int profitIfSell = price - lowestPrice;
+            // effective buy price considers the actual price minus the profit made by the previous transaction up to the previous day.
+            // representing the adjusted cost if one were to have bought the stock on the current day considering the profits from previous transactions.
+            // the reason use max profit up to the previous day is to ensure that each transaction is completed before starting another
+            // the profit from selling a stock on a given day must only consider profits from buys that could have been completed on previous days.
+            int effectiveBuyPrice = price - maxProfits[i - 1][j - 1];
+            lowestEffectiveBuyPrice = Math.min(lowestEffectiveBuyPrice, effectiveBuyPrice);
+            int profitIfSell = + price - lowestEffectiveBuyPrice;
     
-            profits[t][d] = Math.max(profitIfNoAction, profitIfSell);
+            maxProfits[i][j] = Math.max(profitIfNoAction, profitIfSell);
     
           }
         }
     
-        return profits[k][L - 1];
+        return maxProfits[k][L - 1];
     }
 
-    // DP, state machine
-    public int maxProfit1(int[] prices) {
-      return 1;
-    }
 }
