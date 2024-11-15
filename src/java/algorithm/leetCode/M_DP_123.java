@@ -13,23 +13,18 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 [1,2,3,4,5] -> 4
 [7,6,4,3,1] -> 0
 
-
-# Analysis
-Buy and sell CAN happen on the same day
-
-max profit with at most 2 transaction
-
 */
 
 public class M_DP_123 {
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 2ms 
     public int maxProfit1(int[] prices) {
         final int L = prices.length;
 
-        // you can have at most 2 transactions
-        // 1 transaction means a full cycle of buying and then selling
-        // there is no limit on how many actions per day
+        // max 2 full cycle of buying and then selling, in total
+        // no limit on buying and then selling per day
+        // buy and sell can be on the same day
 
         // max profit if 1st buy on day1
         int maxProfitIfBuy1 = -prices[0];
@@ -64,6 +59,7 @@ public class M_DP_123 {
         return maxProfitIfSell2; 
     }
     
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP
     // Time: O(N), 5ms
     public int maxProfit(int[] prices) {

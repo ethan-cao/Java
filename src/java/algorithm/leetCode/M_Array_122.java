@@ -32,8 +32,8 @@ public class M_Array_122 {
         final int L = prices.length;     
 
         // max 1 full cycle of buying and then selling, per day
+        // no limit on total buying and then selling
         // buy and sell can be on the same day
-        // no limit of how many total buy/sell you can do
 
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
         int[] maxProfitIfBuy = new int[L];

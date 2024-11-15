@@ -29,11 +29,12 @@ public class E_DP_Array_121 {
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 4ms
     public int maxProfit0(int[] prices) {
         final int L = prices.length;
 
-        // max 1 full cycle of buying and then selling
+        // max 1 full cycle of buying and then selling, in total
         // buy and sell must be on different days
 
         // maxProfitIfBuy[i]: max profit if buy happens in the first i days
@@ -90,32 +91,30 @@ public class E_DP_Array_121 {
     
         return maxProfitIfSell;
     }
-
+    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP
-    // 2ms
-    // related: 123, 188
+    // DP, 2ms
     public static int maxProfit(int[] prices) {
         final int L = prices.length;
     
-        int profit = 0;
+        int maxProfit = 0;
     
         int lowestPrice = prices[0];
     
         for (int i = 1; i < L; ++i) {
             int price  = prices[i];
             
-            // 2 possible action: buy and sell
-            // to get profit, we just need to consider selling
+            // profit is possible if we sell
             int profitIfSell = price - lowestPrice;
 
-            profit = Math.max(profit, profitIfSell);
+            maxProfit = Math.max(maxProfit, profitIfSell);
         
             lowestPrice = Math.min(lowestPrice, price);
         }
 
-        return profit;
+        return maxProfit;
     }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // this is not meant for interview

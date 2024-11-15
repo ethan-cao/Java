@@ -55,24 +55,39 @@ public class M_DP_Array_309 {
     // DP, iterative, 0ms
     // Time: O(N), Space: O(N)
     public static int maxProfit1(int[] prices) {
-        final int L = prices.length;
+        int L = prices.length;
+        
+        // max profit until day i, with the last action as buy 
+        int[] maxProfitIfBuy = new int[L];
+        // max profit until day i, with the last action as sell
+        int[] maxProfitIfSell = new int[L];
+    
+        maxProfitIfBuy[0] = -prices[0];
+        maxProfitIfSell[0] = 0;
+    
+        if (L == 1) {
+            return Math.max(maxProfitIfBuy[L - 1], maxProfitIfSell[L - 1]);
+        }
+    
+        // profit on that day if buy
+        int profitIfBuy = -prices[1];
+        maxProfitIfBuy[1] = Math.max(maxProfitIfBuy[0], profitIfBuy);
 
-        // buys[i]: max profit made from day 0 to day i, with the last action as buy or not buy
-        int[] profitIfBuying = new int[L];
-        // sells[i]: max profit made from day 0 to day i, with the last action as sell or not sell
-        int[] profitIfSelling = new int[L];
-
-        profitIfBuying[0] = -prices[0];
-        profitIfBuying[1] = Math.max(profitIfBuying[0], -prices[1]);
-        profitIfSelling[0] = 0;
-        profitIfSelling[1] = Math.max(profitIfSelling[0], profitIfBuying[0] + prices[1]); // must sell after buy, so buy[0] must be -price[0]
+        // profit on that day if sell
+        int profitIfSell = maxProfitIfBuy[0] + prices[1];
+        maxProfitIfSell[1] = Math.max(maxProfitIfSell[0], profitIfSell);
 
         for (int i = 2; i < L; ++i) {
-            profitIfBuying[i] = Math.max(profitIfBuying[i - 1], profitIfSelling[i - 2] - prices[i]);
-            profitIfSelling[i] = Math.max(profitIfSelling[i - 1], profitIfBuying[i - 1] + prices[i]);
-        }
+            int price = prices[i];
 
-        return Math.max(profitIfBuying[L - 1], profitIfSelling[L - 1]);
+            profitIfBuy = maxProfitIfSell[i - 2] - price;
+            maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i - 1], profitIfBuy);
+
+            profitIfSell = maxProfitIfBuy[i - 1] + price;
+            maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
+        }
+    
+        return Math.max(maxProfitIfBuy[L - 1], maxProfitIfSell[L - 1]);
     }
 
 }
