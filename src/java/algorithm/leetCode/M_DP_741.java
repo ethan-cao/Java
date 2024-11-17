@@ -28,25 +28,22 @@ public class M_DP_741 {
     // DP, State Machine
     // 3ms
     public int maxProfit(int[] prices, int fee) {
-        final int L = prices.length;
+        int L = prices.length;
 
-        int profit = 0;
-
-        // BASE, 1st day
-        // 2 possible actions 
-        int profitIfBuy = -prices[0];
-        int profitIfSell = 0;
-
+        int maxProfitIfBuy = -prices[0];
+        int maxProfitIfSell = 0;
+        
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
+        
+            int profitIfBuy = maxProfitIfSell - price; 
+            maxProfitIfBuy = Math.max(maxProfitIfBuy, profitIfBuy);
 
-            // !!! CANNOT buy and sell on the same day
-            int previousProfitIfBuy = profitIfBuy;            
-
-            profitIfBuy = Math.max(profitIfBuy, profitIfSell - price);
-            profitIfSell = Math.max(profitIfSell, previousProfitIfBuy + price - fee);
-
-            profit = Math.max(profitIfBuy, profitIfSell);
+            int profitIfSell = maxProfitIfBuy + price - fee;
+            maxProfitIfSell = Math.max(maxProfitIfSell, profitIfSell);
+        }
+        
+        return maxProfitIfSell;
         }
 
         return profit;
