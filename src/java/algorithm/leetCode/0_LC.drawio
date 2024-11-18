@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="1Z3jaxcQ93uzUX6lovcb" name="Page-1">
-        <mxGraphModel dx="3144" dy="3081" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1935" dy="1980" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1083,22 +1083,22 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="165" value="a" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-750" y="-165" width="70" height="50" as="geometry"/>
+                    <mxGeometry x="-580" y="270" width="70" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="172" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="166" target="171" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="166" value="a" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-810" y="-75" width="70" height="50" as="geometry"/>
+                    <mxGeometry x="-640" y="360" width="70" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="167" value="aab" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-860" y="-560" width="40" height="30" as="geometry"/>
+                    <mxGeometry x="-690" y="-125" width="40" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="171" value="b" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-870" y="5" width="70" height="50" as="geometry"/>
+                    <mxGeometry x="-700" y="440" width="70" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="173" value="ab" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-690" y="-75" width="70" height="50" as="geometry"/>
+                    <mxGeometry x="-520" y="360" width="70" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="177" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="176" target="165" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -1107,19 +1107,19 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="176" value="" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-650" y="-230" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="-480" y="205" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="178" value="aab" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="-590" y="-165" width="70" height="50" as="geometry"/>
+                    <mxGeometry x="-420" y="270" width="70" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="185" value="✅" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-857" y="55" width="40" height="30" as="geometry"/>
+                    <mxGeometry x="-687" y="490" width="40" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="186" value="✅" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-675" y="-25" width="40" height="30" as="geometry"/>
+                    <mxGeometry x="-505" y="410" width="40" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="188" value="❌" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-575" y="-105" width="40" height="30" as="geometry"/>
+                    <mxGeometry x="-405" y="330" width="40" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="190" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="1" vertex="1">
                     <mxGeometry x="180" y="250" width="420" height="40" as="geometry"/>
@@ -1198,7 +1198,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="206" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
-                    <mxGeometry x="-840" y="-510" width="240" height="160" as="geometry"/>
+                    <mxGeometry x="-670" y="-75" width="240" height="160" as="geometry"/>
                 </mxCell>
                 <mxCell id="207" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="206" vertex="1">
                     <mxGeometry width="240" height="40" as="geometry"/>
@@ -1293,19 +1293,19 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="256" value="find palindrome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-780" y="-540" width="110" height="30" as="geometry"/>
+                    <mxGeometry x="-610" y="-105" width="110" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="257" value="collcect all palindrome partitions" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-825" y="-280" width="190" height="30" as="geometry"/>
+                    <mxGeometry x="-655" y="155" width="190" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="258" value="start" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-835" y="-480" width="50" height="30" as="geometry"/>
+                    <mxGeometry x="-665" y="-45" width="50" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="259" value="end" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="-790" y="-510" width="40" height="30" as="geometry"/>
+                    <mxGeometry x="-620" y="-75" width="40" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="260" value="131" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="-960" y="-600" width="80" height="80" as="geometry"/>
+                <mxCell id="260" value="131" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="-790" y="-165" width="80" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

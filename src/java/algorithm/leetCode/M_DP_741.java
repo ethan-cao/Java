@@ -25,7 +25,6 @@ Buy and sell CANNOT happen on the same day
 
 public class M_DP_741 {
 
-    // DP, State Machine
     // 3ms
     public int maxProfit(int[] prices, int fee) {
         int L = prices.length;
