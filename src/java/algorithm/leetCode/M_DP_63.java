@@ -32,6 +32,7 @@ public class M_DP_63 {
         System.out.println(uniquePathsWithObstacles1(obstacleGrid2)); // 1
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, Too slow
     public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
         if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0][0] == 1) {
@@ -63,40 +64,38 @@ public class M_DP_63 {
         return pathCount;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 0ms
     public int uniquePathsWithObstacles11(int[][] obstacleGrid) {
-        final int M = obstacleGrid.length;
-        final int N = obstacleGrid[0].length;
-        final int OBSTACLE = 1;
-
-        if (obstacleGrid[0][0] == 1 || obstacleGrid[M - 1][N - 1] == 1) {
-            return 0;
-        }
-
+        int M  = obstacleGrid.length;
+        int N = obstacleGrid[0].length;
+    
         int[][] counts = new int[M][N];
-        counts[0][0] = 1;
 
-        for (int x = 1; x < N; ++x) {
-            counts[0][x] = (obstacleGrid[0][x] == OBSTACLE || counts[0][x - 1] == 0) ? 0 : 1;
-        }
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
 
-        for (int y = 1; y < M; ++y) {
-            counts[y][0] = (obstacleGrid[y][0] == OBSTACLE || counts[y - 1][0] == 0) ? 0 : 1;
-        }
-
-        for (int y = 1; y < M; ++y) {
-            for (int x = 1; x < N; ++x) {
-                int cell = obstacleGrid[y][x];
-
-                if (cell != OBSTACLE) {
+                if (obstacleGrid[y][x] == 1) {
+                    counts[y][x] = 0;
+                    continue;
+                } 
+                
+                if (y == 0 && x == 0) {
+                    counts[y][x] = 1;
+                } else if (y == 0) {
+                    counts[y][x] = counts[y][x - 1];
+                } else if (x == 0) {
+                    counts[y][x] = counts[y - 1][x];
+                } else {
                     counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
                 }
             }
         }
-
+    
         return counts[M - 1][N - 1];
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, condensed space, 0ms
     public static int uniquePathsWithObstacles2(int[][] grid) {
         final int M = grid.length;

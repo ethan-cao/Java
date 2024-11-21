@@ -61,6 +61,30 @@ public class M_Greedy_DP_Array_55 {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP, 1200ms
+    // Time: O(N^2)
+    public boolean canJump2(int[] nums) {
+        int L = nums.length;
+
+        boolean[] canJumpTo = new boolean[L];
+        canJumpTo[0] = true;
+
+        for (int end = 1; end < L; ++end) {
+            for (int start = 0; start < L; ++start) {
+                if (canJumpTo[start]) {
+                    canJumpTo[end] = start + nums[start] >= end;
+                }
+            
+                if (canJumpTo[end]) {
+                    break;
+                }
+            }
+        }
+
+        return canJumpTo[L - 1];
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 200ms
     // Time: O(N^2)
     public static boolean canJump1(int[] nums) {
@@ -90,28 +114,6 @@ public class M_Greedy_DP_Array_55 {
         }
 
         return jump[0];
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, 1200ms
-    // Time: O(N^2)
-    public boolean canJump2(int[] nums) {
-        boolean jump[] = new boolean[nums.length];
-        jump[0] = true;
-
-        for (int end = 1; end < nums.length; ++end) {
-            for (int start = 0; start < end; ++start) {
-                if (jump[start]) {
-                    jump[end] = nums[start] >= end - start;
-                }
-
-                if (jump[end]) {
-                    break;
-                }
-            }
-        }
-
-        return jump[nums.length - 1];
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

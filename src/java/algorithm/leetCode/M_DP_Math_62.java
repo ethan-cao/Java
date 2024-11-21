@@ -53,6 +53,27 @@ public class M_DP_Math_62 {
         return counts[m - 1][n - 1];
     }
 
+    // DP iterative, 0ms
+    public int uniquePaths5(int m, int n) {
+        int[][] counts = new int[m][n];
+
+        for (int y = 0; y < m; ++y) {
+            for (int x = 0; x < n; ++x) {
+                if (y == 0 && x == 0) {
+                    counts[0][0] = 1;
+                } else if (y == 0) {
+                    counts[y][x] = counts[y][x - 1];
+                } else if (x == 0) {
+                    counts[y][x] = counts[y - 1][x];
+                } else {
+                    counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
+                }
+            }
+        }
+    
+        return counts[m - 1][n - 1];
+    }
+
     // DP, iterative, condensed space, 0ms
     // Time: O(M*N), Space: O(N)
     public static int uniquePaths3(int m, int n) {
