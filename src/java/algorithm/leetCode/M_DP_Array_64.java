@@ -41,23 +41,22 @@ public class M_DP_Array_64 {
 
     // DP, iterative, 2ms
     public static int minPathSum1(int[][] grid) {
-        final int M = grid.length;
-        final int N = grid[0].length;
+        int M = grid.length;
+        int N = grid[0].length;
 
         int[][] minSums = new int[M][N];
-        minSums[0][0] = grid[0][0];
 
-        for (int x = 1; x < N; ++x) {
-            minSums[0][x] = minSums[0][x - 1] + grid[0][x];
-        }
-
-        for (int y = 1; y < M; ++y) {
-            minSums[y][0] = minSums[y - 1][0] + grid[y][0];
-        }
-
-        for (int y = 1; y < M; ++y) {
-            for (int x = 1; x < N; ++x) {
-                minSums[y][x] = Math.min(minSums[y - 1][x], minSums[y][x - 1]) + grid[y][x];
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                if (y == 0 && x == 0) {
+                    minSums[0][0] = grid[0][0];
+                } else if (y == 0) {
+                    minSums[y][x] = minSums[y][x - 1] + grid[y][x];
+                } else if (x == 0) {
+                    minSums[y][x] = minSums[y - 1][x] + grid[y][x];
+                } else {
+                    minSums[y][x] = Math.min(minSums[y - 1][x], minSums[y][x - 1]) + grid[y][x];
+                }
             }
         }
 
