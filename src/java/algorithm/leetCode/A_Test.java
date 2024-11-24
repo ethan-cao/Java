@@ -3,46 +3,55 @@ class A_Test {
     public static void main(String[] args) {
         System.out.println("Debugging...");
 
-        int x = uniquePathsWithObstacles(new int[][] { { 0, 0 }, { 1, 1 }, { 0, 0 }, });
+        int x = numDecodings("06");
 
         System.out.println("results: " + x);
     }
 
-    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int M = obstacleGrid.length;
-        int N = obstacleGrid[0].length;
+    public static int numDecodings(String s) {
+        final int L = s.length();
 
-        int[][] counts = new int[M][N];
+        // counts[i]: when string size is i, how many ways to decode
+        int[] counts = new int[L];
 
-        for (int y = 0; y < M; ++y) {
-            for (int x = 0; x < N; ++x) {
+        int singleDigit = getSingleDigit(s, 0);
+        counts[0] = singleDigit == 0 ? 0 : 1;
 
-                if (x == 0 && y == 0) {
-                    if (obstacleGrid[y][x] == 1) {
-                        return 0;
-                    } else {
-                        counts[y][x] = 1;
-                        continue;
-                    }
-                }
+        if (L == 1)  {
+            return counts[0];
+        }
 
-                if (y == 0 && obstacleGrid[y][x] == 0 && counts[y][x - 1] == 1) {
-                    counts[y][x] = 1;
-                    continue;
-                }
+        singleDigit = getSingleDigit(s, 1);
+        if (singleDigit != 0) {
+            counts[1] = counts[1 - 1];
+        }
 
-                if (x == 0 && obstacleGrid[y][x] == 0 && counts[y - 1][x] == 1) {
-                    counts[y][x] = 1;
-                    continue;
-                }
+        int doubleDigits = getDoubleDigit(s, 1);
+        if (doubleDigits >= 10 && doubleDigits <= 26) {
+            counts[1]+= 1;
+        }
 
-                if (x != 9 && y != 0 && obstacleGrid[y][x] == 0) {
-                    counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
-                }
+        for (int i = 2; i < L; ++i) {
+            singleDigit = getSingleDigit(s, i);
+            doubleDigits = getDoubleDigit(s, i);
 
+            if (singleDigit != 0) {
+                counts[i] = counts[i - 1];
+            }
+
+            if (doubleDigits >= 10 && doubleDigits <= 26) {
+                counts[i] += counts[i - 2];
             }
         }
 
-        return counts[M - 1][N - 1];
+        return counts[L-1];
+    }
+
+    static int getSingleDigit(String s, int i) {
+        return s.charAt(i) - '0';
+    }
+
+    static int getDoubleDigit(String s, int i) {
+        return (s.charAt(i - 1) - '0') * 10  +  s.charAt(i) - '0';
     }
 }

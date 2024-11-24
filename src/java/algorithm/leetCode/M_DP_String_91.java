@@ -28,35 +28,60 @@ public class M_DP_String_91 {
         System.out.println(numDecodings00("111111111111111111111111111111111111111111111")); // 1836311903
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
     // 1ms
     public int numDecodings0(String s) {
         final int L = s.length();
 
-        // result[i]: when s size is i, how many ways to decode
-        int[] result = new int[L + 1];
+        // counts[i]: when string size is i, how many ways to decode
+        int[] counts = new int[L];
 
-        // !!! 0 ways to decode a empty string. dp[0] set to 1 only to get the result for dp[2].
-        result[0] = 1;
-        result[1] = s.charAt(0) == '0' ? 0 : 1;
+        // single digit that ending at s.charAt(i)
+        int singleDigit = getSingleDigit(s, 0);
+        counts[0] = singleDigit == 0 ? 0 : 1;
 
-        for (int i = 2; i <= L; ++i) {
-            int singleDigitNum = s.charAt(i - 1) - '0';
-            int doubleDigitNum = (s.charAt(i - 2) - '0') * 10 + singleDigitNum;
-//            int doubleDigit = Integer.valueOf(s.substring(i, i + 2));  // alternatively
+        if (L == 1)  {
+            return counts[0];
+        }
 
-            if (singleDigitNum != 0) {
-                result[i] = result[i - 1];
+        // single digit that ending at s.charAt(i)
+        singleDigit = getSingleDigit(s, 1);
+        if (singleDigit != 0) {
+            counts[1] = counts[1 - 1];
+        }
+
+        // doudble digits that ending at s.charAt(i)
+        int doubleDigits = getDoubleDigit(s, 1);
+        if (doubleDigits >= 10 && doubleDigits <= 26) {
+            counts[1]+= 1;
+        }
+
+        for (int i = 2; i < L; ++i) {
+            singleDigit = getSingleDigit(s, i);
+            doubleDigits = getDoubleDigit(s, i);
+
+            if (singleDigit != 0) {
+                counts[i] = counts[i - 1];
             }
 
-            if (doubleDigitNum >= 10 && doubleDigitNum <= 26) {
-                result[i] += result[i - 2];
+            if (doubleDigits >= 10 && doubleDigits <= 26) {
+                counts[i] += counts[i - 2];
             }
         }
 
-        return result[L];
+        return counts[L-1];
     }
 
+    int getSingleDigit(String s, int i) {
+        return s.charAt(i) - '0';
+    }
+
+    int getDoubleDigit(String s, int i) {
+        return (s.charAt(i - 1) - '0') * 10  +  s.charAt(i) - '0';
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, TLE
     public static int numDecodings00(String s) {
         return count(s, s.length());
@@ -86,6 +111,7 @@ public class M_DP_String_91 {
         return count;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive
     // 1ms
     public static int numDecodings000(String s) {
@@ -125,6 +151,7 @@ public class M_DP_String_91 {
         return memo[idx];
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
     // 1ms
     public static int numDecodings2(String s) {
@@ -153,6 +180,7 @@ public class M_DP_String_91 {
         return result[0];
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, DFS
     public static int numDecodings(String s) {
         return numDecodings(s, 0);
@@ -184,6 +212,7 @@ public class M_DP_String_91 {
         return result;
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, with memorization
     // 51 ms
     public static int numDecodings1(String s) {
