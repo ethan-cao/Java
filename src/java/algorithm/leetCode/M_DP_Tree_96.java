@@ -46,31 +46,30 @@ public class M_DP_Tree_96 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // recursive, memo, 0ms
     public int numTrees11(int n) {
-        Integer[][] memo = new Integer[n + 2][n + 2];
+        Integer[][] memo = new Integer[n + 1][n + 1];
         return count(1, n, memo);
     }
 
     private int count(int start, int end, Integer[][] memo) {
+        if (start > end) {
+            return 1;
+        }
+    
         if (memo[start][end] != null) {
             return memo[start][end];
         }
-
-        if (start >= end) {
-            return 1;
-        }
-
-        int count = 0;
-
+    
+        int total = 0;
+    
         for (int rootValue = start; rootValue <= end; ++rootValue) {
-            int leftTreeCount = count(start, rootValue - 1, memo);
-            int rightTreeCount = count(rootValue + 1, end, memo);
-
-            count += leftTreeCount * rightTreeCount;
+            int leftTrees = count(start, rootValue - 1, memo);
+            int rightTrees = count(rootValue + 1, end, memo);
+    
+            total += leftTrees * rightTrees;
         }
-
-        memo[start][end] = count;
-
-        return count;
+    
+        memo[start][end] = total;
+        return total;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
