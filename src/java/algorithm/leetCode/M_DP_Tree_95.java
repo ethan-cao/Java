@@ -50,14 +50,14 @@ public class M_DP_Tree_95 {
 
     // build structurally unique BST, with values [start, end]
     private static List<TreeNode> buildTrees(int start, int end) {
-        List<TreeNode> roots = new ArrayList<>();
+        List<TreeNode> rootNodes = new ArrayList<>();
 
         // !!! use start > end
         // when start == end, the node with value start can be added
         if (start > end) {
             // !!! use null as child, because in the example, null is used for empty child node
-            roots.add(null);
-            return roots;
+            rootNodes.add(null);
+            return rootNodes;
         }
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
@@ -67,12 +67,12 @@ public class M_DP_Tree_95 {
             for (TreeNode leftNode : leftNodes) {
                 for (TreeNode rightNode : rightNodes) {
                     TreeNode root = new TreeNode(rootValue, leftNode, rightNode);
-                    roots.add(root);
+                    rootNodes.add(root);
                 }
             }
         }
 
-        return roots;
+        return rootNodes;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
