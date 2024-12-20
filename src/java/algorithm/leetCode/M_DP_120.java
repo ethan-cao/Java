@@ -22,21 +22,27 @@ public class M_DP_120 {
     // DP, Iterative, 2ms
     public int minimumTotal0(List<List<Integer>> triangle) {
         final int SIZE = triangle.size();
+       
+        // minSums[y][x] is the minimum path sum from (y, x) to the bottom
         int[][] minSums = new int[SIZE][SIZE];
 
-         // BASE, the last row
+        // BASE, the last row
+        // find minimum sum from the bottom row, so we can examine all the paths
+        // if start from the first row, we can't guarantee the minimum sum is in the last row
         for (int x = 0; x < SIZE; ++x) {
             minSums[SIZE - 1][x] = triangle.get(SIZE - 1).get(x);
         }
 
         for (int y = SIZE - 2; y >= 0; --y) {
             for (int x = 0; x <= y; ++x) {
-                minSums[y][x] = triangle.get(y).get(x) + Math.min(minSums[y + 1][x], minSums[y + 1][x + 1]);
+                int minSumTilBottomLeft = minSums[y + 1][x];
+                int minSumTilBottomRight = minSums[y + 1][x + 1];
+            
+                minSums[y][x] = triangle.get(y).get(x) + Math.min(minSumTilBottomLeft, minSumTilBottomRight);
             }
         }
-
+    
         return minSums[0][0];
-    }
 
     // DP, Iterative, condensed space, 2ms
     public int minimumTotal1(List<List<Integer>> triangle) {
