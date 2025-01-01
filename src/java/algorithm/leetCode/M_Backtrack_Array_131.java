@@ -30,8 +30,7 @@ public class M_Backtrack_Array_131 {
         return palindrome;
     }
 
-    static void collect(List<List<String>> palindrome, List<String> tracker, String s, int start,
-            boolean[][] isPalindrome) {
+    static void collect(List<List<String>> palindrome, List<String> tracker, String s, int start, boolean[][] isPalindrome) {
         if (start == s.length()) {
             palindrome.add(new ArrayList<>(tracker));
             return;

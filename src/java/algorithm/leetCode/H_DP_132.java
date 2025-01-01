@@ -1,127 +1,122 @@
 package algorithm.leetCode;
 
 /*
-Given a string s, find the longest palindromic subsequence's length in s.
-You may assume that the maximum length of s is 1000.
+Given a string s, partition s such that every substring of the partition is a palindrome.
+Return the minimum cuts needed for a palindrome partitioning of s.
 
-1 <= s.length <= 1000
-s consists only of lowercase English letters.
+1 <= s.length <= 2000
+s consists of lowercase English letters only.
 
 ### Example
-"bbbab" -> 4, One possible longest palindromic subsequence is "bbbb".
-"cbbd" -> 2, One possible longest palindromic subsequence is "bb".
+"aab" -> 1
+Explanation: The palindrome partitioning ["aa","b"] could be produced using 1 cut.
 
 */
 
-public class M_DP_String_516 {
+import java.util.Arrays;
 
-    public static void main(String... args) {
-        System.out.println(longestPalindromeSubseq_1("a")); // 1
-        System.out.println(longestPalindromeSubseq_1("aa")); // 2
-        System.out.println(longestPalindromeSubseq_1("aaa")); // 3
-        System.out.println(longestPalindromeSubseq_1("bbbab")); // 4
-        System.out.println(longestPalindromeSubseq_1("cbbd")); // 2
-    }
+public class H_DP_132 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative
-    public int longestPalindromeSubseq(String s) {
-        final int L = s.length();
-        int[][] counts = new int[L][L];
+    // 44ms
+    public int minCut(String s) {
+        int L = s.length();
+
+        // minCuts[i]: minimal cuts in string from 0 to i
+        int[] minCuts = new int[L];
+        boolean[][] isPalindrome = findPalindrome(s);
 
         for (int end = 0; end < L; ++end) {
+            // at most (end) cuts !!!
+            minCuts[end] = end;
+
+            for (int start = end; start >= 0; --start) {
+                if (isPalindrome[start][end])
+                    if (start == 0) {
+                        // BASE
+                        // when start is 0, the substring is s.substring(0, end + 1), which is palindrome
+                        minCuts[end] = 0;
+                    } else {
+                        // TRANSFORM
+                        // s.substring(start, end + 1) is palindrome
+                        // this means we need 1 more cut before strat, it becomes s.substring(0, start + 1) and s.substring(start, end + 1)
+                        // the min cuts for s.substring(0, start + 1) is minCuts[start - 1], which is known!!!
+                        // the min cuts for s.substring(startIdx, endIdx + 1) is minCuts[start - 1] + 1       
+                        // since start relies on start - 1, the loop use ++start
+                        minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
+                    }
+            }
+        }
+
+        return minCuts[L - 1];
+    }
+
+    private boolean[][] findPalindrome(String s) {
+        final int L = s.length();
+        boolean[][] isPalindrome = new boolean[L][L];
+
+        for (int end = 0; end < s.length(); ++end) {
             for (int start = end; start >= 0; --start) {
 
                 if (start == end) {
-                    counts[start][end] = 1;
-                } else if (start + 1 == end) {
-                    if (s.charAt(start) == s.charAt(end)) {
-                        counts[start][end] = 2;
-                    } else {
-                        counts[start][end] = 1;
-                    }
+                    isPalindrome[start][end] = true;
                 } else {
-                    if (s.charAt(start) == s.charAt(end)) {
-                        counts[start][end] = 2 + counts[start + 1][end - 1];
+                    if (start + 1 <= end - 1) {
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end) && isPalindrome[start + 1][end - 1];
                     } else {
-                        counts[start][end] = Math.max(counts[start + 1][end], counts[start][end - 1]);
+                        isPalindrome[start][end] = s.charAt(start) == s.charAt(end);
                     }
                 }
-
             }
         }
 
-        return counts[0][L - 1];
+        return isPalindrome;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, iterative, condensed space
-    // 70 ms
-    public static int longestPalindromeSubseq_5(String s) {
+    // DP, recursive
+    // 3ms
+    public int minCut1(String s) {
         int L = s.length();
 
-        int[] counts = new int[L];
-        int[] preCounts = new int[L];
+        // minCuts[i]: minimal cuts from string from 0 to i
+        int[] minCuts = new int[L];
+        Arrays.fill(minCuts, L);
 
-        // since the current row is derived from previous row
-        // iterate the start backwards
-        for (int start = L - 1; start >= 0; --start) {
-            counts[start] = 1;
-
-            for (int end = start + 1; end < L; ++end) {
-
-                if (s.charAt(start) == s.charAt(end)) {
-                    counts[end] = preCounts[end - 1] + 2;
-                } else {
-                    counts[end] = Math.max(preCounts[end], counts[end - 1]);
-                }
-            }
-
-            preCounts = counts;
-            counts = new int[L];
+        for (int mid = 0; mid < L; ++mid) {
+            checkPalindrome(s, mid, mid, minCuts); // Odd Length Palindrome
+            checkPalindrome(s, mid, mid + 1, minCuts); // Even Length Palindrome
         }
 
-        return preCounts[L - 1];
+        return minCuts[L - 1];
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, recursive, TLE
-    public static int longestPalindromeSubseq_1(String s) {
-        return getSequence(s, 0, s.length() - 1);
-    }
+    private void checkPalindrome(String s, int start, int end, int[] minCuts) {
+        int L = s.length();
 
-    private static int getSequence(String s, int start, int end) {
-        if (start == end) {
-            return 1;
-        }
+        while (start >= 0 && end < L && s.charAt(start) == s.charAt(end)) {
+            minCuts[end] = start == 0 ? 0 : Math.min(minCuts[end], minCuts[start - 1] + 1);
 
-        if (start > end) {
-            return 0;
-        }
-
-        if (s.charAt(start) == s.charAt(end)) {
-            return 2 + getSequence(s, start + 1, end - 1);
-        } else {
-            return Math.max(getSequence(s, start + 1, end), getSequence(s, start, end - 1));
+            start--;
+            end++;
         }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, recursive, cache
-    // 28ms
-    public int longestPalindromeSubseq_2(String s) {
+    // DP recursive
+    // 1000ms
+    public int minCut2(String s) {
         final int L = s.length();
+
+        // min cuts fro substring(i, j+1)
         Integer[][] memo = new Integer[L][L];
 
-        return getSequence(s, 0, s.length() - 1, memo);
+        return findCut(s, 0, L - 1, memo);
     }
 
-    private int getSequence(String s, int start, int end, Integer[][] memo) {
-        if (start == end) {
-            return 1;
-        }
-
-        if (start > end) {
+    int findCut(String s, int start, int end, Integer[][] memo) {
+        if (start >= end) {
             return 0;
         }
 
@@ -129,12 +124,36 @@ public class M_DP_String_516 {
             return memo[start][end];
         }
 
-        if (s.charAt(start) == s.charAt(end)) {
-            memo[start][end] = 2 + getSequence(s, start + 1, end - 1, memo);
-        } else {
-            memo[start][end] = Math.max(getSequence(s, start + 1, end, memo), getSequence(s, start, end - 1, memo));
+        if (isPalindrome(s, start, end)) {
+            memo[start][end] = 0;
+            return memo[start][end];
         }
+
+        int minCut = Integer.MAX_VALUE; // or (end - start) at most
+
+        for (int i = start; i <= end; ++i) {
+            if (isPalindrome(s, start, i)) {
+                int cut = 1 + findCut(s, i + 1, end, memo);
+                minCut = Math.min(minCut, cut);
+            }
+        }
+
+        memo[start][end] = minCut;
 
         return memo[start][end];
     }
+
+    private static boolean isPalindrome(String s, int start, int end) {
+        while (start <= end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+
 }
