@@ -37,8 +37,8 @@ public class M_DP_Array_740 {
     // Time: O(N) 3ms
     public static int deleteAndEarn_1(int[] nums) {
         // 1 <= nums[i] <= 10^4, 10000 possible values
-        final int L = 10000;
-        int[] points = new int[L + 1];
+        final int SIZE = 10000;
+        int[] points = new int[SIZE + 1];
 
         // points[i]: points when take the value (i + 1)
         // for duplicate values, if you earn one of them, you earn all of them, so count sum for each value
@@ -47,7 +47,7 @@ public class M_DP_Array_740 {
         }
 
         // BASE CASE
-        int[] maxPoints = new int[L + 1];
+        int[] maxPoints = new int[SIZE + 1];
         maxPoints[1] = points[1];
         maxPoints[2] = Math.max(points[1], points[2]);
 
@@ -55,14 +55,14 @@ public class M_DP_Array_740 {
         // take(i) = points[i] + maxPoints[i-2]
         // skip(i) = maxPoints[i-1]
         // maxPoints(i) = max( take(i), skip(i) )
-        for (int i = 3; i <= L; ++i) {
-            int take = points[i] + maxPoints[i - 2];
-            int skip = maxPoints[i - 1];
+        for (int i = 3; i <= SIZE; ++i) {
+            int sumIfTake = points[i] + maxPoints[i - 2];
+            int sumIfSkip = maxPoints[i - 1];
 
-            maxPoints[i] = Math.max(take, skip);
+            maxPoints[i] = Math.max(sumIfTake, sumIfSkip);
         }
 
-        return maxPoints[L];
+        return maxPoints[SIZE];
     }
 
     // DP, condensed space

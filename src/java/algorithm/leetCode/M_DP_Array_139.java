@@ -39,31 +39,24 @@ public class M_DP_Array_139 {
     // DP, iterative, 4ms
     public static boolean wordBreak(String s, List<String> wordDict) {
         int L = s.length();
-
+        
         boolean[] result = new boolean[L];
 
         for (int end = 0; end < L; ++end) {
-
-            // alternatively
-            // for (int start = 0; start <= end; ++start) {
             for (int start = 0; start <= end; ++start) {
-
-                String sub = s.substring(start, end + 1);
-
-                if (end == 0) {
-                    result[end] = wordDict.contains(sub);
+                String substring = s.substring(start, end + 1);
+            
+                if (start == 0) {
+                    result[end] = wordDict.contains(substring);
                 } else {
-                    if (start >= 1) {
-                        result[end] = wordDict.contains(sub) && result[start - 1];
-                    } else {
-                        result[end] = wordDict.contains(sub);
-                    }
+                    result[end] = wordDict.contains(substring) && result[start - 1];
                 }
-
-                if (result[end]) {
-                    break;
-                }
+            
+            if (result[end]) {
+                break;    
             }
+            }
+        
         }
 
         return result[L - 1];

@@ -1,9 +1,12 @@
+import  java.util.*;
 class A_Test {
 
     public static void main(String[] args) {
         System.out.println("Debugging...");
 
-        int x = numDecodings("06");
+        List<String> l = new ArrayList<>();
+        l.add("this") ;
+        var x = l.contains("this");
 
         System.out.println("results: " + x);
     }
