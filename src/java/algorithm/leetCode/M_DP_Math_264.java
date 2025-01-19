@@ -29,27 +29,33 @@ public class M_DP_Math_264 {
 
     // DP, 2ms
     // Time: O(N)
-    // write the first 10 ugly numbers, we can find any ugly number is min(2 * i, 3 * j, 5 * k)
-    // i, j, k points to previous ugly numbers, starting from the 1st ugly number 1, once used move to the next
+    // write the first 10 ugly numbers,
+    // we can find any ugly number is min(2 * i, 3 * j, 5 * k)
+    // i, j, k points to a previous ugly number
     public static int nthUglyNumber(int n) {
-        int[] nums = new int[n];
+        int[] uglyNums = new int[n];
+        uglyNums[0] = 1;
+        
+        // keep index seperate for 2, 3, 5
+        int idx2 = 0;        
+        int idx3 = 0;        
+        int idx5 = 0;        
 
-        // 0 is index, since BASE case is index 0
-        int idx2 = 0;
-        int idx3 = 0;
-        int idx5 = 0;
-        nums[0] = 1;
+        for (int i = 1; i < n; ++i) { 
+            int nextUglyNumWith2 = 2 * uglyNums[idx2];
+            int nextUglyNumWith3 = 3 * uglyNums[idx3];
+            int nextUglyNumWith5 = 5 * uglyNums[idx5];
 
-        for (int i = 1; i < n; ++i) {
-            nums[i] = Math.min(nums[idx2] * PRIME_FACTOR_2, Math.min(nums[idx3] * PRIME_FACTOR_3, nums[idx5] * PRIME_FACTOR_5));
-
-            // Move according index to avoid getting existing number
-            if (nums[i] == nums[idx2] * PRIME_FACTOR_2) idx2++;
-            if (nums[i] == nums[idx3] * PRIME_FACTOR_3) idx3++;
-            if (nums[i] == nums[idx5] * PRIME_FACTOR_5) idx5++;
+            uglyNums[i] = Math.min(nextUglyNumWith2, Math.min(nextUglyNumWith3, nextUglyNumWith5));
+        
+            // move the index once we found a match
+            if (uglyNums[i] == nextUglyNumWith2) idx2++;
+            if (uglyNums[i] == nextUglyNumWith3) idx3++;
+            if (uglyNums[i] == nextUglyNumWith5) idx5++;
         }
 
-        return nums[n - 1];
+
+        return uglyNums[n - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
