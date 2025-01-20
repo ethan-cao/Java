@@ -24,10 +24,9 @@ days = [1,2,3,4,5,6,7,8,9,10,30,31], costs = [2,7,15] -> 17
 
 */
 
-
 public class M_983 {
     public static void main(String[] args) {
-        System.out.println(mincostTickets(new int[]{1, 4, 6, 7, 8, 20}, new int[]{7, 2, 15}));
+        System.out.println(mincostTickets(new int[] { 1, 4, 6, 7, 8, 20 }, new int[] { 7, 2, 15 }));
     }
 
     // DP, recursive, memo
@@ -76,32 +75,31 @@ public class M_983 {
     // DP, iterative
     // 1ms
     public int mincostTickets1(int[] days, int[] costs) {
-        final int D = days[days.length - 1];
-        final int PRICE_DAY_TICKET = costs[0];
-        final int PRICE_WEEK_TICKET = costs[1];
-        final int PRICE_MONTH_TICKET = costs[2];
+        int dayTicketCost = costs[0];
+        int weekTicketCost = costs[1];
+        int monthTicketCost = costs[2];
 
-        boolean[] isTravelDay = new boolean[D + 1];
+        int lastTravelDay = days[days.length - 1];
+        int[] minCosts = new int[lastTravelDay + 1];
+        boolean[] isTravelDay = new boolean[lastTravelDay + 1];
         for (int day : days) {
             isTravelDay[day] = true;
         }
 
-        int[] minCosts = new int[D + 1];
+        for (int i = 1; i <= lastTravelDay; ++i) {
+            if (isTravelDay[i]) {
+                int costWithDayTicket = dayTicketCost + minCosts[i - 1];
+                int costWithWeekTicket = i - 7 >= 0 ? weekTicketCost + minCosts[i - 7] : weekTicketCost;
+                int costWithMonthTicket = i - 30 >= 0 ? monthTicketCost + minCosts[i - 30] : monthTicketCost;
 
-        for (int d = 1; d <= D; ++d) {
-            if (isTravelDay[d]) {
-                // TRANSFORM
-                int costWithDayTicket = minCosts[d - 1] + PRICE_DAY_TICKET;
-                int costWithWeekTicket = d - 7 >= 0 ? minCosts[d - 7] + PRICE_WEEK_TICKET : PRICE_WEEK_TICKET;
-                int costWithMonthTicket = d - 30 >= 0 ? minCosts[d - 30] + PRICE_MONTH_TICKET : PRICE_MONTH_TICKET;
-
-                minCosts[d] = Math.min(costWithMonthTicket, Math.min(costWithDayTicket, costWithWeekTicket));
+                minCosts[i] = Math.min(costWithDayTicket, Math.min(costWithWeekTicket, costWithMonthTicket));
             } else {
-                minCosts[d] = minCosts[d - 1];
+                minCosts[i] = minCosts[i - 1];
             }
+
         }
 
-        return minCosts[D];
+        return minCosts[lastTravelDay];
     }
 
     // DP, iterative, condensed space
@@ -175,4 +173,3 @@ public class M_983 {
         return memo[idx];
     }
 }
-
