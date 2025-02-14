@@ -25,10 +25,15 @@ public class M_DP_BitManipulation_338 {
         int[] bits = new int[n + 1];
 
         for (int i = 1; i <= n; ++i) {
-            if ((i & 1) == 0) { // if i is even, use parenthesis to wrap i & 1
+            // !!! you need (i & 1)
+            // alternatively i % 2 == 0
+            if ((i & 1) == 0) {
+                // if i is even
                 // the last bit is 0, countBits(n) is the same as countBits(n >> 1)
+                // i >> 1 is a right shift operation, effectively divides i by 2, which contains the same amount of 1
                 bits[i] = bits[i >> 1];
             } else {
+                // if i is odd
                 // the last bit is 1, countBits(n) is countBits(n - 1) + 1
                 bits[i] = bits[i - 1] + 1;
             }

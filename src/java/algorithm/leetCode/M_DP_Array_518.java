@@ -42,10 +42,12 @@ public class M_DP_Array_518 {
     // DP
     // Time: O(N^2)
     public int change000(int amount, int[] coins) {
-        final int L = coins.length;
-        int[][] counts = new int[L][amount + 1];
+        int L = coins.length;
+        int[][] counts = new int[L + 1][amount + 1];
 
-        for (int i = 0; i < L; ++i) {
+        for (int i = 1; i <= L; ++i) {
+            int coin = coins[i- 1];
+
             // BASE
             counts[i][0] = 1;
 
@@ -56,16 +58,16 @@ public class M_DP_Array_518 {
                 // changes(i, j) = take + skip
 
                 // existing combination, with all previously used coins
-                int skip = i >= 1 ? counts[i - 1][value] : 0;
+                int skip = counts[i - 1][value];
 
                 // a new combination, with the new coin
-                int take = value - coins[i] >= 0 ? counts[i][value - coins[i]] : 0;
+                int take = value >= coin ? counts[i][value - coin] : 0;
 
                 counts[i][value] = take + skip;
             }
         }
 
-        return counts[L - 1][amount];
+        return counts[L][amount];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

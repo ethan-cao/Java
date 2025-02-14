@@ -24,14 +24,19 @@ public class M_343 {
     maxProducts[1] = 1;
 
     for (int target = 2; target <= n; ++target) {
-      // for each integer target, we can pick from 1 to target - 1
+
+      // break it into two parts: num and (target-num)
+      // for each target, we can num pick from 1 to target - 1
+
       for (int num = 1; num < target; ++num) {
+        // product = num * （target - num）
 
-        // product = num1 * num2, if num1 + num2 = target
-
-        // there are 2 possible way to get value num
-        // either by the num itself, or break num to integers
+        // 2 ways to get num
+        // either, use num directly
+        // or,     use maxProduct[num], max product of integers that sum to num
         int num1 = Math.max(num, maxProducts[num]);
+        
+        // 2 ways ot get target - num
         int num2 = Math.max(target - num, maxProducts[target - num]);
 
         int product = num1 * num2;

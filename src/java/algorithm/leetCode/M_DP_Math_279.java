@@ -1,5 +1,7 @@
 package algorithm.leetCode;
 
+import java.util.Arrays;
+
 /*
 Given a positive integer n (n > 0)
 find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n
@@ -23,6 +25,29 @@ public class M_DP_Math_279 {
 //        System.out.println(numSquares(13));    // 2
 //        System.out.println(numSquares(234));   // 2
         System.out.println(numSquares2(7168));  // 4
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP
+    public int numSquares00(int n) {
+        int[] counts = new int[n + 1];
+    
+        // BASE
+        counts[0] = 0;
+        counts[1] = 1;
+    
+        for (int num = 2; num <= n; ++num) {
+            // the count is, at most: num
+            counts[num] = num;
+
+            for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
+                int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
+
+                counts[num] = Math.min(counts[num], countWithSquareRoot);
+            }
+        }
+
+        return counts[n];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,28 +101,6 @@ public class M_DP_Math_279 {
         return counts[n][largestPerfectSquareRoot];
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP
-    public int numSquares00(int n) {
-        int[] counts = new int[n + 1];
-        Arrays.fill(counts, Integer.MAX_VALUE);
-    
-        // BASE
-        counts[0] = 0;
-        counts[1] = 1;
-    
-        for (int num = 2; num <= n; ++num) {
-            for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
-
-                int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
-                int countWithoutSquareRoot = counts[num];
-                counts[num] = Math.min(countWithoutSquareRoot, countWithSquareRoot);
-            }
-        }
-
-        return counts[n];
-    }
-    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, recursive, LTE
     public static int numSquares1(int n) {
