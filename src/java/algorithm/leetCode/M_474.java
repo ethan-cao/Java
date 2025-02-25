@@ -51,39 +51,39 @@ public class M_474 {
 						take = j >= count[0] && k >= count[1] ? 1 : 0;
 					} else {
 						// TRANSFORM
-						skip = size[i - 1][j][k];
+						skip = sizes[i - 1][j][k];
 						take = j >= count[0] && k >= count[1]
-								? size[i - 1][j - count[0]][k - count[1]] + 1
-								: size[i - 1][j][k];
+								? sizes[i - 1][j - count[0]][k - count[1]] + 1
+								: sizes[i - 1][j][k];
 					}
 
-					size[i][j][k] = Math.max(skip, take);
+					sizes[i][j][k] = Math.max(skip, take);
 				}
 			}
 		}
 
-		return size[L - 1][m][n];
+		return sizes[L - 1][m][n];
 	}
 
-	// DP
+	// DP, condensed space
 	// Time: O(N^3), Space: O(N^2)
 	public int findMaxForm1(String[] strs, int m, int n) {
 		int L = strs.length;
 
-		// counts[i]a[j][k]: size of the largest subset of strs
+		// counts[i][j][k]: size of the largest subset of strs
 		// with the first i string and at most j 0's and at most k 1's
-		int[][] size = new int[m + 1][n + 1];
+		int[][] sizes = new int[m + 1][n + 1];
 
 		for (int i = 0; i < L; ++i) {
 			String s = strs[i];
 
-			int[] count = count(s);
+			int[] counts = count(s);
 
 			// !!! iterate backward, same as 416
-			// because size[i][j][k] relies on size[i-1][j - 0count][k - 1count]
-			// when calculate i, need to preserve size[j - 0count][k - 1count] from i - 1
-			// iterate from left to right means size[i][j][k] relies on size[i][j -
-			// 0count][k - 1count], which is wrong
+			// because sizes[i][j][k] relies on sizes[i-1][j - 0count][k - 1count]
+			// when calculate i, need to preserve sizes[j - 0count][k - 1count] from i - 1
+			// iterate from left to right means 
+			// sizes[i][j][k] relies on sizes[i][j - 0count][k - 1count], which is wrong
 			for (int j = m; j >= 0; --j) {
 				for (int k = n; k >= 0; --k) {
 
@@ -93,21 +93,21 @@ public class M_474 {
 					if (i == 0) {
 						// BASE
 						skip = 0;
-						take = j >= count[0] && k >= count[1] ? 1 : 0;
+						take = j >= counts[0] && k >= counts[1] ? 1 : 0;
 					} else {
 						// TRANSFORM
-						skip = size[j][k];
-						take = j >= count[0] && k >= count[1]
-								? size[j - count[0]][k - count[1]] + 1
-								: size[j][k];
+						skip = sizes[j][k];
+						take = j >= counts[0] && k >= counts[1]
+								? sizes[j - counts[0]][k - counts[1]] + 1
+								: sizes[j][k];
 					}
 
-					size[j][k] = Math.max(skip, take);
+					sizes[j][k] = Math.max(skip, take);
 				}
 			}
 		}
 
-		return size[m][n];
+		return sizes[m][n];
 	}
 
 	private int[] count(String str) {

@@ -61,13 +61,11 @@ public class M_DP_DFS_494 {
 
         // results[i][j + OFFSET]: number of ways with the first i elements to get
         // expression result j
-        int[][] results = new int[L][SIZE];
+        int[][] counts = new int[L][SIZE];
 
         // BASE
-        // use + nums[0]
-        results[0][+nums[0] + OFFSET]++;
-        // use - nums[0]
-        results[0][-nums[0] + OFFSET]++; // !!! nums[0] could be 0, cannot use results[0][-nums[0] + OFFSET] + 1
+        counts[0][+nums[0] + OFFSET]++;
+        counts[0][-nums[0] + OFFSET]++; // !!! nums[0] could be 0, cannot use results[0][-nums[0] + OFFSET] + 1
 
         // TRANSFORM
         for (int i = 1; i < L; ++i) {
@@ -77,17 +75,17 @@ public class M_DP_DFS_494 {
 
                 // if we can use +num
                 if (j - num >= 0) {
-                    results[i][j] += results[i - 1][j - num];
+                    counts[i][j] += counts[i - 1][j - num];
                 }
 
                 // if we can use -num
                 if (j + num < SIZE) {
-                    results[i][j] += results[i - 1][j + num];
+                    counts[i][j] += counts[i - 1][j + num];
                 }
             }
         }
 
-        return results[L - 1][target + OFFSET];
+        return counts[L - 1][target + OFFSET];
     }
 
     // DP, iterative

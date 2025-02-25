@@ -1,5 +1,7 @@
 package algorithm.leetCode;
 
+import java.util.Arrays;
+
 /*
 Given a non-empty array containing only positive integers,
 find if the array can be partitioned into 2 subsets such that the sum of elements in both subsets is equal.
@@ -103,52 +105,50 @@ public class M_DP_Array_416 {
     // DP iterative
     // 39ms
     public static boolean canPartition11(int[] nums) {
-        final int L = nums.length;
         int sum = 0;
-
-        for (int i = 0; i < L; ++i) {
-            sum += nums[i];
+        for (int num: nums) {
+            sum += num;
         }
 
         if (sum % 2 != 0) {
             return false;
         }
 
+        int L = nums.length;
         int half = sum / 2;
 
-        // can[i][j]: if there are elements located from 0 to i, that can sum up to j
-        // if, some elements can sum up to half, then the reset sum up to half as well,
-        // possible to partition
-        boolean[][] can = new boolean[L][half + 1];
+        // results[i][j]: if there are elements located from 0 to i, that can sum up to j
+        // if some elements can sum up to half, then the reset sum up to half as well
+        boolean[][] results = new boolean[L][half + 1];
 
-        // optional, without sort, return can[L][target]
+        // optional, without sort, return results[L][target]
         Arrays.sort(nums);
 
         for (int i = 0; i < L; ++i) {
             int num = nums[i];
 
             // BASE
-            can[i][0] = true;
+            results[i][0] = true;
 
-            for (int value = 1; value <= half; ++value) {
+            for (int target = 1; target <= half; ++target) {
 
                 boolean skip = false;
                 boolean take = false;
 
                 if (i == 0) {
                     skip = false;
-                    take = value == num;
+                    take = target == num;
                 } else {
-                    skip = can[i - 1][value];
+                    skip = results[i - 1][target];
                     // each num can ONLY BE USED ONCE, different from 377 and 518
-                    take = value - num >= 0 ? can[i - 1][value - num] : false;
+                    take = target - num >= 0 ? results[i - 1][target - num] : false;
                 }
 
-                can[i][value] = skip || take;
+                results[i][target] = skip || take;
             }
 
             // terminate early, because we sort before
-            if (can[i][half]) {
+            if (results[i][half]) {
                 return true;
             }
         }
