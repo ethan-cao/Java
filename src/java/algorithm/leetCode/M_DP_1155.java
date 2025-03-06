@@ -66,33 +66,29 @@ public class M_DP_1155 {
     // DP, iterative
     // 11ms
     public int numRollsToTarget2(int n, int k, int target) {
-        int[][] counts = new int[n][target + 1];
+        int[][] counts = new int[n + 1][target + 1]; 
+        counts[0][0] = 1;
 
-        for (int sum = 1; sum <= target && sum <= k; ++sum) {
-            counts[0][sum] = 1;
-        }
+        int MOD = (int) 1e9 + 7;
 
-        for (int i = 1; i < n; ++i) {
-
-            // minimal sum for dice so far
-            int minSum = i + 1;
-            // maximal sum for dice so far
-            int maxSum = Math.min(target, (i + 1) * k);
+        for (int idx = 2; idx <= n; ++idx) {
+            // minimal sum for i dice
+            int minSum = idx * 1;
+            // maximal sum for i dice
+            int maxSum = Math.min(idx * k, target);
 
             for (int sum = minSum; sum <= maxSum; ++sum) {
 
-                for (int value = 1; value <= k; ++value) {
-
-                    if (value <= sum) {
-                        counts[i][sum] += counts[i - 1][sum - value];
-                        counts[i][sum] %= MODULO;
+                for (int face = 1; face <= k; ++face) {
+                    if (sum >= face) {
+                        counts[idx][sum] += counts[idx - 1][sum - face];
+                        counts[idx][sum] %= MOD;
                     }
                 }
-
             }
         }
 
-        return counts[n - 1][target];
+        return counts[n][target];
     }
 
 }

@@ -70,7 +70,7 @@ public class M_474 {
 	public int findMaxForm1(String[] strs, int m, int n) {
 		int L = strs.length;
 
-		// counts[i][j][k]: size of the largest subset of strs
+		// sizes[i][j][k]: size of the largest subset of strs
 		// with the first i string and at most j 0's and at most k 1's
 		int[][] sizes = new int[m + 1][n + 1];
 
@@ -80,8 +80,8 @@ public class M_474 {
 			int[] counts = count(s);
 
 			// !!! iterate backward, same as 416
-			// because sizes[i][j][k] relies on sizes[i-1][j - 0count][k - 1count]
-			// when calculate i, need to preserve sizes[j - 0count][k - 1count] from i - 1
+			// sizes[i][j][k] relies on sizes[i - 1][j - 0count][k - 1count]
+			// when calculate sizes[i][j][k], need to preserve sizes[i - 1][j - 0count][k - 1count]
 			// iterate from left to right means 
 			// sizes[i][j][k] relies on sizes[i][j - 0count][k - 1count], which is wrong
 			for (int j = m; j >= 0; --j) {
@@ -93,13 +93,13 @@ public class M_474 {
 					if (i == 0) {
 						// BASE
 						skip = 0;
-						take = j >= counts[0] && k >= counts[1] ? 1 : 0;
+						take = counts[0] <= j && counts[1] <= k ? 1 : 0;
 					} else {
 						// TRANSFORM
 						skip = sizes[j][k];
-						take = j >= counts[0] && k >= counts[1]
-								? sizes[j - counts[0]][k - counts[1]] + 1
-								: sizes[j][k];
+						take = counts[0] <= j && counts[1] <= k
+							? sizes[j - counts[0]][k - counts[1]] + 1
+							: sizes[j][k];
 					}
 
 					sizes[j][k] = Math.max(skip, take);

@@ -41,15 +41,14 @@ public class M_DP_Array_377 {
     // different from unbounded knapsack
     public static int combinationSum4_4(int[] nums, int target) {
         int L = nums.length;
-
         int[][] counts = new int[L][target + 1];
 
         for (int idx = 0; idx < L; ++idx) {
+            int num = nums[idx];
+
             // BASE
             // permutations(i, 0) = 1
             counts[idx][0] = 1;
-
-            int num = nums[idx];
 
             // TRANSFORM
             for (int value = 1; value <= target; ++value) {
