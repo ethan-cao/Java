@@ -72,6 +72,7 @@ public class M_DP_1155 {
         int MOD = (int) 1e9 + 7;
 
         for (int idx = 2; idx <= n; ++idx) {
+
             // minimal sum for i dice
             int minSum = idx * 1;
             // maximal sum for i dice

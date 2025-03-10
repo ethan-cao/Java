@@ -25,6 +25,7 @@ public class M_DP_DFS_576 {
     private static int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
     private static int MOD = (int) 1e9 + 7;
 
+    // ------------------------------------------------------------------------------------------------------
     // DFS, brute force
     // Time:  O(Nmn), 20ms
     public static int findPaths1(int m, int n, int maxMove, int startRow, int startColumn) {
@@ -61,10 +62,15 @@ public class M_DP_DFS_576 {
         return cache[y][x][maxMove];
     }
 
+    // ------------------------------------------------------------------------------------------------------
     // DP, iterative, 3d
     // 19ms
     public static int findPaths2(int m, int n, int maxMove, int startRow, int startColumn) {
-        // counts[i][j][k]: how many possible ways to walk from outside boundary to cell[j,k] with step i
+        // Reverse Engineering the Paths
+        // Instead of tracking paths from the starting point to outside the grid
+        // It tracks how many ways to reach each cell from outside the grid in a given number of moves
+        
+        // counts[m][y][x]: how many ways to walk from outside boundary to cell[y,x] with m moves
         int[][][] counts = new int[maxMove + 1][m][n];
 
         for (int move = 1; move <= maxMove; ++move) {
@@ -81,7 +87,7 @@ public class M_DP_DFS_576 {
                             counts[move][y][x] += 1;
                         } else {
                             // TRANSFORM
-                            // same as ways to [nextY, nextX], but 1 less steps
+                            // if stays in the grid, add the number of ways to reach that next cell with one fewer move
                             counts[move][y][x] += counts[move - 1][nextY][nextX];
                         }
 
@@ -94,6 +100,7 @@ public class M_DP_DFS_576 {
         return counts[maxMove][startRow][startColumn];
     }
 
+    // ------------------------------------------------------------------------------------------------------
     // DP, iterative, 2d
     // 27ms
     public static int findPaths3(int m, int n, int maxMove, int startRow, int startColumn) {

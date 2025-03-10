@@ -32,6 +32,52 @@ import java.util.*;
 
 public class M_BFS_Array_542 {
 
+    // DP, 5ms
+    // Time O(M*N), Space: O()
+    public int[][] updateMatrix(int[][] matrix) {
+        final int M = matrix.length;
+        final int N = matrix[0].length;
+        final int MAX = (M - 1) + (N - 1); // the maximal possible distance, !!! cannot use Integer.MAX_VALUE, overflow
+        final int ZERO = 0;
+
+        int[][] distances = new int[M][N];
+
+        // scan from top-left and bottom-right, just like BFS
+
+        // top -> bottom, left -> right
+        for (int y = 0; y < M; ++y) {
+            for (int x = 0; x < N; ++x) {
+                int cell = matrix[y][x];
+
+                if (cell != ZERO) {
+                    int topCellDistance = y - 1 >= 0 ? distances[y - 1][x] : MAX;
+                    int leftCellDistance = x - 1 >= 0 ? distances[y][x - 1] : MAX;
+
+                    distances[y][x] = Math.min(topCellDistance, leftCellDistance) + 1;
+                }
+            }
+        }
+
+        // bottom -> top, right -> left
+        for (int y = M - 1; y >= 0; --y) {
+            for (int x = N - 1; x >= 0; --x) {
+                int cell = matrix[y][x];
+
+                if (cell != ZERO) {
+                    int downCellDistance = y + 1 <= M - 1 ? distances[y + 1][x] : MAX;
+                    int rightCellDistance = x + 1 <= N - 1 ? distances[y][x + 1] : MAX;
+
+                    int distance = Math.min(downCellDistance, rightCellDistance) + 1;
+
+                    distances[y][x] = Math.min(distances[y][x], distance);
+                }
+            }
+        }
+
+        return distances;
+    }
+
+
     // BFS, 15ms
     // Time O(M*N), Space: O()
     public int[][] updateMatrix1(int[][] matrix) {
@@ -85,49 +131,5 @@ public class M_BFS_Array_542 {
         return distances;
     }
 
-    // DP, 5ms
-    // Time O(M*N), Space: O()
-    public int[][] updateMatrix(int[][] matrix) {
-        final int M = matrix.length;
-        final int N = matrix[0].length;
-        final int MAX = (M - 1) + (N - 1); // the maximal possible distance, !!! cannot use Integer.MAX_VALUE, overflow
-        final int ZERO = 0;
-
-        int[][] distances = new int[M][N];
-
-        // scan from top-left and bottom-right, just like BFS
-
-        // top -> bottom, left -> right
-        for (int y = 0; y < M; ++y) {
-            for (int x = 0; x < N; ++x) {
-                int cell = matrix[y][x];
-
-                if (cell != ZERO) {
-                    int topCellDistance = y - 1 >= 0 ? distances[y - 1][x] : MAX;
-                    int leftCellDistance = x - 1 >= 0 ? distances[y][x - 1] : MAX;
-
-                    distances[y][x] = Math.min(topCellDistance, leftCellDistance) + 1;
-                }
-            }
-        }
-
-        // bottom -> top, right -> left
-        for (int y = M - 1; y >= 0; --y) {
-            for (int x = N - 1; x >= 0; --x) {
-                int cell = matrix[y][x];
-
-                if (cell != ZERO) {
-                    int downCellDistance = y + 1 <= M - 1 ? distances[y + 1][x] : MAX;
-                    int rightCellDistance = x + 1 <= N - 1 ? distances[y][x + 1] : MAX;
-
-                    int distance = Math.min(downCellDistance, rightCellDistance) + 1;
-
-                    distances[y][x] = Math.min(distances[y][x], distance);
-                }
-            }
-        }
-
-        return distances;
-    }
-
+  
 }
