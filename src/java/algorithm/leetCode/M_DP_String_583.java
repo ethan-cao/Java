@@ -30,8 +30,9 @@ public class M_DP_String_583 {
         int L1 = word1.length();
         int L2 = word2.length();
 
-        // minDistances[i][j] stands for distance of first i chars of word1 and first j
-        // chars of word2
+        // minDistances[i][j]: distance of first i chars of word1 and first j chars of word2
+        // !!! need to use L1+1, L2+1 as limit
+        // the base case is one of the word is empty
         int[][] minDistances = new int[L1 + 1][L2 + 1];
 
         for (int i = 0; i <= L1; ++i) {
