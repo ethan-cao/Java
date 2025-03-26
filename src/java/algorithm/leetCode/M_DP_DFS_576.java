@@ -64,7 +64,7 @@ public class M_DP_DFS_576 {
 
     // ------------------------------------------------------------------------------------------------------
     // DP, iterative, 3d
-    // 19ms
+    // 11ms
     public static int findPaths2(int m, int n, int maxMove, int startRow, int startColumn) {
         // Reverse Engineering the Paths
         // Instead of tracking paths from the starting point to outside the grid
