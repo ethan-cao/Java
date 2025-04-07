@@ -43,22 +43,21 @@ public class M_DP_718 {
             maxCount = Math.max(maxCount, counts[0][i]);
         }
 
-        for (int idx1 = 1; idx1 < L1; ++idx1) {
-            for (int idx2 = 1; idx2 < L2; ++idx2) {
+        for (int i = 1; i < L1; ++i) {
+            for (int j = 1; j < L2; ++j) {
 
-                if (nums1[idx1] == nums2[idx2]) {
+                if (nums1[i] == nums2[j]) {
                     // this is correct for longest common array, contiguous match
-                    counts[idx1][idx2] = counts[idx1 - 1][idx2 - 1] + 1;
+                    counts[i][j] = counts[i - 1][j - 1] + 1;
+                } else {
+                    counts[i][j] = 0;
 
                     // this is correct for longest common subsequence
                     // taking the maximum of counts[i-1][j] and counts[i][j-1] allows us to build on non-contiguous match
                     // counts[i][j] = Math.max(counts[i-1][j], counts[i][j-1]) + 1
-                
-                } else {
-                    counts[idx1][idx2] = 0;
                 }
 
-                maxCount = Math.max(maxCount, counts[idx1][idx2]);
+                maxCount = Math.max(maxCount, counts[i][j]);
             }
         }
 

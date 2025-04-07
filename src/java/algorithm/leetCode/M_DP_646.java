@@ -23,33 +23,28 @@ import java.util.Arrays;
 public class M_DP_646 {
 
     // DP, 36ms
-    // Time: O(N^2)
+    // Time: O(n^2), Space: O(n)
     public int findLongestChain1(int[][] pairs) {
         int L = pairs.length;
 
+        // counts[i]: length of the longest chain ending at pairs[i]
         int[] counts = new int[L];
-        
-        // BASE
         Arrays.fill(counts, 1);
-
+    
         int maxCount = 1;
-
-        // since we sort paris, we only need to look in 1 direction left to right
-        // otherwise, we need to look in 2 direction, left to right and right to left
-        // mutate input sorting
-        // it's also ok to sort based on (p1, p2) -> Integer.compare(p1[0], p2[0])
+    
+        // Sort pairs by pair[right]
         Arrays.sort(pairs, (p1, p2) -> Integer.compare(p1[1], p2[1]));
-
-        // in 646 you can re-order item, in 300 you cannot
-
-        // without mutating the input
-        int[][] sortedPairs = Arrays.stream(pairs)
-                .sorted((p1, p2) -> Integer.compare(p1[1], p2[1]))
-                .toArray(int[][]::new);
-
+        // alternatively, you can also sort the pair[left]
+        // Arrays.sort(pairs, (p1, p2) -> Integer.compare(p1[0], p2[0]));
+    
         for (int i = 1; i < L; ++i) {
-            for (int j = 0; j < i; ++j) {
+            for (int j = i - 1; j >= 0; --j) {
+            // alternatively
+            // for (int j = 0; j < i; ++j) {
 
+                // For each pair i, look at all previous pairs j < i. If pairs[j][1] < pairs[i][0], 
+                // we can extend the chain from j to i, so counts[i] can be counts[j] + 1.
                 if (pairs[j][1] < pairs[i][0]) {
                     counts[i] = Math.max(counts[i], counts[j] + 1);
                 }
@@ -57,32 +52,29 @@ public class M_DP_646 {
                 maxCount = Math.max(maxCount, counts[i]);
             }
         }
-
+    
         return maxCount;
     }
 
     // Greedy, 26ms
     // Time: O(NlogN)
     public static int findLongestChain2(int[][] pairs) {
-        int[][] sortedPairs = Arrays.stream(pairs)
-                .sorted((p1, p2) -> Integer.compare(p1[1], p2[1]))
-                .toArray(int[][]::new);
-
-        int L = sortedPairs.length;
-        int longestLength = 1;
-
-        int preEnd = sortedPairs[0][1];
-
-        for (int i = 1; i < L; ++i) {
-            int curStart = sortedPairs[i][0];
-
-            if (preEnd < curStart) {
-                longestLength++;
-                preEnd = sortedPairs[i][1];
+        // sorty by the pari[right]
+        Arrays.sort(pairs, (a, b) -> Integer.compare(a[1], b[1]));
+        
+        // Set currentEnd to a value less than the minimum left_i (-1000)
+        int currentEnd = -1001;
+        int chainLength = 0;
+        
+        for (int[] pair : pairs) {
+            // If current pair's start is greater than the last end, add it to chain
+            if (pair[0] > currentEnd) {
+                chainLength++;        // Increment chain length
+                currentEnd = pair[1]; // Update current end to this pair's end
             }
         }
-
-        return longestLength;
+        
+        return chainLength;
     }
 
 }

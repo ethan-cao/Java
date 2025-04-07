@@ -74,15 +74,16 @@ public class M_DP_Array_300 {
 
         // counts[i]: length of longest increasing subsequence ending at i
         int[] counts = new int[L];
-        
-        // BASE
         Arrays.fill(counts, 1);
 
-        int maxLength = 1;
+        int maxCount = 1;
 
         for (int i = 1; i < L; ++i) {
             // check each item before i 
-            for (int j = 0; j < i; ++j) {
+            
+            for (int j = i - 1; j >= 0; --j) {
+            // alternatively 
+            // for (int j = 0; j < i; ++j) {
 
                 if (nums[j] < nums[i]) {
                     // if subsequence [0, j] can connect with i, the subsequence is [0...j, i]
@@ -90,10 +91,10 @@ public class M_DP_Array_300 {
                     counts[i] = Math.max(counts[i], counts[j] + 1);
                 }
 
-                maxLength = Math.max(maxLength, counts[i]);
+                maxCount = Math.max(maxCount, counts[i]);
             }
         }
 
-        return maxLength;
+        return maxCount;
     }
 }
