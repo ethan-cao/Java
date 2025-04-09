@@ -50,6 +50,15 @@ public class M_DP_354 {
                 .sorted((e1, e2) -> e1[0] == e2[0] ? Integer.compare(e2[1], e1[1]) : Integer.compare(e1[0], e2[0]))
                 .toArray(int[][]::new);
 
+        // alternatively
+        // Arrays.sort(envelopes, (a, b) -> {
+        //     if (a[0] != b[0]) {
+        //         return a[0] - b[0];  // sort by width ascending
+        //     }
+        //     return b[1] - a[1];      // if widths equal, sort by height descending
+        // });
+
+
         // e.g., after sorting: (1,3), (3,5), (6,8), (6,7), (8,4), (9,5)
         // transform to question find Longest Increasing Subsequence : [3,5,8,7,4,5]
         for (int[] envelope : sortedEnvelopes) {
@@ -97,10 +106,10 @@ public class M_DP_354 {
         for (int end = 1; end < L; ++end) {
             for (int start = 0; start < end; ++start) {
 
-                int skip = counts[end];
                 // Since the width is increasing, only need to consider height
-                int take = sortedEnvelopes[start][1] < sortedEnvelopes[end][1] ? counts[start] + 1 : 0;
-                counts[end] = Math.max(skip, take);
+                if (sortedEnvelopes[start][1] < sortedEnvelopes[end][1]) {
+                    counts[end] = Math.max(counts[end], counts[start] + 1);
+                }
 
                 maxCount = Math.max(maxCount, counts[end]);
             }
