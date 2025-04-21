@@ -20,6 +20,8 @@ public class M_343 {
     // maxProducts[i]: max product when break integer i
     int[] maxProducts = new int[n + 1];
 
+    
+    // TODO: add base to loop
     // BASE
     maxProducts[1] = 1;
 

@@ -31,13 +31,12 @@ public class M_DP_413 {
 
         int count = 0;
 
-        //  counts[i]: number of arithmetic subarray ending at i
+        // counts[i]: number of arithmetic subarray ending at i
         int[] counts = new int[L];
         counts[0] = 0;
         counts[1] = 0;
 
         // TRANSFORM
-        // counts[i] = ( nums[i]-nums[i-1] == nums[i-1] - nums[i-2] )? 1 + counts[i-1] : 0
         for (int idx = 2; idx < L; ++idx) {
 
             if (nums[idx] - nums[idx - 1] == nums[idx - 1] - nums[idx - 2]) {
@@ -128,4 +127,3 @@ public class M_DP_413 {
         return start + length - 1;
     }
 }
-

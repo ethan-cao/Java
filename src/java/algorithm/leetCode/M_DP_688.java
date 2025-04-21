@@ -31,43 +31,19 @@ public class M_DP_688 {
         System.out.println(knightProbability1(8, 20, 6, 4)); // 0.06250
     }
 
-    private static int[][] directions = new int[][] { { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }, { 2, 1 }, { 1, 2 },
-            { -1, 2 }, { -2, 1 } };
-
-    // BFS, TLE
-    public static double knightProbability(int n, int k, int row, int column) {
-        return move(n, k, row, column);
-    }
-
-    public static double move(int n, int k, int row, int col) {
-        if (row < 0 || row > n - 1 || col < 0 || col > n - 1) {
-            return 0;
-        }
-
-        if (k == 0) {
-            return 1;
-        }
-
-        // 0.125 = 1 / 8, 1 of 8 possible move
-        double curProbability = 0.125;
-
-        double probability = 0;
-
-        for (int[] direction : directions) {
-            int nextRow = row + direction[0];
-            int nextCol = col + direction[1];
-
-            probability += curProbability * move(n, k - 1, nextRow, nextCol);
-        }
-
-        return probability;
-    }
+    private static int[][] directions = new int[][] { 
+        { -2, -1 }, { -1, -2 }, 
+        { 1, -2 }, { 2, -1 }, 
+        { 2, 1 }, { 1, 2 },
+        { -1, 2 }, { -2, 1 } 
+    };
 
     // DP, iterative
     public double knightProbability11(int n, int k, int row, int column) {
         // probabilities[i][y][x]: probability when move i step arriving at (y, x)
         double[][][] probabilities = new double[k + 1][n][n];
 
+        // 100% on the starting location without move
         probabilities[0][row][column] = 1.0;
         
         // find probabilities of arriving at each cell within the board
@@ -134,5 +110,35 @@ public class M_DP_688 {
         memo[row][col][k] = probability;
 
         return memo[row][col][k];
+    }
+
+
+    // BFS, TLE
+    public static double knightProbability(int n, int k, int row, int column) {
+        return move(n, k, row, column);
+    }
+
+    public static double move(int n, int k, int row, int col) {
+        if (row < 0 || row > n - 1 || col < 0 || col > n - 1) {
+            return 0;
+        }
+
+        if (k == 0) {
+            return 1;
+        }
+
+        // 0.125 = 1 / 8, 1 of 8 possible move
+        double curProbability = 0.125;
+
+        double probability = 0;
+
+        for (int[] direction : directions) {
+            int nextRow = row + direction[0];
+            int nextCol = col + direction[1];
+
+            probability += curProbability * move(n, k - 1, nextRow, nextCol);
+        }
+
+        return probability;
     }
 }

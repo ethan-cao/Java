@@ -32,7 +32,7 @@ public class M_474 {
 
 		// counts[i][j][k]: size of the largest subset of strs
 		// with the first i string and at most j 0's and at most k 1's
-		int[][][] size = new int[L][m + 1][n + 1];
+		int[][][] counts = new int[L][m + 1][n + 1];
 
 		for (int i = 0; i < L; ++i) {
 			String s = strs[i];
@@ -51,18 +51,18 @@ public class M_474 {
 						take = j >= count[0] && k >= count[1] ? 1 : 0;
 					} else {
 						// TRANSFORM
-						skip = sizes[i - 1][j][k];
+						skip = counts[i - 1][j][k];
 						take = j >= count[0] && k >= count[1]
-								? sizes[i - 1][j - count[0]][k - count[1]] + 1
-								: sizes[i - 1][j][k];
+								? counts[i - 1][j - count[0]][k - count[1]] + 1
+								: 0;
 					}
 
-					sizes[i][j][k] = Math.max(skip, take);
+					counts[i][j][k] = Math.max(skip, take);
 				}
 			}
 		}
 
-		return sizes[L - 1][m][n];
+		return counts[L - 1][m][n];
 	}
 
 	// DP, condensed space

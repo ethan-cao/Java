@@ -45,50 +45,50 @@ public class M_DFS_DP_698 {
         if (sum % k != 0) {
             return false;
         }
-
-        int targetSum = sum / k;
-        boolean[] isUsed = new boolean[nums.length];
+        
+        int target = sum / k;
+        boolean[] used = new boolean[nums.length];
 
         Arrays.sort(nums);
 
-        return check(nums, isUsed, nums.length - 1, 0, targetSum, k);
+        return check(nums, used, 0, 0, target, k);
     }
 
-    // if nums[idx...end] can be partitioned into k bucket with sum equal to
-    // targetSum
-    private static boolean canPartition(int[] nums, boolean[] isUsed, int startIdx, int sum, int targetSum, int k) {
+    // if nums[idx...end] can be partitioned into k bucket with sum equal to target
+    private boolean check(int[] nums, boolean[] used, int startIdx, int sum, int target, int k) {
         // optimization
         // if there is only 1 bucket left, since all the rest reaches target, the last
-        // one reaches targetSum for sure
+        // one reaches target for sure
         if (k == 1) {
             return true;
         }
 
-        if (sum > targetSum) {
+        if (sum > target) {
             return false;
-        } else if (sum == targetSum) {
+        } else if (sum == target) {
             // if the current bucket reaches target sum,
-            // !!! reset idx to 0, sum to 0, look for next bucket (k-1)
-            return check(nums, isUsed, nums.length - 1, 0, targetSum, k - 1);
+            // !!! reset idx, sum to 0, look for next bucket (k-1)
+            return check(nums, used, 0, 0, target, k - 1);
         } else {
-            for (int idx = startIdx; idx >= 0; --idx) {
-                if (isUsed[idx]) {
+            for (int idx = startIdx; idx < nums.length; ++idx) {
+                if (used[idx]) {
                     continue;
                 }
 
-                isUsed[idx] = true;
+                int num = nums[idx];
 
-                boolean result = check(nums, isUsed, idx - 1, sum + nums[idx], targetSum, k);
+                used[idx] = true;
+
+                boolean result = check(nums, used, startIdx + 1, sum + num, target, k);
                 if (result) {
                     return true;
                 }
 
-                // backtrack
-                isUsed[idx] = false;
+                used[idx] = false;
 
-                // dedup, try next different num
-                while (idx - 1 >= 0 && nums[idx - 1] == nums[idx]) {
-                    idx--;
+                // dedup, if num cannot be used, try next different num
+                while (idx + 1 < nums.length && nums[idx + 1] == num) {
+                    idx++;
                 }
             }
 
