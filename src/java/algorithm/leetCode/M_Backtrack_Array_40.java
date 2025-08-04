@@ -46,8 +46,7 @@ public class M_Backtrack_Array_40 {
         return combinations;
     }
 
-    static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx,
-            int target) {
+    static void collect(List<List<Integer>> combinations, List<Integer> tracker, int[] candidates, int startIdx, int target) {
         if (target == 0) {
             combinations.add(new ArrayList<>(tracker));
             return;

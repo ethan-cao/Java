@@ -58,7 +58,6 @@ public class M_DP_String_647 {
     public static int countSubstrings1(String s) {
         final int L = s.length();
 
-
         int count = 0;
         // since we are talking about substring, we need the start and end index, so
         // came up with this array

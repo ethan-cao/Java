@@ -99,17 +99,15 @@ public class E_DP_Array_121 {
     
         int maxProfit = 0;
     
-        int lowestPrice = prices[0];
+        int lowestPriceSofar = prices[0];
     
         for (int i = 1; i < L; ++i) {
             int price  = prices[i];
-            
-            // profit is possible if we sell
-            int profitIfSell = price - lowestPrice;
 
-            maxProfit = Math.max(maxProfit, profitIfSell);
-        
-            lowestPrice = Math.min(lowestPrice, price);
+            int maxProfitSoFar = price - lowestPriceSofar;
+            maxProfit = Math.max(maxProfit, maxProfitSoFar);
+
+            lowestPriceSofar = Math.min(lowestPriceSofar, price);
         }
 
         return maxProfit;

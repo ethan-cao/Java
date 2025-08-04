@@ -62,13 +62,13 @@ public class M_DP_1155 {
         return memo[n][target];
     }
 
-    // DFS
-    // DP, iterative
+    // DP, iterative, DFS
     // 11ms
     public int numRollsToTarget2(int n, int k, int target) {
         int[][] counts = new int[n + 1][target + 1]; 
         counts[0][0] = 1;
 
+        // 1e9 is scientific notation and scientific notation are treated as double
         int MOD = (int) 1e9 + 7;
 
         for (int idx = 2; idx <= n; ++idx) {

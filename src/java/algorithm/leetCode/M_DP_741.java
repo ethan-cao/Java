@@ -3,7 +3,9 @@ package algorithm.leetCode;
 /*
 
 You are given an array prices where prices[i] is the price of a given stock on the ith day, 
-and an integer fee representing a transaction fee. Find the maximum profit you can achieve. 
+and an integer fee representing a transaction fee. 
+
+Find the maximum profit you can achieve. 
 You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
 
 You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
@@ -25,8 +27,8 @@ Buy and sell CANNOT happen on the same day
 
 public class M_DP_741 {
 
-    // 3ms
-    public int maxProfit(int[] prices, int fee) {
+    // DP, condensed space
+    public int maxProfit1(int[] prices, int fee) {
         int L = prices.length;
 
         int maxProfitIfBuy = -prices[0];
@@ -43,8 +45,33 @@ public class M_DP_741 {
         }
         
         return maxProfitIfSell;
-        }
-
-        return profit;
     }
+
+    // DP
+    public int maxProfit(int[] prices, int fee) {
+        int L = prices.length;
+
+        int[] maxProfitIfBuy = new int[L];
+        int[] maxProfitIfSell = new int[L];
+
+        for (int i = 0; i < L; ++i) {
+            int price = prices[i];
+
+            if (i == 0)  {
+                maxProfitIfBuy[i] = -price;
+                maxProfitIfSell[i] = 0;
+            } else {
+                int profitIfBuy = maxProfitIfSell[i - 1] - price;
+                int profitIfNoAction = maxProfitIfBuy[i - 1];
+                maxProfitIfBuy[i] = Math.max(profitIfNoAction, profitIfBuy);
+
+                int profitIfSell = maxProfitIfBuy[i - 1] + price - fee;
+                profitIfBuy = maxProfitIfSell[i - 1];
+                maxProfitIfSell[i] = Math.max(profitIfBuy, profitIfSell);
+            }
+        }
+    
+        return maxProfitIfSell[L - 1];
+    }
+
 }

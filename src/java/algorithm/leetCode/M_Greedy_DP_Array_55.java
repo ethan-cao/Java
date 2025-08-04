@@ -23,16 +23,17 @@ public class M_Greedy_DP_Array_55 {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Greedy, 1ms
+    // Time: O(n)
     public static boolean canJump(int[] nums) {
         final int L = nums.length;
 
-        for (int currentIdx = 0, nextIdx = 0; currentIdx < L; ++currentIdx) {
-            if (nextIdx < currentIdx) {
+        for (int idx = 0, maxIdx = 0; idx < L; ++idx) {
+            if (maxIdx < idx) {
                 // if the max jump index cannot reach index i, not possible to proceed
                 return false;
             }
 
-            nextIdx = Math.max(nextIdx, currentIdx + nums[currentIdx]); // greedy
+            maxIdx = Math.max(maxIdx, idx + nums[idx]); // greedy
         }
         // possible to reach index nums.length -1
 
@@ -44,17 +45,23 @@ public class M_Greedy_DP_Array_55 {
     public boolean canJump222(int[] nums) {
         final int L = nums.length;
 
-        int currentIdx = 0;
-        int nextIdx = 0;
+        int idx = 0;
+        int maxIdx = 0;
 
-        while (nextIdx >= currentIdx) {
-            nextIdx = Math.max(nextIdx, currentIdx + nums[currentIdx]);
+        while (idx < L) {
+            int maxJump = nums[idx];
+            maxIdx = Math.max(maxIdx, idx + maxJump);
 
-            if (nextIdx >= L - 1) {
+            // reaching the last index
+            if (maxIdx >= L - 1) {
                 return true;
             }
 
-            currentIdx++;
+            idx++;
+            // not possible to each idx
+            if (idx > maxIdx) {
+                return false;
+            }
         }
 
         return false;

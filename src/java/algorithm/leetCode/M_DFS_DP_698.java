@@ -55,7 +55,7 @@ public class M_DFS_DP_698 {
     }
 
     // if nums[idx...end] can be partitioned into k bucket with sum equal to target
-    private boolean check(int[] nums, boolean[] used, int startIdx, int sum, int target, int k) {
+    private static boolean check(int[] nums, boolean[] used, int startIdx, int sum, int target, int k) {
         // optimization
         // if there is only 1 bucket left, since all the rest reaches target, the last
         // one reaches target for sure

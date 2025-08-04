@@ -81,13 +81,13 @@ public class M_DP_String_1143 {
         }
 
         // TRANSFORM
-        for (int i = 1; i < L1; ++i) {
-            for (int j = 1; j < L2; ++j) {
+        for (int idx1 = 1; idx1 < L1; ++idx1) {
+            for (int idx2 = 1; idx2 < L2; ++idx2) {
 
-                if (text1.charAt(i) == text2.charAt(j)) {
-                    counts[i][j] = counts[i - 1][j - 1] + 1;
+                if (text1.charAt(idx1) == text2.charAt(idx2)) {
+                    counts[idx1][idx2] = counts[idx1 - 1][idx2 - 1] + 1;
                 } else {
-                    counts[i][j] = Math.max(counts[i - 1][j], counts[i][j - 1]);
+                    counts[idx1][idx2] = Math.max(counts[idx1 - 1][idx2], counts[idx1][idx2 - 1]);
                 }
             }
         }

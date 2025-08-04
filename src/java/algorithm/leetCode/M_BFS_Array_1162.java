@@ -27,6 +27,7 @@ public class M_BFS_Array_1162 {
     private final int LAND = 1;
 
     // BFS, 17ms
+    // O(n²)
     public int maxDistance1(int[][] grid) {
         final int N = grid.length;
         final int[][] directions = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
@@ -84,6 +85,7 @@ public class M_BFS_Array_1162 {
         // distance[y][x]: distance between water at grid[y][x] to nearest land
         int[][] distances = new int[N][N];
 
+        // ensure distances[][] on land is 0
         for (int y = 0; y < N; ++y) {
             for (int x = 0; x < N; ++x) {
                 if (grid[y][x] == WATER) {
@@ -92,6 +94,7 @@ public class M_BFS_Array_1162 {
             }
         }
 
+        // Top-Left to Bottom-Right
         for (int y = 0; y < N; ++y) {
             for (int x = 0; x < N; ++x) {
 
@@ -101,6 +104,7 @@ public class M_BFS_Array_1162 {
 
                 // if distance of the top cell's distance is calculated
                 if (y - 1 >= 0 && distances[y - 1][x] != Integer.MAX_VALUE) {
+                    // !!! Math.min: is the distance from water to land
                     distances[y][x] = Math.min(distances[y][x], distances[y - 1][x] + 1);
                 }
 
@@ -111,6 +115,7 @@ public class M_BFS_Array_1162 {
             }
         }
 
+        // Bottom-Right to Top-Left
         for (int y = N - 1; y >= 0; --y) {
             for (int x = N - 1; x >= 0; --x) {
 

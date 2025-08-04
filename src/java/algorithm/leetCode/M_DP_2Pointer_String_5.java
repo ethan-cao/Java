@@ -66,7 +66,7 @@ public class M_DP_2Pointer_String_5 {
 
         // since we are talking about substring, we need the start and end index, so came up with this array
         // isPalindrome[x][y] indicates whether substring s that starts at index x and ends at y is palindrome
-        Boolean[][] isPalindrome = new Boolean[L][L];
+        boolean[][] isPalindrome = new boolean[L][L];
 
         int longestStart = 0;
         int longestEnd = 0;
