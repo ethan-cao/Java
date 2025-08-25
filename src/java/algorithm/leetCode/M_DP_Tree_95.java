@@ -53,7 +53,6 @@ public class M_DP_Tree_95 {
         List<TreeNode> rootNodes = new ArrayList<>();
 
         // !!! use start > end
-        // when start == end, the node with value start can be added
         if (start > end) {
             // !!! use null as child, because in the example, null is used for empty child node
             rootNodes.add(null);
