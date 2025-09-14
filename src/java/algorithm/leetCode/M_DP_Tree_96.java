@@ -33,6 +33,7 @@ public class M_DP_Tree_96 {
     }
 
     private int count(int start, int end, Integer[][] memo) {
+        // !!! use start > end
         if (start > end) {
             return 1;
         }

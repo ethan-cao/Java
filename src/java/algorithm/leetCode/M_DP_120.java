@@ -43,6 +43,7 @@ public class M_DP_120 {
         }
     
         return minSums[0][0];
+    }
 
     // DP, Iterative, condensed space, 2ms
     public int minimumTotal1(List<List<Integer>> triangle) {

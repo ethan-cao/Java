@@ -52,11 +52,26 @@ public class M_DP_Tree_95 {
     private static List<TreeNode> buildTrees(int start, int end) {
         List<TreeNode> rootNodes = new ArrayList<>();
 
-        // !!! use start > end
+        // !!! when start > end, it is empty sub-tree, we count it as 1
+        // this is when root is the first number
+        // for instance [1,2]
+        // possible BST:
+        //     1        2
+        //    / \      / \
+        // null  2    1  null
+        // 
+        // when root is 1
+        // left = buildTree(1, 0)   → empty subtree: null, → base case
+        // right = buildTree(2, 2)  → single node subtree: 2 → base case
+        if (start == end) {
+            TreeNode node = new TreeNode(start);
+            trees.add(node);
+            return trees;
+        }
+        
         if (start > end) {
-            // !!! use null as child, because in the example, null is used for empty child node
-            rootNodes.add(null);
-            return rootNodes;
+            trees.add(null);
+            return trees;
         }
 
         for (int rootValue = start; rootValue <= end; ++rootValue) {
