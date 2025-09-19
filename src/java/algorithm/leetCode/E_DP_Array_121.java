@@ -2,8 +2,10 @@ package algorithm.leetCode;
 
 /*
 You are given an array prices where prices[i] is the price of a given stock on the ith day.
-You want to maximize your profit by choosing a single day to buy one stock
-and choosing a different day in the future to sell that stock.
+You want to maximize your profit by 
+choosing a single day to buy one stock and 
+choosing a different day in the future to sell that stock.
+
 Return the maximum profit you can achieve from this transaction.
 If you cannot achieve any profit, return 0.
 
@@ -19,6 +21,15 @@ buy on the first picked day and sell on the second picked day
 1 Buy and sell CANNOT happen on the same day
 2 !!! get max profit with at most 1 transaction
 
+# ASK
+ ? buy/sell possible on the same day
+   No
+
+ ? max buy/sell per day
+   max 1 buying OR selling, per day
+
+ ? max buy/sell total
+   max 1 full cycle of buying and then selling, in total
 
 */
 
@@ -34,35 +45,31 @@ public class E_DP_Array_121 {
     public int maxProfit0(int[] prices) {
         final int L = prices.length;
 
-        // max 1 full cycle of buying and then selling, in total
-        // buy and sell must be on different days
+        // maxProfitsIfBuy[i]: max profit if buy happens in the first i days
+        int[] maxProfitsIfBuy = new int[L];
+        // BASE, buy on day 1
+        maxProfitsIfBuy[0] = -prices[0];
 
-        // maxProfitIfBuy[i]: max profit if buy happens in the first i days
-        int[] maxProfitIfBuy = new int[L];
-        // maxProfitIfSell[i]: max profit if sell happens in the first i days
-        int[] maxProfitIfSell = new int[L];
-        
-        // BASE
-        // buy on day 1
-        maxProfitIfBuy[0] = -prices[0];
-        // sell on day 1, but nothing to sell
-        maxProfitIfSell[0] = 0;
+        // maxProfitsIfSell[i]: max profit if sell happens in the first i days
+        int[] maxProfitsIfSell = new int[L];
+        // BASE, sell on day 1, but nothing to sell
+        maxProfitsIfSell[0] = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
         
             // profit if buy happens on day i
             int profitIfBuy = -price;
-            maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i - 1], profitIfBuy);
+            maxProfitsIfBuy[i] = Math.max(maxProfitsIfBuy[i - 1], profitIfBuy);
 
             // profit if sell happens on day i
-            // since sell must on a different day, use maxProfitIfBuy[i - 1] 
-            int profitIfSell = maxProfitIfBuy[i - 1] + price;
-            maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
+            // since sell must on a different day, use maxProfitsIfBuy[i - 1] 
+            int profitIfSell = maxProfitsIfBuy[i - 1] + price;
+            maxProfitsIfSell[i] = Math.max(maxProfitsIfSell[i - 1], profitIfSell);
         }
 
         // obviously, you make profit if you sell
-        return maxProfitIfSell[L - 1];
+        return maxProfitsIfSell[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

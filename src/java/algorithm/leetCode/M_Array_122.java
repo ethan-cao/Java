@@ -17,6 +17,16 @@ Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-
 
 [7,6,4,3,1] -> 0
 
+# ASK
+ ? buy/sell possible on the same day
+   yes
+
+ ? max buy/sell per day
+   max 1 full cycle of buying and then selling, per day
+
+ ? max buy/sell total
+   no limit
+
 */
 
 public class M_Array_122 {
@@ -31,20 +41,15 @@ public class M_Array_122 {
     public int maxProfit0(int[] prices) {
         final int L = prices.length;     
 
-        // max 1 full cycle of buying and then selling, per day
-        // no limit on total buying and then selling
-        // buy and sell can be on the same day
+        // maxProfitsIfBuy[i]: max profit if buy happens in the first i days
+        int[] maxProfitsIfBuy = new int[L];
+        // BASE, buy on day 1
+        maxProfitsIfBuy[0] = -prices[0];
 
-        // maxProfitIfBuy[i]: max profit if buy happens in the first i days
-        int[] maxProfitIfBuy = new int[L];
-        // maxProfitIfSell[i]: max profit if sell happens in the first i days
-        int[] maxProfitIfSell = new int[L];
-
-        // BASE
-        // buy on day 1
-        maxProfitIfBuy[0] = -prices[0];
-        // sell on day 1, but nothing to sell
-        maxProfitIfSell[0] = 0;
+        // maxProfitsIfSell[i]: max profit if sell happens in the first i days
+        int[] maxProfitsIfSell = new int[L];
+        // BASE, sell on day 1, but nothing to sell
+        maxProfitsIfSell[0] = 0;
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
@@ -54,16 +59,16 @@ public class M_Array_122 {
             // use (maxProfitIfSell[i - 1] - price) to get profitIfBuy on day i
             // this means max profit from previous sell, minius price to buy today
             // didnt mention you can sell then immediately buy on the same day, so sell must happen 1 day ahead
-            int profitIfBuy = maxProfitIfSell[i - 1] - price;
-            maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i- 1], profitIfBuy);
+            int profitIfBuy = maxProfitsIfSell[i - 1] - price;
+            maxProfitsIfBuy[i] = Math.max(maxProfitsIfBuy[i- 1], profitIfBuy);
 
             // profit if sell happens on day i
-            // can buy it then immediately sell, so the profit is: maxProfitIfBuy[i] + prices[i]
-            int profitIfSell = maxProfitIfBuy[i] + price;
-            maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
+            // can buy it then immediately sell, so the profit is: maxProfitsIfBuy[i] + prices[i]
+            int profitIfSell = maxProfitsIfBuy[i] + price;
+            maxProfitsIfSell[i] = Math.max(maxProfitsIfSell[i - 1], profitIfSell);
         }
 
-       return maxProfitIfSell[L - 1];
+       return maxProfitsIfSell[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

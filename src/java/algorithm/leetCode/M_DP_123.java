@@ -2,7 +2,8 @@ package algorithm.leetCode;
 
 /*
 You are given an array prices where prices[i] is the price of a given stock on the ith day.
-Find the maximum profit you can achieve. You may complete at most two transactions.
+Find the maximum profit you can achieve. 
+You may complete at most two transactions.
 You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
 
 1 <= prices.length <= 105
@@ -13,6 +14,17 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 [1,2,3,4,5] -> 4
 [7,6,4,3,1] -> 0
 
+
+# ASK
+ ? buy/sell possible on the same day
+   yes
+
+ ? max buy/sell per day
+   no limit on buying and then selling per day
+
+ ? max buy/sell total
+   max 2 full cycle of buying and then selling, in total
+
 */
 
 public class M_DP_123 {
@@ -21,10 +33,6 @@ public class M_DP_123 {
     // DP, 2ms 
     public int maxProfit1(int[] prices) {
         final int L = prices.length;
-
-        // max 2 full cycle of buying and then selling, in total
-        // no limit on buying and then selling per day
-        // buy and sell can be on the same day
 
         // max profit if 1st buy on day1
         int maxProfitIfBuy1 = -prices[0];
