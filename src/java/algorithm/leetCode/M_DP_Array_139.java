@@ -52,9 +52,9 @@ public class M_DP_Array_139 {
                     result[end] = wordDict.contains(substring) && result[start - 1];
                 }
             
-            if (result[end]) {
-                break;    
-            }
+                if (result[end]) {
+                    break;    
+                }
             }
         
         }

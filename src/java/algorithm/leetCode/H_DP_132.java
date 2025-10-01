@@ -32,7 +32,7 @@ public class H_DP_132 {
             minCuts[end] = end;
 
             for (int start = end; start >= 0; --start) {
-                if (isPalindrome[start][end])
+                if (isPalindrome[start][end]) {
                     if (start == 0) {
                         // BASE
                         // when start is 0, the substring is s.substring(0, end + 1), which is palindrome
@@ -46,6 +46,7 @@ public class H_DP_132 {
                         // since start relies on start - 1, the loop use ++start
                         minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
                     }
+                }
             }
         }
 
