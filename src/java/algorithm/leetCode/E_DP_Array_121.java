@@ -18,10 +18,6 @@ Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5
 buy on the first picked day and sell on the second picked day
 
 # Analysis
-1 Buy and sell CANNOT happen on the same day
-2 !!! get max profit with at most 1 transaction
-
-# ASK
  ? buy/sell possible on the same day
    No
 
@@ -43,33 +39,24 @@ public class E_DP_Array_121 {
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 4ms
     public int maxProfit0(int[] prices) {
-        final int L = prices.length;
+        int L = prices.length;
 
-        // maxProfitsIfBuy[i]: max profit if buy happens in the first i days
-        int[] maxProfitsIfBuy = new int[L];
-        // BASE, buy on day 1
-        maxProfitsIfBuy[0] = -prices[0];
-
-        // maxProfitsIfSell[i]: max profit if sell happens in the first i days
-        int[] maxProfitsIfSell = new int[L];
-        // BASE, sell on day 1, but nothing to sell
-        maxProfitsIfSell[0] = 0;
-
-        for (int i = 1; i < L; ++i) {
-            int price = prices[i];
+        // maxProfits[i]: max profit when sell on day i
+        int[] maxProfits = new int[L];
         
-            // profit if buy happens on day i
-            int profitIfBuy = -price;
-            maxProfitsIfBuy[i] = Math.max(maxProfitsIfBuy[i - 1], profitIfBuy);
+        int lowestBuyPrice = prices[0];
 
-            // profit if sell happens on day i
-            // since sell must on a different day, use maxProfitsIfBuy[i - 1] 
-            int profitIfSell = maxProfitsIfBuy[i - 1] + price;
-            maxProfitsIfSell[i] = Math.max(maxProfitsIfSell[i - 1], profitIfSell);
+        for (int i = 1; i < L; ++ i) {
+            int price = prices[i];
+
+            // buy and sell can be on the same day
+            lowestBuyPrice = Math.min(lowestBuyPrice, price);
+
+            int profit = + price - lowestBuyPrice;
+            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
         }
 
-        // obviously, you make profit if you sell
-        return maxProfitsIfSell[L - 1];
+        return maxProfits[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

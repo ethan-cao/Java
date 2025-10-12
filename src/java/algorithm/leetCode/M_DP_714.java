@@ -27,6 +27,30 @@ The transaction fee is only charged once for each stock purchase and sale.
  */
 
 public class M_DP_714 {
+    
+    public int maxProfit0(int[] prices, int fee) {
+        int L = prices.length;
+        
+        // max profit achievable by day i
+        int[] maxProfits = new int[L];
+        
+        int lowestBuyPrice = prices[0];
+        
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+            
+            int profit = price - lowestBuyPrice - fee;
+            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
+            
+            // Update lowest effective buy price
+            // Can buy using yesterday's profit
+            int effectiveBuyPrice = price - maxProfits[i - 1];
+            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+        }
+        
+        return maxProfits[L - 1];
+    }
+  
     public int maxProfit(int[] prices, int fee) {
         int L = prices.length;
         

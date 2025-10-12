@@ -40,26 +40,27 @@ public class M_DP_Array_139 {
     public static boolean wordBreak(String s, List<String> wordDict) {
         int L = s.length();
         
-        boolean[] result = new boolean[L];
+        // canBeBroken[i]: if the substring(0, i + 1) can be broken
+        boolean[] canBeBroken = new boolean[L];
 
         for (int end = 0; end < L; ++end) {
             for (int start = 0; start <= end; ++start) {
                 String substring = s.substring(start, end + 1);
             
                 if (start == 0) {
-                    result[end] = wordDict.contains(substring);
+                    canBeBroken[end] = wordDict.contains(substring);
                 } else {
-                    result[end] = wordDict.contains(substring) && result[start - 1];
+                    canBeBroken[end] = wordDict.contains(substring) && canBeBroken[start - 1];
                 }
             
-                if (result[end]) {
+                if (canBeBroken[end]) {
                     break;    
                 }
             }
         
         }
 
-        return result[L - 1];
+        return canBeBroken[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

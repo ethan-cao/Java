@@ -17,7 +17,7 @@ Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-
 
 [7,6,4,3,1] -> 0
 
-# ASK
+# Analysis
  ? buy/sell possible on the same day
    yes
 
@@ -34,6 +34,31 @@ public class M_Array_122 {
     public static void main(String[] args) {
         System.out.print(maxProfit3(new int[] { 7, 1, 5, 3, 6, 4 })); // 5
         System.out.print(maxProfit3(new int[] { 7, 6, 4, 3, 1 })); // 0
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public int maxProfit00(int[] prices) {
+        int L = prices.length;
+        
+        int[] maxProfits = new int[L];
+        
+        int lowestBuyPrice = prices[0];
+        
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+            
+            // sell with lowestPrice before today
+            int profit = + price - lowestBuyPrice;
+            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
+            
+            // Track the lowest "effective" buy price (price - profit before buying)
+            // consider profit from previous transactin
+            // as there could be multiple transactions
+            int effectiveBuyPrice = price - maxProfits[i - 1];
+            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+        }
+        
+        return maxProfits[L - 1];
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

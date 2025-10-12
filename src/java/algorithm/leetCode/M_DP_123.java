@@ -29,6 +29,34 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 
 public class M_DP_123 {
 
+    public int maxProfit00(int[] prices) {
+        final int L = prices.length;
+        if (L == 0) return 0;
+        
+        int lowestBuyPrice1 = prices[0];
+        int maxProfitSell1 = 0;
+        
+        int lowestBuyPrice2 = prices[0];
+        int maxProfitSell2 = 0;
+
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+            
+            // 1st transaction
+            lowestBuyPrice1 = Math.min(lowestBuyPrice1, price);
+            int profit1 = price - lowestBuyPrice1;
+            maxProfitSell1 = Math.max(maxProfitSell1, profit1);
+            
+            // 2nd transaction (effective buy price accounts for profit from 1st transaction)
+            int effectiveBuyPrice2 = price - maxProfitSell1;
+            lowestBuyPrice2 = Math.min(lowestBuyPrice2, effectiveBuyPrice2);
+            int profit2 = price - lowestBuyPrice2;
+            maxProfitSell2 = Math.max(maxProfitSell2, profit2);
+        }
+
+        return maxProfitSell2;
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, 2ms 
     public int maxProfit1(int[] prices) {

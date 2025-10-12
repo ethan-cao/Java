@@ -2,8 +2,8 @@ package algorithm.leetCode;
 
 /*
 Say you have an array for which the ith element is the price of a given stock on day i.
-Design an algorithm to find the maximum profit.You may complete as many transactions as you like
-(ie, buy one and sell one share of the stock multiple times) with the following restrictions:
+You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) 
+with the following restrictions:
 You may not engage in multiple transactions at the same time (must sell the stock before you buy again)
 After you sell your stock, you cannot buy stock on next day. (cooldown 1 day)
 
@@ -12,11 +12,48 @@ After you sell your stock, you cannot buy stock on next day. (cooldown 1 day)
 transactions = [buy, sell, cooldown, buy, sell]
 
 # Analysis
-Buy and sell CANNOT happen on the same day
+ ? buy/sell possible on the same day
+   No
+
+ ? max buy/sell per day
+   max 1 buying OR selling, per day
+
+ ? max buy/sell total
+   no limit
 
 */
 
 public class M_DP_Array_309 {
+
+    public int maxProfit0(int[] prices) {
+        int L = prices.length;
+        
+        // max profit when sell on day i
+        int[] maxProfitsSell = new int[L];
+        maxProfitsSell[0] = 0;  
+
+        // max profit when rest on day i
+        int[] maxProfitsRest = new int[L];
+        maxProfitsRest[0] = 0;  
+        
+        int lowestBuyPrice = prices[0];
+        
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+            
+            // Sell today, use lowestBuyPrice from previous days
+            maxProfitsSell[i] = price - lowestBuyPrice;
+            
+            // Rest today: max(keep resting from yesterday, cooldown from yesterday's sell)
+            maxProfitsRest[i] = Math.max(maxProfitsRest[i - 1], maxProfitsSell[i - 1]);
+            
+            // Update lowest buy price using profit after rest from yesterday
+            int effectiveBuyPrice = price - maxProfitsRest[i - 1];
+            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+        }
+        
+        return Math.max(maxProfitsSell[L - 1], maxProfitsRest[L - 1]);
+    }
 
     // DP, iterative, 0ms
     // Time: O(N), Space: O(N)
