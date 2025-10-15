@@ -21,9 +21,6 @@ buy on the first picked day and sell on the second picked day
  ? buy/sell possible on the same day
    No
 
- ? max buy/sell per day
-   max 1 buying OR selling, per day
-
  ? max buy/sell total
    max 1 full cycle of buying and then selling, in total
 
@@ -41,22 +38,21 @@ public class E_DP_Array_121 {
     public int maxProfit0(int[] prices) {
         int L = prices.length;
 
-        // maxProfits[i]: max profit when sell on day i
-        int[] maxProfits = new int[L];
-        
+        int maxProfit = 0;
+
         int lowestBuyPrice = prices[0];
 
-        for (int i = 1; i < L; ++ i) {
+        for (int i = 1; i < L; ++i) {
             int price = prices[i];
+            
+            // sell with previous buy price
+            int profit = price - lowestBuyPrice;
+            maxProfit = Math.max(maxProfit, profit);
 
-            // buy and sell can be on the same day
             lowestBuyPrice = Math.min(lowestBuyPrice, price);
-
-            int profit = + price - lowestBuyPrice;
-            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
         }
 
-        return maxProfits[L - 1];
+        return maxProfit;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

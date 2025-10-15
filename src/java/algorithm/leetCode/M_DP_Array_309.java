@@ -13,10 +13,7 @@ transactions = [buy, sell, cooldown, buy, sell]
 
 # Analysis
  ? buy/sell possible on the same day
-   No
-
- ? max buy/sell per day
-   max 1 buying OR selling, per day
+   yes, max 1 full cycle of buying and then selling
 
  ? max buy/sell total
    no limit
@@ -40,16 +37,15 @@ public class M_DP_Array_309 {
         
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
+            // Update lowest buy price using profit after rest from yesterday
+            int effectiveBuyPrice = price - maxProfitsRest[i - 1];
+            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
             
             // Sell today, use lowestBuyPrice from previous days
             maxProfitsSell[i] = price - lowestBuyPrice;
             
             // Rest today: max(keep resting from yesterday, cooldown from yesterday's sell)
             maxProfitsRest[i] = Math.max(maxProfitsRest[i - 1], maxProfitsSell[i - 1]);
-            
-            // Update lowest buy price using profit after rest from yesterday
-            int effectiveBuyPrice = price - maxProfitsRest[i - 1];
-            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
         }
         
         return Math.max(maxProfitsSell[L - 1], maxProfitsRest[L - 1]);

@@ -19,10 +19,7 @@ Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-
 
 # Analysis
  ? buy/sell possible on the same day
-   yes
-
- ? max buy/sell per day
-   max 1 full cycle of buying and then selling, per day
+   yes, max 1 full cycle of buying and then selling
 
  ? max buy/sell total
    no limit
@@ -40,22 +37,24 @@ public class M_Array_122 {
     public int maxProfit00(int[] prices) {
         int L = prices.length;
         
+        // can be simplified to 
+        // int maxProfit = 0;
         int[] maxProfits = new int[L];
         
         int lowestBuyPrice = prices[0];
         
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
-            
-            // sell with lowestPrice before today
-            int profit = + price - lowestBuyPrice;
-            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
-            
+
             // Track the lowest "effective" buy price (price - profit before buying)
-            // consider profit from previous transactin
             // as there could be multiple transactions
+            // consider buy price today as it's allowed
             int effectiveBuyPrice = price - maxProfits[i - 1];
             lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+            
+            // sell with lowestPrice 
+            int profit = + price - lowestBuyPrice;
+            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
         }
         
         return maxProfits[L - 1];
