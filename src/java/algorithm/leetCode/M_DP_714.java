@@ -16,10 +16,7 @@ The transaction fee is only charged once for each stock purchase and sale.
 
 # ASK
  ? buy/sell possible on the same day
-   No
-
- ? max buy/sell per day
-   max 1 buying OR selling, per day
+  yes, max 1 full cycle of buying and then selling
 
  ? max buy/sell total
    no limit
@@ -39,13 +36,13 @@ public class M_DP_714 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
             
-            int profit = price - lowestBuyPrice - fee;
-            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
-            
             // Update lowest effective buy price
             // Can buy using yesterday's profit
             int effectiveBuyPrice = price - maxProfits[i - 1];
             lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+
+            int profit = price - lowestBuyPrice - fee;
+            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
         }
         
         return maxProfits[L - 1];
