@@ -17,10 +17,7 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 
 # ASK
  ? buy/sell possible on the same day
-   yes
-
- ? max buy/sell per day
-   no limit on buying and then selling per day
+   yes, no limit on buying and then selling per day
 
  ? max buy/sell total
    max 2 full cycle of buying and then selling, in total
@@ -42,7 +39,7 @@ public class M_DP_123 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
             
-            // 1st transaction
+            // 1st transaction, buy/sell allowed on the same day
             lowestBuyPrice1 = Math.min(lowestBuyPrice1, price);
             int profit1 = price - lowestBuyPrice1;
             maxProfitSell1 = Math.max(maxProfitSell1, profit1);
