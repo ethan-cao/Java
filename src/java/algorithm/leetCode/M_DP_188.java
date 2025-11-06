@@ -31,31 +31,31 @@ public class M_DP_188 {
     // DP
     // Tim: O(N^2), 2ms
     public int maxProfit(int k, int[] prices) {
-        final int L = prices.length;
+        int L = prices.length;
 
         // maxProfits[i][j]: maximum profit achievable with at most i transactions up to day j.
         int[][] maxProfits = new int[k + 1][L];
-    
+
         for (int i = 1; i <= k; ++i) {
-          // initialize the price to the 1st day's price
-          int lowestEffectiveBuyPrice = prices[0];
-    
-          for (int j = 1; j < L; ++j) {
-            int profitIfNoAction = maxProfits[i][j - 1];
-    
-            // effective buy price considers the actual price minus the profit made by the previous transaction up to the previous day.
-            // representing the adjusted cost if one were to have bought the stock on the current day considering the profits from previous transactions.
-            // the reason use max profit up to the previous day is to ensure that each transaction is completed before starting another
-            // the profit from selling a stock on a given day must only consider profits from buys that could have been completed on previous days.
-            int price = prices[j];
-            int effectiveBuyPrice = price - maxProfits[i - 1][j - 1];
-            lowestEffectiveBuyPrice = Math.min(lowestEffectiveBuyPrice, effectiveBuyPrice);
-            int profitIfSell = + price - lowestEffectiveBuyPrice;
-    
-            maxProfits[i][j] = Math.max(profitIfNoAction, profitIfSell);
-          }
+            // BASE
+            int lowestBuyPrice = prices[0];
+            maxProfits[i][0] = 0;
+
+            for (int j = 1; j < L; ++j) {
+                int price = prices[j];
+            
+                // effective buy price considers the actual price minus the profit made by the previous transaction up to the previous day.
+                // representing the adjusted cost if one were to have bought the stock on the current day considering the profits from previous transactions.
+                // the reason use max profit up to the previous day is to ensure that each transaction is completed before starting another
+                // the profit from selling a stock on a given day must only consider profits from buys that could have been completed on previous days.
+                int effectiveBuyPrice = price - maxProfits[i - 1][j - 1];
+                lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+                
+                int profitSell = price - lowestBuyPrice;
+                maxProfits[i][j] = Math.max(maxProfits[i][j - 1], profitSell);
+            }
         }
-    
+
         return maxProfits[k][L - 1];
     }
 
