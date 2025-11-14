@@ -48,29 +48,29 @@ public class E_DP_Array_198 {
         }
 
         // BASE CASE
-        // maxValue(1) = max( take(1), skip(i) )
-        // take(1) = nums[0]
-        // skip(1) = 0
-        // maxValue(2) = max( take(2), skip(2) )
-        // take(2) = nums[1]
-        // skip(1) = nums[0]
-        int[] maxValue = new int[L];
+        // maxValue(0) = max( take(1), skip(i) )
+        // take(0) = nums[0]
+        // skip(0) = 0
+        // maxValue(1) = max( take(2), skip(2) )
+        // take(1) = nums[1]
+        // skip(0) = nums[0]
+        int[] maxSums = new int[L];
 
-        maxValue[0] = nums[0];
-        maxValue[1] = Math.max(nums[0], nums[1]);
+        int robSum = nums[0];
+        int restSum = 0;
+        maxSums[0] = Math.max(robSum, restSum);
 
-        // TRANSFORM
-        // maxValue(i) = max( take(i), skip(i) )
-        // take(i) = nums[i] + maxValue(i-2)
-        // skip(i) = maxValue(i-1)
+        robSum = nums[1];
+        restSum = maxSums[0];
+        maxSums[1] = Math.max(robSum, restSum);
+
         for (int i = 2; i < L; ++i) {
-            int take = nums[i] + maxValue[i - 2];
-            int skip = maxValue[i - 1];
-
-            maxValue[i] = Math.max(take, skip);
+            robSum = nums[i] + maxSums[i - 2];
+            restSum = maxSums[i - 1];
+            maxSums[i] = Math.max(robSum, restSum);
         }
 
-        return maxValue[L - 1];
+        return maxSums[L - 1];
     }
 
     // DP, iterative, condensed space, 0ms

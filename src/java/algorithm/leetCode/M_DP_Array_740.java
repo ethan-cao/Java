@@ -48,6 +48,7 @@ public class M_DP_Array_740 {
 
         // BASE CASE
         int[] maxPoints = new int[SIZE + 1];
+        
         maxPoints[1] = points[1];
         maxPoints[2] = Math.max(points[1], points[2]);
 

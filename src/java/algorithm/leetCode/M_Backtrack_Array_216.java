@@ -51,7 +51,7 @@ public class M_Backtrack_Array_216 {
         for (int num = start; num <= end; ++num) {
             tracker.add(num);
             collect(combinations, tracker, num + 1, end, k, n - num);
-            tracker.remove(tracker.size() - 1);
+            tracker.removeLast();
         }
     }
 
