@@ -27,11 +27,10 @@ public class M_DP_Math_264 {
     static int PRIME_FACTOR_3 = 3;
     static int PRIME_FACTOR_5 = 5;
 
-    // DP, 2ms
-    // Time: O(N)
-    // write the first 10 ugly numbers,
-    // we can find any ugly number is min(2 * i, 3 * j, 5 * k)
-    // i, j, k points to a previous ugly number
+    // DP, 2ms,   Time: O(N)
+    // write the first 10 ugly numbers, you will find
+    // any ugly number is min(2 * uglyNums[i], 3 * uglyNums[j], 5 * uglyNums[k])
+    // i, j, k points to a smaller ugly number that just needs to multiple 2,3 or 5
     public static int nthUglyNumber(int n) {
         int[] uglyNums = new int[n];
         uglyNums[0] = 1;
@@ -42,16 +41,17 @@ public class M_DP_Math_264 {
         int idx5 = 0;        
 
         for (int i = 1; i < n; ++i) { 
-            int nextUglyNumWith2 = 2 * uglyNums[idx2];
-            int nextUglyNumWith3 = 3 * uglyNums[idx3];
-            int nextUglyNumWith5 = 5 * uglyNums[idx5];
+            int nextUglyNum2 = 2 * uglyNums[idx2];
+            int nextUglyNum3 = 3 * uglyNums[idx3];
+            int nextUglyNum5 = 5 * uglyNums[idx5];
 
-            uglyNums[i] = Math.min(nextUglyNumWith2, Math.min(nextUglyNumWith3, nextUglyNumWith5));
+            uglyNums[i] = Math.min(nextUglyNum2, Math.min(nextUglyNum3, nextUglyNum5));
         
             // move the index once we found a match
-            if (uglyNums[i] == nextUglyNumWith2) idx2++;
-            if (uglyNums[i] == nextUglyNumWith3) idx3++;
-            if (uglyNums[i] == nextUglyNumWith5) idx5++;
+            // !!! DO NOT use else, might need to multiple index
+            if (uglyNums[i] == nextUglyNum2) idx2++;
+            if (uglyNums[i] == nextUglyNum3) idx3++;
+            if (uglyNums[i] == nextUglyNum5) idx5++;
         }
 
 

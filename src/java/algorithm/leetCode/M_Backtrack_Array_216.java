@@ -32,15 +32,15 @@ public class M_Backtrack_Array_216 {
     }
 
     public static void collect(
-        List<List<Integer>> combinations, 
+        List<List<Integer>>  combinations, 
         List<Integer> tracker, 
         int start,
         int end,
         int k,
         int n
     ) {
-        if (n == 0 && tracker.size() == k) {
-            combinations.add(new ArrayList<>(tracker));
+        if (n == 0     && tracker.size() == k) {
+                combinations.add(new ArrayList<>(tracker));
             return;
         }
 
@@ -51,7 +51,7 @@ public class M_Backtrack_Array_216 {
         for (int num = start; num <= end; ++num) {
             tracker.add(num);
             collect(combinations, tracker, num + 1, end, k, n - num);
-            tracker.removeLast();
+            
         }
     }
 

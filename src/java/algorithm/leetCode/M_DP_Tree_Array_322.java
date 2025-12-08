@@ -85,6 +85,52 @@ public class M_DP_Tree_Array_322 {
         return counts[amount] == Integer.MAX_VALUE ? -1 : counts[amount];
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DP iterative
+    // 20ms
+    public static int coinChange3(int[] coins, int amount) {
+        // changes[i]: minimal number of coins needed to make up to amount i with all coins, we need changes[amount]
+        // base changes[0] = 0
+        int[] changes = new int[amount + 1];
+
+        Arrays.sort(coins);
+
+        // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1], changes[0] = 0
+        // so sub problem is to get changes[i], i starts from 1 until amount
+        // changes[i] should be 1 + existing solution if it exists
+        for (int value = 1; value <= amount; ++value) {
+            // !!! CANNOT use  changes[value] = value + 1;
+            // this might mis-lead the state tranfers, as the next state thought the previous states is possible
+            changes[value] = amount + 1;
+
+            for (int coin : coins) {
+                // given amount i, check coins that are possible to use: smaller than i
+                // if just use 1 of that coin, how many coins needed to make up the remaining amount i - coin
+
+                // changes[i - coin * 1] is either a positive number or -1
+                // if changes[i-coin] is a positive number, then to make up to i, just need 1 more coin
+                // if changes[i-coin] is -1, then not possible to make up to i - coin and not possible to make up to i,
+                // since solution for changes[i] must be built on previous solutions
+
+                // Not necessary to use multiple that coin, since that case has already been checked
+                // for instance coins [3] and amount 10,
+                // 10-3=7, no solution for using 1 coin 3 to get 7
+                // 10-3*2=4, this is actually 7-3=4, which already checked
+
+                // if sort coins, we can terminate early, 
+                if (coin > value) {
+                    break; 
+                }           
+
+                int change = changes[value - coin] + 1;
+                changes[value] = Math.min(changes[value], change);
+            }
+        }
+
+        return changes[amount] == amount + 1 ? -1 : changes[amount];
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Unbounded Knapsack
     // DP, recursive, LTE
@@ -179,49 +225,6 @@ public class M_DP_Tree_Array_322 {
         return memo[idx][amount];
     }
 
-    // DP iterative
-    // 20ms
-    public static int coinChange3(int[] coins, int amount) {
-        // changes[i]: minimal number of coins needed to make up to amount i with all coins, we need changes[amount]
-        // base changes[0] = 0
-        int[] changes = new int[amount + 1];
-
-        // in order to know changes[amount], we first need to know changes[amount-1], changes[amount-2] ... changes[1], changes[0] = 0
-        // so sub problem is to get changes[i], i starts from 1 until amount
-        // changes[i] should be 1 + existing solution if it exists
-        for (int i = 1; i <= amount; ++i) {
-            int minChange = Integer.MAX_VALUE;    // could also be amount + 1
-
-            for (int coin : coins) {
-                // given amount i, check coins that are possible to use: smaller than i
-                // if just use 1 of that coin, how many coins needed to make up the remaining amount i - coin
-
-                // changes[i - coin * 1] is either a positive number or -1
-                // if changes[i-coin] is a positive number, then to make up to i, just need 1 more coin
-                // if changes[i-coin] is -1, then not possible to make up to i - coin and not possible to make up to i,
-                // since solution for changes[i] must be built on previous solutions
-
-                // Not necessary to use multiple that coin, since that case has already been checked
-                // for instance coins [3] and amount 10,
-                // 10-3=7, no solution for using 1 coin 3 to get 7
-                // 10-3*2=4, this is actually 7-3=4, which already checked
-                if (coin > i) {
-                    continue;
-                }
-
-                // if sort coins, we can terminate early, if (coin > i) break; (it costs more time)
-
-                if (changes[i - coin] != -1) {
-                    int change = changes[i - coin] + 1;
-                    minChange = Math.min(minChange, change);
-                }
-            }
-
-            changes[i] = minChange == Integer.MAX_VALUE ? -1 : minChange;
-        }
-
-        return changes[amount];
-    }
 
     //DP recursive
     // 39ms

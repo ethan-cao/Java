@@ -29,49 +29,6 @@ public class M_983 {
         System.out.println(mincostTickets(new int[] { 1, 4, 6, 7, 8, 20 }, new int[] { 7, 2, 15 }));
     }
 
-    // DP, recursive, memo
-    // 0ms
-    public static int mincostTickets(int[] days, int[] costs) {
-        int firstDay = days[0];
-        int lastDay = days[days.length - 1];
-
-        boolean[] isTravelDay = new boolean[lastDay - firstDay + 1];
-        for (int day : days) {
-            isTravelDay[day - firstDay] = true;
-        }
-
-        int idxOfLastDay = lastDay - firstDay;
-
-        Integer[] memo = new Integer[lastDay - firstDay + 1];
-
-        return count(days, idxOfLastDay, costs, isTravelDay, memo);
-    }
-
-    private static int count(int[] days, int idx, int[] costs, boolean[] isTravelDay, Integer[] memo) {
-        if (idx == 0) {
-            // !!! use the minimal one
-            return Math.min(costs[0], Math.min(costs[1], costs[2]));
-        }
-
-        if (memo[idx] != null) {
-            return memo[idx];
-        }
-
-        memo[idx] = Integer.MAX_VALUE;
-
-        if (isTravelDay[idx]) {
-            int costWithDayTicket = costs[0] + (idx >= 1 ? count(days, idx - 1, costs, isTravelDay, memo) : 0);
-            int costWithWeekTicket = costs[1] + (idx >= 7 ? count(days, idx - 7, costs, isTravelDay, memo) : 0);
-            int costWithMonthTicket = costs[2] + (idx >= 30 ? count(days, idx - 30, costs, isTravelDay, memo) : 0);
-
-            memo[idx] = Math.min(costWithDayTicket, Math.min(costWithWeekTicket, costWithMonthTicket));
-        } else {
-            memo[idx] = count(days, idx - 1, costs, isTravelDay, memo);
-        }
-
-        return memo[idx];
-    }
-
     // DP, iterative
     // 1ms
     public int mincostTickets1(int[] days, int[] costs) {
@@ -81,6 +38,7 @@ public class M_983 {
 
         int lastTravelDay = days[days.length - 1];
         int[] minCosts = new int[lastTravelDay + 1];
+
         boolean[] isTravelDay = new boolean[lastTravelDay + 1];
         for (int day : days) {
             isTravelDay[day] = true;
@@ -131,6 +89,49 @@ public class M_983 {
         }
 
         return minCosts[lastDay - firstDay];
+    }
+    
+    // DP, recursive, memo
+    // 0ms
+    public static int mincostTickets(int[] days, int[] costs) {
+        int firstDay = days[0];
+        int lastDay = days[days.length - 1];
+
+        boolean[] isTravelDay = new boolean[lastDay - firstDay + 1];
+        for (int day : days) {
+            isTravelDay[day - firstDay] = true;
+        }
+
+        int idxOfLastDay = lastDay - firstDay;
+
+        Integer[] memo = new Integer[lastDay - firstDay + 1];
+
+        return count(days, idxOfLastDay, costs, isTravelDay, memo);
+    }
+
+    private static int count(int[] days, int idx, int[] costs, boolean[] isTravelDay, Integer[] memo) {
+        if (idx == 0) {
+            // !!! use the minimal one
+            return Math.min(costs[0], Math.min(costs[1], costs[2]));
+        }
+
+        if (memo[idx] != null) {
+            return memo[idx];
+        }
+
+        memo[idx] = Integer.MAX_VALUE;
+
+        if (isTravelDay[idx]) {
+            int costWithDayTicket = costs[0] + (idx >= 1 ? count(days, idx - 1, costs, isTravelDay, memo) : 0);
+            int costWithWeekTicket = costs[1] + (idx >= 7 ? count(days, idx - 7, costs, isTravelDay, memo) : 0);
+            int costWithMonthTicket = costs[2] + (idx >= 30 ? count(days, idx - 30, costs, isTravelDay, memo) : 0);
+
+            memo[idx] = Math.min(costWithDayTicket, Math.min(costWithWeekTicket, costWithMonthTicket));
+        } else {
+            memo[idx] = count(days, idx - 1, costs, isTravelDay, memo);
+        }
+
+        return memo[idx];
     }
 
     // BFS

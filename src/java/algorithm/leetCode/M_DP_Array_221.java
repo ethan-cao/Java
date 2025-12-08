@@ -30,21 +30,19 @@ public class M_DP_Array_221 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // https://leetcode.com/problems/maximal-square/discuss/600149/Python-Thinking-Process-Diagrams-DP-Approach
     // DP, iterative, 4ms
     // Time: O(N^2), Space: O(M*N)
     public static int maximalSquare(char[][] matrix) {
-        final int M = matrix.length;
-        final int N = matrix[0].length;
-        final char ZERO = '0';
+        final int H = matrix.length;
+        final int W = matrix[0].length;
         final char ONE = '1';
 
-        // squareLength[i][j] : number of edge of square that ends in matrix[y][x]
-        int[][] squareLength = new int[M][N];
-        int maxSquareLength = Integer.MIN_VALUE;
+        // length[i][j] : number of edge of square that ends in matrix[y][x]
+        int[][] length = new int[H][W];
+        int maxLength = Integer.MIN_VALUE;
 
-        for (int y = 0; y < M; ++y) {
-            for (int x = 0; x < N; ++x) {
+        for (int y = 0; y < H; ++y) {
+            for (int x = 0; x < W; ++x) {
                 char cell = matrix[y][x];
 
                 // Actually each time when we update squareLength[i][j],
@@ -52,17 +50,17 @@ public class M_DP_Array_221 {
                 // So we may just keep two rows, the current and the previous row
                 if (cell == ONE) {
                     if (y == 0 || x == 0) {
-                        squareLength[y][x] = 1;
+                        length[y][x] = 1;
                     } else {
-                        squareLength[y][x] = Math.min(squareLength[y - 1][x - 1], Math.min(squareLength[y - 1][x], squareLength[y][x - 1])) + 1;
+                        length[y][x] = Math.min(length[y - 1][x - 1], Math.min(length[y - 1][x], length[y][x - 1])) + 1;
                     }
                 }
 
-                maxSquareLength = Math.max(maxSquareLength, squareLength[y][x]);
+                maxLength = Math.max(maxLength, length[y][x]);
             }
         }
 
-        return maxSquareLength * maxSquareLength;
+        return maxLength * maxLength;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +69,6 @@ public class M_DP_Array_221 {
     public static int maximalSquare1(char[][] matrix) {
         final int M = matrix.length;
         final int N = matrix[0].length;
-        final char ZERO = '0';
         final char ONE = '1';
 
         int topLeftLength = Integer.MAX_VALUE;  // squareLength[y-1][x-1]

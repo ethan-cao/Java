@@ -37,7 +37,9 @@ public class M_DP_Array_309 {
         
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
+            
             // Update lowest buy price using profit after rest from yesterday
+            // the day before must be rest
             int effectiveBuyPrice = price - maxProfitsRest[i - 1];
             lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
             
