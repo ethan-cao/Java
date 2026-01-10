@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /*
 Given a positive integer n (n > 0)
-find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n
+find the least number of perfect square numbers (for example, 1, 4, 9) which sum to n
 1 <= n <= 10^4
 
 ### Example
@@ -32,17 +32,12 @@ public class M_DP_Math_279 {
     public int numSquares00(int n) {
         int[] counts = new int[n + 1];
     
-        // BASE
-        counts[0] = 0;
-        counts[1] = 1;
-    
-        for (int num = 2; num <= n; ++num) {
-            // the count is, at most: num
-            counts[num] = num;
+        for (int num = 1; num <= n; ++num) {
+            // !!! the count is, at most: n + 1, in all cases
+            counts[num] = n + 1;
 
             for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
                 int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];
-
                 counts[num] = Math.min(counts[num], countWithSquareRoot);
             }
         }
@@ -173,8 +168,6 @@ public class M_DP_Math_279 {
 
         return memo[perfectSquareRoot][num];
     }
-
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, condensed space, 39ms

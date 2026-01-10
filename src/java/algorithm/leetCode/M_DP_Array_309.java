@@ -2,7 +2,8 @@ package algorithm.leetCode;
 
 /*
 Say you have an array for which the ith element is the price of a given stock on day i.
-You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times) 
+You may complete as many transactions as you like 
+(ie, buy one and sell one share of the stock multiple times) 
 with the following restrictions:
 You may not engage in multiple transactions at the same time (must sell the stock before you buy again)
 After you sell your stock, you cannot buy stock on next day. (cooldown 1 day)
@@ -33,18 +34,19 @@ public class M_DP_Array_309 {
         int[] maxProfitsRest = new int[L];
         maxProfitsRest[0] = 0;  
         
-        int lowestBuyPrice = prices[0];
+        int lowestCost = prices[0];
         
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
             
-            // Update lowest buy price using profit after rest from yesterday
-            // the day before must be rest
-            int effectiveBuyPrice = price - maxProfitsRest[i - 1];
-            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+            // effective cost if I buy today
+            int effectiveCostToday = price - maxProfitsRest[i - 1];
+
+            // find the lowest cost, basically we consider buy on anyday till today
+            lowestCost = Math.min(lowestCost, effectiveCost);
             
             // Sell today, use lowestBuyPrice from previous days
-            maxProfitsSell[i] = price - lowestBuyPrice;
+            maxProfitsSell[i] = price - lowestCost;
             
             // Rest today: max(keep resting from yesterday, cooldown from yesterday's sell)
             maxProfitsRest[i] = Math.max(maxProfitsRest[i - 1], maxProfitsSell[i - 1]);

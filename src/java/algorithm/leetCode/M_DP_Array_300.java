@@ -76,11 +76,14 @@ public class M_DP_Array_300 {
         int[] counts = new int[L];
         Arrays.fill(counts, 1);
 
+        // set to 1, minimal
         int maxCount = 1;
 
         for (int i = 1; i < L; ++i) {
-            // check each item before i 
             
+            // This loop is necessary 
+            // because the longest increasing subsequence ending at index i 
+            // is not necessarily formed by extending the subsequence ending at i-1
             for (int j = i - 1; j >= 0; --j) {
             // alternatively 
             // for (int j = 0; j < i; ++j) {

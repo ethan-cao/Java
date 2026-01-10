@@ -71,7 +71,7 @@ public class M_DP_Array_518 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP
+    // DP, s
     // Time: O(N^2)
     public int change123(int amount, int[] coins) {
         final int L = coins.length;
