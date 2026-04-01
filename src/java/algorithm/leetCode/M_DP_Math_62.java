@@ -91,7 +91,6 @@ public class M_DP_Math_62 {
     }
 
     // DP, recursive, LTE
-    // Time
     // use tree to analyse all possible cases, then came up with recursion solution
     public static int uniquePaths(int m, int n) {
         return countPath(m - 1, n - 1);

@@ -37,6 +37,8 @@ public class M_DP_String_91 {
         // counts[i]: when string size is i, how many ways to decode
         int[] counts = new int[L];
 
+        // both counts[0] and counts[1] are base case
+
         // single digit that ending at s.charAt(i)
         int singleDigit = getSingleDigit(s, 0);
         counts[0] = singleDigit == 0 ? 0 : 1;

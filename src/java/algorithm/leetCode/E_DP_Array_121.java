@@ -67,16 +67,14 @@ public class E_DP_Array_121 {
 
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
-        
-            int profitIfBuy = -price;
-            int preMaxProfitIfBuy = maxProfitIfBuy; 
-            maxProfitIfBuy = Math.max(maxProfitIfBuy, profitIfBuy);
 
             // since sell must on a different day, use maxProfitIfBuy[i - 1] 
             // need to use the max profit when buy happens before dayI
-            int profitIfSell = preMaxProfitIfBuy + price;
+            int profitIfSell = maxProfitIfBuy + price;   // ---> this is effectively: price - lowestBuyPrice;
             maxProfitIfSell = Math.max(maxProfitIfSell, profitIfSell);
 
+            int profitIfBuy = -price;
+            maxProfitIfBuy = Math.max(maxProfitIfBuy, profitIfBuy);
         }
     
         return maxProfitIfSell;

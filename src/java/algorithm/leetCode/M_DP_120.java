@@ -26,7 +26,7 @@ public class M_DP_120 {
         // minSums[y][x] is the minimum path sum from (y, x) to the bottom
         int[][] minSums = new int[SIZE][SIZE];
 
-        // BASE, the last row
+        // BASE, the bottom row
         // find minimum sum from the bottom row, so we can examine all the paths
         // if start from the first row, we can't guarantee the minimum sum is in the last row
         for (int x = 0; x < SIZE; ++x) {

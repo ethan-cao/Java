@@ -34,6 +34,7 @@ public class M_DP_Tree_96 {
 
     private int count(int start, int end, Integer[][] memo) {
         // !!! use start > end
+        // for instance, when start = end = 1, there is still 1 branch
         if (start > end) {
             return 1;
         }
