@@ -34,30 +34,28 @@ public class M_Array_122 {
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ✅
     public int maxProfit00(int[] prices) {
         int L = prices.length;
         
-        // can be simplified to 
-        // int maxProfit = 0;
-        int[] maxProfits = new int[L];
-        
-        int lowestBuyPrice = prices[0];
-        
+        int maxProfit = 0;
+        int lowestPrice = prices[0];
+    
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
             // Track the lowest "effective" buy price (price - profit before buying)
             // as there could be multiple transactions
             // consider buy price today as it's allowed
-            int effectiveBuyPrice = price - maxProfits[i - 1];
-            lowestBuyPrice = Math.min(lowestBuyPrice, effectiveBuyPrice);
+            int effectiveBuyPrice = price - maxProfit;
+            lowestPrice = Math.min(lowestPrice, effectiveBuyPrice);
             
             // sell with lowestPrice 
-            int profit = + price - lowestBuyPrice;
-            maxProfits[i] = Math.max(maxProfits[i - 1], profit);
+            int profit = price - lowestPrice;
+            maxProfit = Math.max(maxProfit, profit);
         }
         
-        return maxProfits[L - 1];
+        return maxProfit;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
