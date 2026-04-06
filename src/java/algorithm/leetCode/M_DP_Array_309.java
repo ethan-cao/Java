@@ -14,7 +14,9 @@ transactions = [buy, sell, cooldown, buy, sell]
 
 # Analysis
  ? buy/sell possible on the same day
-   yes, max 1 full cycle of buying and then selling
+   buying and selling on the same day is implictly not allowed, since
+    1. no profit
+    2. doing so, disallow to buy on the next day
 
  ? max buy/sell total
    no limit
@@ -23,77 +25,50 @@ transactions = [buy, sell, cooldown, buy, sell]
 
 public class M_DP_Array_309 {
 
-    public int maxProfit0(int[] prices) {
-        int L = prices.length;
-        
-        // max profit when sell on day i
-        int[] maxProfitsSell = new int[L];
-        maxProfitsSell[0] = 0;  
-
-        // max profit when rest on day i
-        int[] maxProfitsRest = new int[L];
-        maxProfitsRest[0] = 0;  
-        
-        int lowestCost = prices[0];
-        
-        for (int i = 1; i < L; ++i) {
-            int price = prices[i];
-            
-            // effective cost if I buy today
-            int effectiveCostToday = price - maxProfitsRest[i - 1];
-
-            // find the lowest cost, basically we consider buy on anyday till today
-            lowestCost = Math.min(lowestCost, effectiveCost);
-            
-            // Sell today, use lowestBuyPrice from previous days
-            maxProfitsSell[i] = price - lowestCost;
-            
-            // Rest today: max(keep resting from yesterday, cooldown from yesterday's sell)
-            maxProfitsRest[i] = Math.max(maxProfitsRest[i - 1], maxProfitsSell[i - 1]);
-        }
-        
-        return Math.max(maxProfitsSell[L - 1], maxProfitsRest[L - 1]);
-    }
-
-    // DP, iterative, 0ms
+    // --------------------------------------------------------------------------
+    // ✅  DP, iterative, 0ms
     // Time: O(N), Space: O(N)
     public static int maxProfit1(int[] prices) {
         int L = prices.length;
         
         // max profit until day i, with the last action as buy 
-        int[] maxProfitIfBuy = new int[L];
+        // prefer to use state in name: Hold is better than Buy
+        int[] maxProfitHold = new int[L];
+        maxProfitHold[0] = -prices[0];
+
         // max profit until day i, with the last action as sell
-        int[] maxProfitIfSell = new int[L];
-    
-        maxProfitIfBuy[0] = -prices[0];
-        maxProfitIfSell[0] = 0;
+        int[] maxProfitSold = new int[L];
+        maxProfitSold[0] = 0;
     
         if (L == 1) {
-            return maxProfitIfSell[L - 1];
-        }
+            return maxProfitSold[L - 1];
+        } 
+
+        int profitHold = - prices[1];
+        maxProfitHold[1] = Math.max(maxProfitHold[0], profitHold);
+
+        // implictly not allow to buy and sell on the same day, since
+        // 1. no profit
+        // 2. doing so, disallow to buy on the next day
+        int profitSold = + prices[1] + maxProfitHold[0];
+        maxProfitSold[1] = Math.max(maxProfitSold[0], profitSold);
     
-        // profit on that day if buy
-        int profitIfBuy = -prices[1];
-        maxProfitIfBuy[1] = Math.max(maxProfitIfBuy[0], profitIfBuy);
-
-        // profit on that day if sell
-        int profitIfSell = maxProfitIfBuy[0] + prices[1];
-        maxProfitIfSell[1] = Math.max(maxProfitIfSell[0], profitIfSell);
-
         for (int i = 2; i < L; ++i) {
             int price = prices[i];
 
-            profitIfBuy = maxProfitIfSell[i - 2] - price;
-            maxProfitIfBuy[i] = Math.max(maxProfitIfBuy[i - 1], profitIfBuy);
+            profitHold = - price + maxProfitSold[i - 2];
+            maxProfitHold[i] = Math.max(maxProfitHold[i - 1], profitHold);
 
-            profitIfSell = maxProfitIfBuy[i - 1] + price;
-            maxProfitIfSell[i] = Math.max(maxProfitIfSell[i - 1], profitIfSell);
+            profitSold = + price + maxProfitHold[i - 1];
+            maxProfitSold[i] = Math.max(maxProfitSold[i - 1], profitSold);
+
         }
     
-        return maxProfitIfSell[L - 1];
+        return maxProfitSold[L - 1];
     }
 
-        // DP, 0ms
+    // -------------------------------------------------------------------------------------------------
+    // ✅ DP, 0ms
     // Time: O(N), Space: O(1)
     public int maxProfit(int[] prices) {
         final int L = prices.length;
@@ -127,4 +102,36 @@ public class M_DP_Array_309 {
         return profit;
     }
 
+    // --------------------------------------------------------------------------
+    public int maxProfit0(int[] prices) {
+        int L = prices.length;
+        
+        // max profit when sell on day i
+        int[] maxProfitSold = new int[L];
+        maxProfitSold[0] = 0;  
+
+        // max profit when rest on day i
+        int[] maxProfitsRest = new int[L];
+        maxProfitsRest[0] = 0;  
+        
+        int lowestCost = prices[0];
+        
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+            
+            // effective cost if I buy today
+            int effectiveCostToday = price - maxProfitsRest[i - 1];
+
+            // find the lowest cost, basically we consider buy on anyday till today
+            lowestCost = Math.min(lowestCost, effectiveCost);
+            
+            // Sell today, use lowestBuyPrice from previous days
+            maxProfitSold[i] = price - lowestCost;
+            
+            // Rest today: max(keep resting from yesterday, cooldown from yesterday's sell)
+            maxProfitsRest[i] = Math.max(maxProfitsRest[i - 1], maxProfitSold[i - 1]);
+        }
+        
+        return Math.max(maxProfitSold[L - 1], maxProfitsRest[L - 1]);
+    }
 }

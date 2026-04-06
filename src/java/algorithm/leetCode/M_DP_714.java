@@ -16,7 +16,9 @@ The transaction fee is only charged once for each stock purchase and sale.
 
 # ASK
  ? buy/sell possible on the same day
-  yes, max 1 full cycle of buying and then selling
+   buying and selling on the same day is implictly not allowed, since
+    1. no profit
+    2. doing so, disallow to buy on the next day
 
  ? max buy/sell total
    no limit
@@ -24,7 +26,30 @@ The transaction fee is only charged once for each stock purchase and sale.
  */
 
 public class M_DP_714 {
+   
+    // --------------------------------------------------------------------------
+    // ✅  DP, iterative
+    public int maxProfit(int[] prices, int fee) {
+        int  L = prices.length; 
+        
+        int[] maxProfitHold = new int[L];
+        maxProfitHold[0] = -prices[0];
+
+        int[] maxProfitSold = new int[L];
+        maxProfitSold[0] = 0;
     
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+
+            int profitHold = - price + maxProfitSold[i - 1];
+            maxProfitHold[i] = Math.max(maxProfitHold[i - 1], profitHold);
+        
+            int profitSold = + price + maxProfitHold[i - 1] - fee;
+            maxProfitSold[i] = Math.max(maxProfitSold[i - 1], profitSold);
+        }
+
+        return maxProfitSold[L - 1];
+    }  
     public int maxProfit0(int[] prices, int fee) {
         int L = prices.length;
         
@@ -48,25 +73,5 @@ public class M_DP_714 {
         return maxProfits[L - 1];
     }
   
-    public int maxProfit(int[] prices, int fee) {
-        int L = prices.length;
-        
-        int[] maxProfitsIfBuy = new int[L];
-        maxProfitsIfBuy[0] = -prices[0];
 
-        int[] maxProfitsIfSell = new int[L];
-        maxProfitsIfSell[0] = 0;
-
-        for (int i = 1; i < L; ++i) {
-            int price = prices[i];
-
-            int profitIfBuy = maxProfitsIfSell[i - 1] - price;
-            maxProfitsIfBuy[i] = Math.max(maxProfitsIfBuy[i - 1], profitIfBuy);
-        
-            int profitIfSell = maxProfitsIfBuy[i - 1] + price - fee;
-            maxProfitsIfSell[i] = Math.max(maxProfitsIfSell[i - 1], profitIfSell);
-        }
-
-        return maxProfitsIfSell[L - 1];
-    } 
 }

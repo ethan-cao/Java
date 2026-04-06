@@ -23,7 +23,7 @@ public class M_Backtrack_Array_46 {
 
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // Backtrack
     // 1ms
     public static List<List<Integer>> permute(int[] nums) {
@@ -56,7 +56,7 @@ public class M_Backtrack_Array_46 {
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // Iterative
     // https://leetcode.com/problems/permutations/discuss/18237/My-AC-simple-iterative-javapython-solution
     public static List<List<Integer>> permute1(int[] nums) {

@@ -35,7 +35,7 @@ public class M_DP_Array_139 {
         System.out.println(wordBreak1(s2, wordDict2)); // F
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // DP, iterative, 4ms
     public static boolean wordBreak(String s, List<String> wordDict) {
         int L = s.length();
@@ -63,7 +63,7 @@ public class M_DP_Array_139 {
         return canBeBroken[L - 1];
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // DP iterative
     public static boolean wordBreak1(String s, List<String> wordDict) {
         // canBeSegmented[i]: if s.substring(0, i-1) can be segmented
@@ -86,7 +86,7 @@ public class M_DP_Array_139 {
         return canBeSegmented[s.length()];
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // Brute force, DFS
     // Time: O(2^n)
     public boolean wordBreak111(String s, List<String> wordDict) {

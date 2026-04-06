@@ -68,7 +68,7 @@ public class M_Backtrack_Array_47 {
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // Iterative, slower than backtrack
     public static List<List<Integer>> permuteUnique1(int[] nums) {
         List<List<Integer>> permutations = new ArrayList<>();

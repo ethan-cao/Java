@@ -17,7 +17,9 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 
 # ASK
  ? buy/sell possible on the same day
-   yes, no limit on buying and then selling per day
+   buying and selling on the same day is implictly not allowed, since
+    1. no profit
+    2. doing so, disallow to buy on the next day
 
  ? max buy/sell total
    max 2 full cycle of buying and then selling, in total
@@ -26,6 +28,37 @@ You may not engage in multiple transactions simultaneously (i.e., you must sell 
 
 public class M_DP_123 {
 
+    //----------------------------------------------------------------------------------------------
+    // ✅  DP, 2ms 
+    public int maxProfit1(int[] prices) {
+        final int L = prices.length;
+
+        int maxProfitHold1 = -prices[0];
+        int maxProfitSold1 = 0;
+    
+        int maxProfitHold2 = -prices[0];
+        int maxProfitSold2 = 0;
+
+        for (int i = 1; i < L; ++i) {
+            int price = prices[i];
+
+            int profitSold1 = + price + maxProfitHold1;
+            maxProfitSold1 = Math.max(maxProfitSold1, profitSold1);
+            
+            int profitHold1 = -price;
+            maxProfitHold1 = Math.max(maxProfitHold1, profitHold1);
+
+            int profitSold2 = + price + maxProfitHold2;
+            maxProfitSold2 = Math.max(maxProfitSold2, profitSold2);
+
+            int profitHold2 = - price + maxProfitSold1;
+            maxProfitHold2 = Math.max(maxProfitHold2, profitHold2);
+        }
+
+        return maxProfitSold2; 
+    }
+
+    //----------------------------------------------------------------------------------------------
     public int maxProfit00(int[] prices) {
         final int L = prices.length;
         if (L == 0) return 0;
@@ -54,45 +87,8 @@ public class M_DP_123 {
         return maxProfitSell2;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // DP, 2ms 
-    public int maxProfit1(int[] prices) {
-        final int L = prices.length;
-
-        // max profit if 1st buy on day1
-        int maxProfitIfBuy1 = -prices[0];
-        // max profit if 1st sell on day1
-        int maxProfitIfSell1 = 0;
-    
-        // max profit if 2nd buy on day1
-        int maxProfitIfBuy2 = -prices[0];
-        // max profit if 2nd sell on day1
-        int maxProfitIfSell2 = 0;
-
-        for (int i = 1; i < L; ++i) {
-            int price = prices[i];
-            
-            // profit if 1st buy on dayi
-            int profitIfBuy1 = -price;
-            maxProfitIfBuy1 = Math.max(maxProfitIfBuy1, profitIfBuy1);
-
-            // profit if 1st sell on dayi, must happen after buy1
-            int profitIfSell1 = maxProfitIfBuy1 + price;
-            maxProfitIfSell1 = Math.max(maxProfitIfSell1, profitIfSell1);
-
-            // profit if 2nd buy on dayi, must happen after sell1
-            int profitIfBuy2 = maxProfitIfSell1 - price;
-            maxProfitIfBuy2 = Math.max(maxProfitIfBuy2, profitIfBuy2);
-
-            // profit if 2nd sell on dayi, must happen after buy2
-            int profitIfSell2 = maxProfitIfBuy2 + price;
-            maxProfitIfSell2 = Math.max(maxProfitIfSell2, profitIfSell2);
-        }
-
-        return maxProfitIfSell2; 
-    }
-    
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+    //----------------------------------------------------------------------------------------------
     // DP
     // Time: O(N), 5ms
     public int maxProfit(int[] prices) {

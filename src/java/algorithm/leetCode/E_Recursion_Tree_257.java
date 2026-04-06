@@ -61,7 +61,7 @@ public class E_Recursion_Tree_257 {
         collect(paths, trackerRight, node.right);
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // BFS
     private static List<String> binaryTreePaths1(TreeNode root) {
         List<String> paths = new ArrayList<>();

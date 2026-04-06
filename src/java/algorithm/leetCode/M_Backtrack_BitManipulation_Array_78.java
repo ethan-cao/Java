@@ -49,7 +49,7 @@ public class M_Backtrack_BitManipulation_Array_78 {
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // Iterative, BFS
     public static List<List<Integer>> subsets2(int[] nums) {
         List<List<Integer>> subsets = new ArrayList<>();

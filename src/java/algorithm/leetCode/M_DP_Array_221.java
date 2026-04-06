@@ -29,7 +29,7 @@ public class M_DP_Array_221 {
         System.out.println(maximalSquare(matrix1));  // 4
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // DP, iterative, 4ms
     // Time: O(N^2), Space: O(M*N)
     public static int maximalSquare(char[][] matrix) {
@@ -63,7 +63,7 @@ public class M_DP_Array_221 {
         return maxLength * maxLength;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------------------------------------
     // DP, condensed space, ms
     // Time: O(N^2), Space: O(N)
     public static int maximalSquare1(char[][] matrix) {
