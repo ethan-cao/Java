@@ -28,9 +28,40 @@ k = 2, prices = [3,2,6,5,0,3] -> 7
 
 public class M_DP_188 {
 
+    //----------------------------------------------------------------------------------------------
+    // ✅  DP 
+    public int maxProfit(int k, int[] prices) {
+        int L = prices.length;
+
+        int[][] maxProfitHold = new int[k][L];
+        int[][] maxProfitSold = new int[k][L];
+
+        for (int i = 0; i < k; i++) {
+            maxProfitHold[i][0] = -prices[0];
+            maxProfitSold[i][0] = 0;
+        }
+
+        for (int j = 0; j < k; j++) {
+            for (int i = 1; i < L; ++i) {
+
+                int price = prices[i];
+
+                int profitSold = + price + maxProfitHold[j][i - 1];
+                maxProfitSold[j][i] = Math.max(maxProfitSold[j][i - 1], profitSold);
+
+                int prevSold = (j == 0) ? 0 : maxProfitSold[j - 1][i - 1];
+                int profitHold = - price + prevSold;
+                maxProfitHold[j][i] = Math.max(maxProfitHold[j][i - 1], profitHold);
+            }
+        }
+
+        return maxProfitSold[k - 1][L - 1];
+    }
+    
+    //----------------------------------------------------------------------------------------------
     // DP
     // Tim: O(N^2), 2ms
-    public int maxProfit(int k, int[] prices) {
+    public int maxProfit1(int k, int[] prices) {
         int L = prices.length;
 
         // maxProfits[i][j]: maximum profit achievable with at most i transactions up to day j.
