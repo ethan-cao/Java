@@ -35,55 +35,61 @@ public class M_DP_Array_139 {
         System.out.println(wordBreak1(s2, wordDict2)); // F
     }
 
+
     //----------------------------------------------------------------------------------------------
-    // DP, iterative, 4ms
-    public static boolean wordBreak(String s, List<String> wordDict) {
+    // ✅ DP, iterative, 
+    // Time:: O(N^2), 6ms
+    public static boolean wordBreak12(String s, List<String> wordDict) {
         int L = s.length();
         
-        // canBeBroken[i]: if the substring(0, i + 1) can be broken
-        boolean[] canBeBroken = new boolean[L];
+        // optimization: convert list to set for O(1) lookups
+        Set<String> wordSet = new HashSet<>(wordDict);
+        
+        // results[i]: if s.substring(0, i) can be segmented
+        // you really only need a 1D array, since results[i] only depends on results[j] where j < i
+        boolean[] results = new boolean[L];
 
         for (int end = 0; end < L; ++end) {
-            for (int start = 0; start <= end; ++start) {
-                String substring = s.substring(start, end + 1);
-            
+            for (int start = end; start >= 0; --start) {
+                String word = s.substring(start, end + 1);
+
                 if (start == 0) {
-                    canBeBroken[end] = wordDict.contains(substring);
+                    results[end] = wordSet.contains(word);
                 } else {
-                    canBeBroken[end] = wordDict.contains(substring) && canBeBroken[start - 1];
+                    results[end] = wordSet.contains(word) && results[start - 1];
                 }
             
-                if (canBeBroken[end]) {
+                if (results[end]) {
                     break;    
                 }
             }
         
         }
 
-        return canBeBroken[L - 1];
+        return results[L - 1];
     }
 
     //----------------------------------------------------------------------------------------------
     // DP iterative
     public static boolean wordBreak1(String s, List<String> wordDict) {
-        // canBeSegmented[i]: if s.substring(0, i-1) can be segmented
-        boolean[] canBeSegmented = new boolean[s.length() + 1];
+        // result[i]: if s.substring(0, i-1) can be segmented
+        boolean[] result = new boolean[s.length() + 1];
 
         // BASE
-        canBeSegmented[0] = true;
+        result[0] = true;
 
         for (int end = 1; end <= s.length(); ++end) {
             for (String word : wordDict) {
                 if (word.length() <= end
-                        && canBeSegmented[end - word.length()]
+                        && result[end - word.length()]
                         && word.equals(s.substring(end - word.length(), end))) {
-                    canBeSegmented[end] = true;
+                    result[end] = true;
                     break;
                 }
             }
         }
 
-        return canBeSegmented[s.length()];
+        return result[s.length()];
     }
 
     //----------------------------------------------------------------------------------------------

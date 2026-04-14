@@ -18,12 +18,12 @@ import java.util.Arrays;
 public class H_DP_132 {
 
     //----------------------------------------------------------------------------------------------
-    // DP, iterative
+    // ✅ DP, iterative
     // 44ms
     public int minCut(String s) {
         int L = s.length();
 
-        // minCuts[i]: minimal cuts in string from 0 to i
+        // minCut[i]: minimal cuts in string from 0 to i
         int[] minCuts = new int[L];
         boolean[][] isPalindrome = findPalindrome(s);
 
@@ -53,8 +53,53 @@ public class H_DP_132 {
         return minCuts[L - 1];
     }
 
+
+
+    //----------------------------------------------------------------------------------------------
+    // DP, iterative, 2D
+    // Time: O(n^3), Time Limit Exceeded
+    public int minCut0(String s) {
+        int L = s.length();
+        
+        boolean[][] isPal = new boolean[L][L];
+        // minCuts[i][j] stores the min cuts for substring s[i..j]
+        int[][] minCuts = new int[L][L];
+    
+        for (int end = 0; end < L; ++end) {
+            for (int start = end; start >= 0; --start) {
+                
+                // 1. Check palindrome status on the fly
+                if (s.charAt(start) == s.charAt(end) && (end - start <= 2 || isPal[start + 1][end - 1])) {
+                    isPal[start][end] = true;
+                }
+                
+                // 2. Calculate minimum cuts
+                if (isPal[start][end]) {
+                    // Base Case: If it's a palindrome, 0 cuts needed.
+                    minCuts[start][end] = 0;
+                } else {
+                    // Initialize to max before finding the minimum
+                    minCuts[start][end] = Integer.MAX_VALUE;
+                    
+                    // Try making a cut at every possible index 'k'
+                    for (int k = start; k < end; k++) {
+                        int currentCuts = minCuts[start][k] + minCuts[k + 1][end] + 1;
+                        minCuts[start][end] = Math.min(minCuts[start][end], currentCuts);
+                    }
+                }
+            }
+        }
+
+        return minCuts[0][L - 1];
+    }
+
+
+
+
+
     private boolean[][] findPalindrome(String s) {
         final int L = s.length();
+
         boolean[][] isPalindrome = new boolean[L][L];
 
         for (int end = 0; end < s.length(); ++end) {
