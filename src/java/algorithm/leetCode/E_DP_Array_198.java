@@ -41,35 +41,25 @@ public class E_DP_Array_198 {
 
     // DP, iterative, 0ms
     public static int rob0(int[] nums) {
-        final int L = nums.length;
-
+        int L = nums.length;
+        
         if (L == 1) {
             return nums[0];
         }
-
-        // BASE CASE
-        // maxValue(0) = max( take(1), skip(i) )
-        // take(0) = nums[0]
-        // skip(0) = 0
-        // maxValue(1) = max( take(2), skip(2) )
-        // take(1) = nums[1]
-        // skip(0) = nums[0]
+        
         int[] maxSums = new int[L];
+        maxSums[0] = nums[0];
+        maxSums[1] = Math.max(nums[0], nums[1]);
 
-        int robSum = nums[0];
-        int restSum = 0;
-        maxSums[0] = Math.max(robSum, restSum);
-
-        robSum = nums[1];
-        restSum = maxSums[0];
-        maxSums[1] = Math.max(robSum, restSum);
-
-        for (int i = 2; i < L; ++i) {
-            robSum = nums[i] + maxSums[i - 2];
-            restSum = maxSums[i - 1];
-            maxSums[i] = Math.max(robSum, restSum);
+        for (int i = 2; i < L; i++) {
+            int num = nums[i];
+        
+            int sumIfRob = num + maxSums[i - 2];
+            int sumIfSkip = maxSums[i - 1];
+            
+            maxSums[i] = Math.max(sumIfRob, sumIfSkip);
         }
-
+    
         return maxSums[L - 1];
     }
 

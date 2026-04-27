@@ -36,13 +36,13 @@ public class M_DP_Array_152 {
         for (int i = 1; i < L; ++i) {
             int num = nums[i];
 
-            int newArrayMaxProduct = num;
-            int appendingArrayMaxProduct = num > 0 ? maxProducts[i - 1] * num : minProducts[i - 1] * num;
-            maxProducts[i] = Math.max(newArrayMaxProduct, appendingArrayMaxProduct);
+            int newArrayProduct = num;
 
-            int newArrayMinProduct = num;
+            int appendingArrayMaxProduct = num > 0 ? maxProducts[i - 1] * num : minProducts[i - 1] * num;
+            maxProducts[i] = Math.max(newArrayProduct, appendingArrayMaxProduct);
+
             int appendingArrayMinProduct = num > 0 ? minProducts[i - 1] * num : maxProducts[i - 1] * num;
-            minProducts[i] = Math.min(newArrayMinProduct, appendingArrayMinProduct);
+            minProducts[i] = Math.min(newArrayProduct, appendingArrayMinProduct);
 
             maxProduct = Math.max(maxProduct, maxProducts[i]);
         }
