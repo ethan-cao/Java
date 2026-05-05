@@ -25,33 +25,32 @@ public class M_Backtrack_Array_216 {
     public static List<List<Integer>> combinationSum(int k, int n) {
         List<List<Integer>> combinations = new ArrayList<>();
         List<Integer> tracker = new ArrayList<>();
-    
+
         collect(combinations, tracker, 1, 9, k, n);
 
         return combinations;
     }
 
     public static void collect(
-        List<List<Integer>>  combinations, 
-        List<Integer> tracker, 
-        int start,
-        int end,
-        int k,
-        int n
-    ) {
-        if (n == 0     && tracker.size() == k) {
-                combinations.add(new ArrayList<>(tracker));
+            List<List<Integer>> combinations,
+            List<Integer> tracker,
+            int start,
+            int end,
+            int k,
+            int n) {
+        if (n == 0 && tracker.size() == k) {
+            combinations.add(new ArrayList<>(tracker));
             return;
         }
 
-        if (n <= 0 ||tracker.size() >= k) {
+        if (n <= 0 || tracker.size() >= k) {
             return;
         }
-        
+
         for (int num = start; num <= end; ++num) {
             tracker.add(num);
             collect(combinations, tracker, num + 1, end, k, n - num);
-            
+            tracker.removeLast();
         }
     }
 

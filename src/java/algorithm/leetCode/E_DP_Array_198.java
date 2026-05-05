@@ -48,16 +48,16 @@ public class E_DP_Array_198 {
         }
         
         int[] maxSums = new int[L];
-        maxSums[0] = nums[0];
-        maxSums[1] = Math.max(nums[0], nums[1]);
+        maxSums[0] = Math.max(nums[0], 0);
+        maxSums[1] = Math.max(nums[1], nums[0]);
 
         for (int i = 2; i < L; i++) {
             int num = nums[i];
         
-            int sumIfRob = num + maxSums[i - 2];
+            int sumIfTake = num + maxSums[i - 2];
             int sumIfSkip = maxSums[i - 1];
             
-            maxSums[i] = Math.max(sumIfRob, sumIfSkip);
+            maxSums[i] = Math.max(sumIfTake, sumIfSkip);
         }
     
         return maxSums[L - 1];

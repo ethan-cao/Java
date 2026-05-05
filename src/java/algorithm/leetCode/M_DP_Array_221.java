@@ -32,9 +32,9 @@ public class M_DP_Array_221 {
     //----------------------------------------------------------------------------------------------
     // DP, iterative, 4ms
     // Time: O(N^2), Space: O(M*N)
-    public static int maximalSquare(char[][] matrix) {
-        final int H = matrix.length;
-        final int W = matrix[0].length;
+    public static int maximalSquare(char[][] grid) {
+        final int H = grid.length;
+        final int W = grid[0].length;
         final char ONE = '1';
 
         // length[i][j] : number of edge of square that ends in matrix[y][x]
@@ -43,7 +43,7 @@ public class M_DP_Array_221 {
 
         for (int y = 0; y < H; ++y) {
             for (int x = 0; x < W; ++x) {
-                char cell = matrix[y][x];
+                char cell = grid[y][x];
 
                 // Actually each time when we update squareLength[i][j],
                 // we only need squareLength[i-1][j-1], squareLength[i-1][j] and squareLength[i][j-1]
