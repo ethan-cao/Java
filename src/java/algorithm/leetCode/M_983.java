@@ -1,6 +1,8 @@
 package algorithm.leetCode;
 
 /*
+https://leetcode.com/problems/minimum-cost-for-tickets/
+
 You have planned some train traveling one year in advance.
 The days of the year in which you will travel are given as an integer array days.
 Return the minimum number of dollars you need to travel every day in the given list of days.
