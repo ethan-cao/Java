@@ -34,7 +34,7 @@ Follow-up: Can you come up with an algorithm that is less than O(n2) time comple
 public class E_1 {
     // HashMap
     // Time: O(N), Space: O(N)
-    public static int[] twoSum1(int[] nums, int target) {
+    public static int[] twoSum(int[] nums, int target) {
         int[] indices = new int[2];
 
         // number -> its index
