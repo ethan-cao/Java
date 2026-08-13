@@ -67,7 +67,7 @@ public class M_40 {
             // this is differernt from Q39, idx + 1 since each number can be used only once
             collect(combinations, tracker, candidates, idx + 1, target - candidate);
 
-            tracker.remove(tracker.size() - 1);
+            tracker.removeLast();
 
             // skip duplicateds
             while (idx + 1 < candidates.length && candidates[idx + 1] == candidate) {
