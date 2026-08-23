@@ -69,27 +69,27 @@ public class M_63 {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // DP, iterative, 0ms
     public int uniquePathsWithObstacles11(int[][] obstacleGrid) {
-        int M  = obstacleGrid.length;
+        int M = obstacleGrid.length;
         int N = obstacleGrid[0].length;
     
         int[][] counts = new int[M][N];
 
         for (int y = 0; y < M; ++y) {
             for (int x = 0; x < N; ++x) {
+                int cell = obstacleGrid[y][x];
 
-                if (obstacleGrid[y][x] == 1) {
+                if (cell == 1) {
                     counts[y][x] = 0;
-                    continue;
-                } 
-                
-                if (y == 0 && x == 0) {
-                    counts[y][x] = 1;
-                } else if (y == 0) {
-                    counts[y][x] = counts[y][x - 1];
-                } else if (x == 0) {
-                    counts[y][x] = counts[y - 1][x];
-                } else {
-                    counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
+                } else  {
+                    if (y == 0 && x == 0) {
+                        counts[y][x] = 1;
+                    } else if (y == 0) {
+                        counts[y][x] = counts[y][x - 1];
+                    } else if (x == 0) {
+                        counts[y][x] = counts[y - 1][x];
+                    } else {
+                        counts[y][x] = counts[y - 1][x] + counts[y][x - 1];
+                    }
                 }
             }
         }
