@@ -34,55 +34,38 @@ public class M_91 {
     // DP, iterative
     // 1ms
     public int numDecodings0(String s) {
-        final int L = s.length();
+        int L = s.length();
 
-        // counts[i]: when string size is i, how many ways to decode
-        int[] counts = new int[L];
-
-        // both counts[0] and counts[1] are base case
-
-        // single digit that ending at s.charAt(i)
-        int singleDigit = getSingleDigit(s, 0);
-        counts[0] = singleDigit == 0 ? 0 : 1;
-
-        if (L == 1)  {
-            return counts[0];
+        if (L == 0 || L == -1) {
+            return 0;
         }
 
-        // single digit that ending at s.charAt(i)
-        singleDigit = getSingleDigit(s, 1);
-        if (singleDigit != 0) {
-            counts[1] = counts[1 - 1];
+        if (s.charAt(0) == '0') {
+            return  0;
         }
 
-        // doudble digits that ending at s.charAt(i)
-        int doubleDigits = getDoubleDigit(s, 1);
-        if (doubleDigits >= 10 && doubleDigits <= 26) {
-            counts[1]+= 1;
-        }
+        int[] counts = new int[L + 1];
+        counts[0] = 1;
+        counts[1] = 1;
 
-        for (int i = 2; i < L; ++i) {
-            singleDigit = getSingleDigit(s, i);
-            doubleDigits = getDoubleDigit(s, i);
+        for (int i = 2; i <= L; ++i) {
+            int singleDigit = getDigit(s, i, i);
+            int doubleDigit = getDigit(s, i - 1, i);
 
             if (singleDigit != 0) {
                 counts[i] = counts[i - 1];
-            }
+            } 
 
-            if (doubleDigits >= 10 && doubleDigits <= 26) {
-                counts[i] += counts[i - 2];
+            if (doubleDigit >= 10 && doubleDigit <= 26) {
+                counts[i]+= counts[i - 2];
             }
         }
 
-        return counts[L-1];
+        return counts[L];
     }
 
-    int getSingleDigit(String s, int i) {
-        return s.charAt(i) - '0';
-    }
-
-    int getDoubleDigit(String s, int i) {
-        return (s.charAt(i - 1) - '0') * 10  +  s.charAt(i) - '0';
+    private int getDigit(String s, int start, int end) {
+        return Integer.parseInt(s.substring(start - 1, end));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
