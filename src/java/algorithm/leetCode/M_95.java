@@ -1,9 +1,9 @@
 package algorithm.leetCode;
 
 /*
-https://leetcode.com/problems/unique-binary-search-trees-ii/
+https://leetcode.com/problems/unique-binary-search-roots-ii/
 
-Given an integer n, return all the structurally unique BST's (binary search trees), 
+Given an integer n, return all the structurally unique BST's (binary search roots), 
 which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
 
 ### Example
@@ -41,18 +41,21 @@ public class M_95 {
     }
 
     public static void main(String... args) {
-        System.out.println(generateTrees0(3));
+        System.out.println(generateTrees(3));
     }
 
+
+
+    //----------------------------------------------------------------------------------------------
     // DP, recursive
     // 1ms
-    public static List<TreeNode> generateTrees0(int n) {
-        return buildTrees(1, n);
+    public static List<TreeNode> generateTrees(int n) {
+        return collect(1, n);
     }
 
     // build structurally unique BST, with values [start, end]
-    private static List<TreeNode> buildTrees(int start, int end) {
-        List<TreeNode> rootNodes = new ArrayList<>();
+    private static List<TreeNode> collect(int start, int end) {
+        List<TreeNode> roots = new ArrayList<>();
 
         // !!! when start > end, it is empty sub-tree, we count it as 1
         // this is when root is the first number
@@ -65,36 +68,39 @@ public class M_95 {
         // when root is 1
         // left = buildTree(1, 0)   → empty subtree: null, → base case
         // right = buildTree(2, 2)  → single node subtree: 2 → base case
-        if (start == end) {
-            TreeNode node = new TreeNode(start);
-            trees.add(node);
-            return trees;
-        }
-        
+
+
         if (start > end) {
-            trees.add(null);
-            return trees;
+            roots.add(null);
+            return roots;
         }
 
-        for (int rootValue = start; rootValue <= end; ++rootValue) {
-            List<TreeNode> leftNodes = buildTrees(start, rootValue - 1);
-            List<TreeNode> rightNodes = buildTrees(rootValue + 1, end);
+        if (start == end) {
+            TreeNode node = new TreeNode(start);
+            roots.add(node);
+            return roots;
+        }
+        
+        for (int val = start; val <= end; ++val) {
+             List<TreeNode> leftNodes = collect(start, val - 1);
+             List<TreeNode> rightNodes = collect(val + 1, end );
 
             for (TreeNode leftNode : leftNodes) {
                 for (TreeNode rightNode : rightNodes) {
-                    TreeNode root = new TreeNode(rootValue, leftNode, rightNode);
-                    rootNodes.add(root);
+                    TreeNode root = new TreeNode(val, leftNode, rightNode);
+                    roots.add(root);
                 }
             }
         }
 
-        return rootNodes;
+        return roots;
     }
+
 
     //----------------------------------------------------------------------------------------------
     // DP, iterative, 2ms
     // https://bit.ly/36EKgvy
-    public List<TreeNode> generateTrees(int n) {
+    public List<TreeNode> collect1(int n) {
         ArrayList<TreeNode>[] roots = new ArrayList[n + 1];
         roots[0] = new ArrayList<TreeNode>();
         roots[0].add(null);
