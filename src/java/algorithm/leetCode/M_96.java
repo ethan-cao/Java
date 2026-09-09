@@ -28,7 +28,7 @@ public class M_96 {
     }
 
     //----------------------------------------------------------------------------------------------
-    // recursive, memo, 0ms
+    // DP, recursive, memo, 0ms
     public int numTrees11(int n) {
         Integer[][] memo = new Integer[n + 1][n + 1];
         return count(1, n, memo);
@@ -55,27 +55,9 @@ public class M_96 {
         }
     
         memo[start][end] = total;
+        
         return total;
     }
-
-    //----------------------------------------------------------------------------------------------
-    // DP, iterative, 0ms
-    public static int numTrees(int n) {
-        int[] count = new int[n + 1];
-        count[0] = 1;
-
-        for (int root = 1; root <= n; ++root) {
-            // how many possible value for left child
-            for (int left = 0; left < root; ++left) {
-                // how many possible value for right child
-                int right = root - (left + 1);
-                count[root] += count[left] * count[right];
-            }
-        }
-
-        return count[n];
-    }
-
 
     //----------------------------------------------------------------------------------------------
     //DP, recursive, 2715ms 
@@ -102,4 +84,25 @@ public class M_96 {
         return count;
     }
 
+    //----------------------------------------------------------------------------------------------
+    // DP, iterative, 0ms
+    public static int numTrees(int n) {
+        int[] count = new int[n + 1];
+        count[0] = 1;
+
+        for (int root = 1; root <= n; ++root) {
+            // how many possible value for left child
+            for (int left = 0; left < root; ++left) {
+                // how many possible value for right child
+                int right = root - (left + 1);
+                count[root] += count[left] * count[right];
+            }
+        }
+
+        return count[n];
+    }
+
+
 }
+
+

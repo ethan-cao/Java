@@ -21,32 +21,41 @@ import java.util.List;
 
 public class M_120 {
 
+    //----------------------------------------------------------------------------------------------
     // DP, Iterative, 2ms
     public int minimumTotal0(List<List<Integer>> triangle) {
-        final int SIZE = triangle.size();
-       
+        int L = triangle.size();
+
         // minSums[y][x] is the minimum path sum from (y, x) to the bottom
-        int[][] minSums = new int[SIZE][SIZE];
+        int[][] minSums = new int[L][L];
 
-        // BASE, the bottom row
-        // find minimum sum from the bottom row, so we can examine all the paths
-        // if start from the first row, we can't guarantee the minimum sum is in the last row
-        for (int x = 0; x < SIZE; ++x) {
-            minSums[SIZE - 1][x] = triangle.get(SIZE - 1).get(x);
-        }
+        /**
+        why start from bottom to top?
+    
+        from cell (y, x) you may step to (y+1, x) or (y+1, x+1), sum of (y+1, x) or (y+1, x+1) exist before (y, x)
+        and the base cases are trivial, each bottom cell is the sum
 
-        for (int y = SIZE - 2; y >= 0; --y) {
-            for (int x = 0; x <= y; ++x) {
-                int minSumTilBottomLeft = minSums[y + 1][x];
-                int minSumTilBottomRight = minSums[y + 1][x + 1];
-            
-                minSums[y][x] = triangle.get(y).get(x) + Math.min(minSumTilBottomLeft, minSumTilBottomRight);
+        find minimum sum from the bottom row, so we can examine all the paths
+        if start from the first row, we can't guarantee the minimum sum is in the last row  
+        */
+
+        for (int y = L - 1; y >= 0; --y) {
+            for (int x = y; x >= 0; --x) {
+                if (y == L - 1) {
+                    // BASE, the bottom row
+                    minSums[y][x] = triangle.get(y).get(x);
+                } else {
+                    int minSumTilBottomLeft = minSums[y + 1][x];
+                    int minSumTilBottomRight = minSums[y + 1][x + 1];
+                    minSums[y][x] = triangle.get(y).get(x) + Math.min(minSumTilBottomLeft, minSumTilBottomRight);
+                }
             }
         }
-    
+
         return minSums[0][0];
     }
 
+    //----------------------------------------------------------------------------------------------
     // DP, Iterative, condensed space, 2ms
     public int minimumTotal1(List<List<Integer>> triangle) {
         final int SIZE = triangle.size();
@@ -65,6 +74,7 @@ public class M_120 {
         return minSums[0];
     }
 
+    //----------------------------------------------------------------------------------------------
     // DP, recursive, TLE
     public int minimumTotal2(List<List<Integer>> triangle) {
         return getPathSum(triangle, 0, 0);

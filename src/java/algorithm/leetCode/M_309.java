@@ -32,41 +32,38 @@ public class M_309 {
     // Time: O(N), Space: O(N)
     public static int maxProfit1(int[] prices) {
         int L = prices.length;
-        
+
+        if (L == 1) {
+            return 0;
+        }
+
         // max profit until day i, with the last action as buy 
         // prefer to use state in name: Hold is better than Buy
         int[] maxProfitHold = new int[L];
-        maxProfitHold[0] = -prices[0];
+        maxProfitHold[0] = - prices[0];
+        maxProfitHold[1] = Math.max(maxProfitHold[0], - prices[1]);
 
         // max profit until day i, with the last action as sell
         int[] maxProfitSold = new int[L];
         maxProfitSold[0] = 0;
-    
-        if (L == 1) {
-            return maxProfitSold[L - 1];
-        } 
+        maxProfitSold[1] = Math.max(maxProfitSold[0], + prices[1] + maxProfitHold[0]);
 
-        int profitHold = - prices[1];
-        maxProfitHold[1] = Math.max(maxProfitHold[0], profitHold);
+        int maxProfit = Math.max(maxProfitSold[0], maxProfitSold[1]);
 
-        // implictly not allow to buy and sell on the same day, since
-        // 1. no profit
-        // 2. doing so, disallow to buy on the next day
-        int profitSold = + prices[1] + maxProfitHold[0];
-        maxProfitSold[1] = Math.max(maxProfitSold[0], profitSold);
-    
         for (int i = 2; i < L; ++i) {
             int price = prices[i];
 
-            profitHold = - price + maxProfitSold[i - 2];
+            // implictly not allow to buy and sell on the same day, since
+            // 1. no profit
+            // 2. doing so, disallow to buy on the next day
+            int profitHold = -price + maxProfitSold[i - 2];
             maxProfitHold[i] = Math.max(maxProfitHold[i - 1], profitHold);
 
-            profitSold = + price + maxProfitHold[i - 1];
-            maxProfitSold[i] = Math.max(maxProfitSold[i - 1], profitSold);
-
+            int profitSold = price + maxProfitHold[i - 1];
+            maxProfitSold[i] = Math.max(maxProfitSold[i - 1], profitSold) ;
         }
-    
-        return maxProfitSold[L - 1];
+
+        return maxProfitSold[L -1 ];
     }
 
     // -------------------------------------------------------------------------------------------------

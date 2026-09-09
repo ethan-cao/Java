@@ -37,10 +37,10 @@ public class M_122 {
 
 
     //----------------------------------------------------------------------------------------------
-    // ✅  DP, condensed space
+    // DP, condensed space
     // 1ms
     public int maxProfit1(int[] prices) {
-        final int L = prices.length;     
+        int L = prices.length;     
 
         int maxProfitHold = -prices[0];
         int maxProfitSold = 0;
