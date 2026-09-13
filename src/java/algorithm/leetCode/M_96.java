@@ -27,6 +27,30 @@ public class M_96 {
         // System.out.println(numTrees(5));  // 42
     }
 
+
+    //----------------------------------------------------------------------------------------------
+    // DP, iterative, 0ms
+    public static int numTrees(int n) {
+        // count[k] is the number of structurally distinct BSTs holding any k
+        int[] count = new int[n + 1];
+        count[0] = 1;
+
+        for (int treeSize = 1; treeSize <= n; ++treeSize) {
+
+            // left tree size, start with empty left tree 
+            for (int leftSize = 0; leftSize < treeSize; ++leftSize) {
+
+                // right tree size
+                int rightSize = treeSize - leftSize - 1;
+
+                count[treeSize] += count[leftSize] * count[rightSize];
+            }
+        }
+
+        return count[n];
+    }
+
+
     //----------------------------------------------------------------------------------------------
     // DP, recursive, memo, 0ms
     public int numTrees11(int n) {
@@ -84,27 +108,7 @@ public class M_96 {
         return count;
     }
 
-    //----------------------------------------------------------------------------------------------
-    // DP, iterative, 0ms
-    public static int numTrees(int n) {
-        // count[k] is the number of structurally distinct BSTs holding any k
-        int[] count = new int[n + 1];
-        count[0] = 1;
 
-        for (int treeSize = 1; treeSize <= n; ++treeSize) {
-
-            // left tree size, start with empty left tree 
-            for (int leftSize = 0; leftSize < treeSize; ++leftSize) {
-
-                // right tree size
-                int rightSize = treeSize - leftSize - 1;
-
-                count[treeSize] += count[leftSize] * count[rightSize];
-            }
-        }
-
-        return count[n];
-    }
 
 
 }

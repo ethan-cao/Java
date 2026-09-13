@@ -32,7 +32,7 @@ public class M_123 {
 
     //----------------------------------------------------------------------------------------------
     // ✅  DP, 2ms 
-    public int maxProfit1(int[] prices) {
+    public int maxProfit(int[] prices) {
         final int L = prices.length;
 
         int maxProfitHold1 = -prices[0];
@@ -44,7 +44,7 @@ public class M_123 {
         for (int i = 1; i < L; ++i) {
             int price = prices[i];
 
-            int profitSold1 = + price + maxProfitHold1;
+            int profitSold1 = +price + maxProfitHold1;
             maxProfitSold1 = Math.max(maxProfitSold1, profitSold1);
             
             int profitHold1 = -price;
@@ -61,7 +61,7 @@ public class M_123 {
     }
 
     //----------------------------------------------------------------------------------------------
-    public int maxProfit00(int[] prices) {
+    public int maxProfit1(int[] prices) {
         final int L = prices.length;
         if (L == 0) return 0;
         
@@ -93,7 +93,7 @@ public class M_123 {
     //----------------------------------------------------------------------------------------------
     // DP
     // Time: O(N), 5ms
-    public int maxProfit(int[] prices) {
+    public int maxProfit2(int[] prices) {
         final int L = prices.length;
 
         int profit1 = 0;

@@ -38,22 +38,25 @@ public class M_188 {
         int[][] maxProfitHold = new int[k][L];
         int[][] maxProfitSold = new int[k][L];
 
-        for (int i = 0; i < k; i++) {
-            maxProfitHold[i][0] = -prices[0];
-            maxProfitSold[i][0] = 0;
-        }
+        // allowed transactions (i)
+        for (int i = 0; i < k; ++i) {
+            
+            // days j
+            for (int j = 0; j < L; ++j) {
+                int price = prices[j];
 
-        for (int j = 0; j < k; j++) {
-            for (int i = 1; i < L; ++i) {
+                if (j == 0) {
+                    // Day 0 initialization for transaction i
+                    maxProfitHold[i][0] = -price;
+                    maxProfitSold[i][0] = 0;
+                } else {
+                    int profitSold = price + maxProfitHold[i][j - 1];
+                    maxProfitSold[i][j] = Math.max(maxProfitSold[i][j - 1], profitSold);
 
-                int price = prices[i];
-
-                int profitSold = + price + maxProfitHold[j][i - 1];
-                maxProfitSold[j][i] = Math.max(maxProfitSold[j][i - 1], profitSold);
-
-                int prevSold = (j == 0) ? 0 : maxProfitSold[j - 1][i - 1];
-                int profitHold = - price + prevSold;
-                maxProfitHold[j][i] = Math.max(maxProfitHold[j][i - 1], profitHold);
+                    int prevSold = (i == 0) ? 0 : maxProfitSold[i - 1][j - 1];
+                    int profitHold = -price + prevSold;
+                    maxProfitHold[i][j] = Math.max(maxProfitHold[i][j - 1], profitHold);
+                }
             }
         }
 
