@@ -34,21 +34,11 @@ public class H_132 {
             minCuts[end] = end;
 
             for (int start = end; start >= 0; --start) {
+
                 if (isPalindrome[start][end]) {
-                    if (start == 0) {
-                        // BASE
-                        // when start is 0, the substring is s.substring(0, end + 1), which is palindrome
-                        minCuts[end] = 0;
-                    } else {
-                        // TRANSFORM
-                        // s.substring(start, end + 1) is palindrome
-                        // this means we need 1 more cut before strat, it becomes s.substring(0, start + 1) and s.substring(start, end + 1)
-                        // the min cuts for s.substring(0, start + 1) is minCuts[start - 1], which is known!!!
-                        // the min cuts for s.substring(startIdx, endIdx + 1) is minCuts[start - 1] + 1       
-                        // since start relies on start - 1, the loop use ++start
-                        minCuts[end] = Math.min(minCuts[end], minCuts[start - 1] + 1);
-                    }
-                }
+                    int cut = start == 0 ? 0 : 1 + minCuts[start - 1];
+                    minCuts[end] = Math.min(minCuts[end], cut);
+                } 
             }
         }
 

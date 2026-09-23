@@ -33,6 +33,9 @@ public class M_131 {
         return palindrome;
     }
 
+    // Backtracking: every start must be the head of some palindromic segment.
+    // Try each end >= start where s[start..end] is a palindrome, recurse on the
+    // remainder, then undo. On start == s.length() the tracker is one complete partition.
     static void collect(List<List<String>> palindrome, List<String> tracker, String s, int start, boolean[][] isPalindrome) {
         if (start == s.length()) {
             palindrome.add(new ArrayList<>(tracker));
@@ -41,10 +44,13 @@ public class M_131 {
 
         for (int end = start; end < s.length(); ++end) {
             if (isPalindrome[start][end]) {
+                // Choose segment s[start..end]
                 tracker.add(s.substring(start, end + 1));
 
+                // Explore partitions of the remainder
                 collect(palindrome, tracker, s, end + 1, isPalindrome);
 
+                // Un-choose
                 tracker.remove(tracker.size() - 1);
             }
         }
