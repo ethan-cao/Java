@@ -44,24 +44,22 @@ public class E_198 {
     // DP, iterative, 0ms
     public static int rob0(int[] nums) {
         int L = nums.length;
-        
-        if (L == 1) {
-            return nums[0];
-        }
-        
-        int[] maxSums = new int[L];
-        maxSums[0] = Math.max(nums[0], 0);
-        maxSums[1] = Math.max(nums[1], nums[0]);
 
-        for (int i = 2; i < L; i++) {
+        int[] maxSums = new int[L];
+
+        int keep = nums[0];
+        int skip = 0;
+        maxSums[0] = Math.max(keep, skip);
+
+        for (int i = 1; i < L; ++i) {
             int num = nums[i];
-        
-            int sumIfTake = num + maxSums[i - 2];
-            int sumIfSkip = maxSums[i - 1];
-            
-            maxSums[i] = Math.max(sumIfTake, sumIfSkip);
+
+            keep = i == 1 ? num : num + maxSums[i -  2] ;
+            skip = maxSums[i - 1];
+
+            maxSums[i] = Math.max(keep, skip);
         }
-    
+
         return maxSums[L - 1];
     }
 

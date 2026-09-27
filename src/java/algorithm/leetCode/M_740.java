@@ -34,6 +34,7 @@ public class M_740 {
         System.out.println(deleteAndEarn_1(new int[]{4, 10, 10, 8, 1, 4, 10, 9, 7, 6}));   // 53
     }
 
+    // --------------------------------------------------------------------------
     // DP
     // think in terms of the values, since we need to delete adjacent values
     // Time: O(N) 3ms
@@ -49,12 +50,12 @@ public class M_740 {
             points[num] += num;
         }
 
-        // BASE CASE
         int[] maxPoints = new int[SIZE + 1];
         
+        // BASE CASE
         // maxPoints(i) = max( take(i), skip(i) )
         maxPoints[1] = Math.max(points[1], 0);
-        maxPoints[2] = Math.max(points[2], points[1]);
+        maxPoints[2] = Math.max(points[2],  maxPoints[1]);
 
         // TRANSFORM
         // take(i) = points[i] + maxPoints[i-2]
@@ -70,10 +71,11 @@ public class M_740 {
         return maxPoints[SIZE];
     }
 
+    // --------------------------------------------------------------------------
     // DP, condensed space
     // Time: O(N) 2ms
     public static int deleteAndEarn_2(int[] nums) {
-        final int L = 10000;
+        final int L = 10_000;
         int[] points = new int[L];
 
         for (int num : nums) {
