@@ -35,8 +35,8 @@ public class M_279 {
         int[] counts = new int[n + 1];
     
         for (int num = 1; num <= n; ++num) {
-            // !!! the count is, at most: n + 1, in all cases
-            counts[num] = n + 1;
+            // !!! the count is, at most: n, in all cases
+            counts[num] = n;
 
             for (int squareRoot = 1; squareRoot * squareRoot <= num; ++squareRoot) {
                 int countWithSquareRoot = 1 + counts[num - squareRoot * squareRoot];

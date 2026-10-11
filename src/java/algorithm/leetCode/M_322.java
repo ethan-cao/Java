@@ -90,11 +90,11 @@ public class M_322 {
             int coinValue = coins[coinIdx];
 
             for (int value = 1; value <= amount; value++) {
-                int skip = coinIdx > 0
+                int skip = coinIdx >= 1
                         ? counts[coinIdx - 1][value]
                         : Integer.MAX_VALUE;
 
-                int take = value - coinValue >= 0 && counts[coinIdx][value - coinValue] != Integer.MAX_VALUE
+                int take = value >= coinValue && counts[coinIdx][value - coinValue] != Integer.MAX_VALUE
                         ? 1 + counts[coinIdx][value - coinValue]
                         : Integer.MAX_VALUE;
 
@@ -106,7 +106,7 @@ public class M_322 {
     }
 
     //----------------------------------------------------------------------------------------------
-    // DP
+    // DP, with condensed space
     // similar to 279
     public int coinChange(int[] coins, int amount) {
         int L = coins.length;
