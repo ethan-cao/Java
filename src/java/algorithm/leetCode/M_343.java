@@ -22,30 +22,28 @@ public class M_343 {
     // maxProducts[i]: max product when break integer i
     int[] maxProducts = new int[n + 1];
 
-    
-    // TODO: add base to loop
     // BASE
     maxProducts[1] = 1;
 
-    for (int target = 2; target <= n; ++target) {
+    for (int number = 2; number <= n; ++number) {
 
-      // break it into two parts: num and (target-num)
-      // for each target, we can num pick from 1 to target - 1
+      // break it into two parts: num1 and (number-num1)
+      // for each number, we can num1 pick from 1 to number - 1
 
-      for (int num = 1; num < target; ++num) {
-        // product = num * （target - num）
+      for (int num1 = 1; num1 < number; ++num1) {
+        // product = num1 * （number - num1）
 
-        // 2 ways to get num
-        // either, use num directly
-        // or,     use maxProduct[num], max product of integers that sum to num
-        int num1 = Math.max(num, maxProducts[num]);
+        // 2 ways to get num1
+        // either, use num1 directly
+        // or,     use maxProduct[num1], max product of integers that sum to num1
+        int num1 = Math.max(num1, maxProducts[num1]);
         
-        // 2 ways ot get target - num
-        int num2 = Math.max(target - num, maxProducts[target - num]);
+        // 2 ways ot get number - num1
+        int num2 = Math.max(number - num1, maxProducts[number - num1]);
 
         int product = num1 * num2;
 
-        maxProducts[target] = Math.max(maxProducts[target], product);
+        maxProducts[number] = Math.max(maxProducts[number], product);
       }
     }
 

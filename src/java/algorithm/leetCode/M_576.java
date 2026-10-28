@@ -28,43 +28,6 @@ public class M_576 {
     private static int MOD = (int) 1e9 + 7;
 
     // ------------------------------------------------------------------------------------------------------
-    // DFS, brute force
-    // Time:  O(Nmn), 20ms
-    public static int findPaths1(int m, int n, int maxMove, int startRow, int startColumn) {
-        Long[][][] cache = new Long[m][n][maxMove + 1];
-
-        long pathCount = find(m, n, maxMove, startRow, startColumn, cache) % MOD;
-
-        return (int) pathCount;
-    }
-
-    private static Long find(int m, int n, int maxMove, int y, int x, Long[][][] cache) {
-        if (y < 0 || y >= m || x < 0 || x >= n) {
-            return 1L;
-        }
-
-        if (maxMove == 0) {
-            return 0L;
-        }
-
-        if (cache[y][x][maxMove] != null) {
-            return cache[y][x][maxMove];
-        }
-
-        cache[y][x][maxMove] = 0L;
-
-        for (int[] direction : DIRECTIONS) {
-            int nextY = y + direction[0];
-            int nextX = x + direction[1];
-
-            cache[y][x][maxMove] += find(m, n, maxMove - 1, nextY, nextX, cache);
-            cache[y][x][maxMove] %= MOD;
-        }
-
-        return cache[y][x][maxMove];
-    }
-
-    // ------------------------------------------------------------------------------------------------------
     // DP, iterative, 3d
     // 11ms
     public static int findPaths2(int m, int n, int maxMove, int startRow, int startColumn) {
@@ -101,6 +64,7 @@ public class M_576 {
 
         return counts[maxMove][startRow][startColumn];
     }
+    
 
     // ------------------------------------------------------------------------------------------------------
     // DP, iterative, 2d
@@ -134,4 +98,46 @@ public class M_576 {
 
         return counts[startRow][startColumn];
     }
+
+
+    // ------------------------------------------------------------------------------------------------------
+    // DFS, brute force
+    // Time:  O(Nmn), 20ms
+    public static int findPaths1(int m, int n, int maxMove, int startRow, int startColumn) {
+        Long[][][] cache = new Long[m][n][maxMove + 1];
+
+        long pathCount = find(m, n, maxMove, startRow, startColumn, cache) % MOD;
+
+        return (int) pathCount;
+    }
+
+    private static Long find(int m, int n, int maxMove, int y, int x, Long[][][] cache) {
+        if (y < 0 || y >= m || x < 0 || x >= n) {
+            return 1L;
+        }
+
+        if (maxMove == 0) {
+            return 0L;
+        }
+
+        if (cache[y][x][maxMove] != null) {
+            return cache[y][x][maxMove];
+        }
+
+        cache[y][x][maxMove] = 0L;
+
+        for (int[] direction : DIRECTIONS) {
+            int nextY = y + direction[0];
+            int nextX = x + direction[1];
+
+            cache[y][x][maxMove] += find(m, n, maxMove - 1, nextY, nextX, cache);
+            cache[y][x][maxMove] %= MOD;
+        }
+
+        return cache[y][x][maxMove];
+    }
+
+
+
+
 }

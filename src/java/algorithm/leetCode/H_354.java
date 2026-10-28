@@ -24,7 +24,7 @@ envelopes = [[1,1],[1,1],[1,1]] -> 1
 
 import java.util.Arrays;
 
-public class M_354 {
+public class H_354 {
 
     public static void main(String[] args) {
         int[][] envelopes1 = {{5, 4}, {6, 4}, {6, 7}, {2, 3}}; // 3
@@ -37,10 +37,10 @@ public class M_354 {
     // Greedy
     // Time: O(NlogN), 84ms
     public static int maxEnvelopes1(int[][] envelopes) {
-        int max = 0;
-
         int L = envelopes.length;
+
         int[] count = new int[L];
+        int maxCount = 0;
 
         // Sorting the width reduces the problem by one dimension
         // If width is strictly increasing, the problem is equivalent to find Longest Increasing Subsequence in height dimension
@@ -48,11 +48,17 @@ public class M_354 {
         // why descend on height?
         // [3, 4] cannot contains [3, 3], need to put [3, 4] before [3, 3] when sorting
         // otherwise it will be counted as an increasing number if the order is [3, 3], [3, 4]
+        
+
+        // Arrays.stream(array).sorted().toArray(): sorting in functional programming flavor
+        // creates a stream from the array, sorts them, collects them into a new array. original array is untouched/mmutable
         int[][] sortedEnvelopes = Arrays.stream(envelopes)
                 .sorted((e1, e2) -> e1[0] == e2[0] ? Integer.compare(e2[1], e1[1]) : Integer.compare(e1[0], e2[0]))
                 .toArray(int[][]::new);
 
         // alternatively
+        // in-place sorting (modifying the original array directly)
+        // Much faster and more memory-efficient
         // Arrays.sort(envelopes, (a, b) -> {
         //     if (a[0] != b[0]) {
         //         return a[0] - b[0];  // sort by width ascending
@@ -62,23 +68,29 @@ public class M_354 {
 
 
         // e.g., after sorting: (1,3), (3,5), (6,8), (6,7), (8,4), (9,5)
-        // transform to question find Longest Increasing Subsequence : [3,5,8,7,4,5]
-        for (int[] envelope : sortedEnvelopes) {
+        // transform to question find Longest Increasing Subsequence from height: [3,5,8,7,4,5]
+        for (int[] envelope: sortedEnvelopes) {
             int height = envelope[1];
-            int index = Arrays.binarySearch(count, 0, max, height);
+
+            // Arrays.binarySearch returns
+            // index of the search key, if it is contained in the array within the specified range; 
+            // otherwise, it returns (- insertionIndex - 1)
+            int index = Arrays.binarySearch(count, 0, maxCount, height);
 
             if (index < 0) {
-                index = -(index + 1);
+                // return = -insertionIndex - 1
+                // insertionIdx = - (return + 1)
+                index = - (index + 1);
             }
 
-            count[index] = envelope[1];
+            count[index] = height;
 
-            if (index == max) {
-                max++;
+            if (index == maxCount) {
+                maxCount++;
             }
         }
 
-        return max;
+        return maxCount;
     }
 
     // DP
@@ -91,19 +103,13 @@ public class M_354 {
 
         int maxCount = 1;
 
-        // does not mutate the input
-        int[][] sortedEnvelopes = Arrays.stream(envelopes)
-                .sorted((e1, e2) -> e1[0] == e2[0] ? Integer.compare(e2[1], e1[1]) : Integer.compare(e1[0], e2[0]))
-                .toArray(int[][]::new);
-
-        // alternatively, mutate the input
-        // Arrays.sort(envelopes, (e1, e2) -> {
-        //     if (e1[0] == e2[0]) {
-        //         return Integer.compare(e2[1], e1[1]);
-        //     } else {
-        //         return Integer.compare(e1[0], e2[0]);
-        //     }
-        // });
+        Arrays.sort(envelopes, (e1, e2) -> {
+            if (e1[0] == e2[0]) {
+                return Integer.compare(e2[1], e1[1]);
+            } else {
+                return Integer.compare(e1[0], e2[0]);
+            }
+        });
 
         for (int end = 1; end < L; ++end) {
             for (int start = 0; start < end; ++start) {

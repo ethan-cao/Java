@@ -27,6 +27,7 @@ Explanation: The largest subset is {"0", "1"}, so the answer is 2.
 
 public class M_474 {
 
+    // ------------------------------------------------------------------------------------------------------------------
 	// DP
 	// Time: O(N^3), Space: O(N^3)
 	public int findMaxForm(String[] strs, int m, int n) {
@@ -67,6 +68,7 @@ public class M_474 {
 		return counts[L - 1][m][n];
 	}
 
+    // ------------------------------------------------------------------------------------------------------------------
 	// DP, condensed space
 	// Time: O(N^3), Space: O(N^2)
 	public int findMaxForm1(String[] strs, int m, int n) {
@@ -112,6 +114,7 @@ public class M_474 {
 		return sizes[m][n];
 	}
 
+    // ------------------------------------------------------------------------------------------------------------------
 	private int[] count(String str) {
 		int[] counts = new int[2];
 

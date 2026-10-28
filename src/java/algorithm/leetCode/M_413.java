@@ -3,8 +3,10 @@ package algorithm.leetCode;
 /*
 https://leetcode.com/problems/arithmetic-slices/
 
-An integer array is called arithmetic if it consists of at least three elements
-and if the difference between any two consecutive elements is the same.
+An integer array is called arithmetic 
+if it consists of at least three elements and 
+if the difference between any two consecutive elements is the same.
+
 For example, [1,3,5,7,9], [7,7,7,7], and [3,-1,-5,-9] are arithmetic sequences.
 
 Given an integer array nums, return the number of arithmetic subarrays of nums.
@@ -23,7 +25,7 @@ Explanation: 3 arithmetic slices in nums: [1, 2, 3], [2, 3, 4], [1,2,3,4]
 public class M_413 {
 
     // DP 0ms
-    // Time: o(N), Space: O(n)
+    // Time: O(N), Space: O(n)
     public int numberOfArithmeticSlices1(int[] nums) {
         int L = nums.length;
 

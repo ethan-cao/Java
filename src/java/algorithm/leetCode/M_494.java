@@ -48,21 +48,17 @@ public class M_494 {
         }
 
         // given sum = Σ nums[i]
-        // range of expression results is [-sum, sum], there are (2 * sum + 1) values
-        // e.g. nums = [1,2,3]
-        // possible expression results are -6, -5, -4, -3, -2, -1, +0, +1, +2, +3, +4,
-        // +5, +6
-        // put them in array, their index is 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+        // range of expression results is [-sum, sum], there are (2 * sum + 1) values, e.g. nums = [1,2,3]
+        // possible expression results are -6, -5, -4, -3, -2, -1, +0, +1, +2, +3, +4, +5, +6
+        // put them in array, the index is 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
         // 13 elements in total (13 = 2 * sum + 1)
-        // !!! index = expressionResult + sum, basically sum is the offset from
-        // expressionResult to index
+        // !!! index = expressionResult + sum, basically sum is the offset from expressionResult to index
         // what we need is index = target + sum
         final int L = nums.length;
         final int SIZE = 2 * sum + 1;
         final int OFFSET = sum;
 
-        // results[i][j + OFFSET]: number of ways with the first i elements to get
-        // expression result j
+        // results[i][j + OFFSET]: number of ways with the first i elements to get expression result j
         int[][] counts = new int[L][SIZE];
 
         // BASE
@@ -76,7 +72,7 @@ public class M_494 {
             for (int j = 0; j < SIZE; ++j) {
 
                 // if we can use +num
-                if (j - num >= 0) {
+                if (j >= num) {
                     counts[i][j] += counts[i - 1][j - num];
                 }
 

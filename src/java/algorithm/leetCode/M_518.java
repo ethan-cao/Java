@@ -45,31 +45,27 @@ public class M_518 {
     // Time: O(N^2)
     public int change000(int amount, int[] coins) {
         int L = coins.length;
-        int[][] counts = new int[L + 1][amount + 1];
 
-        for (int i = 1; i <= L; ++i) {
-            int coin = coins[i- 1];
+        int[][] counts = new int[L][amount + 1];
 
-            // BASE
+        Arrays.sort(coins);
+
+        for (int i = 0; i < L; ++i) {
             counts[i][0] = 1;
+            int coin = coins[i];
 
-            for (int value = 1; value <= amount; ++value) {
+            for (int j = 1; j <= amount; ++j) {
                 // TRANSFORM
                 // skip(i) = changes(i-1, amount)
                 // take(i) = changes(i, amount - coins[i]), if coins[i] <= amount
                 // changes(i, j) = take + skip
 
-                // existing combination, with all previously used coins
-                int skip = counts[i - 1][value];
+                int skip = i == 0 ? 0: counts[i - 1][j];
+                int take = j >= coin ? counts[i][j -  coin] : 0;
 
-                // a new combination, with the new coin
-                int take = value >= coin ? counts[i][value - coin] : 0;
-
-                counts[i][value] = take + skip;
+                counts[i][j] = skip + take;
             }
         }
-
-        return counts[L][amount];
     }
 
     //----------------------------------------------------------------------------------------------

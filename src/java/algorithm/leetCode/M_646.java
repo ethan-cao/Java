@@ -24,6 +24,29 @@ import java.util.Arrays;
 
 public class M_646 {
 
+
+    // Greedy, 26ms
+    // Time: O(NlogN)
+    public static int findLongestChain2(int[][] pairs) {
+        // sorty by the pari[right]
+        Arrays.sort(pairs, (a, b) -> Integer.compare(a[1], b[1]));
+        
+        // Set currentEnd to a value less than the minimum left_i (-1000)
+        int currentEnd = -1001;
+        int chainLength = 0;
+        
+        for (int[] pair : pairs) {
+            // If current pair's start is greater than the last end, add it to chain
+            if (pair[0] > currentEnd) {
+                chainLength++;        // Increment chain length
+                currentEnd = pair[1]; // Update current end to this pair's end
+            }
+        }
+        
+        return chainLength;
+    }
+
+    // ------------------------------------------------------------------------------------------------------
     // DP, 36ms
     // Time: O(n^2), Space: O(n)
     public int findLongestChain1(int[][] pairs) {
@@ -56,27 +79,6 @@ public class M_646 {
         }
     
         return maxCount;
-    }
-
-    // Greedy, 26ms
-    // Time: O(NlogN)
-    public static int findLongestChain2(int[][] pairs) {
-        // sorty by the pari[right]
-        Arrays.sort(pairs, (a, b) -> Integer.compare(a[1], b[1]));
-        
-        // Set currentEnd to a value less than the minimum left_i (-1000)
-        int currentEnd = -1001;
-        int chainLength = 0;
-        
-        for (int[] pair : pairs) {
-            // If current pair's start is greater than the last end, add it to chain
-            if (pair[0] > currentEnd) {
-                chainLength++;        // Increment chain length
-                currentEnd = pair[1]; // Update current end to this pair's end
-            }
-        }
-        
-        return chainLength;
     }
 
 }
