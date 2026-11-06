@@ -81,8 +81,6 @@ public class M_718 {
 
                 if (nums1[i - 1] == nums2[j - 1]) {
                     counts[i][j] = 1 + counts[i - 1][j - 1];
-                } else {
-                    counts[i][j] = 0;
                 }
 
                 max = Math.max(max, counts[i][j]);

@@ -31,10 +31,11 @@ public class M_698 {
                 new int[] { 18, 20, 39, 73, 96, 99, 101, 111, 114, 190, 207, 295, 471, 649, 700, 1037 }, 4)); // T
     }
 
+    //----------------------------------------------------------------------------------------------
     // Backtracking, DFS
     // Space: O(n), Time: O(k*2^n) 7ms
-    // it takes the inner recursion 2^n time to find a good subset. Once the 1st
-    // subset is found,
+    // it takes the inner recursion 2^n time to find a good subset. 
+    // Once the 1st subset is found,
     // we go on to find the second, which would take 2^n roughly (because some
     // numbers have been marked as visited).
     // So T = 2^n + 2^n + 2^n + ... = k * 2^n.
@@ -98,6 +99,7 @@ public class M_698 {
         }
     }
 
+    //----------------------------------------------------------------------------------------------
     // DP, Bit Masking
     // Time complexity : O(n * 2^n)
     // https://www.hackerearth.com/zh/practice/algorithms/dynamic-programming/bit-masking/tutorial/

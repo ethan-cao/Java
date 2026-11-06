@@ -28,8 +28,9 @@ public class M_1162 {
     private final int WATER = 0;
     private final int LAND = 1;
 
+    //----------------------------------------------------------------------------------------------
     // BFS, 17ms
-    // O(n²)
+    // Time: O(N^2)
     public int maxDistance1(int[][] grid) {
         final int N = grid.length;
         final int[][] directions = new int[][] { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
@@ -77,6 +78,7 @@ public class M_1162 {
         return distance <= 0 ? -1 : distance;
     }
 
+    //----------------------------------------------------------------------------------------------
     // DP
     // Time: O(N^2) 13ms
     public int maxDistance2(int[][] grid) {

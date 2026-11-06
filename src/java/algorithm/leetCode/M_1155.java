@@ -23,6 +23,39 @@ public class M_1155 {
 
     public static int MODULO = (int) 1e9 + 7;
 
+    //----------------------------------------------------------------------------------------------
+    // DP, iterative, DFS
+    // 11ms
+    public int numRollsToTarget2(int n, int k, int target) {
+        // 1e9 is scientific notation, treated as double
+        int MOD = (int) 1e9 + 7;
+
+        int[][] counts = new int[n + 1][target + 1]; 
+        counts[0][0] = 1;
+
+        for (int i = 1; i <= n; ++i) {
+
+            // minimal sum for i dice
+            int minSum = i * 1;
+            // maximal sum for i dice
+            int maxSum = Math.min(i * k, target);
+
+            for (int sum = minSum; sum <= maxSum; ++sum) {
+
+                for (int face = 1; face <= k; ++face) {
+                    if (sum >= face) {
+                        counts[i][sum] += counts[i - 1][sum - face];
+                        counts[i][sum] %= MOD;
+                    }
+                }
+            }
+        }
+
+        return counts[n][target];
+    }
+
+
+    //----------------------------------------------------------------------------------------------
     // DP, recursive, memo
     // 6ms
     public int numRollsToTarget1(int n, int k, int target) {
@@ -64,34 +97,7 @@ public class M_1155 {
         return memo[n][target];
     }
 
-    // DP, iterative, DFS
-    // 11ms
-    public int numRollsToTarget2(int n, int k, int target) {
-        int[][] counts = new int[n + 1][target + 1]; 
-        counts[0][0] = 1;
 
-        // 1e9 is scientific notation and scientific notation are treated as double
-        int MOD = (int) 1e9 + 7;
 
-        for (int idx = 2; idx <= n; ++idx) {
-
-            // minimal sum for i dice
-            int minSum = idx * 1;
-            // maximal sum for i dice
-            int maxSum = Math.min(idx * k, target);
-
-            for (int sum = minSum; sum <= maxSum; ++sum) {
-
-                for (int face = 1; face <= k; ++face) {
-                    if (sum >= face) {
-                        counts[idx][sum] += counts[idx - 1][sum - face];
-                        counts[idx][sum] %= MOD;
-                    }
-                }
-            }
-        }
-
-        return counts[n][target];
-    }
 
 }

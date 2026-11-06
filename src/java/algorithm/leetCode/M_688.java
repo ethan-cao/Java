@@ -34,12 +34,17 @@ public class M_688 {
     }
 
     private static int[][] directions = new int[][] { 
-        { -2, -1 }, { -1, -2 }, 
-        { 1, -2 }, { 2, -1 }, 
-        { 2, 1 }, { 1, 2 },
-        { -1, 2 }, { -2, 1 } 
+        { -2, -1 }, 
+        { -1, -2 }, 
+        { 1, -2 }, 
+        { 2, -1 }, 
+        { 2, 1 }, 
+        { 1, 2 },
+        { -1, 2 },
+        { -2, 1 } 
     };
 
+    //----------------------------------------------------------------------------------------------
     // DP, iterative
     public double knightProbability11(int n, int k, int row, int column) {
         // probabilities[i][y][x]: probability when move i step arriving at (y, x)
@@ -55,7 +60,7 @@ public class M_688 {
 
                     for (int[] direction : directions) {
                         int preY = y - direction[0];
-                        int preX = x - direction[1];
+                        int preX = x - direction[1]; 
 
                         // if the previous position is within board,
                         // 1/8 of the probability arriving at the previous location can sum to the probability arriving at the next position
@@ -80,6 +85,7 @@ public class M_688 {
         return result;
     }
 
+    //----------------------------------------------------------------------------------------------
     // DP
     // 7ms
     public static double knightProbability1(int n, int k, int row, int column) {
@@ -115,6 +121,7 @@ public class M_688 {
     }
 
 
+    //----------------------------------------------------------------------------------------------
     // BFS, TLE
     public static double knightProbability(int n, int k, int row, int column) {
         return move(n, k, row, column);

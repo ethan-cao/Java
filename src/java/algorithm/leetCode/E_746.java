@@ -29,6 +29,7 @@ public class E_746 {
         System.out.println(minCostClimbingStairs2(new int[]{10, 15, 20}));
     }
 
+    // --------------------------------------------------------------------
     // 1ms
     private static int minCostClimbingStairs1(int[] costs) {
         final int L = costs.length;
@@ -51,6 +52,7 @@ public class E_746 {
         return minCosts[L];
     }
 
+    // --------------------------------------------------------------------
     // condensed space
     // 1ms
     private static int minCostClimbingStairs2(int[] costs) {
