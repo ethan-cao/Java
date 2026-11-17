@@ -38,22 +38,22 @@ public class E_1 {
         int[] indices = new int[2];
 
         // number -> its index
-        Map<Integer, Integer> locationRecorder = new HashMap<>();
+        Map<Integer, Integer> indexes = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
             int num = nums[i];
             int requiredNum = target - num;
 
-            // first check the required number is in existing locationRecorder
-            if (locationRecorder.containsKey(requiredNum)) {
+            // first check the required number is in existing indexes
+            if (indexes.containsKey(requiredNum)) {
                 indices[0] = i;
-                indices[1] = locationRecorder.get(requiredNum);
+                indices[1] = indexes.get(requiredNum);
                 break;
             }
 
             // if the required number is not there, record it
             // this must happen in the end, otherwise, the latter duplicate value overrides index, e.g.{3,3} 6
-            locationRecorder.put(num, i);
+            indexes.put(num, i);
         }
 
         return indices;
@@ -65,19 +65,19 @@ public class E_1 {
 
         // HashMap
         // number -> its counterpart's index (number + counterpart = target)
-        Map<Integer, Integer> locationRecorder = new HashMap<>();
+        Map<Integer, Integer> indexes = new HashMap<>();
 
         for (int i = 0; i < nums.length; ++i) {
             int num = nums[i];
             int requiredNum = target - num;
 
-            if (locationRecorder.containsKey(num)) {
+            if (indexes.containsKey(num)) {
                 result[0] = i;
-                result[1] = locationRecorder.get(num);
+                result[1] = indexes.get(num);
                 break;
             }
 
-            locationRecorder.put(requiredNum, i);
+            indexes.put(requiredNum, i);
         }
 
         return result;

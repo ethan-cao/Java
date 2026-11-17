@@ -1,0 +1,14 @@
+{
+  "name": "leetcode-study-coach",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local study coach for selecting daily LeetCode practice and tracking REVIEW_LOG.md",
+  "type": "commonjs",
+  "scripts": {
+    "generate": "python3 scripts/generate_catalog.py",
+    "test": "node --test tests/catalog.test.js tests/markdown-log.test.js tests/progress.test.js tests/scheduler.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

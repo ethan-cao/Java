@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LeetCode Study Coach</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>LeetCode Study Coach</h1>
+        <p class="app-subtitle">Question-only cold attempts · REVIEW_LOG.md is the source of truth</p>
+      </div>
+      <div class="header-status">
+        <span id="saved-status" class="status-pill warning">Unsaved changes</span>
+        <span id="date-status" class="status-pill">—</span>
+        <span id="block-status" class="status-pill">Block —</span>
+      </div>
+    </header>
+
+    <nav class="app-nav" aria-label="Primary">
+      <button type="button" class="nav-button active" data-view="today">Today</button>
+      <button type="button" class="nav-button" data-view="log">Review Log</button>
+      <button type="button" class="nav-button" data-view="progress">Progress</button>
+      <button type="button" class="nav-button" data-view="catalog">Catalog &amp; Settings</button>
+    </nav>
+
+    <main class="app-main">
+      <section id="view-today" class="app-view active">
+        <div class="section-header">
+          <div>
+            <h2>Today</h2>
+            <p id="today-summary" class="muted">—</p>
+          </div>
+          <button type="button" id="advance-block-button" class="secondary-button">Advance roadmap block</button>
+        </div>
+
+        <div class="today-layout">
+          <div id="today-plan" class="question-list"></div>
+
+          <div class="today-focus">
+            <article id="attempt-panel" class="panel hidden">
+              <div class="panel-header">
+                <div>
+                  <h3 id="attempt-problem">—</h3>
+                  <p id="attempt-reason" class="muted">—</p>
+                </div>
+                <span id="attempt-type-badge" class="status-pill">—</span>
+              </div>
+
+              <div id="timer-panel" class="timer-panel">
+                <div class="timer-main">
+                  <span id="timer-stage">Not started</span>
+                  <strong id="timer-remaining">--:--</strong>
+                </div>
+                <p id="timer-instruction" class="muted">Start when you are ready to open the question.</p>
+                <div class="button-row">
+                  <button type="button" id="start-attempt-button" class="primary-button">Start attempt</button>
+                  <button type="button" id="next-stage-button" class="secondary-button">Next stage</button>
+                  <button type="button" id="open-result-button" class="secondary-button">Record result</button>
+                  <button type="button" id="snooze-button" class="secondary-button">Snooze due review 1 day</button>
+                </div>
+              </div>
+
+              <form id="result-form" class="result-form hidden">
+                <h3>Record result</h3>
+                <div class="form-grid">
+                  <label>
+                    Problem
+                    <input id="result-problem" type="text" readonly />
+                  </label>
+                  <label>
+                    Timestamp
+                    <input id="result-timestamp" type="text" readonly />
+                  </label>
+                  <label>
+                    Attempt type
+                    <select id="result-attempt-type">
+                      <option value="Labelled">Labelled</option>
+                      <option value="Unlabelled">Unlabelled</option>
+                    </select>
+                  </label>
+                  <label>
+                    Mark
+                    <select id="result-mark">
+                      <option value="✅">✅ Fluent</option>
+                      <option value="🔶">🔶 Hinted, shaky, or read the analysis first</option>
+                      <option value="❌">❌ Not yet fluent</option>
+                    </select>
+                  </label>
+                  <label>
+                    Minutes
+                    <input id="result-minutes" type="number" min="1" max="60" required />
+                  </label>
+                  <label>
+                    Failure type
+                    <select id="result-failure-type">
+                      <option value="recognition">Recognition</option>
+                      <option value="invariant">Invariant / recurrence</option>
+                      <option value="implementation">Implementation</option>
+                      <option value="edge case">Edge case</option>
+                      <option value="complexity">Complexity</option>
+                      <option value="none" selected>None</option>
+                    </select>
+                  </label>
+                  <label>
+                    Next review
+                    <input id="result-next-review" type="date" required />
+                  </label>
+                </div>
+                <label class="full-width">
+                  Notes
+                  <textarea id="result-notes" rows="2" placeholder="Optional note"></textarea>
+                </label>
+
+                <details class="attempt-guide">
+                  <summary>What do these attempt types mean?</summary>
+                  <p class="guide-reminder">
+                    <strong>Labelled</strong> = category visible · <strong>Unlabelled</strong> = category hidden.
+                    Reading the analysis during an attempt caps the mark at 🔶.
+                  </p>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Type</th>
+                        <th>Category visible?</th>
+                        <th>Counts toward Fluent ✅?</th>
+                        <th>Counts toward category-hidden mastery?</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Labelled</th>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                      </tr>
+                      <tr>
+                        <th>Unlabelled</th>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="muted">Study done after a failure is not logged. Your next logged attempt is a cold retry.</p>
+                </details>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">Save result &amp; next question</button>
+                </div>
+              </form>
+            </article>
+
+            <article id="today-complete" class="panel success hidden">
+              <h3>Today’s question slots are complete</h3>
+              <p>Export the updated REVIEW_LOG.md before closing the application.</p>
+              <button type="button" id="complete-export-button" class="primary-button">Save / export REVIEW_LOG.md</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-log" class="app-view">
+        <div class="section-header">
+          <div>
+            <h2>Review Log</h2>
+            <p class="muted">Attempt history loaded from REVIEW_LOG.md</p>
+          </div>
+          <div class="filter-row">
+            <input id="log-search" type="search" placeholder="Search problem, note, or type" />
+            <select id="log-filter">
+              <option value="all">All attempts</option>
+              <option value="problem">Current problems</option>
+              <option value="needs-attention">Latest needs attention</option>
+              <option value="established">Established problems</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Problem</th>
+                <th>Block</th>
+                <th>Type</th>
+                <th>Mark</th>
+                <th>Min</th>
+                <th>Failure</th>
+                <th>Next review</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="log-table-body"></tbody>
+          </table>
+        </div>
+
+        <article id="edit-panel" class="panel hidden">
+          <h3>Edit attempt</h3>
+          <form id="edit-attempt-form" class="result-form">
+            <div class="form-grid">
+              <label>
+                Problem
+                <input id="edit-problem" type="text" readonly />
+              </label>
+              <label>
+                Timestamp
+                <input id="edit-timestamp" type="text" readonly />
+              </label>
+              <label>
+                Attempt type
+                <select id="edit-attempt-type">
+                  <option value="Labelled">Labelled</option>
+                  <option value="Unlabelled">Unlabelled</option>
+                </select>
+              </label>
+              <label>
+                Mark
+                <select id="edit-mark">
+                  <option value="✅">✅</option>
+                  <option value="🔶">🔶</option>
+                  <option value="❌">❌</option>
+                </select>
+              </label>
+              <label>
+                Minutes
+                <input id="edit-minutes" type="number" min="1" max="60" required />
+              </label>
+              <label>
+                Failure type
+                <select id="edit-failure-type">
+                  <option value="recognition">Recognition</option>
+                  <option value="invariant">Invariant</option>
+                  <option value="implementation">Implementation</option>
+                  <option value="edge case">Edge case</option>
+                  <option value="complexity">Complexity</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+              <label>
+                Next review
+                <input id="edit-next-review" type="date" required />
+              </label>
+            </div>
+            <label class="full-width">
+              Notes
+              <textarea id="edit-notes" rows="2"></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="primary-button">Save edit</button>
+              <button type="button" id="cancel-edit-button" class="secondary-button">Cancel</button>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <section id="view-progress" class="app-view">
+        <div class="section-header">
+          <div>
+            <h2>Progress</h2>
+            <p class="muted">Coverage and mastery are tracked separately.</p>
+          </div>
+        </div>
+        <div id="progress-cards" class="stats-grid"></div>
+        <div class="two-column">
+          <article class="panel">
+            <h3>Automatic states</h3>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr><th>State</th><th>Count</th></tr>
+                </thead>
+                <tbody id="state-count-table"></tbody>
+              </table>
+            </div>
+          </article>
+          <article class="panel">
+            <h3>Failure types</h3>
+            <div class="table-scroll">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Type</th><th>Count</th></tr>
+                </thead>
+                <tbody id="failure-count-table"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+        <article class="panel">
+          <h3>Roadmap</h3>
+          <div id="roadmap-progress" class="roadmap-list"></div>
+        </article>
+      </section>
+
+      <section id="view-catalog" class="app-view">
+        <div class="section-header">
+          <div>
+            <h2>Catalog &amp; Settings</h2>
+            <p class="muted">Catalog details can reveal techniques. Do not use this view during a cold attempt.</p>
+          </div>
+          <input id="catalog-search" type="search" placeholder="Search ID, title, block, or group" />
+        </div>
+
+        <div class="panel">
+          <h3>Review-log file</h3>
+          <div class="button-row">
+            <button type="button" id="load-log-button" class="primary-button">Load REVIEW_LOG.md</button>
+            <button type="button" id="export-log-button" class="primary-button">Save / export REVIEW_LOG.md</button>
+            <button type="button" id="new-log-button" class="danger-button">Start a new log</button>
+          </div>
+          <input id="log-file-input" type="file" accept=".md,text/markdown" class="hidden" />
+          <div id="file-errors" class="error-list hidden"></div>
+        </div>
+
+        <div class="two-column">
+          <article class="panel">
+            <h3>Add an unfamiliar question</h3>
+            <p class="muted">Only add a question that is genuinely new to you.</p>
+            <form id="unfamiliar-form" class="result-form">
+              <div class="form-grid">
+                <label>
+                  ID
+                  <input id="unfamiliar-id" type="text" placeholder="LC_239" required />
+                </label>
+                <label>
+                  Title
+                  <input id="unfamiliar-title" type="text" placeholder="Sliding Window Maximum" required />
+                </label>
+                <label>
+                  Difficulty
+                  <select id="unfamiliar-difficulty">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium" selected>Medium</option>
+                  </select>
+                </label>
+                <label>
+                  Completed family
+                  <input id="unfamiliar-family" type="text" placeholder="Sliding Window" required />
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="primary-button">Add unfamiliar question</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Manual next question</h3>
+            <p class="muted">Manual choice is an override. It does not add an extra question slot.</p>
+            <form id="manual-choice-form" class="result-form">
+              <div class="form-grid">
+                <label>
+                  Problem
+                  <select id="manual-problem-select"></select>
+                </label>
+                <label>
+                  Attempt type
+                  <select id="manual-attempt-type">
+                  <option value="Labelled">Labelled</option>
+                  <option value="Unlabelled">Unlabelled</option>
+                </select>
+                </label>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="primary-button">Use for next slot</button>
+              </div>
+            </form>
+            <details class="attempt-guide">
+              <summary>What do these attempt types mean?</summary>
+              <p class="guide-reminder">
+                <strong>Labelled</strong> = category visible · <strong>Unlabelled</strong> = category hidden.
+                Reading the analysis during an attempt caps the mark at 🔶.
+              </p>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Category visible?</th>
+                    <th>Fluent ✅ counts?</th>
+                    <th>Category-hidden mastery?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th>Labelled</th><td>Yes</td><td>Yes</td><td>No</td></tr>
+                  <tr><th>Unlabelled</th><td>No</td><td>Yes</td><td>Yes</td></tr>
+                </tbody>
+              </table>
+            </details>
+          </article>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Difficulty</th>
+                <th>Block</th>
+                <th>Part 1</th>
+                <th>Part 2</th>
+                <th>Related</th>
+              </tr>
+            </thead>
+            <tbody id="catalog-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="data/catalog.js"></script>
+    <script src="js/markdown-log.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="js/scheduler.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
